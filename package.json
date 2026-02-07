@@ -1,0 +1,18 @@
+{
+  "name": "tracelet",
+  "version": "0.0.1",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "examples/*"
+  ],
+  "nohoist": [
+    "**/vite",
+    "**/@vitejs/plugin-react"
+  ],
+  "scripts": {
+    "build": "yarn workspace @tracelet/core run build && yarn workspace @tracelet/ui run build && yarn workspace @tracelet/express run build",
+    "pack:sdks": "rm -rf packages/**/*.tgz && yarn build && npm pack --workspace=@tracelet/core && npm pack --workspace=@tracelet/express && npm pack --workspace=@tracelet/ui"
+  }
+}

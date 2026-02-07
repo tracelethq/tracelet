@@ -1,0 +1,15 @@
+{
+  "name": "tracelet-express-basic",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "ts-node index.ts"
+  },
+  "dependencies": {
+    "@tracelet/express": "*",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2"
+  }
+}
