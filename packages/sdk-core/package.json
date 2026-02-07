@@ -1,0 +1,17 @@
+{
+  "name": "@tracelet/core",
+  "version": "0.0.1",
+  "description": "Core logic for Tracelet SDKs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

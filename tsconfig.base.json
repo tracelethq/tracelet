@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "CommonJS",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@tracelet/core": ["packages/sdk-core/src"],
+      "@tracelet/express": ["packages/sdk-express/src"],
+      "@tracelet/ui":["packages/sdk-ui"]
+    }
+  }
+}
