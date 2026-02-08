@@ -19,7 +19,6 @@ export type RouteMeta = {
   path: string
   description?: string
   request?: RouteProperty[]
-  response?: RouteProperty[]
   /** Response types per status: status, description, and properties for each */
   responses?: RouteResponseType[]
   /** Query params: list of properties (name, type, desc, required, enum) */

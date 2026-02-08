@@ -1,18 +1,17 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { GithubIcon } from "lucide-react"
-import { LINKS, ROUTES } from "@/config/constants"
-import { sectionClass, headingClass, subheadingClass } from "./constants"
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { GithubIcon } from "lucide-react";
+import { LINKS, ROUTES } from "@/config/constants";
 
 export function FinalCta() {
   return (
-    <section className={sectionClass}>
-      <div className="rounded-2xl border border-border bg-linear-to-b from-muted/50 to-muted/20 p-8 text-center sm:p-12 dark:from-muted/20 dark:to-muted/5">
-        <h2 className={headingClass}>
-          Stop maintaining three tools for one API.
+    <section className="mx-auto max-w-5xl px-4 py-20 sm:px-6">
+      <div className="rounded-2xl border border-border bg-muted/20 px-6 py-12 text-center dark:bg-muted/10 sm:px-12">
+        <h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+          Get started in minutes
         </h2>
-        <p className={`${subheadingClass} mx-auto mt-4`}>
-          Install Tracelet → Run your app → Everything appears.
+        <p className="mx-auto mt-3 max-w-md text-muted-foreground">
+          Install Tracelet → Run your app → Logs, docs, and testing appear.
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           <Button size="lg" asChild>
@@ -31,5 +30,5 @@ export function FinalCta() {
         </div>
       </div>
     </section>
-  )
+  );
 }

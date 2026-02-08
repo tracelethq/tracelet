@@ -26,9 +26,9 @@ export const ROUTES = {
 /** Section and typography classes for landing sections */
 export const LANDING = {
   sectionClass:
-    "mx-auto max-w-6xl px-4 py-24 sm:px-6",
+    "mx-auto max-w-5xl px-4 py-20 sm:px-6 sm:py-24",
   sectionClassAlt:
-    "mx-auto max-w-6xl px-4 py-24 sm:px-6 bg-muted/25 dark:bg-muted/10",
+    "mx-auto max-w-5xl px-4 py-20 sm:px-6 sm:py-24 bg-muted/20 dark:bg-muted/10",
   /** Small label above headings (e.g. "What we do") */
   sectionLabelClass:
     "text-xs font-medium uppercase tracking-widest text-primary/80 dark:text-primary/90",

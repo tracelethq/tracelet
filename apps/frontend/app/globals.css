@@ -116,12 +116,33 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* Diagonal stripe pattern (Solace-style) */
+.bg-stripe-pattern {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 8px,
+    oklch(0 0 0 / 0.03) 8px,
+    oklch(0 0 0 / 0.03) 9px
+  );
+}
+.dark .bg-stripe-pattern {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 8px,
+    oklch(1 1 0 / 0.02) 8px,
+    oklch(1 1 0 / 0.02) 9px
+  );
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   html {
     scrollbar-gutter: stable;
+    scroll-behavior: smooth;
   }
   body {
     @apply bg-background text-foreground;

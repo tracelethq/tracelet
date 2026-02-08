@@ -59,9 +59,18 @@ export function buildUrl(
 export function buildBody(
   method: string,
   bodyRows: ParamRow[],
+  bodyJson?: string
 ): string | FormData | undefined {
   const methodsWithBody = ["POST", "PUT", "PATCH"];
   if (!methodsWithBody.includes(method.toUpperCase())) return undefined;
+  if (bodyJson != null && bodyJson.trim() !== "") {
+    try {
+      JSON.parse(bodyJson);
+      return bodyJson.trim();
+    } catch {
+      /* fall through to bodyRows */
+    }
+  }
   const hasFile = bodyRows.some(
     (r) => r.enabled && r.key.trim() !== "" && r.type === "File" && r.file
   );
@@ -77,10 +86,27 @@ export function buildBody(
     }
     return form;
   }
-  const obj: Record<string, string> = {};
+  const obj: Record<string, unknown> = {};
   for (const row of bodyRows) {
     if (!row.enabled || row.key.trim() === "") continue;
-    obj[row.key] = row.value;
+    const type = (row.type || "").toLowerCase();
+    if (type === "array") {
+      try {
+        const parsed = JSON.parse(row.value || "[]");
+        obj[row.key] = Array.isArray(parsed) ? parsed : [row.value];
+      } catch {
+        obj[row.key] = [];
+      }
+    } else if (type === "object") {
+      try {
+        const parsed = JSON.parse(row.value || "{}");
+        obj[row.key] = typeof parsed === "object" && parsed !== null ? parsed : {};
+      } catch {
+        obj[row.key] = {};
+      }
+    } else {
+      obj[row.key] = row.value;
+    }
   }
   if (Object.keys(obj).length === 0) return undefined;
   return JSON.stringify(obj);
@@ -105,7 +131,8 @@ export function buildCurlRequest(
   paramsRows: ParamRow[],
   headersRows: ParamRow[],
   bodyRows: ParamRow[],
-  auth: AuthState
+  auth: AuthState,
+  bodyJson?: string
 ): string {
   const url = buildUrl(
     apiBase,
@@ -130,7 +157,7 @@ export function buildCurlRequest(
   ) {
     headers[auth.apiKeyName.trim()] = auth.apiKeyValue;
   }
-  const body = buildBody(method, bodyRows);
+  const body = buildBody(method, bodyRows, bodyJson);
 
   const escapeForShell = (s: string) => s.replace(/'/g, "'\"'\"'");
   const parts = ["curl", "-X", method.toUpperCase(), escapeForShell(url)];
@@ -179,7 +206,7 @@ export function ApiResponsePanel({
         onValueChange={(v) => onResponseTabChange(v as ResponseTabValue)}
         className="flex min-h-0 flex-1 flex-col overflow-hidden"
       >
-        <div className="text-muted-foreground flex h-9 shrink-0 w-full items-center justify-between gap-3 border-b border-border">
+        <div className="text-muted-foreground flex h-9 shrink-0 w-full items-center justify-between gap-3 border-b border-border px-4">
           <TabsList className="h-auto w-auto justify-start rounded-none border-0 bg-transparent p-0">
             <TabsTrigger value="response" className={TAB_CLASS}>
               Response

@@ -1,51 +1,76 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/config/constants";
-import { sectionClass, subheadingClass } from "./constants";
-import { ArrowRightIcon } from "lucide-react";
+import { ArrowRightIcon, Server, Code2 } from "lucide-react";
+import { AnnouncementBanner } from "./announcement-banner";
+import { ExpressIcon } from "@/components/icons/express-icon";
+
+const techStack = [
+  { name: "Express", icon: ExpressIcon },
+  { name: "Node", icon: Server },
+  { name: "TypeScript", icon: Code2 },
+];
 
 export function Hero() {
   return (
-    <div className="relative overflow-hidden pt-24 pb-20 sm:pt-28 sm:pb-24">
-      {/* Soft gradient orbs (modern background) */}
+    <div className="relative overflow-hidden bg-stripe-pattern pt-12 pb-[48px] sm:pt-16 sm:pb-16">
+      {/* Ambient glow */}
       <div
-        className="pointer-events-none absolute -top-40 -right-40 h-80 w-80 rounded-full bg-primary/10 blur-3xl"
+        className="pointer-events-none absolute -top-48 left-1/2 h-[480px] w-[640px] -translate-x-1/2 rounded-full bg-primary/6 blur-3xl dark:bg-primary/8"
         aria-hidden
       />
-      <div
-        className="pointer-events-none absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-primary/5 blur-3xl"
-        aria-hidden
-      />
-      <section className={`${sectionClass}`}>
-        <div className="relative">
-          <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary dark:border-primary/30 dark:bg-primary/10">
-            One tool for API logging, documentation & testing
+
+      <section className="relative mx-auto max-w-5xl px-5 text-center sm:px-6">
+        {/* Announcement bar (Solace-style slim banner) */}
+        <div className="mb-8 flex justify-center">
+          <AnnouncementBanner />
+        </div>
+
+        {/* Split headline */}
+        <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl md:leading-[1.1] lg:text-7xl">
+          Observe, document, and test
+          <br />
+          <span className="text-primary">
+            your APIs automatically.
           </span>
-          <h1 className="mt-6 text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl md:leading-tight">
-            Observe, document, and test your APIs{" "}
-            <span className="text-primary">automatically.</span>
-          </h1>
-          <p className={`${subheadingClass} mt-6 max-w-xl`}>
-            Tracelet plugs into your Express app and builds{" "}
-            <strong className="text-foreground">
-              logs, live API docs, and a testing UI
-            </strong>{" "}
-            from real traffic and real routes. No decorators. No schemas. No
-            duplicate work.
-          </p>
-          <div className="mt-10 flex flex-wrap gap-4">
-            <Button size="lg" className="gap-2" asChild>
-              <Link href={ROUTES.docsUsing}>
-                Get started
-                <ArrowRightIcon className="size-4" />
-              </Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild>
-              <a href="#how-it-works">See how it works</a>
-            </Button>
+        </h1>
+
+        <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground leading-relaxed">
+          Production-ready logs, live API docs, and a testing UI for Express —
+          from real traffic and real routes. No decorators. No schemas. No duplicate work.
+        </p>
+
+        {/* Tech stack bar (single horizontal bar with icons, Solace-style) */}
+        <div className="mt-8 flex justify-center">
+          <div className="inline-flex items-center gap-6 rounded-xl border border-border bg-muted/60 px-6 py-3 dark:bg-muted/40">
+            {techStack.map(({ name, icon: Icon }) => (
+              <span
+                key={name}
+                className="flex items-center gap-2 text-sm font-medium text-foreground/90"
+              >
+                <Icon className="size-5 text-foreground" />
+                {name}
+              </span>
+            ))}
           </div>
         </div>
+
+        {/* CTAs */}
+        <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
+          <Button size="lg" className="min-w-[160px] gap-2" asChild>
+            <Link href={ROUTES.docsUsing}>
+              Get started
+              <ArrowRightIcon className="size-4" />
+            </Link>
+          </Button>
+          <Button size="lg" variant="outline" className="min-w-[160px]" asChild>
+            <a href="#how-it-works">See how it works</a>
+          </Button>
+        </div>
       </section>
+
+      {/* Bottom spacing (48px as in Solace) */}
+      <div className="h-12 shrink-0" aria-hidden />
     </div>
   );
 }

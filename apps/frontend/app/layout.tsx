@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Roboto } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { GlobalSearchProvider } from "@/components/global-search";
 import "./globals.css";
 
 const roboto = Roboto({ subsets: ["latin"], variable: "--font-sans" });
@@ -37,7 +38,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <GlobalSearchProvider>{children}</GlobalSearchProvider>
         </ThemeProvider>
       </body>
     </html>

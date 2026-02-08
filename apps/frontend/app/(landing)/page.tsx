@@ -1,4 +1,5 @@
 import { Hero } from "./_components/hero"
+import { WhyChooseTracelet } from "./_components/why-choose-tracelet"
 import { ProblemSection } from "./_components/problem-section"
 import { WhatIsTracelet } from "./_components/what-is-tracelet"
 import { HowItWorks } from "./_components/how-it-works"
@@ -14,6 +15,7 @@ export default function LandingRoute() {
   return (
     <>
       <Hero />
+      <WhyChooseTracelet />
       <ProblemSection />
       <WhatIsTracelet />
       <HowItWorks />
