@@ -20,6 +20,8 @@ import {
   getFirstTabFromConfig,
   getRouteTabKey,
   getVisibleTabs,
+  normalizeParams,
+  normalizeRequestBody,
   rowsFromProperties,
 } from "./api-details/types"
 
@@ -63,7 +65,10 @@ export function ApiDetailsPanel({ route, apiBase, tabsConfig }: ApiDetailsPanelP
   >(undefined)
   const [auth, setAuth] = React.useState<AuthState>({ type: "none" })
   const [sendLoading, setSendLoading] = React.useState(false)
-
+  /** Validation errors per route (state only, not persisted). Keys are routeKey. */
+  const [validationErrorsByRoute, setValidationErrorsByRoute] = React.useState<
+    Record<string, { pathParamErrorKeys: string[]; bodyErrorKeys: string[] }>
+  >({})
   const fieldsByRouteRef = React.useRef<Record<string, SavedFields>>({})
 
   const method = route
@@ -80,21 +85,90 @@ export function ApiDetailsPanel({ route, apiBase, tabsConfig }: ApiDetailsPanelP
   const [responseTab, setResponseTab] = useResponseTab(routeKey || "_")
 
   const pathParamNames = React.useMemo(
-    () =>
-      route && Array.isArray(route.params)
-        ? route.params.map((p) => p.name)
-        : [],
+    () => (route ? normalizeParams(route.params).map((p) => p.name) : []),
     [route?.params]
   )
+  
   const queryParamNames = React.useMemo(
-    () =>
-      route && Array.isArray(route.query)
-        ? route.query.map((p) => p.name)
-        : [],
+    () => (route ? normalizeParams(route.query).map((p) => p.name) : []),
     [route?.query]
   )
 
+  const requiredBodyNames = React.useMemo(
+    () =>
+      route
+        ? normalizeRequestBody(route.request).filter((p) => p.required === true).map((p) => p.name)
+        : [],
+    [route?.request]
+  )
+
+  const currentValidation = validationErrorsByRoute[routeKey]
+  const pathParamErrorKeys = currentValidation?.pathParamErrorKeys ?? []
+  const bodyErrorKeys = currentValidation?.bodyErrorKeys ?? []
+
   const handleSend = React.useCallback(async () => {
+    const missingPath = pathParamNames.filter((name) => {
+      const row = paramsRows.find((r) => r.key.trim() === name)
+      return !row || !row.enabled || row.value.trim() === ""
+    })
+    const missingBody = requiredBodyNames.filter((name) => {
+      const row = bodyRows.find((r) => r.key.trim() === name)
+      return !row || !row.enabled || (row.value.trim() === "" && !row.file)
+    })
+
+    if (missingPath.length > 0 || missingBody.length > 0) {
+      setValidationErrorsByRoute((prev) => ({
+        ...prev,
+        [routeKey]: {
+          pathParamErrorKeys: missingPath,
+          bodyErrorKeys: missingBody,
+        },
+      }))
+      if (missingPath.length > 0) {
+        setTabByRoute((prev) => ({ ...prev, [routeKey]: "params" }))
+        setTabInUrl("params")
+      } else {
+        setTabByRoute((prev) => ({ ...prev, [routeKey]: "body" }))
+        setTabInUrl("body")
+      }
+      return
+    }
+
+    const invalidJsonKeys = bodyRows
+      .filter(
+        (r) =>
+          r.enabled &&
+          r.key.trim() !== "" &&
+          (r.type || "").toLowerCase() === "object" &&
+          (() => {
+            if (r.value.trim() === "") return false
+            try {
+              const parsed = JSON.parse(r.value)
+              return typeof parsed !== "object" || parsed === null
+            } catch {
+              return true
+            }
+          })()
+      )
+      .map((r) => r.key.trim())
+    if (invalidJsonKeys.length > 0) {
+      setValidationErrorsByRoute((prev) => ({
+        ...prev,
+        [routeKey]: {
+          pathParamErrorKeys: prev[routeKey]?.pathParamErrorKeys ?? [],
+          bodyErrorKeys: invalidJsonKeys,
+        },
+      }))
+      setTabByRoute((prev) => ({ ...prev, [routeKey]: "body" }))
+      setTabInUrl("body")
+      return
+    }
+
+    setValidationErrorsByRoute((prev) => {
+      const next = { ...prev }
+      delete next[routeKey]
+      return next
+    })
     setSendLoading(true)
     const start = performance.now()
     try {
@@ -170,21 +244,33 @@ export function ApiDetailsPanel({ route, apiBase, tabsConfig }: ApiDetailsPanelP
     apiBase,
     method,
     path,
+    route,
     routeKey,
     pathParamNames,
     queryParamNames,
+    requiredBodyNames,
     paramsRows,
     bodyRows,
     headersRows,
     auth,
+    setTabByRoute,
+    setTabInUrl,
   ])
+
 
   React.useEffect(() => {
     if (!route || !routeKey) return
+    const requestProperties = normalizeRequestBody(route.request)
+    const initialBodyFromRoute = rowsFromProperties(requestProperties)
     const saved = fieldsByRouteRef.current[routeKey]
     if (saved) {
       setParamsRows(saved.params.map((r) => ({ ...r, id: r.id || crypto.randomUUID() })))
-      setBodyRows(saved.body.map((r) => ({ ...r, id: r.id || crypto.randomUUID() })))
+      // Restore saved body, but if saved body is empty and route has request fields now, use them
+      const bodyToUse =
+        saved.body.length === 0 && initialBodyFromRoute.length > 0
+          ? initialBodyFromRoute
+          : saved.body.map((r) => ({ ...r, id: r.id || crypto.randomUUID() }))
+      setBodyRows(bodyToUse)
       setHeadersRows(
         saved.headers.length > 0
           ? saved.headers.map((r) => ({ ...r, id: r.id || crypto.randomUUID() }))
@@ -199,13 +285,18 @@ export function ApiDetailsPanel({ route, apiBase, tabsConfig }: ApiDetailsPanelP
             ]
       )
       setAuth(saved.auth)
+      if (saved.body.length === 0 && initialBodyFromRoute.length > 0) {
+        fieldsByRouteRef.current[routeKey] = {
+          ...saved,
+          body: stripFiles(initialBodyFromRoute),
+        }
+      }
     } else {
       const queryAndParams = [
-        ...(Array.isArray(route.query) ? route.query : []),
-        ...(Array.isArray(route.params) ? route.params : []),
+        ...normalizeParams(route.query),
+        ...normalizeParams(route.params),
       ]
       const initialParams = queryAndParams.length ? rowsFromProperties(queryAndParams) : []
-      const initialBody = rowsFromProperties(route.request)
       const initialHeaders: ParamRow[] = [
         {
           id: crypto.randomUUID(),
@@ -216,12 +307,12 @@ export function ApiDetailsPanel({ route, apiBase, tabsConfig }: ApiDetailsPanelP
         },
       ]
       setParamsRows(initialParams)
-      setBodyRows(initialBody)
+      setBodyRows(initialBodyFromRoute)
       setHeadersRows(initialHeaders)
       setAuth({ type: "none" })
       fieldsByRouteRef.current[routeKey] = {
         params: initialParams,
-        body: stripFiles(initialBody),
+        body: stripFiles(initialBodyFromRoute),
         headers: initialHeaders,
         auth: { type: "none" },
       }
@@ -229,9 +320,40 @@ export function ApiDetailsPanel({ route, apiBase, tabsConfig }: ApiDetailsPanelP
   }, [routeKey, route?.path, route?.method, route?.query, route?.params, route?.request])
 
   React.useEffect(() => {
+    if (!routeKey || !validationErrorsByRoute[routeKey]) return
+    const missingPath = pathParamNames.filter((name) => {
+      const row = paramsRows.find((r) => r.key.trim() === name)
+      return !row || !row.enabled || row.value.trim() === ""
+    })
+    const missingBody = requiredBodyNames.filter((name) => {
+      const row = bodyRows.find((r) => r.key.trim() === name)
+      return !row || !row.enabled || (row.value.trim() === "" && !row.file)
+    })
+    if (missingPath.length === 0 && missingBody.length === 0) {
+      setValidationErrorsByRoute((prev) => {
+        const next = { ...prev }
+        delete next[routeKey]
+        return next
+      })
+    } else {
+      setValidationErrorsByRoute((prev) => ({
+        ...prev,
+        [routeKey]: { pathParamErrorKeys: missingPath, bodyErrorKeys: missingBody },
+      }))
+    }
+  }, [routeKey, pathParamNames, requiredBodyNames, paramsRows, bodyRows])
+
+  React.useEffect(() => {
     if (!routeKey) return
+    const cur = fieldsByRouteRef.current[routeKey]
+    const nextParams = stripFiles(paramsRows)
+    // Avoid overwriting with empty when init effect just ran (paramsRows not yet updated from setParamsRows)
+    const params =
+      nextParams.length === 0 && cur?.params?.length
+        ? cur.params
+        : nextParams
     fieldsByRouteRef.current[routeKey] = {
-      params: stripFiles(paramsRows),
+      params,
       body: stripFiles(bodyRows),
       headers: stripFiles(headersRows),
       auth: { ...auth },
@@ -243,9 +365,9 @@ export function ApiDetailsPanel({ route, apiBase, tabsConfig }: ApiDetailsPanelP
   }
 
   const hasParams =
-    (Array.isArray(route.query) && route.query.length > 0) ||
-    (Array.isArray(route.params) && route.params.length > 0)
-  const hasBody = Array.isArray(route.request) && route.request.length > 0
+    normalizeParams(route.query).length > 0 ||
+    normalizeParams(route.params).length > 0
+  const hasBody = normalizeRequestBody(route.request).length > 0
   const hasResponseTypes =
     Array.isArray(route.responses) && route.responses.length > 0
 
@@ -368,6 +490,10 @@ export function ApiDetailsPanel({ route, apiBase, tabsConfig }: ApiDetailsPanelP
           tabsConfig={tabsConfig}
           responseTab={responseTab}
           onResponseTabChange={setResponseTab}
+          pathParamErrorKeys={pathParamErrorKeys}
+          bodyErrorKeys={bodyErrorKeys}
+          pathParamRequiredKeys={pathParamNames}
+          bodyRequiredKeys={requiredBodyNames}
         />
       </div>
     </div>
