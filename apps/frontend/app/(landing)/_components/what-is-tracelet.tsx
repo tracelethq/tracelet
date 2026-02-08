@@ -13,7 +13,7 @@ export function WhatIsTracelet() {
         <strong className="text-foreground">
           runtime API observability layer
         </strong>{" "}
-        for Express apps. It automatically generates:
+        for Express apps. It provides:
       </p>
       <ul className="mt-6 space-y-3 text-muted-foreground">
         <li className="flex items-center gap-2">
