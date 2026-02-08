@@ -22,7 +22,7 @@ const cards = [
     icon: BookOpenIcon,
     title: "Documentation",
     description: "Always in sync",
-    body: "Generated from real routes, real traffic, and real request/response shapes. Docs update as your API evolves, not when you remember to update them.",
+    body: "From real routes, real traffic, and real request/response shapes. Docs update as your API evolves, not when you remember to update them.",
   },
 ]
 

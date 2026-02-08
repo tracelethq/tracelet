@@ -12,9 +12,10 @@ Tracelet helps backend developers see request traces in minutes, without heavy o
 
 ## What is Tracelet?
 
-Tracelet gives you request-level visibility into your API with minimal setup. No heavy observability platforms or complex instrumentation—just add it to your app and you get live, interactive API docs that stay in sync with your routes.
+Tracelet gives you request-level visibility into your API with minimal setup. You get logging and API call tracking, and add one JSON config to get live API docs that stay in sync with your routes. No heavy observability platforms or complex instrumentation.
 
-- **Live API docs** – Auto-generated from your routes, with params, body, and response types so you always see what your API accepts and returns.
+- **Logging & tracking** – Log requests and track API calls with route context, payload shapes, and response status. See what your API is doing without extra tooling.
+- **Live API docs** – Add one JSON value and you get docs from your routes, with params, body, and response types so you always see what your API accepts and returns.
 - **Try it out in the browser** – Send real requests, edit params, headers, and body, and see responses right in the UI. Great for debugging and sharing with your team.
 - **Lightweight** – No external services required. Run the docs UI locally or embed it where you need it.
 
