@@ -28,7 +28,7 @@ export function Hero() {
 
         {/* Split headline */}
         <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl md:leading-[1.1] lg:text-7xl">
-          Observe, document, and test
+          Observe and document
           <br />
           <span className="text-primary">
             your APIs automatically.
@@ -36,7 +36,7 @@ export function Hero() {
         </h1>
 
         <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground leading-relaxed">
-          Production-ready logs, live API docs, and a testing UI for Express —
+          Production-ready logs and live API docs for Express —
           from real traffic and real routes. No decorators. No schemas. No duplicate work.
         </p>
 

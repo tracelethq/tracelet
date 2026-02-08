@@ -1,7 +1,6 @@
 import {
   BookOpenIcon,
   FileCodeIcon,
-  FlaskConicalIcon,
 } from "lucide-react"
 import { sectionClass, headingClass, subheadingClass } from "./constants"
 
@@ -21,12 +20,6 @@ export function WhatIsTracelet() {
           <BookOpenIcon className="size-5 shrink-0 text-primary" />
           <span>
             <strong className="text-foreground">API Documentation</strong>
-          </span>
-        </li>
-        <li className="flex items-center gap-2">
-          <FlaskConicalIcon className="size-5 shrink-0 text-primary" />
-          <span>
-            <strong className="text-foreground">Live API Testing UI</strong>
           </span>
         </li>
         <li className="flex items-center gap-2">

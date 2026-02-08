@@ -11,7 +11,6 @@ export function ProblemSection() {
       <ul className="mt-6 list-disc space-y-2 pl-5 text-muted-foreground">
         <li>Logs live in one place</li>
         <li>Docs live in another</li>
-        <li>API testing lives somewhere else</li>
         <li>None of them stay in sync</li>
       </ul>
       <blockquote className="mt-8 rounded-r-lg border-l-4 border-primary bg-background/50 py-2 pl-5 pr-4 italic text-muted-foreground dark:bg-background/30">

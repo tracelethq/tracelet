@@ -1,7 +1,6 @@
 import {
   BookOpenIcon,
   FileCodeIcon,
-  FlaskConicalIcon,
   MoonIcon,
   SunIcon,
   TypeIcon,
@@ -31,9 +30,9 @@ const features = [
     ),
   },
   {
-    title: "Logs · Docs · Testing",
-    description: "Three capabilities in one place. Always in sync with your API.",
-    icons: [FileCodeIcon, BookOpenIcon, FlaskConicalIcon],
+    title: "Logs · Docs",
+    description: "Two capabilities in one place. Always in sync with your API.",
+    icons: [FileCodeIcon, BookOpenIcon],
   },
   {
     title: "Built for developers",

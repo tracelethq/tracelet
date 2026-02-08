@@ -11,7 +11,7 @@ export function FinalCta() {
           Get started in minutes
         </h2>
         <p className="mx-auto mt-3 max-w-md text-muted-foreground">
-          Install Tracelet → Run your app → Logs, docs, and testing appear.
+          Install Tracelet → Run your app → Logs and docs appear.
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           <Button size="lg" asChild>

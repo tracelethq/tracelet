@@ -8,7 +8,6 @@ import {
 import {
   BookOpenIcon,
   FileCodeIcon,
-  FlaskConicalIcon,
 } from "lucide-react"
 import { sectionClass, headingClass } from "./constants"
 
@@ -25,19 +24,13 @@ const cards = [
     description: "Always in sync",
     body: "Generated from real routes, real traffic, and real request/response shapes. Docs update as your API evolves, not when you remember to update them.",
   },
-  {
-    icon: FlaskConicalIcon,
-    title: "API Testing",
-    description: "Where docs live",
-    body: "Test endpoints directly from the Tracelet UI: send requests, view responses, inspect headers & logs, reproduce issues instantly. Docs and testing in the same place.",
-  },
 ]
 
 export function ThreeCapabilities() {
   return (
     <section id="capabilities" className={sectionClass}>
-      <h2 className={headingClass}>Three core capabilities</h2>
-      <div className="mt-10 grid gap-6 sm:grid-cols-1 md:grid-cols-3">
+      <h2 className={headingClass}>Two core capabilities</h2>
+      <div className="mt-10 grid gap-6 sm:grid-cols-1 md:grid-cols-2">
         {cards.map(({ icon: Icon, title, description, body }) => (
           <Card
             key={title}

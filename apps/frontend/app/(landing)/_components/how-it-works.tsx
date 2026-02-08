@@ -39,7 +39,7 @@ export function HowItWorks() {
             3. Everything appears in one UI
           </h3>
           <p className="mt-2 text-muted-foreground">
-            Logs · Docs · Test console. Available instantly at:
+            Logs · Docs. Available instantly at:
           </p>
           <code className="mt-2 inline-block rounded bg-muted px-2 py-1 text-sm font-mono">
             /tracelet-docs

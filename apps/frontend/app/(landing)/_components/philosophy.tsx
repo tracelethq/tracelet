@@ -12,7 +12,7 @@ export function Philosophy() {
       </blockquote>
       <p className="mt-6 text-muted-foreground">
         Don&apos;t document APIs. <strong className="text-foreground">Observe them.</strong>{" "}
-        Tracelet turns your API into its own documentation, logging system, and test console.
+        Tracelet turns your API into its own documentation and logging system.
       </p>
     </section>
   );
