@@ -63,14 +63,12 @@ export interface TraceletMeta {
   path: string
   /** Request body: list of properties with name, type, desc, required, enum */
   request?: TraceletProperty[]
-  /** Response body: list of properties with name, type, desc, required, enum */
-  response?: TraceletProperty[]
   /** Response types per status code: status, description, and properties for each */
   responses?: TraceletResponseProperty[]
   /** Query parameters schema */
   query?: TraceletProperty[]
-  /** URL path params schema */
-  params?: TraceletResponseProperty[]
+  /** URL path params schema (name, type, desc, required, enum) */
+  params?: TraceletProperty[]
   /** Tags for grouping/filtering (e.g. Swagger) */
   tags?: readonly string[]
   /** Nested routes: paths are resolved relative to this route's path (e.g. parent "/users", child ":id" → "/users/:id"). */

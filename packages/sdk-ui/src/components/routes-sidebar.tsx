@@ -1,27 +1,65 @@
 import * as React from "react";
-import {
-  ChevronDownIcon,
-  ChevronRightIcon,
-  RouteIcon,
-  RefreshCwIcon,
-} from "lucide-react";
+import { ChevronRightIcon, RouteIcon, RefreshCwIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { useSidebarOpenKeys } from "@/hooks/use-tracelet-persistence";
 import { flattenRoutesTree, type RouteMeta } from "@/types/route";
+import { cn } from "@/lib/utils";
+
+/** HTTP method colors (Swagger/Postman-style). Returns className for badge/pill. */
+function getMethodColors(method: string): string {
+  const m = method.toUpperCase();
+  const base = "font-mono text-[10px] font-semibold rounded border shrink-0 ";
+  switch (m) {
+    case "GET":
+      return (
+        base +
+        "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30 dark:border-emerald-500/30"
+      );
+    case "POST":
+      return (
+        base +
+        "bg-blue-500/15 text-blue-700 dark:text-blue-400 border-blue-500/30 dark:border-blue-500/30"
+      );
+    case "PUT":
+      return (
+        base +
+        "bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/30 dark:border-amber-500/30"
+      );
+    case "PATCH":
+      return (
+        base +
+        "bg-violet-500/15 text-violet-700 dark:text-violet-400 border-violet-500/30 dark:border-violet-500/30"
+      );
+    case "DELETE":
+      return (
+        base +
+        "bg-red-500/15 text-red-700 dark:text-red-400 border-red-500/30 dark:border-red-500/30"
+      );
+    case "HEAD":
+    case "OPTIONS":
+    case "PARENT":
+    default:
+      return base + "bg-muted text-muted-foreground border-border";
+  }
+}
 
 interface RoutesSidebarProps {
   /** Tree of routes (nested). Each node has path already resolved. */
@@ -33,13 +71,6 @@ interface RoutesSidebarProps {
   apiBase?: string;
 }
 
-/** Build full URL from base and path. */
-function fullUrl(apiBase: string, path: string): string {
-  const base = apiBase.replace(/\/+$/, "") || "";
-  const p = path.startsWith("/") ? path : `/${path}`;
-  return base ? `${base}${p}` : p;
-}
-
 function routeKey(route: RouteMeta): string {
   return `${route.method}:${route.path}`;
 }
@@ -47,7 +78,6 @@ function routeKey(route: RouteMeta): string {
 /** Single route row (no children): clickable button. */
 function RouteButton({
   route,
-  apiBase,
   isSelected,
   onSelect,
 }: {
@@ -60,40 +90,93 @@ function RouteButton({
     typeof route.method === "string" ? route.method : String(route.method);
   const path = typeof route.path === "string" ? route.path || "/" : "/";
   const methodInitial = method.charAt(0).toUpperCase();
-  const url = fullUrl(apiBase, path);
+  const methodClass = getMethodColors(method);
   return (
     <SidebarMenuItem>
       <SidebarMenuButton
         isActive={isSelected}
         onClick={onSelect}
         tooltip={`${method} ${path}`}
-        className="flex flex-col items-start gap-0.5 py-2 group-data-[collapsible=icon]:justify-center!"
+        className="flex flex-col items-stretch gap-1 group-data-[collapsible=icon]:justify-center! h-9 cursor-pointer"
       >
-        <div className="flex w-full min-w-0 items-center gap-1.5 group-data-[collapsible=icon]:justify-center">
-          <span className="hidden size-6 shrink-0 items-center justify-center rounded bg-sidebar-accent font-mono text-[10px] font-medium text-sidebar-accent-foreground group-data-[collapsible=icon]:flex!">
+        <div className="flex w-full min-w-0 items-center gap-2 group-data-[collapsible=icon]:justify-center">
+          <span
+            className={cn(
+              "hidden size-6 shrink-0 items-center justify-center rounded border font-mono text-[10px] font-semibold group-data-[collapsible=icon]:flex!",
+              methodClass,
+            )}
+          >
             {methodInitial}
           </span>
-          <Badge
-            variant="secondary"
-            className="font-mono text-[10px] h-5 min-w-9 shrink-0 justify-center px-1 group-data-[collapsible=icon]:hidden!"
+          <span
+            className={cn(
+              "h-5 min-w-9 flex items-center justify-center px-1.5 group-data-[collapsible=icon]:hidden!",
+              methodClass,
+            )}
           >
             {method}
-          </Badge>
-          <span className="truncate font-mono text-xs group-data-[collapsible=icon]:hidden">
+          </span>
+          <span className="min-w-0 truncate font-mono text-xs text-sidebar-foreground group-data-[collapsible=icon]:hidden">
             {path}
           </span>
         </div>
-        {url && (
-          <span className="text-muted-foreground truncate pl-7 text-[10px] font-mono group-data-[collapsible=icon]:hidden! w-full text-left">
-            {url}
-          </span>
-        )}
       </SidebarMenuButton>
     </SidebarMenuItem>
   );
 }
 
-/** Recursive tree node: collapsible if has children, else route button. */
+/** Render trigger content (method badge + path + optional chevron) for a route. */
+function RouteTriggerContent({
+  route,
+  showChevron = false,
+}: {
+  route: RouteMeta;
+  showChevron?: boolean;
+}) {
+  const method =
+    typeof route.method === "string" ? route.method : String(route.method);
+  const path = typeof route.path === "string" ? route.path || "/" : "/";
+  const methodInitial = method.charAt(0).toUpperCase();
+  const methodClass = getMethodColors(method);
+  return (
+    <div className="flex w-full min-w-0 items-center gap-2 group-data-[collapsible=icon]:justify-center">
+      {/* Icon mode: single compact badge with initial, or RouteIcon for PARENT */}
+      <span
+        className={cn(
+          "hidden size-6 shrink-0 items-center justify-center rounded border font-mono text-[10px] font-semibold group-data-[collapsible=icon]:flex!",
+          methodClass,
+        )}
+      >
+        {method === "PARENT" ? (
+          <RouteIcon className="size-3.5" />
+        ) : (
+          methodInitial
+        )}
+      </span>
+      {/* Expanded: method badge + path */}
+      <span
+        className={cn(
+          "h-5 min-w-9 flex items-center justify-center px-1.5 shrink-0 group-data-[collapsible=icon]:hidden!",
+          methodClass,
+        )}
+      >
+        {method === "PARENT" ? (
+          <RouteIcon className="size-4" />
+        ) : (
+          method
+        )}
+      </span>
+      <span className="min-w-0 flex-1 truncate font-mono text-xs group-data-[collapsible=icon]:hidden">
+        {path}
+      </span>
+      {showChevron && (
+        <ChevronRightIcon className="size-3.5 shrink-0 text-muted-foreground transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 group-data-[collapsible=icon]:hidden" />
+      )}
+    </div>
+  );
+}
+
+/** Recursive tree node: Collapsible if has children, else route button. */
 function RouteNode({
   route,
   apiBase,
@@ -101,7 +184,7 @@ function RouteNode({
   onSelectRoute,
   openKeys,
   onToggleOpen,
-  depth = 0,
+  asSubItem = false,
 }: {
   route: RouteMeta;
   apiBase: string;
@@ -109,7 +192,7 @@ function RouteNode({
   onSelectRoute: (route: RouteMeta) => void;
   openKeys: Set<string>;
   onToggleOpen: (key: string) => void;
-  depth?: number;
+  asSubItem?: boolean;
 }) {
   const key = routeKey(route);
   const hasChildren = route.routes && route.routes.length > 0;
@@ -117,8 +200,32 @@ function RouteNode({
   const isSelected =
     selectedRoute?.method === route.method &&
     selectedRoute?.path === route.path;
+  const method =
+    typeof route.method === "string" ? route.method : String(route.method);
+  const path = typeof route.path === "string" ? route.path || "/" : "/";
 
   if (!hasChildren) {
+    if (asSubItem) {
+      return (
+        <SidebarMenuSubItem>
+          <SidebarMenuSubButton
+            isActive={!!isSelected}
+            onClick={() => onSelectRoute(route)}
+            className="cursor-pointer"
+          >
+            <span
+              className={cn(
+                "h-5 min-w-9 flex items-center justify-center px-1.5 shrink-0",
+                getMethodColors(method),
+              )}
+            >
+              {method}
+            </span>
+            <span className="min-w-0 truncate font-mono text-xs">{path}</span>
+          </SidebarMenuSubButton>
+        </SidebarMenuSubItem>
+      );
+    }
     return (
       <RouteButton
         route={route}
@@ -129,58 +236,48 @@ function RouteNode({
     );
   }
 
-  const method =
-    typeof route.method === "string" ? route.method : String(route.method);
-  const path = typeof route.path === "string" ? route.path || "/" : "/";
-  const pl = 2 + depth * 2;
-
-  return (
-    <SidebarGroup key={key}>
-      <SidebarGroupLabel asChild>
-        <button
-          type="button"
-          onClick={() => onToggleOpen(key)}
-          className="flex w-full items-center gap-1 rounded-md px-2 py-1.5 text-left text-sidebar-foreground outline-none hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring"
-          style={{ paddingLeft: `${pl * 4}px` }}
+  const collapsibleContent = (
+    <Collapsible
+      open={isOpen}
+      onOpenChange={(open) => {
+        if (open !== isOpen) onToggleOpen(key);
+      }}
+      className="group/collapsible"
+    >
+      <CollapsibleTrigger asChild>
+        <SidebarMenuButton
+          tooltip={`${method} ${path}`}
+          className="flex flex-col items-stretch gap-1 group-data-[collapsible=icon]:justify-center! h-9"
         >
-          {method !== "PARENT" && (
-            <Badge
-              variant="secondary"
-              className="font-mono text-[10px] h-5 min-w-9 shrink-0 justify-center px-1"
-            >
-              {method}
-            </Badge>
-          )}
-          <div className="w-full flex items-center justify-between">
-            <span className="truncate font-mono text-xs">{path}</span>
-            {isOpen ? (
-              <ChevronDownIcon className="size-3.5 shrink-0" />
-            ) : (
-              <ChevronRightIcon className="size-3.5 shrink-0" />
-            )}
-          </div>
-        </button>
-      </SidebarGroupLabel>
-      {isOpen && (
-        <SidebarGroupContent className="px-2">
-          <SidebarMenu>
-            {route.routes!.map((child, i) => (
-              <RouteNode
-                key={`${routeKey(child)}-${i}`}
-                route={child}
-                apiBase={apiBase}
-                selectedRoute={selectedRoute}
-                onSelectRoute={onSelectRoute}
-                openKeys={openKeys}
-                onToggleOpen={onToggleOpen}
-                depth={depth + 1}
-              />
-            ))}
-          </SidebarMenu>
-        </SidebarGroupContent>
-      )}
-    </SidebarGroup>
+          <RouteTriggerContent route={route} showChevron />
+        </SidebarMenuButton>
+      </CollapsibleTrigger>
+      <CollapsibleContent>
+        <SidebarMenuSub>
+          {route.routes!.map((child, i) => (
+            <RouteNode
+              key={`${routeKey(child)}-${i}`}
+              route={child}
+              apiBase={apiBase}
+              selectedRoute={selectedRoute}
+              onSelectRoute={onSelectRoute}
+              openKeys={openKeys}
+              onToggleOpen={onToggleOpen}
+              asSubItem
+            />
+          ))}
+        </SidebarMenuSub>
+      </CollapsibleContent>
+    </Collapsible>
   );
+
+  if (asSubItem) {
+    return (
+      <SidebarMenuSubItem>{collapsibleContent}</SidebarMenuSubItem>
+    );
+  }
+
+  return <SidebarMenuItem>{collapsibleContent}</SidebarMenuItem>;
 }
 
 export function RoutesSidebar({
@@ -198,12 +295,16 @@ export function RoutesSidebar({
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="border-b border-sidebar-border">
-        <div className="flex w-full min-w-0 items-center gap-2 px-2 py-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
-          <RouteIcon className="size-5 shrink-0 text-sidebar-foreground" />
-          <div className="grid min-w-0 flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
-            <span className="truncate font-semibold">API Routes</span>
-            <span className="text-sidebar-foreground/70 truncate text-xs font-normal">
+      <SidebarHeader className="border-b border-sidebar-border bg-sidebar/80">
+        <div className="flex w-full min-w-0 items-center gap-3 px-3 py-1 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
+          <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-sidebar-accent text-sidebar-accent-foreground">
+            <RouteIcon className="size-4" />
+          </div>
+          <div className="grid min-w-0 flex-1 text-left leading-tight group-data-[collapsible=icon]:hidden">
+            <span className="truncate text-sm font-semibold text-sidebar-foreground">
+              API Routes
+            </span>
+            <span className="truncate text-xs text-muted-foreground">
               {totalCount} endpoint{totalCount === 1 ? "" : "s"}
             </span>
           </div>
@@ -211,25 +312,27 @@ export function RoutesSidebar({
             variant="ghost"
             size="icon"
             onClick={onRefresh}
-            className="size-7 shrink-0 group-data-[collapsible=icon]:hidden"
+            className="size-8 shrink-0 rounded-md group-data-[collapsible=icon]:hidden"
           >
             <RefreshCwIcon className="size-4" />
             <span className="sr-only">Refresh</span>
           </Button>
         </div>
       </SidebarHeader>
-      <SidebarContent>
-        {routes.map((route, i) => (
-          <RouteNode
-            key={`${routeKey(route)}-${i}`}
-            route={route}
-            apiBase={apiBase}
-            selectedRoute={selectedRoute}
-            onSelectRoute={onSelectRoute}
-            openKeys={openKeys}
-            onToggleOpen={toggleOpen}
-          />
-        ))}
+      <SidebarContent className="gap-0.5 px-1.5 py-2">
+        <SidebarMenu>
+          {routes.map((route, i) => (
+            <RouteNode
+              key={`${routeKey(route)}-${i}`}
+              route={route}
+              apiBase={apiBase}
+              selectedRoute={selectedRoute}
+              onSelectRoute={onSelectRoute}
+              openKeys={openKeys}
+              onToggleOpen={toggleOpen}
+            />
+          ))}
+        </SidebarMenu>
       </SidebarContent>
       <SidebarRail />
     </Sidebar>

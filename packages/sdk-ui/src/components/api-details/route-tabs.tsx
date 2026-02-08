@@ -13,14 +13,16 @@ import {
 import type { RouteMeta } from "@/types/route"
 import { ApiResponsePanel, type ResponseState } from "./api-response-panel"
 import { AuthorizationTab } from "./authorization-tab"
+import { JsonHighlight } from "./json-highlight"
 import { ParamsTable } from "./params-table"
-import { ResponseTypesTab } from "./response-types-tab"
+import { DetailsTab } from "./details-tab"
 import type { ApiTabValue } from "./types"
 import type { ResponseTabValue } from "@/hooks/use-tracelet-persistence"
 import {
   DEFAULT_TABS_CONFIG,
   getRouteTabKey,
   getVisibleTabs,
+  requestBodySampleJson,
   TAB_CLASS,
   type AuthState,
   type ParamRow,
@@ -51,6 +53,14 @@ export interface RouteTabsProps {
   /** Response panel tab (response/headers), controlled from parent for persistence. */
   responseTab: ResponseTabValue
   onResponseTabChange: (value: ResponseTabValue) => void
+  /** Path param keys that are required but missing (highlight in Params tab). */
+  pathParamErrorKeys?: string[]
+  /** Body keys that are required but missing (highlight in Body tab). */
+  bodyErrorKeys?: string[]
+  /** Path param keys that are required (show required indicator in Params tab). */
+  pathParamRequiredKeys?: string[]
+  /** Body keys that are required (show required indicator in Body tab). */
+  bodyRequiredKeys?: string[]
 }
 
 export function RouteTabs({
@@ -75,6 +85,10 @@ export function RouteTabs({
   tabsConfig = DEFAULT_TABS_CONFIG,
   responseTab,
   onResponseTabChange,
+  pathParamErrorKeys = [],
+  bodyErrorKeys = [],
+  pathParamRequiredKeys = [],
+  bodyRequiredKeys = [],
 }: RouteTabsProps) {
   const visibleTabs = React.useMemo(
     () =>
@@ -111,12 +125,24 @@ export function RouteTabs({
   function renderTabContent(value: ApiTabValue) {
     const inner = (() => {
       switch (value) {
-        case "responseTypes":
+        case "details": {
+          const requestBodySample = requestBodySampleJson(route.request)
           return (
-            <section className="flex flex-col overflow-auto">
-              <ResponseTypesTab responses={route.responses ?? []} />
+            <section className="flex flex-col gap-6 overflow-auto">
+              {requestBodySample !== "{}" && (
+                <div className="flex flex-col gap-2">
+                  <h3 className="text-muted-foreground text-xs font-medium">
+                    Request body (JSON)
+                  </h3>
+                  <pre className="bg-muted/50 rounded-md border border-border p-3 font-mono text-xs overflow-auto">
+                    <JsonHighlight>{requestBodySample}</JsonHighlight>
+                  </pre>
+                </div>
+              )}
+              <DetailsTab responses={route.responses ?? []} />
             </section>
           )
+        }
         case "params":
           return (
             <section className="flex flex-col overflow-auto">
@@ -128,6 +154,8 @@ export function RouteTabs({
                 setRows={setParamsRows}
                 allowAddMore={false}
                 showTypeColumn
+                errorKeys={pathParamErrorKeys}
+                requiredKeys={pathParamRequiredKeys}
               />
             </section>
           )
@@ -142,6 +170,8 @@ export function RouteTabs({
                 setRows={setBodyRows}
                 allowAddMore={false}
                 showTypeColumn
+                errorKeys={bodyErrorKeys}
+                requiredKeys={bodyRequiredKeys}
               />
             </section>
           )
@@ -190,7 +220,7 @@ export function RouteTabs({
       onValueChange={(v) => onTabChange(v as ApiTabValue)}
       className="flex min-h-0 flex-1 flex-col overflow-hidden"
     >
-      <TabsList className="h-9 w-full justify-start rounded-none border-b border-border bg-transparent p-0">
+      <TabsList className="h-9 w-full justify-start rounded-none border-b border-border bg-transparent p-0 px-4">
         {visibleTabs.map((tab) => (
           <TabsTrigger key={tab.id} value={tab.id} className={TAB_CLASS}>
             {tab.label}

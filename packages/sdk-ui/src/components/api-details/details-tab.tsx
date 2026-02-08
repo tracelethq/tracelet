@@ -1,10 +1,10 @@
 import type { RouteResponseType } from "@/types/route"
 
-interface ResponseTypesTabProps {
+interface DetailsTabProps {
   responses: RouteResponseType[]
 }
 
-export function ResponseTypesTab({ responses }: ResponseTypesTabProps) {
+export function DetailsTab({ responses }: DetailsTabProps) {
   if (!responses?.length) {
     return (
       <div className="text-muted-foreground rounded-md border border-dashed border-border px-4 py-6 text-center text-xs">

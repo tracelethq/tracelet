@@ -1,7 +1,10 @@
+import * as React from "react"
 import { PlusIcon, Trash2Icon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
+import { JsonHighlightTextarea } from "./json-highlight"
 import type { ParamRow } from "./types"
 
 const ROW_TYPES = ["String", "Number", "Boolean", "File"] as const
@@ -13,6 +16,10 @@ interface ParamsTableProps {
   showTypeColumn?: boolean
   /** If true, type can be changed (e.g. to File for body). */
   allowTypeChange?: boolean
+  /** Keys of rows that should be shown with error styling (e.g. required but empty). */
+  errorKeys?: string[]
+  /** Keys of rows that are required (show required indicator in Key column). */
+  requiredKeys?: string[]
 }
 
 export function ParamsTable({
@@ -21,7 +28,20 @@ export function ParamsTable({
   allowAddMore = false,
   showTypeColumn = true,
   allowTypeChange = false,
+  errorKeys = [],
+  requiredKeys = [],
 }: ParamsTableProps) {
+  const errorKeySet = React.useMemo(
+    () => new Set(errorKeys.map((k) => k.trim())),
+    [errorKeys]
+  )
+  const requiredKeySet = React.useMemo(
+    () => new Set(requiredKeys.map((k) => k.trim())),
+    [requiredKeys]
+  )
+  /** For array-type rows: current input for the next item to add. */
+  const [arrayInputByRow, setArrayInputByRow] = React.useState<Record<string, string>>({})
+
   const updateRow = (id: string, updates: Partial<ParamRow>) => {
     setRows((prev) =>
       prev.map((r) => (r.id === id ? { ...r, ...updates } : r))
@@ -50,8 +70,61 @@ export function ParamsTable({
     setRows((prev) => (prev.length > 1 ? prev.filter((r) => r.id !== id) : prev))
   }
 
+  const parseArrayValue = (value: string): string[] => {
+    if (value.trim() === "") return []
+    try {
+      const parsed = JSON.parse(value)
+      return Array.isArray(parsed) ? parsed.map(String) : [value]
+    } catch {
+      return []
+    }
+  }
+
+  const addArrayItem = (rowId: string, newItem: string) => {
+    const row = rows.find((r) => r.id === rowId)
+    if (!row) return
+    const arr = parseArrayValue(row.value)
+    arr.push(newItem.trim())
+    updateRow(rowId, { value: JSON.stringify(arr) })
+    setArrayInputByRow((prev) => ({ ...prev, [rowId]: "" }))
+  }
+
+  const removeArrayItem = (rowId: string, index: number) => {
+    const row = rows.find((r) => r.id === rowId)
+    if (!row) return
+    const arr = parseArrayValue(row.value)
+    arr.splice(index, 1)
+    updateRow(rowId, { value: JSON.stringify(arr) })
+  }
+
+  const isInvalidObjectJson = (value: string): boolean => {
+    if (value.trim() === "") return false
+    try {
+      const parsed = JSON.parse(value)
+      return typeof parsed !== "object" || parsed === null
+    } catch {
+      return true
+    }
+  }
+
   /** File type is only allowed in Body tab (allowTypeChange). In Params/Headers, hide File rows. */
   const visibleRows = allowTypeChange ? rows : rows.filter((r) => r.type !== "File")
+  const allChecked = visibleRows.length > 0 && visibleRows.every((r) => r.enabled)
+  const someChecked = visibleRows.some((r) => r.enabled)
+
+  const handleHeaderCheckboxChange = (checked: boolean | "indeterminate") => {
+    const newEnabled = checked === true
+    setRows((prev) => prev.map((r) => ({ ...r, enabled: newEnabled })))
+  }
+
+  const headerChecked =
+    visibleRows.length === 0
+      ? false
+      : allChecked
+        ? true
+        : someChecked
+          ? ("indeterminate" as const)
+          : false
 
   if (visibleRows.length === 0 && !allowAddMore) {
     return (
@@ -67,7 +140,11 @@ export function ParamsTable({
         <thead>
           <tr className="border-b border-border bg-muted/50">
             <th className="w-8 px-3 py-2 text-left font-medium">
-              <input type="checkbox" className="rounded border-border" defaultChecked />
+              <Checkbox
+                checked={headerChecked}
+                onCheckedChange={handleHeaderCheckboxChange}
+                aria-label="Toggle all rows"
+              />
             </th>
             <th className="w-[25%] px-3 py-2 text-left font-medium">Key</th>
             <th className="px-3 py-2 text-left font-medium">Value</th>
@@ -78,24 +155,38 @@ export function ParamsTable({
           </tr>
         </thead>
         <tbody>
-          {visibleRows.map((row) => (
-            <tr key={row.id} className="border-b border-border last:border-b-0">
+          {visibleRows.map((row) => {
+            const hasError = errorKeySet.has(row.key.trim())
+            const isRequired = requiredKeySet.has(row.key.trim())
+            return (
+            <tr
+              key={row.id}
+              className={`border-b border-border last:border-b-0 ${hasError ? "bg-destructive/10 border-l-4 border-l-destructive" : ""}`}
+            >
               <td className="px-3 py-1.5">
-                <input
-                  type="checkbox"
+                <Checkbox
                   checked={row.enabled}
-                  onChange={(e) => updateRow(row.id, { enabled: e.target.checked })}
-                  className="rounded border-border"
+                  onCheckedChange={(checked) =>
+                    updateRow(row.id, { enabled: checked === true })
+                  }
+                  aria-label={`Toggle ${row.key || "row"}`}
                 />
               </td>
               <td className="px-3 py-1.5">
-                <Input
-                  value={row.key}
-                  onChange={(e) => updateRow(row.id, { key: e.target.value })}
-                  placeholder="Key"
-                  className="h-7 border-0 bg-transparent font-mono text-xs focus-visible:ring-1"
-                  readOnly={!allowAddMore}
-                />
+                <div className="flex items-center gap-1">
+                  <Input
+                    value={row.key}
+                    onChange={(e) => updateRow(row.id, { key: e.target.value })}
+                    placeholder="Key"
+                    className="h-7 border-0 bg-transparent font-mono text-xs focus-visible:ring-1"
+                    readOnly={!allowAddMore}
+                  />
+                  {isRequired && (
+                    <span className="text-destructive shrink-0 font-mono text-xs" title="Required">
+                      *
+                    </span>
+                  )}
+                </div>
               </td>
               <td className="px-3 py-1.5">
                 {row.type === "file" ? (
@@ -111,6 +202,65 @@ export function ParamsTable({
                       </span>
                     )}
                   </div>
+                ) : row.type?.toLowerCase() === "array" ? (
+                  <div className="flex flex-col gap-1.5">
+                    <div className="flex flex-wrap gap-1">
+                      {parseArrayValue(row.value).map((item, idx) => (
+                        <span
+                          key={`${row.id}-${idx}`}
+                          className="bg-muted text-foreground inline-flex items-center gap-1 rounded px-2 py-0.5 font-mono text-xs"
+                        >
+                          {item}
+                          <button
+                            type="button"
+                            onClick={() => removeArrayItem(row.id, idx)}
+                            className="text-muted-foreground hover:text-destructive"
+                            aria-label="Remove"
+                          >
+                            ×
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Input
+                        value={arrayInputByRow[row.id] ?? ""}
+                        onChange={(e) =>
+                          setArrayInputByRow((prev) => ({ ...prev, [row.id]: e.target.value }))
+                        }
+                        placeholder="Add value"
+                        className="h-7 flex-1 min-w-0 border border-border font-mono text-xs"
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault()
+                            const v = (arrayInputByRow[row.id] ?? "").trim()
+                            if (v) addArrayItem(row.id, v)
+                          }
+                        }}
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        className="h-7 w-7 shrink-0"
+                        onClick={() => {
+                          const v = (arrayInputByRow[row.id] ?? "").trim()
+                          if (v) addArrayItem(row.id, v)
+                        }}
+                        aria-label="Add value"
+                      >
+                        <PlusIcon className="size-3.5" />
+                      </Button>
+                    </div>
+                  </div>
+                ) : row.type?.toLowerCase() === "object" ? (
+                  <JsonHighlightTextarea
+                    value={row.value}
+                    onChange={(e) => updateRow(row.id, { value: e.target.value })}
+                    placeholder='{"key": "value"}'
+                    invalid={isInvalidObjectJson(row.value)}
+                    rows={3}
+                  />
                 ) : (
                   <Input
                     value={row.value}
@@ -160,7 +310,8 @@ export function ParamsTable({
                 </td>
               )}
             </tr>
-          ))}
+            )
+          })}
         </tbody>
       </table>
       {allowAddMore && (

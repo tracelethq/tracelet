@@ -10,6 +10,52 @@ export interface ParamRow {
   file?: File | null
 }
 
+/** OpenAPI-style schema property (object shape) */
+type SchemaProperty = {
+  type?: string
+  description?: string
+  enum?: readonly string[]
+  required?: boolean
+}
+
+/**
+ * Normalize request body to a RouteProperty[] so both array and object shapes work.
+ * Handles: RouteProperty[], or { properties: Record<string, { type?, description?, required? }> }.
+ */
+export function normalizeRequestBody(
+  request:
+    | RouteProperty[]
+    | { properties?: Record<string, SchemaProperty> }
+    | undefined
+): RouteProperty[] {
+  if (!request) return []
+  if (Array.isArray(request) && request.length > 0) return request
+  const props = request && typeof request === "object" && "properties" in request && request.properties
+  if (!props || typeof props !== "object") return []
+  return Object.entries(props).map(([name, s]) => ({
+    name,
+    type: (s && typeof s === "object" && typeof s.type === "string" ? s.type : "string") as string,
+    desc: s && typeof s === "object" && typeof s.description === "string" ? s.description : undefined,
+    enum: s && typeof s === "object" && Array.isArray(s.enum) ? s.enum : undefined,
+    required: s && typeof s === "object" && s.required === true,
+  }))
+}
+
+/**
+ * Normalize route.params (and optionally route.query) to RouteProperty[].
+ * Handles: RouteProperty[], or array of { properties: RouteProperty[] } (legacy shape).
+ */
+export function normalizeParams(
+  params: RouteProperty[] | Array<{ name?: string; type?: string; properties?: RouteProperty[] }> | undefined
+): RouteProperty[] {
+  if (!params || !Array.isArray(params) || params.length === 0) return []
+  const first = params[0]
+  if (first && typeof first === "object" && Array.isArray((first as { properties?: RouteProperty[] }).properties)) {
+    return params.flatMap((p) => (p as { properties?: RouteProperty[] }).properties ?? [])
+  }
+  return params.filter((p): p is RouteProperty => p != null && typeof (p as RouteProperty).name === "string")
+}
+
 export function rowsFromProperties(
   properties: RouteProperty[] | undefined
 ): ParamRow[] {
@@ -23,8 +69,24 @@ export function rowsFromProperties(
   }))
 }
 
+/** Build sample request body as JSON string (keys from request properties, values empty string). */
+export function requestBodySampleJson(
+  request:
+    | RouteProperty[]
+    | { properties?: Record<string, SchemaProperty> }
+    | undefined
+): string {
+  const props = normalizeRequestBody(request)
+  if (props.length === 0) return "{}"
+  const obj: Record<string, string> = {}
+  for (const p of props) {
+    obj[p.name] = ""
+  }
+  return JSON.stringify(obj, null, 2)
+}
+
 export type ApiTabValue =
-  | "responseTypes"
+  | "details"
   | "params"
   | "body"
   | "headers"
@@ -40,6 +102,7 @@ export type TabVisibility =
   | "whenParams"
   | "whenBody"
   | "whenResponseTypes"
+  | "whenResponseTypesOrBody"
 
 export interface TabConfigItem {
   id: ApiTabValue
@@ -50,7 +113,7 @@ export interface TabConfigItem {
 
 /** Default tab config. Override via tabsConfig prop for custom order/labels. */
 export const DEFAULT_TABS_CONFIG: TabConfigItem[] = [
-  { id: "responseTypes", label: "Response types", visible: "whenResponseTypes" },
+  { id: "details", label: "Details", visible: "whenResponseTypesOrBody" },
   { id: "params", label: "Params", visible: "whenParams" },
   { id: "body", label: "Body", visible: "whenBody" },
   { id: "headers", label: "Headers", visible: "always" },
@@ -71,6 +134,7 @@ export function getVisibleTabs(
     if (v === "whenParams") return ctx.hasParams
     if (v === "whenBody") return ctx.hasBody
     if (v === "whenResponseTypes") return ctx.hasResponseTypes
+    if (v === "whenResponseTypesOrBody") return ctx.hasResponseTypes || ctx.hasBody
     return true
   })
 }
@@ -93,7 +157,7 @@ export function getFirstAvailableTab(
   hasParams: boolean,
   hasBody: boolean
 ): ApiTabValue {
-  if (hasResponseTypes) return "responseTypes"
+  if (hasResponseTypes) return "details"
   if (hasParams) return "params"
   if (hasBody) return "body"
   return "headers"
