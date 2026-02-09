@@ -1,8 +1,8 @@
 "use client"
 
 import { CodeBlock } from "@/components/code-block"
-import { DocSection } from "../../_components/doc-section"
-import type { SdkChoice } from "../../_components/sdk-context"
+import { DocSection } from "./doc-section"
+import type { SdkChoice } from "./sdk-context"
 
 function InstallBlock({ sdk }: { sdk: SdkChoice }) {
   if (sdk === "core") {

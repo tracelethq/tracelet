@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/config/constants";
 import { ArrowRightIcon, Server, Code2 } from "lucide-react";
@@ -13,24 +14,26 @@ const techStack = [
 
 export function Hero() {
   return (
-    <div className="relative overflow-hidden bg-stripe-pattern pt-12 pb-[48px] sm:pt-16 sm:pb-16">
+    <div className="relative overflow-hidden bg-linear-to-b from-muted/40 via-background to-background pt-14 pb-20 sm:pt-20 sm:pb-24">
       {/* Ambient glow */}
       <div
-        className="pointer-events-none absolute -top-48 left-1/2 h-[480px] w-[640px] -translate-x-1/2 rounded-full bg-primary/6 blur-3xl dark:bg-primary/8"
+        className="pointer-events-none absolute -top-40 left-1/2 h-[420px] w-[600px] -translate-x-1/2 rounded-full bg-primary/8 blur-3xl dark:bg-primary/12"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute top-1/2 left-1/2 h-[300px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-3xl dark:bg-primary/8"
         aria-hidden
       />
 
       <section className="relative mx-auto max-w-5xl px-5 text-center sm:px-6">
-        {/* Announcement bar (Solace-style slim banner) */}
         <div className="mb-8 flex justify-center">
           <AnnouncementBanner />
         </div>
 
-        {/* Split headline */}
-        <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl md:leading-[1.1] lg:text-7xl">
+        <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl md:leading-[1.08] lg:text-7xl">
           Observe and document
           <br />
-          <span className="text-primary">
+          <span className="bg-linear-to-r from-primary to-primary/80 bg-clip-text text-transparent">
             your APIs automatically.
           </span>
         </h1>
@@ -40,37 +43,34 @@ export function Hero() {
           from real traffic and real routes. No decorators. No schemas. No duplicate work.
         </p>
 
-        {/* Tech stack bar (single horizontal bar with icons, Solace-style) */}
-        <div className="mt-8 flex justify-center">
-          <div className="inline-flex items-center gap-6 rounded-xl border border-border bg-muted/60 px-6 py-3 dark:bg-muted/40">
+        <div className="mt-10 flex justify-center">
+          <div className="inline-flex items-center gap-6 rounded-2xl border border-border/80 bg-card/80 px-6 py-3.5 shadow-sm backdrop-blur-sm dark:border-border/60 dark:bg-card/60">
             {techStack.map(({ name, icon: Icon }) => (
               <span
                 key={name}
                 className="flex items-center gap-2 text-sm font-medium text-foreground/90"
               >
-                <Icon className="size-5 text-foreground" />
+                <Icon className="size-5 text-primary" />
                 {name}
               </span>
             ))}
           </div>
         </div>
 
-        {/* CTAs */}
         <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
-          <Button size="lg" className="min-w-[160px] gap-2" asChild>
-            <Link href={ROUTES.docsUsing}>
+          <Button size="lg" className="min-w-[160px] gap-2 shadow-lg shadow-primary/20" asChild>
+            <Link href={ROUTES.docsDevelopers}>
               Get started
               <ArrowRightIcon className="size-4" />
             </Link>
           </Button>
           <Button size="lg" variant="outline" className="min-w-[160px]" asChild>
-            <a href="#how-it-works">See how it works</a>
+            <a href="#product">See the product</a>
           </Button>
         </div>
       </section>
 
-      {/* Bottom spacing (48px as in Solace) */}
-      <div className="h-12 shrink-0" aria-hidden />
+      <div className="h-8 shrink-0" aria-hidden />
     </div>
   );
 }

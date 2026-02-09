@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 export type SdkChoice = "express" | "core"
@@ -49,30 +50,24 @@ export function SdkSelector({ value, onChange, className }: SdkSelectorProps) {
         Setup for:
       </span>
       <div className="flex gap-0.5">
-        <button
+        <Button
           type="button"
+          variant={value === "express" ? "default" : "ghost"}
+          size="sm"
           onClick={() => onChange("express")}
-          className={cn(
-            "rounded-md px-3 py-1.5 text-xs font-medium transition-colors",
-            value === "express"
-              ? "bg-primary text-primary-foreground"
-              : "text-muted-foreground hover:bg-muted hover:text-foreground"
-          )}
+          className={value === "express" ? "" : "text-muted-foreground hover:bg-muted hover:text-foreground"}
         >
           Express
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
+          variant={value === "core" ? "default" : "ghost"}
+          size="sm"
           onClick={() => onChange("core")}
-          className={cn(
-            "rounded-md px-3 py-1.5 text-xs font-medium transition-colors",
-            value === "core"
-              ? "bg-primary text-primary-foreground"
-              : "text-muted-foreground hover:bg-muted hover:text-foreground"
-          )}
+          className={value === "core" ? "" : "text-muted-foreground hover:bg-muted hover:text-foreground"}
         >
           Core only
-        </button>
+        </Button>
       </div>
       <span className="text-xs text-muted-foreground">
         {value === "express"

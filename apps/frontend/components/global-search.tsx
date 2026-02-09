@@ -15,6 +15,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { Button } from "@/components/ui/button";
 import { ROUTES, LINKS } from "@/config/constants";
 import {
   HomeIcon,
@@ -132,12 +133,14 @@ export function GlobalSearchProvider({ children }: { children: React.ReactNode }
 export function GlobalSearchTrigger({
   className,
   ...props
-}: React.ComponentProps<"button">) {
+}: React.ComponentProps<typeof Button>) {
   const { setOpen } = useGlobalSearch();
 
   return (
-    <button
+    <Button
       type="button"
+      variant="outline"
+      size="sm"
       onClick={() => setOpen(true)}
       className={className}
       aria-label="Search"
@@ -148,7 +151,7 @@ export function GlobalSearchTrigger({
       <kbd className="rounded border border-border/60 bg-background/80 px-1.5 py-0.5 font-mono text-[10px] dark:border-border dark:bg-muted/50">
         ⌘K
       </kbd>
-    </button>
+    </Button>
   );
 }
 
