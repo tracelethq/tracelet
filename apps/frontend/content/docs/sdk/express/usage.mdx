@@ -1,0 +1,264 @@
+---
+title: Usage
+description: "What is meta (TraceletMeta), how to configure tracelet.doc.json, and full schema reference for the Express docs UI."
+sections:
+  - id: what-is-meta
+    label: What is meta?
+  - id: providing-meta
+    label: Providing meta (code vs file)
+  - id: tracelet-doc-json
+    label: Configuring tracelet.doc.json
+  - id: schema-reference
+    label: Schema reference
+  - id: merging
+    label: How meta is merged
+  - id: full-example
+    label: Full example
+---
+
+## What is meta?
+
+**Meta** (or **route meta**) is an array of **TraceletMeta** objects. Each object describes one API route: its HTTP method, path, description, and schemas for the request body, query, path params, and responses. The Tracelet docs UI uses this data to:
+
+- List all documented endpoints in the sidebar
+- Show descriptions, parameters, and request/response shapes for each route
+- Power the “Try it” panel so you can send requests and see responses
+
+You can provide meta in two ways: **in code** (pass an array to `traceletDoc(app, meta)`) or **in a JSON file** (by default `tracelet.doc.json` in your project root). You can use both; entries for the same method + path are merged, with **code meta overriding** file meta.
+
+---
+
+## Providing meta (code vs file)
+
+| Source | When to use |
+|--------|-------------|
+| **In code** | You define routes in Express and want a single source of truth. Build the meta array next to your routes (or derive it from your router) and pass it to `traceletDoc(app, meta)`. |
+| **tracelet.doc.json** | You want to document APIs without touching application code, or you generate the file from OpenAPI/Swagger, another tool, or a build step. The file is loaded from disk when the server starts. |
+
+Both can be used together. For example, keep base route info in `tracelet.doc.json` and override or add detail for specific routes in code.
+
+---
+
+## Configuring tracelet.doc.json
+
+### File location
+
+By default, Tracelet looks for **`tracelet.doc.json`** in the **current working directory** (`process.cwd()`) when the app starts. This is usually your project root.
+
+To use a different path:
+
+```typescript
+traceletDoc(app, meta, {
+  path: "/tracelet-docs",
+  docFilePath: "./docs/tracelet.doc.json",  // relative to cwd
+  // or an absolute path:
+  // docFilePath: "/etc/my-app/tracelet.doc.json",
+});
+```
+
+- **Relative path** — Resolved from `process.cwd()` (e.g. `./tracelet.doc.json`, `docs/api-meta.json`).
+- **Absolute path** — Used as-is.
+- If the file is missing or invalid JSON, Tracelet skips it and uses only the `meta` array passed in code (if any).
+
+### File format
+
+The file must contain a **single JSON array** of route meta objects. Each object must at least have `method` and `path`; all other fields are optional.
+
+**Minimal example**
+
+```json
+[
+  { "method": "GET", "path": "/health" },
+  { "method": "GET", "path": "/users/:id", "description": "Get user by ID" }
+]
+```
+
+**Example with request/response and params**
+
+```json
+[
+  {
+    "method": "GET",
+    "path": "/users/:id",
+    "description": "Get a user by ID",
+    "params": [
+      { "name": "id", "type": "string", "desc": "User UUID", "required": true }
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "description": "User object",
+        "properties": [
+          { "name": "id", "type": "string", "desc": "User ID" },
+          { "name": "email", "type": "string", "desc": "Email address" }
+        ]
+      },
+      { "status": 404, "description": "User not found", "properties": [] }
+    ]
+  },
+  {
+    "method": "POST",
+    "path": "/users",
+    "description": "Create a new user",
+    "request": [
+      { "name": "email", "type": "string", "required": true },
+      { "name": "name", "type": "string", "desc": "Display name" }
+    ],
+    "responses": [
+      { "status": 201, "description": "Created user", "properties": [] }
+    ]
+  }
+]
+```
+
+The docs UI will show these routes with descriptions, params, and request/response info. You can add as many routes as you need; the array is merged with any meta you pass in code.
+
+---
+
+## Schema reference
+
+### TraceletMeta (one route)
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `method` | `TraceletHttpMethod` | Yes | HTTP method: `"GET"`, `"POST"`, `"PUT"`, `"PATCH"`, `"DELETE"`, `"HEAD"`, `"OPTIONS"`, or `"PARENT"` (for grouping only). |
+| `path` | `string` | Yes | Route path (e.g. `"/users"`, `"/users/:id"`). For nested routes, use a path **relative to the parent** (e.g. parent `"/users"`, child `":id"` → resolved to `"/users/:id"`). |
+| `description` | `string` | No | Short description of the endpoint (shown in the UI). |
+| `request` | `TraceletProperty[]` | No | Request body schema: list of properties (name, type, desc, required, enum). |
+| `responses` | `TraceletResponseProperty[]` | No | Response schemas per status code (status, description, properties). |
+| `query` | `TraceletProperty[]` | No | Query parameter schema. |
+| `params` | `TraceletProperty[]` | No | URL path parameter schema (e.g. `:id` → `{ name: "id", type: "string" }`). |
+| `tags` | `string[]` | No | Tags for grouping or filtering (e.g. `["users", "admin"]`). |
+| `routes` | `TraceletMeta[]` | No | Nested routes; child `path` is resolved relative to this route’s path. |
+
+### TraceletProperty (one field in request/query/params or inside a response)
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | `string` | Yes | Property name. |
+| `type` | `string` | Yes | Type name: e.g. `"string"`, `"number"`, `"boolean"`, `"object"`, `"array"`, `"enum"`. |
+| `desc` | `string` | No | Human-readable description. |
+| `required` | `boolean` | No | Whether the field is required. |
+| `enum` | `string[]` | No | When `type` is `"enum"`, the list of allowed values. |
+
+### TraceletResponseProperty (one response variant)
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `status` | `number` | Yes | HTTP status code (e.g. 200, 201, 404). |
+| `description` | `string` | No | Description of this response. |
+| `properties` | `TraceletProperty[]` | No | List of properties in the response body. |
+
+### Nested routes
+
+You can group routes under a parent so paths are resolved and the UI can show hierarchy. Use a **parent route** with `method: "PARENT"` (or a normal method) and a `routes` array. Child `path` is **relative** to the parent.
+
+**Example in JSON**
+
+```json
+[
+  {
+    "method": "PARENT",
+    "path": "/users",
+    "description": "User resources",
+    "routes": [
+      { "method": "GET", "path": "/", "description": "List users" },
+      { "method": "GET", "path": "/:id", "description": "Get user by ID" },
+      { "method": "POST", "path": "/", "description": "Create user" }
+    ]
+  }
+]
+```
+
+Resolved paths: `/users`, `/users/:id`, `/users` (POST). In code you can build the same structure and pass it to `traceletDoc(app, meta)`.
+
+---
+
+## How meta is merged
+
+When you use both a **file** and the **meta** parameter:
+
+1. Tracelet loads the array from `tracelet.doc.json` (if the file exists and is valid).
+2. It merges with the `meta` array passed to `traceletDoc(app, meta)`.
+3. **Duplicate detection** is by `method` + normalized `path`. For the same method+path, the entry from **code wins**; the file entry is overwritten.
+4. Nested `routes` are resolved so every route has a full path (parent path + relative path).
+5. The resulting array is what the UI and `GET /tracelet-docs?json=true` use.
+
+So you can maintain a base set of routes in `tracelet.doc.json` and override or add details in code without duplicating entries.
+
+---
+
+## Full example
+
+**1. tracelet.doc.json** (in project root)
+
+```json
+[
+  {
+    "method": "GET",
+    "path": "/health",
+    "description": "Health check"
+  },
+  {
+    "method": "GET",
+    "path": "/users/:id",
+    "description": "Get user by ID",
+    "params": [
+      { "name": "id", "type": "string", "required": true }
+    ],
+    "responses": [
+      { "status": 200, "description": "User", "properties": [
+        { "name": "id", "type": "string" },
+        { "name": "email", "type": "string" }
+      ]},
+      { "status": 404, "description": "Not found", "properties": [] }
+    ]
+  }
+]
+```
+
+**2. App code** (override or add in code)
+
+```typescript
+import express from "express";
+import { useTracelet, traceletDoc } from "@tracelet/express";
+
+const app = express();
+useTracelet(app, { serviceName: "my-api", environment: "dev" });
+
+// Optional: add or override meta in code (same method+path as file = code wins)
+const metaFromCode = [
+  {
+    method: "POST",
+    path: "/users",
+    description: "Create a user",
+    request: [
+      { name: "email", type: "string", required: true },
+      { name: "name", type: "string" },
+    ],
+    responses: [
+      { status: 201, description: "Created", properties: [] },
+    ],
+  },
+];
+
+// Serves UI at /tracelet-docs and uses tracelet.doc.json + metaFromCode
+traceletDoc(app, metaFromCode, {
+  path: "/tracelet-docs",
+  docFilePath: "tracelet.doc.json",  // optional; this is the default
+});
+
+app.get("/health", (req, res) => res.json({ ok: true }));
+app.get("/users/:id", (req, res) => { /* ... */ });
+app.post("/users", express.json(), (req, res) => { /* ... */ });
+
+app.listen(3000);
+```
+
+Result:
+
+- **From file:** `GET /health`, `GET /users/:id` with params and responses.
+- **From code:** `POST /users` with request body and response.
+- No duplicate entries; if you added `GET /users/:id` in code with a different description, that would override the file entry for that route.
+
+Open `http://localhost:3000/tracelet-docs` to see all documented routes and use the UI to try them.
