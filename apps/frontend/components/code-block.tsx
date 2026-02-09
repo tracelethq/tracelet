@@ -4,6 +4,7 @@ import * as React from "react"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 import { oneDark, oneLight } from "react-syntax-highlighter/dist/esm/styles/prism"
 import { useTheme } from "next-themes"
+import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { CheckIcon, CopyIcon } from "lucide-react"
 
@@ -74,19 +75,16 @@ export function CodeBlock({
         {hasTabs && tabKeys.length > 0 ? (
           <div className="flex gap-0.5">
             {tabKeys.map((key) => (
-              <button
+              <Button
                 key={key}
                 type="button"
+                variant={activeTab === key ? "secondary" : "ghost"}
+                size="sm"
                 onClick={() => setActiveTab(key)}
-                className={cn(
-                  "rounded-md px-3 py-1.5 text-xs font-medium transition-colors",
-                  activeTab === key
-                    ? "bg-background text-foreground shadow-sm"
-                    : "text-muted-foreground hover:text-foreground"
-                )}
+                className={activeTab === key ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}
               >
                 {key}
-              </button>
+              </Button>
             ))}
           </div>
         ) : (
@@ -94,10 +92,12 @@ export function CodeBlock({
             {language}
           </span>
         )}
-        <button
+        <Button
           type="button"
+          variant="ghost"
+          size="sm"
           onClick={copy}
-          className="flex items-center gap-1.5 rounded-md px-2 py-1.5 text-xs text-muted-foreground hover:bg-muted hover:text-foreground"
+          className="gap-1.5 text-muted-foreground hover:bg-muted hover:text-foreground"
           aria-label={copied ? "Copied" : "Copy code"}
         >
           {copied ? (
@@ -111,7 +111,7 @@ export function CodeBlock({
               Copy
             </>
           )}
-        </button>
+        </Button>
       </div>
       <SyntaxHighlighter
         language={language}

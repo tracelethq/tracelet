@@ -14,9 +14,10 @@ export function DocPageToc({ sections, className }: DocPageTocProps) {
   return (
     <aside
       className={cn(
-        "w-52 shrink-0 border-l border-border pl-6",
+        "w-52 border-l border-border pl-6",
         className
       )}
+      aria-label="On this page"
     >
       <nav className="sticky top-20 space-y-1">
         <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">

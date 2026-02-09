@@ -15,9 +15,9 @@ export const LINKS = {
 export const ROUTES = {
   home: "/",
   docs: "/docs",
-  docsUsing: "/docs/using",
-  docsUsingExpress: "/docs/using/express",
-  docsUsingCore: "/docs/using/core",
+  docsDevelopers: "/docs/developer",
+  docsDevelopersExpress: "/docs/developer/express",
+  docsDevelopersCore: "/docs/developer/core",
   docsContributing: "/docs/contributing",
 } as const
 
@@ -26,9 +26,9 @@ export const ROUTES = {
 /** Section and typography classes for landing sections */
 export const LANDING = {
   sectionClass:
-    "mx-auto max-w-5xl px-4 py-20 sm:px-6 sm:py-24",
+    "mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-20",
   sectionClassAlt:
-    "mx-auto max-w-5xl px-4 py-20 sm:px-6 sm:py-24 bg-muted/20 dark:bg-muted/10",
+    "mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-20 bg-muted/25 dark:bg-muted/10",
   /** Small label above headings (e.g. "What we do") */
   sectionLabelClass:
     "text-xs font-medium uppercase tracking-widest text-primary/80 dark:text-primary/90",
@@ -40,5 +40,5 @@ export const LANDING = {
 
 // ─── Docs ─────────────────────────────────────────────────────────────────
 
-/** Default SDK route when redirecting from /docs/using */
-export const DOCS_DEFAULT_SDK_ROUTE = ROUTES.docsUsingExpress
+/** Default SDK route when redirecting from /docs/developers */
+export const DOCS_DEFAULT_SDK_ROUTE = ROUTES.docsDevelopersExpress

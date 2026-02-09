@@ -1,0 +1,55 @@
+---
+title: Get started
+description: Install and use the Tracelet core SDK for logging and metadata.
+sections:
+  - id: install
+    label: Install
+  - id: use-in-code
+    label: Use in code
+  - id: running-locally
+    label: Running locally
+  - id: troubleshooting
+    label: Troubleshooting
+---
+
+## Install
+
+Install only `@tracelet/core` from a `.tgz` tarball (or from npm when published).
+
+<CodeBlockTabs
+  npm="npm install ./tracelet-core-0.0.1.tgz"
+  yarn="yarn add file:./tracelet-core-0.0.1.tgz"
+  pnpm="pnpm add ./tracelet-core-0.0.1.tgz"
+  language="bash"
+/>
+
+## Use in code
+
+Use `@tracelet/core` for logging and metadata in your app. You integrate it with your own framework or server (no Express required).
+
+```typescript
+import { createTraceEvent } from "@tracelet/core";
+
+// Use the core SDK for events, logging, and metadata.
+// See @tracelet/core docs for API details.
+```
+
+For Express apps with the built-in docs UI, use the **Express** setup instead.
+
+## Running locally
+
+Run your app as usual. The core SDK does not serve a UI; it only provides logging and metadata. For the docs UI, use the **Express** setup.
+
+## Troubleshooting
+
+### "Tracelet UI not found. Build the UI or set uiPath."
+
+Does not apply to Core. This message is for the Express setup only.
+
+### "Could not fetch routes" / connection error
+
+Only relevant when using the docs UI (Express). For Core-only, ensure your app runs and the SDK is configured correctly.
+
+### UI 404 or blank at /tracelet-docs
+
+Only applies to Express. Core does not serve a UI.
