@@ -17,6 +17,7 @@ import {
   type AuthState,
   type ParamRow,
   type TabConfigItem,
+  extractPathParamNames,
   getFirstTabFromConfig,
   getRouteTabKey,
   getVisibleTabs,
@@ -84,11 +85,13 @@ export function ApiDetailsPanel({ route, apiBase, tabsConfig }: ApiDetailsPanelP
   const routeKey = route ? getRouteTabKey(method, path) : ""
   const [responseTab, setResponseTab] = useResponseTab(routeKey || "_")
 
-  const pathParamNames = React.useMemo(
-    () => (route ? normalizeParams(route.params).map((p) => p.name) : []),
-    [route?.params]
-  )
-  
+  const pathParamNames = React.useMemo(() => {
+    if (!route) return []
+    const fromMeta = normalizeParams(route.params).map((p) => p.name)
+    if (fromMeta.length > 0) return fromMeta
+    return extractPathParamNames(path)
+  }, [route?.params, path])
+
   const queryParamNames = React.useMemo(
     () => (route ? normalizeParams(route.query).map((p) => p.name) : []),
     [route?.query]
@@ -292,10 +295,13 @@ export function ApiDetailsPanel({ route, apiBase, tabsConfig }: ApiDetailsPanelP
         }
       }
     } else {
-      const queryAndParams = [
-        ...normalizeParams(route.query),
-        ...normalizeParams(route.params),
-      ]
+      const queryProps = normalizeParams(route.query)
+      const pathPropsFromMeta = normalizeParams(route.params)
+      const pathProps =
+        pathPropsFromMeta.length > 0
+          ? pathPropsFromMeta
+          : pathParamNames.map((name) => ({ name, type: "string" as const }))
+      const queryAndParams = [...queryProps, ...pathProps]
       const initialParams = queryAndParams.length ? rowsFromProperties(queryAndParams) : []
       const initialHeaders: ParamRow[] = [
         {
@@ -317,7 +323,7 @@ export function ApiDetailsPanel({ route, apiBase, tabsConfig }: ApiDetailsPanelP
         auth: { type: "none" },
       }
     }
-  }, [routeKey, route?.path, route?.method, route?.query, route?.params, route?.request])
+  }, [routeKey, route?.path, route?.method, route?.query, route?.params, route?.request, pathParamNames])
 
   React.useEffect(() => {
     if (!routeKey || !validationErrorsByRoute[routeKey]) return
@@ -364,9 +370,7 @@ export function ApiDetailsPanel({ route, apiBase, tabsConfig }: ApiDetailsPanelP
     return <ApiDetailsEmptyState />
   }
 
-  const hasParams =
-    normalizeParams(route.query).length > 0 ||
-    normalizeParams(route.params).length > 0
+  const hasParams = pathParamNames.length > 0 || queryParamNames.length > 0
   const hasBody = normalizeRequestBody(route.request).length > 0
   const hasResponseTypes =
     Array.isArray(route.responses) && route.responses.length > 0

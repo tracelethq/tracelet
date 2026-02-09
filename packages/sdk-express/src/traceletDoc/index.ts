@@ -17,6 +17,42 @@ export interface TraceletDocOptions {
   path?: string;
   /** Path to the built UI (directory containing index.html and assets). Defaults to monorepo path when not set. */
   uiPath?: string;
+  /** Path to JSON file for route meta (e.g. tracelet.doc.json). Defaults to `tracelet.doc.json` in process.cwd(). */
+  docFilePath?: string;
+}
+
+const DEFAULT_DOC_FILE = "tracelet.doc.json";
+
+function normalizePath(p: string): string {
+  return p.startsWith("/") ? p : `/${p}`;
+}
+
+function routeKey(r: TraceletMeta): string {
+  return `${r.method}:${normalizePath(r.path)}`;
+}
+
+/** Read TraceletMeta[] from a JSON file. Returns null if file missing or invalid. */
+function readMetaFromFile(filePath: string): TraceletMeta[] | null {
+  const resolved = path.isAbsolute(filePath) ? filePath : path.join(process.cwd(), filePath);
+  try {
+    if (!fs.existsSync(resolved)) return null;
+    const raw = fs.readFileSync(resolved, "utf-8");
+    const data = JSON.parse(raw);
+    if (!Array.isArray(data)) return null;
+    return data as TraceletMeta[];
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Merge file meta with param meta. Duplicates are keyed by method+path; param meta wins and duplicates are removed (param kept).
+ */
+function mergeMeta(fileMeta: TraceletMeta[], paramMeta: TraceletMeta[]): TraceletMeta[] {
+  const byKey = new Map<string, TraceletMeta>();
+  for (const r of fileMeta) byKey.set(routeKey(r), { ...r });
+  for (const r of paramMeta) byKey.set(routeKey(r), { ...r });
+  return Array.from(byKey.values());
 }
 
 const DEFAULT_DOCS_PATH = "/tracelet-docs";
@@ -80,7 +116,7 @@ function resolveDefaultUiPath(): string {
  */
 export function traceletDoc(
   app: Application,
-  meta: TraceletMeta[],
+  meta: TraceletMeta[] = [],
   options: TraceletDocOptions = {}
 ) {
   const mountPath = options.path ?? DEFAULT_DOCS_PATH;
@@ -88,9 +124,13 @@ export function traceletDoc(
   const indexHtml = path.join(uiPath, "index.html");
   const staticHandler = express.static(uiPath, { index: false });
 
+  const docFilePath = options.docFilePath ?? path.join(process.cwd(), DEFAULT_DOC_FILE);
+  const fileMeta = readMetaFromFile(docFilePath);
+  const resolvedMeta = mergeMeta(fileMeta ?? [], meta ?? []);
+
   const handler = (req: Request, res: Response, next: NextFunction) => {
     if (req.query.json === "true") {
-      return res.json(resolveMetaTree(meta));
+      return res.json(resolveMetaTree(resolvedMeta));
     }
     if (req.method !== "GET" && req.method !== "HEAD") {
       return next();
