@@ -272,9 +272,9 @@ export function ApiResponsePanel({
 
         <TabsContent
           value="response"
-          className="mt-0 flex min-h-0 flex-1 flex-col overflow-auto data-[state=inactive]:hidden px-2"
+          className="mt-0 flex min-h-0 flex-1 flex-col overflow-hidden data-[state=inactive]:hidden px-2"
         >
-          <div className="bg-muted/30 flex min-h-[120px] min-w-0 flex-1 flex-col overflow-hidden rounded-md border border-dashed border-border">
+          <div className="bg-muted/30 flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-md border border-dashed border-border">
             {!response && !loading && (
               <div className="flex flex-1 items-center justify-center p-8 text-center text-muted-foreground text-xs">
                 Click Send above to run the request
@@ -287,19 +287,37 @@ export function ApiResponsePanel({
               </div>
             )}
             {response && !loading && (
-              <div className="flex flex-1 flex-col overflow-hidden p-3">
+              <div className="flex min-h-0 flex-1 flex-col overflow-hidden p-3">
                 {response.error && (
                   <p className="text-destructive mb-2 text-xs font-medium">
                     {response.error}
                   </p>
                 )}
-                {format === "json" && (
-                  <pre className="bg-background/80 max-h-full min-h-0 flex-1 overflow-auto rounded border border-border p-2 font-mono text-xs whitespace-pre-wrap break-all">
-                    <JsonHighlight className="block">
-                      {response.body || "(empty)"}
-                    </JsonHighlight>
-                  </pre>
-                )}
+                {format === "json" && (() => {
+                  const bodyText = response.body || "(empty)";
+                  const lines = bodyText.split("\n");
+                  return (
+                    <div className="bg-background/80 flex min-h-0 flex-1 flex-col overflow-hidden rounded border border-border font-mono text-xs leading-7">
+                      <div className="flex min-h-0 min-w-0 flex-1 overflow-auto relative">
+                        {/* fake div */}
+                        <div className="w-10"/>
+                        <div
+                          className="absolute left-0 z-10 shrink-0 select-none border-r border-border bg-muted/50 py-2 pl-2 pr-3 text-right text-muted-foreground leading-7 w-10 min-h-full"
+                          aria-hidden
+                        >
+                          {lines.map((_, i) => (
+                            <div key={i}>{i + 1}</div>
+                          ))}
+                        </div>
+                        <pre className="min-w-0 flex-1 p-2 pl-3 whitespace-pre-wrap break-all leading-7">
+                          <JsonHighlight className="block">
+                            {bodyText}
+                          </JsonHighlight>
+                        </pre>
+                      </div>
+                    </div>
+                  );
+                })()}
                 {format === "html" && (
                   <iframe
                     title="Response HTML"
