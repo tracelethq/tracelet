@@ -42,10 +42,13 @@ export function buildUrl(
 
   for (const row of paramsRows) {
     if (!row.enabled || row.key.trim() === "") continue;
-    const value = encodeURIComponent(row.value.trim());
+    const trimmed = row.value.trim();
     if (pathParamSet.has(row.key)) {
-      path = path.replace(new RegExp(`:${row.key}(?=/|$)`), value);
+      // When no value is present, keep the placeholder in the URL so the real path is shown (e.g. /users/:id).
+      if (trimmed === "") continue;
+      path = path.replace(new RegExp(`:${row.key}(?=/|$)`), encodeURIComponent(trimmed));
     } else if (queryParamSet.has(row.key)) {
+      const value = encodeURIComponent(trimmed);
       queryParts.push(`${encodeURIComponent(row.key)}=${value}`);
     }
   }

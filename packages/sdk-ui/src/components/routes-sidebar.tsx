@@ -22,6 +22,7 @@ import {
 import { useSidebarOpenKeys } from "@/hooks/use-tracelet-persistence";
 import { flattenRoutesTree, type RouteMeta } from "@/types/route";
 import { cn } from "@/lib/utils";
+import { Logo } from "./icons/logo";
 
 /** HTTP method colors (Swagger/Postman-style). Returns className for badge/pill. */
 function getMethodColors(method: string): string {
@@ -297,8 +298,8 @@ export function RoutesSidebar({
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b border-sidebar-border bg-sidebar/80">
         <div className="flex w-full min-w-0 items-center gap-3 px-3 py-1 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
-          <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-sidebar-accent text-sidebar-accent-foreground">
-            <RouteIcon className="size-4" />
+          <div className="flex size-8 shrink-0 items-center justify-center rounded-md text-sidebar-accent-foreground">
+            <Logo />
           </div>
           <div className="grid min-w-0 flex-1 text-left leading-tight group-data-[collapsible=icon]:hidden">
             <span className="truncate text-sm font-semibold text-sidebar-foreground">

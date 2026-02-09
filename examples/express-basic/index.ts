@@ -1,16 +1,17 @@
 import express from "express";
-import { useTracelet } from "@tracelet/express";
+import { tracelet } from "@tracelet/express";
 
 const app = express();
 
 app.use(express.json());
 
 // 🔌 Tracelet middleware
-
-useTracelet(app, {
+app.use(tracelet({
   serviceName: "express-basic-example",
   environment: "dev",
-});
+}));
+
+  
 app.get("/health", (_req, res) => {
   res.json({ ok: true });
 });
