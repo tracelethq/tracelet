@@ -42,6 +42,16 @@ export function normalizeRequestBody(
 }
 
 /**
+ * Extract path param names from a route path (e.g. "/users/:id/posts/:postId" → ["id", "postId"]).
+ * Use when meta does not provide params so the Params tab can still show path placeholders.
+ */
+export function extractPathParamNames(path: string): string[] {
+  if (!path || typeof path !== "string") return []
+  const matches = path.match(/:[^/]+/g)
+  return matches ? [...new Set(matches.map((s) => s.slice(1)))] : []
+}
+
+/**
  * Normalize route.params (and optionally route.query) to RouteProperty[].
  * Handles: RouteProperty[], or array of { properties: RouteProperty[] } (legacy shape).
  */
