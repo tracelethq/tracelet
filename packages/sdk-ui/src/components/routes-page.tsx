@@ -30,7 +30,7 @@ export function RoutesPage() {
     null,
   );
 
-  const apiBase = (import.meta.env.VITE_API_ROUTE as string | undefined) ?? "";
+  const apiBase = (import.meta.env.TRACELET_DOC_API_ROUTE as string | undefined) ?? "";
   const routesUrl = `${apiBase.replace(/\/$/, "")}/tracelet-docs?json=true`;
 
   const fetchRoutes = React.useCallback(async () => {

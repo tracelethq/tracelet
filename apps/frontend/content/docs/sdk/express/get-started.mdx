@@ -68,7 +68,7 @@ Start your app. Open `http://localhost:3000/tracelet-docs`. The UI fetches route
 
 ### UI on a different origin
 
-If the docs UI is served from another port (e.g. a separate Vite app), set `VITE_API_ROUTE` to your API base URL (e.g. `http://localhost:3000`) so the UI can call `/tracelet-docs?json=true`.
+If the docs UI is served from another port (e.g. a separate Vite app), set `TRACELET_DOC_API_ROUTE` to your API base URL (e.g. `http://localhost:3000`) so the UI can call `/tracelet-docs?json=true`.
 
 ## Troubleshooting
 
@@ -78,7 +78,7 @@ Only applies to Express. If you installed from a .tgz, the pack may have been cr
 
 ### "Could not fetch routes" / connection error
 
-Ensure your API is running and `GET /tracelet-docs?json=true` returns JSON (array of route meta). If the UI is on another origin, set `VITE_API_ROUTE`.
+Ensure your API is running and `GET /tracelet-docs?json=true` returns JSON (array of route meta). If the UI is on another origin, set `TRACELET_DOC_API_ROUTE`.
 
 ### UI 404 or blank at /tracelet-docs
 
