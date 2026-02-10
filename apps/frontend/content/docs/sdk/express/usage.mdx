@@ -124,6 +124,7 @@ The docs UI will show these routes with descriptions, params, and request/respon
 | `method` | `TraceletHttpMethod` | Yes | HTTP method: `"GET"`, `"POST"`, `"PUT"`, `"PATCH"`, `"DELETE"`, `"HEAD"`, `"OPTIONS"`, or `"PARENT"` (for grouping only). |
 | `path` | `string` | Yes | Route path (e.g. `"/users"`, `"/users/:id"`). For nested routes, use a path **relative to the parent** (e.g. parent `"/users"`, child `":id"` → resolved to `"/users/:id"`). |
 | `description` | `string` | No | Short description of the endpoint (shown in the UI). |
+| `requestContentType` | `"application/json"` \| `"multipart/form-data"` | No | Preferred request body type for the Try-it UI. When set, the UI uses it; otherwise the user can choose (JSON or Form data) and the choice is remembered per route for the session. |
 | `request` | `TraceletProperty[]` | No | Request body schema: list of properties (name, type, desc, required, enum). |
 | `responses` | `TraceletResponseProperty[]` | No | Response schemas per status code (status, description, properties). |
 | `query` | `TraceletProperty[]` | No | Query parameter schema. |
@@ -136,10 +137,12 @@ The docs UI will show these routes with descriptions, params, and request/respon
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `name` | `string` | Yes | Property name. |
-| `type` | `string` | Yes | Type name: e.g. `"string"`, `"number"`, `"boolean"`, `"object"`, `"array"`, `"enum"`. |
+| `type` | `string` | Yes | Type name: e.g. `"string"`, `"number"`, `"boolean"`, `"object"`, `"array"`, `"enum"`, `"file"`. |
 | `desc` | `string` | No | Human-readable description. |
 | `required` | `boolean` | No | Whether the field is required. |
 | `enum` | `string[]` | No | When `type` is `"enum"`, the list of allowed values. |
+| `accept` | `string` | No | When `type` is `"file"`: allowed file types (e.g. `"image/*"`, `".pdf"`, `"application/json"`). Same as HTML `input` [accept](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#accept). |
+| `maxFiles` | `number` | No | When `type` is `"file"`: maximum number of files (default `1`). Use `> 1` to allow multiple file upload in the Try-it UI. |
 
 ### TraceletResponseProperty (one response variant)
 
