@@ -59,13 +59,42 @@ export function buildUrl(
   return queryParts.length ? `${url}?${queryParts.join("&")}` : url;
 }
 
+export type BodyContentType = "application/json" | "multipart/form-data"
+
 export function buildBody(
   method: string,
   bodyRows: ParamRow[],
-  bodyJson?: string
+  bodyJson?: string,
+  bodyContentType: BodyContentType = "application/json"
 ): string | FormData | undefined {
   const methodsWithBody = ["POST", "PUT", "PATCH"];
   if (!methodsWithBody.includes(method.toUpperCase())) return undefined;
+  const hasFile = bodyRows.some(
+    (r) =>
+      r.enabled &&
+      r.key.trim() !== "" &&
+      (r.type || "").toLowerCase() === "file" &&
+      (r.file || (r.files && r.files.length > 0))
+  );
+  const useFormData = hasFile || bodyContentType === "multipart/form-data";
+
+  if (useFormData) {
+    const form = new FormData();
+    for (const row of bodyRows) {
+      if (!row.enabled || row.key.trim() === "") continue;
+      if ((row.type || "").toLowerCase() === "file") {
+        if (row.files?.length) {
+          for (const file of row.files) form.append(row.key, file);
+        } else if (row.file) {
+          form.append(row.key, row.file);
+        }
+      } else {
+        form.append(row.key, row.value);
+      }
+    }
+    return form;
+  }
+
   if (bodyJson != null && bodyJson.trim() !== "") {
     try {
       JSON.parse(bodyJson);
@@ -74,25 +103,11 @@ export function buildBody(
       /* fall through to bodyRows */
     }
   }
-  const hasFile = bodyRows.some(
-    (r) => r.enabled && r.key.trim() !== "" && r.type === "File" && r.file
-  );
-  if (hasFile) {
-    const form = new FormData();
-    for (const row of bodyRows) {
-      if (!row.enabled || row.key.trim() === "") continue;
-      if (row.type === "File" && row.file) {
-        form.append(row.key, row.file);
-      } else {
-        form.append(row.key, row.value);
-      }
-    }
-    return form;
-  }
   const obj: Record<string, unknown> = {};
   for (const row of bodyRows) {
     if (!row.enabled || row.key.trim() === "") continue;
     const type = (row.type || "").toLowerCase();
+    if (type === "file") continue;
     if (type === "array") {
       try {
         const parsed = JSON.parse(row.value || "[]");
@@ -135,7 +150,8 @@ export function buildCurlRequest(
   headersRows: ParamRow[],
   bodyRows: ParamRow[],
   auth: AuthState,
-  bodyJson?: string
+  bodyJson?: string,
+  bodyContentType: BodyContentType = "application/json"
 ): string {
   const url = buildUrl(
     apiBase,
@@ -160,7 +176,7 @@ export function buildCurlRequest(
   ) {
     headers[auth.apiKeyName.trim()] = auth.apiKeyValue;
   }
-  const body = buildBody(method, bodyRows, bodyJson);
+  const body = buildBody(method, bodyRows, bodyJson, bodyContentType);
 
   const escapeForShell = (s: string) => s.replace(/'/g, "'\"'\"'");
   const parts = ["curl", "-X", method.toUpperCase(), escapeForShell(url)];

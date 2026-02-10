@@ -16,7 +16,7 @@ interface EmptyRoutesStateProps {
 
 export function EmptyRoutesState({ onRefresh }: EmptyRoutesStateProps) {
   const apiUrl =
-    import.meta.env.VITE_API_ROUTE ?? ""
+    import.meta.env.TRACELET_DOC_API_ROUTE ?? ""
 
   return (
     <Empty className="border">

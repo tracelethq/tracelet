@@ -31,7 +31,7 @@ export type TraceletHttpMethod =
 export interface TraceletProperty {
   /** Property name */
   name: string
-  /** Type name (e.g. "string", "number", "boolean", "object", "array", "enum") */
+  /** Type name (e.g. "string", "number", "boolean", "object", "array", "enum", "file") */
   type: string
   /** Human-readable description */
   desc?: string
@@ -39,6 +39,10 @@ export interface TraceletProperty {
   required?: boolean
   /** When type is "enum", the list of allowed values */
   enum?: readonly string[]
+  /** When type is "file": accepted file types (e.g. "image/*", ".pdf", "application/json"). Same as HTML input accept. */
+  accept?: string
+  /** When type is "file": maximum number of files allowed (default 1). Use > 1 for multiple file upload. */
+  maxFiles?: number
 }
 
 export interface TraceletResponseProperty{
@@ -54,6 +58,9 @@ export type TraceletSchema = Record<string, string>
  * Metadata for a single API route, used by Tracelet doc UI and tooling.
  * Routes can be nested via `routes`; child paths are resolved relative to the parent path.
  */
+/** Preferred request body content type for the Try-it UI. If set, the UI uses it; otherwise the user can choose and the choice is remembered per route. */
+export type RequestContentType = "application/json" | "multipart/form-data"
+
 export interface TraceletMeta {
   /** Short description of the endpoint */
   description?: string
@@ -61,6 +68,8 @@ export interface TraceletMeta {
   method: TraceletHttpMethod
   /** Route path (e.g. "/users", "/posts/:id"). For nested routes, use a path relative to the parent. */
   path: string
+  /** Preferred request body type: application/json or multipart/form-data. When set, UI uses it; else user can select and value is remembered per route. */
+  requestContentType?: RequestContentType
   /** Request body: list of properties with name, type, desc, required, enum */
   request?: TraceletProperty[]
   /** Response types per status code: status, description, and properties for each */

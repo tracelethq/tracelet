@@ -13,9 +13,9 @@ Common issues and fixes.
 
 ## “Could not fetch routes” / connection error in the UI
 
-- Ensure your API is running and reachable at the URL you set in `VITE_API_ROUTE` (when using the Vite dev server).
+- Ensure your API is running and reachable at the URL you set in `TRACELET_DOC_API_ROUTE` (when using the Vite dev server).
 - Ensure the docs endpoint is mounted: `GET /tracelet-docs?json=true` must return JSON (array of route meta).
-- If the UI is served by Express on the same origin, it will use that origin for `?json=true`; no `VITE_API_ROUTE` needed.
+- If the UI is served by Express on the same origin, it will use that origin for `?json=true`; no `TRACELET_DOC_API_ROUTE` needed.
 
 ---
 

@@ -5,6 +5,10 @@ export type RouteProperty = {
   desc?: string
   required?: boolean
   enum?: readonly string[]
+  /** When type is "file": accepted file types (e.g. "image/*", ".pdf"). Same as HTML input accept. */
+  accept?: string
+  /** When type is "file": maximum number of files allowed (default 1). */
+  maxFiles?: number
 }
 
 /** Response type per status code (matches TraceletResponseProperty) */
@@ -14,10 +18,15 @@ export type RouteResponseType = {
   properties: RouteProperty[]
 }
 
+/** Request body content type for Try-it UI. */
+export type RequestContentType = "application/json" | "multipart/form-data"
+
 export type RouteMeta = {
   method: string
   path: string
   description?: string
+  /** Preferred request body type. When set, UI uses it; else user can select (remembered per route). */
+  requestContentType?: RequestContentType
   request?: RouteProperty[]
   /** Response types per status: status, description, and properties for each */
   responses?: RouteResponseType[]

@@ -25,7 +25,7 @@ import { cn } from "@/lib/utils";
 import { Logo } from "./icons/logo";
 
 /** HTTP method colors (Swagger/Postman-style). Returns className for badge/pill. */
-function getMethodColors(method: string): string {
+export function getMethodColors(method: string): string {
   const m = method.toUpperCase();
   const base = "font-mono text-[10px] font-semibold rounded border shrink-0 ";
   switch (m) {
