@@ -1,4 +1,4 @@
-import { TraceEventInput, TraceEvent } from "../types"
+import { TraceEventInput, TraceEvent } from "../../types"
 import { sanitize } from "../sanitize/sanitize"
 import { inferShape } from "../infer/inferShape"
 
