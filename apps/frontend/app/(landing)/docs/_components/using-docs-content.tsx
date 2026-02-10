@@ -151,7 +151,7 @@ function RunningLocallyBlock({ sdk }: { sdk: SdkChoice }) {
       <h3 className="font-semibold text-foreground mt-4 mb-2">UI on a different origin</h3>
       <p className="text-muted-foreground">
         If the docs UI is served from another port (e.g. a separate Vite
-        app), set <code className="rounded bg-muted px-1">VITE_API_ROUTE</code> to your API base URL
+        app), set <code className="rounded bg-muted px-1">TRACELET_DOC_API_ROUTE</code> to your API base URL
         (e.g. <code className="rounded bg-muted px-1">http://localhost:3000</code>) so the UI can
         call <code className="rounded bg-muted px-1">/tracelet-docs?json=true</code>.
       </p>
@@ -203,7 +203,7 @@ export function UsingDocsContent({ sdk }: UsingDocsContentProps) {
           Ensure your API is running and{" "}
           <code className="rounded bg-muted px-1">GET /tracelet-docs?json=true</code> returns
           JSON (array of route meta). If the UI is on another origin, set{" "}
-          <code className="rounded bg-muted px-1">VITE_API_ROUTE</code>.
+          <code className="rounded bg-muted px-1">TRACELET_DOC_API_ROUTE</code>.
         </p>
         <h3 className="font-semibold text-foreground mb-2">
           UI 404 or blank at /tracelet-docs

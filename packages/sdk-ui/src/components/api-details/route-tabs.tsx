@@ -11,8 +11,16 @@ import { AuthorizationTab } from "./authorization-tab";
 import { JsonHighlight } from "./json-highlight";
 import { ParamsTable } from "./params-table";
 import { DetailsTab } from "./details-tab";
+import type { RequestContentType } from "@/types/route";
 import type { ApiTabValue } from "./types";
 import type { ResponseTabValue } from "@/hooks/use-tracelet-persistence";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   DEFAULT_TABS_CONFIG,
   getRouteTabKey,
@@ -56,6 +64,14 @@ export interface RouteTabsProps {
   pathParamRequiredKeys?: string[];
   /** Body keys that are required (show required indicator in Body tab). */
   bodyRequiredKeys?: string[];
+  /** Effective request body content type (from meta or user selection). */
+  bodyContentType?: RequestContentType;
+  /** Whether the type was set from route meta (then show as badge, else dropdown). */
+  bodyContentTypeFromMeta?: boolean;
+  /** When true, body has file(s) so type is forced to multipart/form-data. */
+  bodyHasFiles?: boolean;
+  /** Called when user selects a different body type (state only, per route). */
+  onBodyContentTypeChange?: (value: RequestContentType) => void;
 }
 
 export function RouteTabs({
@@ -84,6 +100,10 @@ export function RouteTabs({
   bodyErrorKeys = [],
   pathParamRequiredKeys = [],
   bodyRequiredKeys = [],
+  bodyContentType = "application/json",
+  bodyContentTypeFromMeta = false,
+  bodyHasFiles = false,
+  onBodyContentTypeChange,
 }: RouteTabsProps) {
   const visibleTabs = React.useMemo(
     () =>
@@ -157,9 +177,34 @@ export function RouteTabs({
         case "body":
           return (
             <section className="flex flex-col overflow-auto">
-              <h3 className="text-muted-foreground mb-2 text-xs font-medium">
-                Request Body
-              </h3>
+              <div className="text-muted-foreground mb-2 flex flex-wrap items-center gap-2 text-xs">
+                <span className="font-medium">Request Body</span>
+                <span className="text-muted-foreground/70">·</span>
+                <span className="font-medium">Send as:</span>
+                {bodyContentTypeFromMeta || bodyHasFiles ? (
+                  <span
+                    className="rounded bg-muted px-2 py-0.5 font-mono"
+                    title={bodyHasFiles ? "Form data required when files are present" : "Set by API meta"}
+                  >
+                    {bodyContentType === "application/json" ? "JSON" : "Form data"}
+                  </span>
+                ) : (
+                  <Select
+                    value={bodyContentType}
+                    onValueChange={(v) =>
+                      onBodyContentTypeChange?.(v as RequestContentType)
+                    }
+                  >
+                    <SelectTrigger className="h-7 w-30 font-mono">
+                      <SelectValue placeholder="Send as" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="application/json">JSON</SelectItem>
+                      <SelectItem value="multipart/form-data">Form data</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+              </div>
               <ParamsTable
                 rows={bodyRows}
                 setRows={setBodyRows}
