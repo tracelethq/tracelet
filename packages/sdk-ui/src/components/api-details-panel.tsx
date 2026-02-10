@@ -6,6 +6,7 @@ import {
   buildBody,
   buildHeaders,
   buildUrl,
+  type BodyContentType,
   type ResponseState,
 } from "./api-details/api-response-panel"
 import { ApiDetailsEmptyState } from "./api-details/empty-state"
@@ -17,6 +18,7 @@ import {
   type AuthState,
   type ParamRow,
   type TabConfigItem,
+  canonicalParamRowType,
   extractPathParamNames,
   getFirstTabFromConfig,
   getRouteTabKey,
@@ -41,7 +43,7 @@ type SavedFields = {
 }
 
 function stripFiles(rows: ParamRow[]): ParamRow[] {
-  return rows.map(({ file, ...r }) => ({ ...r, file: undefined }))
+  return rows.map(({ file, files, ...r }) => ({ ...r, file: undefined, files: undefined }))
 }
 
 export function ApiDetailsPanel({ route, apiBase, tabsConfig }: ApiDetailsPanelProps) {
@@ -69,6 +71,10 @@ export function ApiDetailsPanel({ route, apiBase, tabsConfig }: ApiDetailsPanelP
   /** Validation errors per route (state only, not persisted). Keys are routeKey. */
   const [validationErrorsByRoute, setValidationErrorsByRoute] = React.useState<
     Record<string, { pathParamErrorKeys: string[]; bodyErrorKeys: string[] }>
+  >({})
+  /** Request body content type per route when not set by meta. State only, not persisted. */
+  const [bodyContentTypeByRoute, setBodyContentTypeByRoute] = React.useState<
+    Record<string, BodyContentType>
   >({})
   const fieldsByRouteRef = React.useRef<Record<string, SavedFields>>({})
 
@@ -105,6 +111,27 @@ export function ApiDetailsPanel({ route, apiBase, tabsConfig }: ApiDetailsPanelP
     [route?.request]
   )
 
+  const bodyHasFiles = bodyRows.some(
+    (r) =>
+      r.enabled &&
+      r.key.trim() !== "" &&
+      (r.type || "").toLowerCase() === "file" &&
+      (r.file || (r.files && r.files.length > 0))
+  )
+  const rawContentTypeFromMeta = route?.requestContentType
+  const requestContentTypeFromMeta: BodyContentType | undefined =
+    rawContentTypeFromMeta != null && String(rawContentTypeFromMeta).trim() !== ""
+      ? (String(rawContentTypeFromMeta).trim().toLowerCase() ===
+        "multipart/form-data"
+          ? "multipart/form-data"
+          : "application/json")
+      : undefined
+  const bodyContentTypeFromMeta = requestContentTypeFromMeta != null
+  const effectiveBodyContentType: BodyContentType =
+    bodyHasFiles
+      ? "multipart/form-data"
+      : (requestContentTypeFromMeta ?? bodyContentTypeByRoute[routeKey] ?? "application/json")
+
   const currentValidation = validationErrorsByRoute[routeKey]
   const pathParamErrorKeys = currentValidation?.pathParamErrorKeys ?? []
   const bodyErrorKeys = currentValidation?.bodyErrorKeys ?? []
@@ -116,7 +143,7 @@ export function ApiDetailsPanel({ route, apiBase, tabsConfig }: ApiDetailsPanelP
     })
     const missingBody = requiredBodyNames.filter((name) => {
       const row = bodyRows.find((r) => r.key.trim() === name)
-      return !row || !row.enabled || (row.value.trim() === "" && !row.file)
+      return !row || !row.enabled || (row.value.trim() === "" && !row.file && !(row.files && row.files.length > 0))
     })
 
     if (missingPath.length > 0 || missingBody.length > 0) {
@@ -194,7 +221,7 @@ export function ApiDetailsPanel({ route, apiBase, tabsConfig }: ApiDetailsPanelP
       if (auth.type === "apiKey" && auth.apiKeyName?.trim() && auth.apiKeyValue != null) {
         headers[auth.apiKeyName.trim()] = auth.apiKeyValue
       }
-      const body = buildBody(method, bodyRows)
+      const body = buildBody(method, bodyRows, undefined, effectiveBodyContentType)
       if (body && !headers["Content-Type"] && typeof body === "string") {
         headers["Content-Type"] = "application/json"
       }
@@ -256,6 +283,7 @@ export function ApiDetailsPanel({ route, apiBase, tabsConfig }: ApiDetailsPanelP
     bodyRows,
     headersRows,
     auth,
+    effectiveBodyContentType,
     setTabByRoute,
     setTabInUrl,
   ])
@@ -267,16 +295,30 @@ export function ApiDetailsPanel({ route, apiBase, tabsConfig }: ApiDetailsPanelP
     const initialBodyFromRoute = rowsFromProperties(requestProperties)
     const saved = fieldsByRouteRef.current[routeKey]
     if (saved) {
-      setParamsRows(saved.params.map((r) => ({ ...r, id: r.id || crypto.randomUUID() })))
+      setParamsRows(
+        saved.params.map((r) => ({
+          ...r,
+          id: r.id || crypto.randomUUID(),
+          type: canonicalParamRowType(r.type),
+        }))
+      )
       // Restore saved body, but if saved body is empty and route has request fields now, use them
       const bodyToUse =
         saved.body.length === 0 && initialBodyFromRoute.length > 0
           ? initialBodyFromRoute
-          : saved.body.map((r) => ({ ...r, id: r.id || crypto.randomUUID() }))
+          : saved.body.map((r) => ({
+              ...r,
+              id: r.id || crypto.randomUUID(),
+              type: canonicalParamRowType(r.type),
+            }))
       setBodyRows(bodyToUse)
       setHeadersRows(
         saved.headers.length > 0
-          ? saved.headers.map((r) => ({ ...r, id: r.id || crypto.randomUUID() }))
+          ? saved.headers.map((r) => ({
+              ...r,
+              id: r.id || crypto.randomUUID(),
+              type: canonicalParamRowType(r.type),
+            }))
           : [
               {
                 id: crypto.randomUUID(),
@@ -333,7 +375,7 @@ export function ApiDetailsPanel({ route, apiBase, tabsConfig }: ApiDetailsPanelP
     })
     const missingBody = requiredBodyNames.filter((name) => {
       const row = bodyRows.find((r) => r.key.trim() === name)
-      return !row || !row.enabled || (row.value.trim() === "" && !row.file)
+      return !row || !row.enabled || (row.value.trim() === "" && !row.file && !(row.files && row.files.length > 0))
     })
     if (missingPath.length === 0 && missingBody.length === 0) {
       setValidationErrorsByRoute((prev) => {
@@ -429,7 +471,9 @@ export function ApiDetailsPanel({ route, apiBase, tabsConfig }: ApiDetailsPanelP
         paramsRows,
         headersRows,
         bodyRows,
-        auth
+        auth,
+        undefined,
+        effectiveBodyContentType
       ),
     [
       apiBase,
@@ -441,8 +485,13 @@ export function ApiDetailsPanel({ route, apiBase, tabsConfig }: ApiDetailsPanelP
       headersRows,
       bodyRows,
       auth,
+      effectiveBodyContentType,
     ]
   )
+
+  const setBodyContentType = React.useCallback((value: BodyContentType) => {
+    setBodyContentTypeByRoute((prev) => ({ ...prev, [routeKey]: value }))
+  }, [routeKey])
 
   const fetchUrl = React.useMemo(
     () =>
@@ -498,6 +547,10 @@ export function ApiDetailsPanel({ route, apiBase, tabsConfig }: ApiDetailsPanelP
           bodyErrorKeys={bodyErrorKeys}
           pathParamRequiredKeys={pathParamNames}
           bodyRequiredKeys={requiredBodyNames}
+          bodyContentType={effectiveBodyContentType}
+          bodyContentTypeFromMeta={bodyContentTypeFromMeta}
+          bodyHasFiles={bodyHasFiles}
+          onBodyContentTypeChange={setBodyContentType}
         />
       </div>
     </div>

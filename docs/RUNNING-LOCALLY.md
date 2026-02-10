@@ -33,7 +33,7 @@ Point the UI at your API base URL:
 
 ```bash
 cd packages/sdk-ui
-VITE_API_ROUTE=http://localhost:3000 npm run dev
+TRACELET_DOC_API_ROUTE=http://localhost:3000 npm run dev
 # or: yarn dev / pnpm run dev
 ```
 
@@ -41,7 +41,7 @@ Replace `http://localhost:3000` with your API’s origin if different.
 
 ### 3. Open the docs
 
-Use the URL Vite prints (e.g. `http://localhost:5173/tracelet-docs/`). The UI will load route metadata from `VITE_API_ROUTE/tracelet-docs?json=true`.
+Use the URL Vite prints (e.g. `http://localhost:5173/tracelet-docs/`). The UI will load route metadata from `TRACELET_DOC_API_ROUTE/tracelet-docs?json=true`.
 
 ---
 
@@ -81,7 +81,7 @@ traceletDoc(app, meta, {
 
 ### 3. Start the app
 
-Start the app and open `http://localhost:<port>/tracelet-docs`. The UI will call the same origin for `/tracelet-docs?json=true`, so `VITE_API_ROUTE` is not needed.
+Start the app and open `http://localhost:<port>/tracelet-docs`. The UI will call the same origin for `/tracelet-docs?json=true`, so `TRACELET_DOC_API_ROUTE` is not needed.
 
 ---
 
@@ -89,7 +89,7 @@ Start the app and open `http://localhost:<port>/tracelet-docs`. The UI will call
 
 | Variable         | Purpose |
 |------------------|--------|
-| `VITE_API_ROUTE` | Base URL of your API (e.g. `http://localhost:3000`). Used to fetch `/tracelet-docs?json=true`. Only needed when the UI runs on a **different origin** (e.g. Vite dev server in Option A). |
+| `TRACELET_DOC_API_ROUTE` | Base URL of your API (e.g. `http://localhost:3000`). Used to fetch `/tracelet-docs?json=true`. Only needed when the UI runs on a **different origin** (e.g. Vite dev server in Option A). |
 
 ---
 
