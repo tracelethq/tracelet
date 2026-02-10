@@ -1,0 +1,65 @@
+---
+title: Params
+description: "Path and query parameters in the API tester: how to fill them and what types are supported."
+sections:
+  - id: path-vs-query
+    label: Path vs query
+  - id: types
+    label: Param types
+  - id: examples
+    label: Examples
+---
+
+## Params
+
+The **Params** tab is where you set **URL parameters**: path parameters and query parameters. Both use the same table; path params come from the route path, query params from route meta.
+
+### Path vs query
+
+| Kind | Source | Example |
+|------|--------|---------|
+| **Path params** | Route path placeholders (e.g. `/users/:id`) | Each `:param` is a row. Value is substituted into the URL. |
+| **Query params** | Route meta `query` | Key-value pairs appended as `?key=value&...`. |
+
+Required path params are marked; if one is missing, the row is highlighted and Send may be disabled.
+
+### Param types
+
+Each param has a **type** from route meta. The UI shows the right input for that type:
+
+| Type | UI control | Example value |
+|------|------------|---------------|
+| String | Text input | `hello` |
+| Number | Text input (numeric) | `42` |
+| Boolean | Checkbox or toggle | `true` / `false` |
+| Date | Date picker | `2026-02-10` |
+| DateTime | Date + time picker | `2026-02-10T14:00` |
+| File | File picker | Selected file(s); **Accept** and **Max files** from meta. |
+
+### Examples
+
+**Path only** — Route path `/users/:id`:
+
+| Key | Value |
+|-----|--------|
+| id | 42 |
+
+Resulting path: `/users/42`
+
+**Query only** — Route has query meta `limit`, `offset`:
+
+| Key | Value |
+|-----|--------|
+| limit | 10 |
+| offset | 0 |
+
+Resulting URL suffix: `?limit=10&offset=0`
+
+**Path + query** — Path `/users/:id/posts`, query `limit`:
+
+| Key | Value |
+|-----|--------|
+| id | 1 |
+| limit | 5 |
+
+Resulting URL: `.../users/1/posts?limit=5`
