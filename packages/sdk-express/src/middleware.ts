@@ -1,6 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
 import { createLogger } from "@tracelet/core";
-import { randomUUID } from "crypto";
 
 interface TraceletExpressOptions {
   serviceName: string;
@@ -23,40 +22,39 @@ export function traceletMiddleware(options: TraceletExpressOptions) {
 
   return function (req: Request, res: Response, next: NextFunction) {
     const startTime = process.hrtime.bigint();
-    const requestId = randomUUID();
+    const tracingId = logger.createTracingId();
 
-    // attach requestId so user can access it
-    req.traceletRequestId = requestId;
+    req.traceletRequestId = tracingId;
+    req.traceletTracingId = tracingId;
     req.traceletLogger = logger;
 
     res.on("finish", () => {
+      const path = req.originalUrl.split("?")[0];
+      if (path === "/tracelet-docs" || path.startsWith("/tracelet-docs/")) {
+        return;
+      }
+
       const endTime = process.hrtime.bigint();
       const durationMs = Number(endTime - startTime) / 1_000_000;
-
       const route =
         req.route?.path || req.baseUrl + req.path || req.originalUrl;
+      const rawSize = res.getHeader("content-length");
+      const responseSize =
+        typeof rawSize === "string" || typeof rawSize === "number"
+          ? rawSize
+          : 0;
 
-      const responseSize = res.getHeader("content-length") || 0;
-
-      const logPayload = {
-        type: "http",
-        requestId,
+      logger.logHttp({
+        requestId: tracingId,
+        tracingId,
         method: req.method,
         route,
         statusCode: res.statusCode,
-        duration_ms: Math.round(durationMs),
+        durationMs,
         responseSize,
-        timestamp: new Date().toISOString(),
-      };
+      });
 
-      if (res.statusCode >= 500) {
-        logger.error(logPayload);
-      } else {
-        logger.info(logPayload);
-      }
-
-       // Collect route automatically
-       if (!collectedRoutes.some(r => r.method === req.method && r.path === route)) {
+      if (!collectedRoutes.some((r) => r.method === req.method && r.path === route)) {
         collectedRoutes.push({ method: req.method, path: route });
       }
     });

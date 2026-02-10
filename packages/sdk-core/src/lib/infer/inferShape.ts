@@ -1,4 +1,4 @@
-import { Shape } from "../types"
+import { Shape } from "../../types"
 
 export function inferShape(value: unknown): Shape {
   if (value === null) return "null"
