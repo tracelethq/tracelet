@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpenIcon, ChevronDownIcon, ChevronRightIcon, Code2Icon, FileTextIcon, BoxIcon } from "lucide-react";
+import { BookOpenIcon, ChevronDownIcon, ChevronRightIcon, Code2Icon, FileTextIcon, BoxIcon, FlaskConicalIcon } from "lucide-react";
 import { ExpressIcon } from "@/components/icons/express-icon";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -13,11 +13,16 @@ const navLinkClass =
   "flex items-center gap-2 rounded-md px-2 py-2 text-sm transition-colors w-full text-left";
 
 function isDocsGroup(meta: DocMeta): boolean {
-  return meta.slug[0] !== "sdk";
+  const first = meta.slug[0]
+  return first !== "sdk" && first !== "api-tester"
+}
+
+function isApiTesterGroup(meta: DocMeta): boolean {
+  return meta.slug[0] === "api-tester"
 }
 
 function isSdkGroup(meta: DocMeta): boolean {
-  return meta.slug[0] === "sdk";
+  return meta.slug[0] === "sdk"
 }
 
 /** Group SDK docs by sdk name (slug[1]: express, core, ...) then list pages. */
@@ -42,6 +47,7 @@ const SDK_LABELS: Record<string, string> = {
 function getIconForSlug(slug: string[]) {
   if (slug.length === 0) return FileTextIcon
   if (slug[0] === "developer") return Code2Icon
+  if (slug[0] === "api-tester") return FlaskConicalIcon
   if (slug[0] === "sdk" && slug[1] === "express") return ExpressIcon
   if (slug[0] === "sdk" && slug[1] === "core") return BoxIcon
   return BookOpenIcon
@@ -53,6 +59,7 @@ const subNavLinkClass =
 export function DocsNav({ mdxDocs = [] }: { mdxDocs?: DocMeta[] }) {
   const pathname = usePathname()
   const docsLinks = mdxDocs.filter(isDocsGroup)
+  const apiTesterLinks = mdxDocs.filter(isApiTesterGroup)
   const sdkLinks = mdxDocs.filter(isSdkGroup)
   const sdkByGroup = groupSdkDocs(sdkLinks)
 
@@ -109,7 +116,6 @@ export function DocsNav({ mdxDocs = [] }: { mdxDocs?: DocMeta[] }) {
             })}
           </ul>
         </div>
-
         <div>
           <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             SDK
@@ -168,6 +174,19 @@ export function DocsNav({ mdxDocs = [] }: { mdxDocs?: DocMeta[] }) {
             })}
           </ul>
         </div>
+        {apiTesterLinks.length > 0 && (
+          <div>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              API tester
+            </p>
+            <ul className="space-y-0.5">
+              {apiTesterLinks.map(({ href, title, slug }) => {
+                const isActive = pathname === href
+                return renderLink(href, title, getIconForSlug(slug), isActive)
+              })}
+            </ul>
+          </div>
+        )}
       </nav>
     </aside>
   )
