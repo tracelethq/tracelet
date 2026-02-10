@@ -6,6 +6,11 @@ import {
   type ApiDetailsPanelProps,
 } from "@/components/api-details-panel";
 import { EmptyRoutesState } from "@/components/empty-routes-state";
+import {
+  getStoredToken,
+  LoginForm,
+  setStoredToken,
+} from "@/components/login-form";
 import { ModeToggle } from "@/components/mode-toggle";
 import { RouteCommandPalette } from "@/components/route-command-palette";
 import { RoutesSidebar } from "@/components/routes-sidebar";
@@ -17,9 +22,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+} from "@/components/ui/dialog";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { useRouteInUrl } from "@/hooks/use-tracelet-persistence";
 import { flattenRoutesTree, type RouteMeta } from "@/types/route";
+
+const apiBase =
+  (import.meta.env.TRACELET_DOC_API_ROUTE as string | undefined) ?? "";
 
 export function RoutesPage() {
   const { getRouteFromUrl, setRouteInUrl } = useRouteInUrl();
@@ -29,47 +41,95 @@ export function RoutesPage() {
   const [selectedRoute, setSelectedRoute] = React.useState<RouteMeta | null>(
     null,
   );
+  const [authCheckDone, setAuthCheckDone] = React.useState(false);
+  const [authRequired, setAuthRequired] = React.useState(false);
+  const [token, setToken] = React.useState<string | null>(() =>
+    getStoredToken(),
+  );
 
-  const apiBase = (import.meta.env.TRACELET_DOC_API_ROUTE as string | undefined) ?? "";
-  const routesUrl = `${apiBase.replace(/\/$/, "")}/tracelet-docs?json=true`;
+  const baseUrl = apiBase.replace(/\/$/, "");
+  const checkAuthUrl = `${baseUrl}/tracelet-docs/check-auth`;
+  const authUrl = `${baseUrl}/tracelet-docs/auth`;
+  const routesUrl = `${baseUrl}/tracelet-docs?json=true`;
 
-  const fetchRoutes = React.useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch(routesUrl);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      const list = Array.isArray(data) ? data : [];
-      setRoutes(list);
-      const flat = flattenRoutesTree(list);
-      const urlRouteKey = getRouteFromUrl();
-      const urlRouteKeyDecoded = urlRouteKey
-        ? decodeURIComponent(urlRouteKey)
-        : null;
-      const fromUrl =
-        urlRouteKeyDecoded &&
-        flat.find(
-          (r: RouteMeta) => `${r.method}:${r.path}` === urlRouteKeyDecoded,
-        );
-      setSelectedRoute((prev) => {
-        if (fromUrl) return fromUrl;
-        const match =
-          prev &&
+  const fetchRoutes = React.useCallback(
+    async (authToken: string | null) => {
+      setLoading(true);
+      setError(null);
+      try {
+        const headers: Record<string, string> = {};
+        if (authToken) headers["Authorization"] = `Bearer ${authToken}`;
+        const res = await fetch(routesUrl, {
+          headers: Object.keys(headers).length ? headers : undefined,
+        });
+        if (res.status === 401) {
+          setStoredToken(null);
+          setToken(null);
+          setAuthRequired(true);
+          setRoutes(null);
+          setSelectedRoute(null);
+          setRouteInUrl(null);
+          return;
+        }
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        const list = Array.isArray(data) ? data : [];
+        setRoutes(list);
+        const flat = flattenRoutesTree(list);
+        const urlRouteKey = getRouteFromUrl();
+        const urlRouteKeyDecoded = urlRouteKey
+          ? decodeURIComponent(urlRouteKey)
+          : null;
+        const fromUrl =
+          urlRouteKeyDecoded &&
           flat.find(
-            (r: RouteMeta) => r.path === prev.path && r.method === prev.method,
+            (r: RouteMeta) => `${r.method}:${r.path}` === urlRouteKeyDecoded,
           );
-        return match ?? flat[0] ?? null;
-      });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to fetch routes");
-      setRoutes([]);
-      setSelectedRoute(null);
-      setRouteInUrl(null);
-    } finally {
-      setLoading(false);
-    }
-  }, [routesUrl, getRouteFromUrl]);
+        setSelectedRoute((prev) => {
+          if (fromUrl) return fromUrl;
+          const match =
+            prev &&
+            flat.find(
+              (r: RouteMeta) =>
+                r.path === prev.path && r.method === prev.method,
+            );
+          return match ?? flat[0] ?? null;
+        });
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : "Failed to fetch routes",
+        );
+        setRoutes([]);
+        setSelectedRoute(null);
+        setRouteInUrl(null);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [routesUrl, getRouteFromUrl],
+  );
+
+  React.useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch(checkAuthUrl);
+        const data = await res.json().catch(() => ({}));
+        if (!cancelled) {
+          setAuthRequired(Boolean(data.authRequired));
+          setAuthCheckDone(true);
+        }
+      } catch {
+        if (!cancelled) {
+          setAuthRequired(false);
+          setAuthCheckDone(true);
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [checkAuthUrl]);
 
   const handleSelectRoute = React.useCallback(
     (route: RouteMeta) => {
@@ -80,8 +140,10 @@ export function RoutesPage() {
   );
 
   React.useEffect(() => {
-    fetchRoutes();
-  }, [fetchRoutes]);
+    if (!authCheckDone) return;
+    if (authRequired && !token) return;
+    fetchRoutes(token);
+  }, [authCheckDone, authRequired, token, fetchRoutes]);
 
   const flatRoutes = React.useMemo(
     () => (routes ? flattenRoutesTree(routes) : []),
@@ -93,7 +155,13 @@ export function RoutesPage() {
 
   const handleRefresh = React.useCallback(() => {
     setPanelKey((k) => k + 1);
-    fetchRoutes();
+    fetchRoutes(token);
+  }, [fetchRoutes, token]);
+
+  const handleLoginSuccess = React.useCallback((newToken: string) => {
+    setToken(newToken || null);
+    if (newToken) fetchRoutes(newToken);
+    else fetchRoutes(null);
   }, [fetchRoutes]);
 
   // When route in URL no longer exists in fetched routes, sync URL to selected route
@@ -110,8 +178,35 @@ export function RoutesPage() {
     }
   }, [routes, flatRoutes, selectedRoute, getRouteFromUrl, setRouteInUrl]);
 
+  if (!authCheckDone) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="flex flex-col items-center gap-3 text-muted-foreground">
+          <Loader2Icon className="size-8 animate-spin" />
+          <p className="text-sm">Checking authentication…</p>
+        </div>
+      </div>
+    );
+  }
+
+  const showLoginDialog = authRequired && !token;
+
   return (
     <>
+      <Dialog open={showLoginDialog}>
+        <DialogContent
+          className="sm:max-w-sm"
+          showCloseButton={false}
+          onPointerDownOutside={(e) => e.preventDefault()}
+          onEscapeKeyDown={(e) => e.preventDefault()}
+        >
+          <LoginForm
+            embedded
+            authUrl={authUrl}
+            onSuccess={handleLoginSuccess}
+          />
+        </DialogContent>
+      </Dialog>
       <RoutesSidebar
         routes={routes ?? []}
         selectedRoute={selectedRoute}
@@ -156,7 +251,7 @@ export function RoutesPage() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <Button variant="outline" onClick={fetchRoutes}>
+                    <Button variant="outline" onClick={() => fetchRoutes(token)}>
                       <RefreshCwIcon className="size-4" />
                       Retry
                     </Button>
