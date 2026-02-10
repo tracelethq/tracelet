@@ -6,8 +6,38 @@ export interface ParamRow {
   value: string
   type: string
   enabled: boolean
-  /** For type "File": the selected file (not persisted when saving per-route state). */
+  /** For type "File": the selected file(s). Not persisted when saving per-route state. */
   file?: File | null
+  /** For type "File" when multiple allowed: selected files (takes precedence over file if length > 0). */
+  files?: File[]
+  /** For type "File": accepted types (e.g. "image/*", ".pdf"). From route request property. */
+  fileAccept?: string
+  /** For type "File": max number of files (default 1). From route request property. */
+  fileMaxFiles?: number
+}
+
+/**
+ * Normalize incoming schema/meta "type" strings to the canonical UI labels used by `ParamsTable`.
+ * This keeps the UI working even if route meta uses variants like "date-time" or lower-cased primitives.
+ */
+export function canonicalParamRowType(type: string | undefined): string {
+  const raw = typeof type === "string" ? type.trim() : ""
+  const t = raw.toLowerCase()
+
+  // Datelike
+  if (t === "date") return "Date"
+  if (t === "datetime" || t === "date-time" || t === "date_time") return "DateTime"
+
+  // Common primitives
+  if (t === "string") return "String"
+  if (t === "boolean" || t === "bool") return "Boolean"
+  if (t === "number" || t === "integer" || t === "int" || t === "float" || t === "double") return "Number"
+
+  // File
+  if (t === "file") return "File"
+
+  // Keep unknowns as-is (fallback to String for empty)
+  return raw || "String"
 }
 
 /** OpenAPI-style schema property (object shape) */
@@ -16,6 +46,8 @@ type SchemaProperty = {
   description?: string
   enum?: readonly string[]
   required?: boolean
+  accept?: string
+  maxFiles?: number
 }
 
 /**
@@ -38,6 +70,8 @@ export function normalizeRequestBody(
     desc: s && typeof s === "object" && typeof s.description === "string" ? s.description : undefined,
     enum: s && typeof s === "object" && Array.isArray(s.enum) ? s.enum : undefined,
     required: s && typeof s === "object" && s.required === true,
+    accept: s && typeof s === "object" && typeof s.accept === "string" ? s.accept : undefined,
+    maxFiles: s && typeof s === "object" && typeof s.maxFiles === "number" ? s.maxFiles : undefined,
   }))
 }
 
@@ -70,13 +104,22 @@ export function rowsFromProperties(
   properties: RouteProperty[] | undefined
 ): ParamRow[] {
   if (!properties || properties.length === 0) return []
-  return properties.map((p) => ({
-    id: crypto.randomUUID(),
-    key: p.name,
-    value: "",
-    type: p.type === "enum" && p.enum?.length ? "String" : p.type || "String",
-    enabled: true,
-  }))
+  return properties.map((p) => {
+    const canonicalType =
+      p.type === "enum" && p.enum?.length ? "String" : canonicalParamRowType(p.type)
+    const isFile = canonicalType.toLowerCase() === "file"
+    return {
+      id: crypto.randomUUID(),
+      key: p.name,
+      value: "",
+      type: canonicalType,
+      enabled: true,
+      ...(isFile && {
+        fileAccept: p.accept,
+        fileMaxFiles: p.maxFiles != null && p.maxFiles >= 1 ? p.maxFiles : 1,
+      }),
+    }
+  })
 }
 
 /** Build sample request body as JSON string (keys from request properties, values empty string). */
