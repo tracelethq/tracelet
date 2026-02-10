@@ -7,6 +7,7 @@ import { defineConfig, type PluginOption } from "vite"
 export default defineConfig({
   base: "/tracelet-docs/",
   plugins: [react(), tailwindcss()] as PluginOption[],
+  envPrefix: "TRACELET_DOC_",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
