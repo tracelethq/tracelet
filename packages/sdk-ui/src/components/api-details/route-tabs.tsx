@@ -184,9 +184,15 @@ export function RouteTabs({
                 {bodyContentTypeFromMeta || bodyHasFiles ? (
                   <span
                     className="rounded bg-muted px-2 py-0.5 font-mono"
-                    title={bodyHasFiles ? "Form data required when files are present" : "Set by API meta"}
+                    title={
+                      bodyHasFiles
+                        ? "Form data required when files are present"
+                        : "Set by API meta"
+                    }
                   >
-                    {bodyContentType === "application/json" ? "JSON" : "Form data"}
+                    {bodyContentType === "application/json"
+                      ? "JSON"
+                      : "Form data"}
                   </span>
                 ) : (
                   <Select
@@ -200,7 +206,9 @@ export function RouteTabs({
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="application/json">JSON</SelectItem>
-                      <SelectItem value="multipart/form-data">Form data</SelectItem>
+                      <SelectItem value="multipart/form-data">
+                        Form data
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 )}
@@ -248,27 +256,27 @@ export function RouteTabs({
         minSize={20}
         className="flex min-h-0 flex-col overflow-hidden"
       >
-        <div className="min-h-0 flex-1 overflow-auto">
-          <Tabs
-            value={activeTab}
-            onValueChange={(v) => onTabChange(v as ApiTabValue)}
-            className="flex min-h-0 flex-1 flex-col overflow-hidden"
-          >
-            <TabsList className="h-9 w-full justify-start rounded-none border-b border-border bg-transparent p-0">
-              {visibleTabs.map((tab) => (
-                <TabsTrigger key={tab.id} value={tab.id} className={TAB_CLASS}>
-                  {tab.label}
-                </TabsTrigger>
-              ))}
-            </TabsList>
+        <Tabs
+          value={activeTab}
+          onValueChange={(v) => onTabChange(v as ApiTabValue)}
+          className="flex min-h-0 flex-1 flex-col overflow-hidden"
+        >
+          <TabsList className="h-9 w-full justify-start rounded-none border-b border-border bg-transparent p-0">
+            {visibleTabs.map((tab) => (
+              <TabsTrigger key={tab.id} value={tab.id} className={TAB_CLASS}>
+                {tab.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
 
+          <div className="min-h-0 flex-1 overflow-auto pb-4">
             {visibleTabs.map((tab) => (
               <TabsContent key={tab.id} value={tab.id} className={contentClass}>
                 {renderTabContent(tab.id)}
               </TabsContent>
             ))}
-          </Tabs>
-        </div>
+          </div>
+        </Tabs>
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel
