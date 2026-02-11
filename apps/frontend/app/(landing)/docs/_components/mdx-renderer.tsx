@@ -3,12 +3,39 @@
 import * as React from "react"
 import Link from "next/link"
 import { MDXRemote, type MDXRemoteSerializeResult } from "next-mdx-remote"
-import { BookOpenIcon, Code2Icon, BoxIcon } from "lucide-react"
+import { BookOpenIcon, Code2Icon, BoxIcon, LampDesk, FlaskConicalIcon, FileTextIcon, FileBracesCornerIcon, FingerprintIcon, HeadingIcon } from "lucide-react"
 import { CodeBlock } from "@/components/code-block"
 import { ExpressIcon } from "@/components/icons/express-icon"
 import { cn } from "@/lib/utils"
 
 type CodeProps = { className?: string; children?: React.ReactNode }
+
+
+export function getIconForMeta(icon: string="book"): React.ComponentType<{ className?: string }> {
+  const icons:Record<string, React.ComponentType<{ className?: string }>> = {
+    book: BookOpenIcon,
+    express: ExpressIcon,
+    box: BoxIcon,
+    code: Code2Icon,
+    lamp: LampDesk,
+    flask: FlaskConicalIcon,
+    introduction: BookOpenIcon,
+    developer: Code2Icon,
+    "api-explorer": FlaskConicalIcon,
+    sdk: BoxIcon,
+    "sdk-express": ExpressIcon,
+    "sdk-core": BoxIcon,
+    "sdk-python": FlaskConicalIcon,
+    "sdk-java": Code2Icon,
+    file: FileTextIcon,
+    core: BoxIcon,
+    bracesFile: FileBracesCornerIcon,
+    header: HeadingIcon,
+    auth: FingerprintIcon,
+  }
+
+  return icons[icon] ?? <></>
+}
 
 function slugifyHeading(children: React.ReactNode): string {
   const text = typeof children === "string"
@@ -70,16 +97,17 @@ function DocCard({
   href: string
   title: string
   description: string
-  icon?: "code" | "book" | "express" | "box"
+  icon?: string
 }) {
-  const Icon =
-    icon === "book"
-      ? BookOpenIcon
-      : icon === "express"
-        ? ExpressIcon
-        : icon === "box"
-          ? BoxIcon
-          : Code2Icon
+  const icons:Record<string, React.ComponentType<{ className?: string }>> = {
+    book: BookOpenIcon,
+    express: ExpressIcon,
+    box: BoxIcon,
+    code: Code2Icon,
+    lamp: LampDesk,
+    flask: FlaskConicalIcon,
+  }
+  const Icon = icons[icon]
   return (
     <Link
       href={href}

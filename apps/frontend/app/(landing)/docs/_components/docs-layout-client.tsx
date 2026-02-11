@@ -11,7 +11,7 @@ export function DocsLayoutClient({
   mdxDocs?: DocMeta[]
 }) {
   return (
-    <div className="mx-auto flex w-full max-w-6xl gap-12 px-4 py-10">
+    <div className="mx-auto flex w-full max-w-6xl gap-12 px-4">
       <DocsNav mdxDocs={mdxDocs} />
       <main className="min-w-0 flex-1 flex gap-12">
         {children}

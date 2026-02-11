@@ -1,0 +1,71 @@
+---
+title: Details tab
+description: "What the Details tab shows in the API tester: route description, parameters, and expected response types from route meta."
+icon: lamp
+order: 0
+---
+
+## Details tab
+
+The **Details** tab in the API tester shows the **documentation for the current route** — everything that comes from route meta (in code or `tracelet.doc.json`). Use it to see the route description, parameters, and expected response shapes before or after sending a request.
+
+![API tester Details tab – route description, parameters, and response types](/screenshots/details-tab.png)
+
+### What you see
+
+| Section | Description |
+|--------|-------------|
+| **Route description** | The `description` from route meta: what the endpoint does (e.g. "Get a user by ID", "Create a new order"). |
+| **Parameters** | Path and query parameters: name, type, required/optional, and a short description. Matches what you fill in the [Params](/docs/api-explorer/params) tab. |
+| **Response types** | Expected response shapes from route meta (e.g. 200 vs 400). Each status can list properties (name, type, description). This is the *documented* shape, not the live response — the **Response** panel shows the actual body after you click **Send**. |
+
+### How route meta drives the response section: `responses`
+
+The **Response types** section in the Details tab comes from the **`responses`** field in route meta. It describes the expected response **per status code**, so you can see what the API is supposed to return for 200, 201, 400, 404, etc.
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `status` | `number` | Yes | HTTP status code (e.g. 200, 201, 404). |
+| `description` | `string` | No | Description of this response. |
+| `properties` | `TraceletProperty[]` | No | List of properties in the response body. |
+
+### TraceletProperty
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | `string` | Yes | Property name. |
+| `type` | `string` | Yes | Type name: e.g. `"string"`, `"number"`, `"boolean"`, `"object"`, `"array"`, `"enum"`, `"file"`. |
+| `desc` | `string` | No | Human-readable description. |
+| `required` | `boolean` | No | Whether the field is required. |
+| `enum` | `string[]` | No | When `type` is `"enum"`, the list of allowed values. |
+| `accept` | `string` | No | When `type` is `"file"`: allowed file types (e.g. `"image/*"`, `".pdf"`, `"application/json"`). Same as HTML `input` [accept](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#accept). |
+| `maxFiles` | `number` | No | When `type` is `"file"`: maximum number of files (default `1`). Use `> 1` to allow multiple file upload in the Try-it UI. |
+
+This is **documentation only** — it does not change what the server actually returns. After you click **Send**, the **Response** panel shows the real status, body, and headers. Use the Details tab to compare: e.g. "the docs say 200 returns `id`, `email`, `name`; did the live response include all of them?"
+
+**Example in route meta (JSON):**
+
+```json
+{
+  "method": "GET",
+  "path": "/users/:id",
+  "responses": [
+    {
+      "status": 200,
+      "description": "User object",
+      "properties": [
+        { "name": "id", "type": "string", "desc": "User ID" },
+        { "name": "email", "type": "string", "desc": "Email address" },
+        { "name": "name", "type": "string", "desc": "Display name" }
+      ]
+    },
+    {
+      "status": 404,
+      "description": "User not found",
+      "properties": []
+    }
+  ]
+}
+```
+
+With this meta, the Details tab shows **Response types** for 200 (with `id`, `email`, `name`) and 404 (with no properties). The actual response body is always shown in the **Response** panel after you send a request.

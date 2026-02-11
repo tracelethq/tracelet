@@ -1,0 +1,92 @@
+---
+title: Params tab
+description: "How to fill path and query parameters in the API tester: Params tab, supported types, and how they're sent in the URL."
+---
+
+## Params tab
+
+The **Params** tab in the API tester is where you set **path** and **query** parameters for the current route. Values you enter here are substituted into the URL (path params) or appended as the query string (query params) when you click **Send**.
+
+![API tester Params tab – path and query parameters](/screenshots/params-tab.png)
+
+### Path vs query parameters
+
+| Kind | Where they go | Example |
+|------|----------------|--------|
+| **Path params** | Replaced inside the route path | Path `/users/:id` → you fill `id` → request goes to `/users/42` |
+| **Query params** | Appended after `?` as key-value pairs | You add `limit=10` and `offset=0` → URL gets `?limit=10&offset=0` |
+
+Path parameters come from placeholders in the route path (e.g. `:id`, `:slug`). Query parameters are optional key-value pairs; you add or remove them in the Params tab. Both are defined in route meta (in code or `tracelet.doc.json`). The [Details](/docs/api-explorer/details) tab shows the same list in read-only form.
+
+### How route meta drives the Params tab: `params` and `query`
+
+The Params tab is populated from **route meta**. Two fields define what you see:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| **`params`** | Array of properties | **Path** parameter schema. Each item describes one path placeholder (e.g. `:id` → `{ name: "id", type: "string", required: true }`). Names must match the placeholders in the route `path`. The Params tab shows these as path params; values you enter are substituted into the URL. |
+| **`query`** | Array of properties | **Query** parameter schema. Each item describes one query key (name, type, description, required). The Params tab shows these as query params; values are appended as `?key=value&...`. You can often add extra query keys in the UI even if they’re not in meta. |
+
+Each property uses the same shape as elsewhere: `name`, `type` (e.g. string, number, boolean), `desc`, `required`, and for enums `enum` (list of allowed values).
+
+**Example in route meta (JSON):**
+
+```json
+{
+  "method": "GET",
+  "path": "/users/:id",
+  "description": "Get a user by ID",
+  "params": [
+    { "name": "id", "type": "string", "required": true, "desc": "User UUID" }
+  ],
+  "query": [
+    { "name": "fields", "type": "string", "desc": "Comma-separated fields to return" }
+  ]
+}
+```
+
+With this meta, the Params tab shows one **path** param (`id`) and one **query** param (`fields`). Filling `id` with `42` and `fields` with `name,email` produces the URL `/users/42?fields=name,email`.
+
+### Params and query schema: TraceletProperty
+
+Each item in the **`params`** (path) and **`query`** arrays in route meta uses this shape. Same schema as in the Express [Usage](/docs/sdk/express/usage) doc.
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | `string` | Yes | Property name. |
+| `type` | `string` | Yes | Type name: e.g. `"string"`, `"number"`, `"boolean"`, `"object"`, `"array"`, `"enum"`, `"file"`. |
+| `desc` | `string` | No | Human-readable description. |
+| `required` | `boolean` | No | Whether the field is required. |
+| `enum` | `string[]` | No | When `type` is `"enum"`, the list of allowed values. |
+| `accept` | `string` | No | When `type` is `"file"`: allowed file types (e.g. `"image/*"`, `".pdf"`, `"application/json"`). Same as HTML `input` [accept](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#accept). |
+| `maxFiles` | `number` | No | When `type` is `"file"`: maximum number of files (default `1`). Use `> 1` to allow multiple file upload in the Try-it UI. |
+
+### What you see and do
+
+| Column / control | Description |
+|------------------|-------------|
+| **Name** | Parameter name (from route meta). Path params are fixed; for query params you can add custom keys. |
+| **Value** | What you type. For path params this is required when the param is required; for query params empty means the param is omitted from the URL. |
+| **Type** | Shown from meta when available (e.g. string, number, boolean). Affects how the value is sent (e.g. numbers unquoted in query). |
+| **Required** | When set in meta, required params are marked; the UI may prevent sending until required path params are filled. |
+
+### Supported types
+
+Common types from route meta include:
+
+- **string** — Sent as-is; query params are URL-encoded.
+- **number** — Sent as a numeric value (e.g. `42` in the query string, not `"42"`).
+- **boolean** — Typically sent as `true` or `false` in the query string.
+
+If no type is specified in meta, the value is treated as a string. The exact format (e.g. for arrays or objects in query) depends on your API; the tester sends a single value per query key unless the UI supports multiple values for the same key.
+
+### Example
+
+For **GET** `/users/:id` with an optional query param `fields`:
+
+1. Open the **Params** tab.
+2. **Path:** set `id` to `42` → URL path becomes `/users/42`.
+3. **Query:** add `fields` with value `name,email` → URL becomes `/users/42?fields=name,email`.
+4. Click **Send**; the request uses that full URL.
+
+See [Request](/docs/api-explorer/request) for how the full request (URL, method, body, headers) is built and sent.
