@@ -1,0 +1,47 @@
+---
+title: Authorization tab
+description: "How to set auth in the API tester: Authorization tab, Bearer, Basic, and API key."
+icon: auth
+---
+
+## Authorization tab
+
+The **Authorization** tab in the API tester is where you set **how the request is authenticated**. Options usually include **Bearer** token, **Basic** auth, and **API key** (header or query). What you choose here is sent in the `Authorization` header (or as a custom header/query param for API key) when you click **Send**.
+
+![API tester Authorization tab – Bearer, Basic, API key](/screenshots/authorization-tab.png)
+
+### What you see and do
+
+| Option      | Description                                                                                                          |
+| ----------- | -------------------------------------------------------------------------------------------------------------------- |
+| **None**    | No auth; `Authorization` header is not set.                                                                          |
+| **Bearer**  | Token-based auth. You enter a token; the tester sends `Authorization: Bearer <token>`.                               |
+| **Basic**   | Username and password. The tester encodes them in Base64 and sends `Authorization: Basic <encoded>`.                 |
+| **API key** | Key in a header (e.g. `X-API-Key`) or query parameter. You choose name and value; the tester adds it to the request. |
+
+If the docs UI is protected (e.g. login required), you may need to sign in first; the Authorization tab then lets you override or add auth for the **Try it** requests.
+
+### Bearer token
+
+- Enter the token (e.g. JWT or OAuth access token) in the field provided.
+- The request is sent with: `Authorization: Bearer <your-token>`.
+- Do not type the word "Bearer"; the UI adds it.
+
+### Basic auth
+
+- Enter **username** and **password**.
+- The tester builds `Base64(username:password)` and sends: `Authorization: Basic <encoded>`.
+
+### API key
+
+- Choose where to send the key: **Header** or **Query**.
+- **Header:** set the header name (e.g. `X-API-Key`, `Api-Key`) and the key value. The tester adds that header.
+- **Query:** set the parameter name (e.g. `api_key`, `key`) and the value. The tester appends it to the URL query string.
+
+### Example (Bearer)
+
+1. Open the **Authorization** tab.
+2. Select **Bearer** and paste your JWT or access token.
+3. Click **Send**. The request includes `Authorization: Bearer <token>`.
+
+For custom headers that are not auth (e.g. `X-Request-ID`), use the [Headers](/docs/api-explorer/headers) tab. See [Request](/docs/api-explorer/request) for how the full request is built and sent.

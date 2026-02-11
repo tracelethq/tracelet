@@ -28,14 +28,18 @@ export default async function DocMdxPage({ params }: PageProps) {
     (slugArray.length > 0 ? slugArray[slugArray.length - 1] : "Documentation") ??
     "Docs"
   const description = frontmatter.description
-  const sections = frontmatter.sections ?? []
+  const titleId =
+    slugArray.length > 0 ? slugArray.join("-") : "documentation"
 
   return (
     <div className="flex w-full min-w-0 gap-8">
-      <article className="min-w-0 flex-1">
+      <article className="min-w-0 flex-1 py-10">
         <div className="space-y-12">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-foreground">
+            <h1
+              id={titleId}
+              className="text-2xl font-bold tracking-tight text-foreground"
+            >
               {title}
             </h1>
             {description && (
@@ -45,9 +49,7 @@ export default async function DocMdxPage({ params }: PageProps) {
           <MdxRenderer source={source} />
         </div>
       </article>
-      {sections.length > 0 ? (
-        <DocPageToc sections={sections} className="min-w-52 shrink-0" />
-      ) : null}
+      <DocPageToc className="min-w-52 shrink-0" />
     </div>
   )
 }
