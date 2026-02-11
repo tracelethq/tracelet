@@ -1,19 +1,6 @@
 ---
 title: Usage
 description: "What is meta (TraceletMeta), how to configure tracelet.doc.json, and full schema reference for the Express docs UI."
-sections:
-  - id: what-is-meta
-    label: What is meta?
-  - id: providing-meta
-    label: Providing meta (code vs file)
-  - id: tracelet-doc-json
-    label: Configuring tracelet.doc.json
-  - id: schema-reference
-    label: Schema reference
-  - id: merging
-    label: How meta is merged
-  - id: full-example
-    label: Full example
 ---
 
 ## What is meta?
@@ -28,7 +15,7 @@ You can provide meta in two ways: **in code** (pass an array to `traceletDoc(app
 
 ---
 
-## Providing meta (code vs file)
+## Providing meta
 
 | Source | When to use |
 |--------|-------------|
@@ -117,7 +104,7 @@ The docs UI will show these routes with descriptions, params, and request/respon
 
 ## Schema reference
 
-### TraceletMeta (one route)
+### TraceletMeta
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
@@ -132,7 +119,7 @@ The docs UI will show these routes with descriptions, params, and request/respon
 | `tags` | `string[]` | No | Tags for grouping or filtering (e.g. `["users", "admin"]`). |
 | `routes` | `TraceletMeta[]` | No | Nested routes; child `path` is resolved relative to this route’s path. |
 
-### TraceletProperty (one field in request/query/params or inside a response)
+### TraceletProperty
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
@@ -144,7 +131,7 @@ The docs UI will show these routes with descriptions, params, and request/respon
 | `accept` | `string` | No | When `type` is `"file"`: allowed file types (e.g. `"image/*"`, `".pdf"`, `"application/json"`). Same as HTML `input` [accept](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#accept). |
 | `maxFiles` | `number` | No | When `type` is `"file"`: maximum number of files (default `1`). Use `> 1` to allow multiple file upload in the Try-it UI. |
 
-### TraceletResponseProperty (one response variant)
+### TraceletResponseProperty
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|

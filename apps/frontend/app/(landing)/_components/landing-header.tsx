@@ -26,7 +26,7 @@ export function LandingHeader() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/80 bg-background/80 shadow-sm shadow-black/5 backdrop-blur-md supports-backdrop-filter:bg-background/70 dark:border-border/60 dark:shadow-black/10">
+    <header className="sticky top-0 z-50 border-b border-border/80 bg-background/80 shadow-sm shadow-black/5 backdrop-blur-md supports-backdrop-filter:bg-background/70 dark:border-border/60 dark:shadow-black/10 h-(--landing-nav-height)">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-4 px-4 sm:h-16 sm:px-6">
         <div className="flex items-center gap-6 sm:gap-8">
           <Link

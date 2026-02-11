@@ -1,0 +1,49 @@
+---
+title: Introduction
+description: What Tracelet is and why it exists—request-level visibility and live API docs with minimal setup.
+order: 0
+icon: introduction
+---
+
+<p align="center">
+  <img src="/logo.png" alt="Tracelet logo" width="160" />
+</p>
+
+Tracelet helps backend developers get **request-level visibility** and **live API documentation** in minutes, without heavy observability setup or external services.
+
+## What is Tracelet?
+
+Tracelet is a **runtime API observability layer** for Node.js backends (starting with Express). It gives you:
+
+- **Structured logging** – Request IDs, tracing IDs, method, route, status, duration, and response size. All created and formatted in one place so framework code stays thin.
+- **Live API docs** – One JSON config (or in-code meta) and you get documentation that stays in sync with your routes: params, request body, response types.
+- **Try it in the browser** – Send real requests, edit params, headers, and body, and see responses in the UI. No Postman required for day-to-day debugging or sharing with your team.
+- **Lightweight** – No external services. Run the docs UI locally or mount it under a path like `/tracelet-docs`. Optional JWT auth keeps the docs private when you need it.
+
+Everything is driven from **your running application**—same source of truth for code, logs, and docs.
+
+## Key features
+
+- **Logging & tracking** – Log HTTP requests with route context, payload shapes, and response status. The core Logger creates request/tracing IDs and handles formatting (dev vs prod, JSON vs readable).
+- **Route metadata** – Describe your API with a simple structure: method, path, request/response properties, query and path params. Merge file-based meta with in-code meta; the SDK resolves nested routes and full paths.
+- **Built-in docs UI** – Routes sidebar, API details panel with Params, Body, Headers, Authorization, and Response. Persist choices per route and try different content types.
+- **Optional auth** – When `TRACELET_DOC_USERNAME` and `TRACELET_DOC_PASSWORD` are set, the docs UI shows a login dialog and uses JWT for the docs endpoints only (not for your API routes).
+
+## See it in action
+
+The Tracelet docs UI gives you a route list and a details panel where you can edit inputs and send requests.
+
+![Tracelet docs UI – routes sidebar and API details](/docs-sample.png)
+
+
+## Optional auth
+
+When you set `TRACELET_DOC_USERNAME` and `TRACELET_DOC_PASSWORD`, the docs UI shows a sign-in dialog before allowing access. Auth uses JWT and applies only to the docs endpoints (e.g. the routes list); your API routes are unchanged.
+
+![Tracelet docs login – sign-in dialog when auth is required](/screenshots/login-screen.png)
+
+*Sign-in dialog overlay when docs auth is enabled.*
+
+From here you can explore the [Express SDK](/docs/sdk/express/get-started) to add Tracelet to your app, or the [Core SDK](/docs/sdk/core/get-started) if you only need logging and metadata without the docs UI.
+
+*Routes sidebar and API details with params, body, and response.*
