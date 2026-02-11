@@ -27,7 +27,7 @@ export function getIconForMeta(icon: string="book"): React.ComponentType<{ class
     "sdk-core": BoxIcon,
     "sdk-python": FlaskConicalIcon,
     "sdk-java": Code2Icon,
-    "sdk-javascript": FileTextIcon,
+    file: FileTextIcon,
     core: BoxIcon,
     bracesFile: FileBracesCornerIcon,
     header: HeadingIcon,
