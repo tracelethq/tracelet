@@ -1,0 +1,73 @@
+---
+title: Body tab
+description: "How to fill the request body in the API tester: Body tab, JSON vs form data, and fields from route meta."
+icon: bracesFile
+---
+
+## Body tab
+
+The **Body** tab in the API tester is where you set the **request body** for the current route. It appears when the route supports a body (e.g. **POST**, **PUT**, **PATCH**) and has request body schema in route meta (in code or `tracelet.doc.json`). What you enter here is sent as the HTTP body when you click **Send**.
+
+![API tester Body tab – request body fields and content type](/screenshots/body-tab.png)
+
+### When the Body tab appears
+
+- The route method typically allows a body (e.g. POST, PUT, PATCH).
+- Route meta includes a **request** (or equivalent) schema: a list of body properties (name, type, required, description).
+
+If the route has no request schema, the Body tab may be hidden or empty. The [Details](/docs/api-explorer/details) tab shows the same request shape in read-only form when it’s defined in meta.
+
+### How route meta drives the Body tab: `requestContentType` and `request`
+
+The Body tab is populated from **route meta** (in code or `tracelet.doc.json`). Two fields control what you see and the default content type:
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `requestContentType` | `"application/json"` \| `"multipart/form-data"` | No | Preferred request body type for the Try-it UI. When set, the UI uses it; otherwise the user can choose (JSON or Form data) and the choice is remembered per route for the session. |
+| `request` | `TraceletProperty[]` | No | Request body schema: list of properties (name, type, desc, required, enum). |
+
+### TraceletProperty
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | `string` | Yes | Property name. |
+| `type` | `string` | Yes | Type name: e.g. `"string"`, `"number"`, `"boolean"`, `"object"`, `"array"`, `"enum"`, `"file"`. |
+| `desc` | `string` | No | Human-readable description. |
+| `required` | `boolean` | No | Whether the field is required. |
+| `enum` | `string[]` | No | When `type` is `"enum"`, the list of allowed values. |
+| `accept` | `string` | No | When `type` is `"file"`: allowed file types (e.g. `"image/*"`, `".pdf"`, `"application/json"`). Same as HTML `input` [accept](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#accept). |
+| `maxFiles` | `number` | No | When `type` is `"file"`: maximum number of files (default `1`). Use `> 1` to allow multiple file upload in the Try-it UI. |
+
+**Example in route meta (JSON):**
+
+```json
+{
+  "method": "POST",
+  "path": "/users",
+  "requestContentType": "application/json",
+  "request": [
+    { "name": "email", "type": "string", "required": true, "desc": "User email" },
+    { "name": "name", "type": "string", "desc": "Display name" }
+  ]
+}
+```
+
+With this meta, the Body tab shows **application/json** by default and two fields — `email` (required) and `name`. You can still switch to **multipart/form-data** in the UI if the API supports it.
+
+### Example (JSON)
+
+For **POST** `/users` with a body schema `email` (required), `name` (optional):
+
+1. Open the **Body** tab and choose **application/json**.
+2. Set `email` to `alice@example.com` and `name` to `Alice`.
+3. Click **Send**. The request body is sent as `{"email":"alice@example.com","name":"Alice"}` with `Content-Type: application/json`.
+
+### Example (form data)
+
+For a route that accepts **multipart/form-data** (e.g. file upload plus a title):
+
+1. Choose **multipart/form-data** in the Body tab.
+2. Fill the text field(s) (e.g. `title`) and attach file(s) if the UI supports file inputs.
+3. Click **Send**. The body is sent as multipart parts; the server receives fields and files accordingly.
+
+The Body tab only affects the request body. URL (path and query) is set in the [Params](/docs/api-explorer/params) tab; headers and auth are set in the **Headers** and **Authorization** tabs. See [Request](/docs/api-explorer/request) for how the full request is built and sent.

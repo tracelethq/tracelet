@@ -1,0 +1,44 @@
+---
+title: Headers tab
+description: "How to set HTTP request headers in the API tester: Headers tab, common headers, and how they're sent."
+icon: header
+---
+
+## Headers tab
+
+The **Headers** tab in the API tester is where you add or edit **HTTP request headers** for the current route. Headers you set here are sent with every request when you click **Send**. Use it for `Accept`, `X-Custom-Header`, or any header your API expects (except `Authorization`, which has its own tab).
+
+![API tester Headers tab – request headers](/screenshots/headers-tab.png)
+
+### What you see and do
+
+| Column / control | Description |
+|------------------|-------------|
+| **Name** | Header name (e.g. `Accept`, `X-Request-ID`). Usually case-insensitive; many servers normalize to Title-Case. |
+| **Value** | Header value. No quotes; sent as-is. Empty value can mean the header is omitted or sent with an empty value depending on the UI. |
+| **Add / remove** | Add a new row for a header; remove rows you don’t need. |
+
+Some headers may be **read-only** or **auto-set**: for example, `Content-Type` is often set from the [Body](/docs/api-explorer/body) tab when you choose JSON or form data. The Headers tab may show it for reference or let you override it.
+
+### Common headers
+
+| Header | Typical use |
+|--------|-------------|
+| **Accept** | Response format you want (e.g. `application/json`, `text/html`). |
+| **Accept-Language** | Preferred language for response content. |
+| **X-Request-ID** | Idempotency or tracing; your API may require or log it. |
+| **X-API-Key** | Custom API key (if not using the [Authorization](/docs/api-explorer/authorization) tab). |
+| **Content-Type** | Request body type; often set automatically from the Body tab. |
+
+You can add any header your API documents. The tester sends each non-empty header in the HTTP request.
+
+### Example
+
+To send `Accept: application/json` and `X-Request-ID: my-id-123`:
+
+1. Open the **Headers** tab.
+2. Add a row with name `Accept` and value `application/json`.
+3. Add a row with name `X-Request-ID` and value `my-id-123`.
+4. Click **Send**; both headers are included in the request.
+
+For **Authorization** (Bearer token, Basic auth, API key), use the [Authorization](/docs/api-explorer/authorization) tab so the tester can apply it correctly (e.g. `Authorization: Bearer <token>`). See [Request](/docs/api-explorer/request) for how the full request is built.
