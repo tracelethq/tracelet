@@ -1,8 +1,6 @@
 import { getDocSlugs } from "@/lib/docs-mdx"
 import { DocsLayoutClient } from "./_components/docs-layout-client"
 
-export const dynamic = "force-dynamic"
-
 export default function DocsLayout({
   children,
 }: {

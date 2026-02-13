@@ -14,6 +14,9 @@ export function generateStaticParams() {
   return params
 }
 
+/** Only serve pre-built doc paths; 404 for any other slug */
+export const dynamicParams = false
+
 export default async function DocMdxPage({ params }: PageProps) {
   const { slug } = await params
   const slugArray = slug ?? []
