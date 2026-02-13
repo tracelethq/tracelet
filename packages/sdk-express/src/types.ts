@@ -9,7 +9,7 @@ declare global {
     interface Request {
       traceletRequestId?: string;
       traceletTracingId?: string;
-      traceletLogger?: Logger;
+      traceletLogger: Logger;
     }
   }
 }
