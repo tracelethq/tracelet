@@ -32,26 +32,8 @@ function extractHeadingsFromDom(asideEl: HTMLElement | null): TocEntry[] {
   return entries
 }
 
-/** Top offset (e.g. header height); headings above this are not considered in view */
-const VIEW_TOP_OFFSET = 120
-/** Bottom margin; heading is in view if it's above (viewport height - this) */
-const VIEW_BOTTOM_OFFSET = 80
-
-function getVisibleIdsFromScroll(toc: TocEntry[]): Set<string> {
-  const visible = new Set<string>()
-  if (toc.length === 0) return visible
-  const viewTop = VIEW_TOP_OFFSET
-  const viewBottom = typeof window !== "undefined" ? window.innerHeight - VIEW_BOTTOM_OFFSET : Infinity
-  for (let i = 0; i < toc.length; i++) {
-    const el = document.getElementById(toc[i].id)
-    if (!el) continue
-    const rect = el.getBoundingClientRect()
-    const top = rect.top
-    const bottom = rect.bottom
-    if (bottom >= viewTop && top <= viewBottom) visible.add(toc[i].id)
-  }
-  return visible
-}
+/** Root margin: top (header) and bottom; headings within viewport minus these are visible */
+const ROOT_MARGIN = "-120px 0px -80px 0px"
 
 export function DocPageToc({ className }: DocPageTocProps) {
   const [toc, setToc] = React.useState<TocEntry[]>([])
@@ -69,37 +51,48 @@ export function DocPageToc({ className }: DocPageTocProps) {
     return () => cancelAnimationFrame(t)
   }, [])
 
-  // Scroll-based: collect all heading ids that are currently in view; keep last when none
+  // IntersectionObserver: detects visible headings regardless of scroll container (window vs overflow div)
   React.useEffect(() => {
     if (toc.length === 0) return
-    const update = () => {
-      const next = getVisibleIdsFromScroll(toc)
+    const visible = new Set<string>()
+    const updateVisible = () => {
+      const next = new Set(visible)
+      setVisibleIds(next)
       if (next.size > 0) {
         const lastId = toc.filter((t) => next.has(t.id)).pop()?.id ?? null
         setLastInViewId(lastId)
       }
-      setVisibleIds(next)
     }
-    update()
-    let rafId: number
-    const onScroll = () => {
-      if (rafId != null) cancelAnimationFrame(rafId)
-      rafId = requestAnimationFrame(update)
-    }
-    window.addEventListener("scroll", onScroll, { passive: true })
-    window.addEventListener("resize", update)
-    return () => {
-      window.removeEventListener("scroll", onScroll)
-      window.removeEventListener("resize", update)
-      if (rafId != null) cancelAnimationFrame(rafId)
-    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const id = (entry.target as HTMLElement).id
+          if (entry.isIntersecting) {
+            visible.add(id)
+          } else {
+            visible.delete(id)
+          }
+        }
+        updateVisible()
+      },
+      {
+        root: null,
+        rootMargin: ROOT_MARGIN,
+        threshold: 0,
+      }
+    )
+    toc.forEach(({ id }) => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+    return () => observer.disconnect()
   }, [toc])
 
   return (
     <aside
       ref={asideRef}
       className={cn(
-        "min-w-52 w-52 shrink-0 pl-6",
+        "min-w-52 w-52 shrink-0 pl-6 hidden md:block",
         className
       )}
       aria-label="On this page"

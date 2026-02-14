@@ -1,19 +1,21 @@
-import { sectionClass } from "./constants";
+import Decorations from "@/components/ui/decorations";
 
 export function Philosophy() {
   return (
-    <section id="philosophy" className={sectionClass}>
-      <div className="relative overflow-hidden rounded-2xl border border-border bg-linear-to-br from-muted/30 via-muted/20 to-primary/5 px-6 py-8 dark:from-muted/20 dark:via-muted/10 dark:to-primary/10 sm:px-10 sm:py-10">
-        <div className="absolute right-0 top-0 h-24 w-32 bg-primary/5 blur-2xl dark:bg-primary/10" aria-hidden />
-        <p className="relative text-xs font-medium uppercase tracking-widest text-primary/80 dark:text-primary/90">
+    <section id="philosophy" className="section">
+      <div className="section-content relative flex flex-col items-center border p-8 text-center sm:p-10">
+        <Decorations />
+        <p className="text-xs font-medium uppercase tracking-widest text-primary/80 dark:text-primary/90">
           The larger picture
         </p>
-        <blockquote className="relative mt-4 border-l-4 border-primary/50 pl-5 text-2xl font-medium leading-relaxed text-foreground sm:text-3xl md:max-w-3xl">
+        <h2 className="heading-content mt-2">
+          Don&apos;t document APIs. <span className="text-primary">Observe them.</span>
+        </h2>
+        <blockquote className="mt-6 max-w-3xl rounded-lg border border-border border-l-4 border-l-primary bg-muted/50 py-4 px-5 text-2xl font-medium leading-relaxed text-foreground dark:bg-muted/20 sm:text-3xl">
           &ldquo;In a world of scarcity, we treasure tools. In a world of abundance, we treasure{" "}
           <span className="text-primary">taste</span>.&rdquo;
         </blockquote>
-        <p className="relative mt-6 text-muted-foreground">
-          Don&apos;t document APIs. <strong className="text-foreground">Observe them.</strong>{" "}
+        <p className="mt-6 max-w-2xl text-muted-foreground">
           Tracelet turns your API into its own documentation and logging system.
         </p>
       </div>
