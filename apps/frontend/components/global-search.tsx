@@ -23,6 +23,8 @@ import {
   CornerDownLeftIcon,
   FileTextIcon,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import Decorations from "./ui/decorations";
 
 type GlobalSearchContextValue = {
   open: boolean;
@@ -327,10 +329,11 @@ export function GlobalSearchTrigger({
     <button
       type="button"
       onClick={() => setOpen(true)}
-      className={className}
+      className={cn("relative group", className)}
       aria-label="Search"
       {...props}
     >
+      <Decorations className="hidden sm:block"/>
       <SearchIcon className="size-4" />
       <span className="hidden sm:inline">Search</span>
       <KbdGroup className="hidden sm:inline-flex">

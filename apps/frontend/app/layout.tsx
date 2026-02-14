@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Roboto } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { GlobalSearchProvider } from "@/components/global-search";
+import { ScrollLockFix } from "@/components/scroll-lock-fix";
 import "./globals.css";
 
 const roboto = Roboto({ subsets: ["latin"], variable: "--font-sans" });
@@ -38,6 +39,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <ScrollLockFix />
           <GlobalSearchProvider>{children}</GlobalSearchProvider>
         </ThemeProvider>
       </body>
