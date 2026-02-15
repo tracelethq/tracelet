@@ -95,8 +95,8 @@ export function DocsNav({ mdxDocs = [] }: { mdxDocs?: DocMeta[] }) {
   )
 
   return (
-    <aside className="min-w-56 w-56 shrink-0 border-r border-border pr-6">
-      <nav className="sticky top-20 space-y-6 max-h-[calc(100svh-var(--landing-nav-height)-2.5rem)] overflow-auto no-scrollbar">
+    <>
+      <nav className="space-y-6 md:max-h-[calc(100svh-var(--landing-nav-height)-2.7rem)] md:overflow-auto no-scrollbar">
         <div>
           <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             Docs
@@ -124,6 +124,7 @@ export function DocsNav({ mdxDocs = [] }: { mdxDocs?: DocMeta[] }) {
                       type="button"
                       variant="ghost"
                       size="sm"
+                      decorations={false}
                       onClick={() => toggleSdk(sdkName)}
                       className="w-full justify-start gap-2 py-1.5 pr-2 text-xs text-muted-foreground hover:bg-muted/50 hover:text-foreground aria-expanded:bg-transparent aria-expanded:text-muted-foreground"
                       aria-expanded={isOpen}
@@ -180,6 +181,6 @@ export function DocsNav({ mdxDocs = [] }: { mdxDocs?: DocMeta[] }) {
           </div>
         )}
       </nav>
-    </aside>
+    </>
   )
 }

@@ -1,0 +1,31 @@
+@keyframes flow-dot {
+    0% { transform: translateX(0); opacity: 0; }
+    5% { opacity: 1; }
+    95% { opacity: 1; }
+    100% { transform: translateX(180px); opacity: 0; }
+  }
+  
+  @keyframes flow-glow {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+  
+  @keyframes node-enter {
+  from { opacity: 0; transform: scale(0.9) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes diamond-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.95; }
+}
+
+@keyframes icon-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}

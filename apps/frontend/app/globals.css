@@ -4,6 +4,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -46,6 +47,8 @@
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
 
+  --breakpoint-md: 49rem;
+  --breakpoint-lg: 65rem;
 }
 
 :root {
@@ -68,7 +71,7 @@
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
   --chart-1: oklch(0.87 0.12 207);
-  --chart-2: oklch(0.80 0.13 212);
+  --chart-2: oklch(0.8 0.13 212);
   --chart-3: oklch(0.71 0.13 215);
   --chart-4: oklch(0.61 0.11 222);
   --chart-5: oklch(0.52 0.09 223);
@@ -82,7 +85,6 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  
   --landing-nav-height: 64px;
 }
 
@@ -94,7 +96,7 @@
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.71 0.13 215);
-  --primary-foreground: oklch(0.30 0.05 230);
+  --primary-foreground: oklch(0.3 0.05 230);
   --secondary: oklch(0.274 0.006 286.033);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
@@ -106,18 +108,55 @@
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
   --chart-1: oklch(0.87 0.12 207);
-  --chart-2: oklch(0.80 0.13 212);
+  --chart-2: oklch(0.8 0.13 212);
   --chart-3: oklch(0.71 0.13 215);
   --chart-4: oklch(0.61 0.11 222);
   --chart-5: oklch(0.52 0.09 223);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.80 0.13 212);
-  --sidebar-primary-foreground: oklch(0.30 0.05 230);
+  --sidebar-primary: oklch(0.8 0.13 212);
+  --sidebar-primary-foreground: oklch(0.3 0.05 230);
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+}
+
+
+
+/* WebKit: thin scrollbar, transparent track, visible thumb only */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: oklch(0.55 0 0 / 0.35);
+  border-radius: 4px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.45 0 0 / 0.5);
+}
+*.dark::-webkit-scrollbar-thumb {
+  background: oklch(0.65 0 0 / 0.4);
+}
+*.dark::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.75 0 0 / 0.5);
+}
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Firefox: transparent track, thumb only */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(0.55 0 0 / 0.4) transparent;
+  overflow-x: hidden;
+}
+html.dark {
+  scrollbar-color: oklch(0.65 0 0 / 0.45) transparent;
 }
 
 /* Hide scrollbar while keeping scroll (use on overflow-y-auto / overflow-auto elements) */
@@ -129,35 +168,52 @@
   display: none;
 }
 
-/* Diagonal stripe pattern (Solace-style) */
-.bg-stripe-pattern {
-  background-image: repeating-linear-gradient(
-    -45deg,
-    transparent,
-    transparent 8px,
-    oklch(0 0 0 / 0.03) 8px,
-    oklch(0 0 0 / 0.03) 9px
-  );
-}
-.dark .bg-stripe-pattern {
-  background-image: repeating-linear-gradient(
-    -45deg,
-    transparent,
-    transparent 8px,
-    oklch(1 1 0 / 0.02) 8px,
-    oklch(1 1 0 / 0.02) 9px
-  );
-}
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   html {
-    scrollbar-gutter: stable;
+    /* scrollbar-gutter: stable; */
     scroll-behavior: smooth;
+    data-scroll-behavior: smooth;
   }
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.bg-stripe-pattern {
+  @apply bg-[repeating-linear-gradient(45deg,var(--card),var(--card)_3px,var(--muted)_3px,var(--muted)_6px)];
+}
+
+.section {
+  @apply mx-auto bg-background;
+}
+
+.section-primary-gradient {
+  @apply bg-linear-to-br from-muted/40 via-muted/20 to-primary/10;
+}
+
+.dark .section-primary-gradient {
+  @apply from-muted/30 via-muted/15 to-primary/15 ;
+}
+
+.section-content {
+  @apply relative border;
+}
+
+.heading {
+  @apply border p-8 relative;
+}
+
+.heading-content {
+  @apply text-2xl font-semibold tracking-tight text-foreground sm:text-3xl;
+}
+
+.grid-section-wrapper {
+  @apply grid sm:grid-cols-2 sm:divide-x sm:divide-border/50 dark:sm:divide-white/10;
+}
+
+.grid-section-item {
+  @apply flex flex-col gap-4 p-4 border-b odd:border-r relative sm:p-8;
 }

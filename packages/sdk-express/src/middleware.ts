@@ -30,14 +30,14 @@ export function traceletMiddleware(options: TraceletExpressOptions) {
 
     res.on("finish", () => {
       const path = req.originalUrl.split("?")[0];
-      if (path === "/tracelet-docs" || path.startsWith("/tracelet-docs/")) {
+      const route =
+        req.route?.path || req.baseUrl + req.path || req.originalUrl;
+      if (path === "/tracelet-docs" || path.startsWith("/tracelet-docs/") || route.startsWith("undefined")) {
         return;
       }
 
       const endTime = process.hrtime.bigint();
       const durationMs = Number(endTime - startTime) / 1_000_000;
-      const route =
-        req.route?.path || req.baseUrl + req.path || req.originalUrl;
       const rawSize = res.getHeader("content-length");
       const responseSize =
         typeof rawSize === "string" || typeof rawSize === "number"
