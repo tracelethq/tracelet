@@ -229,7 +229,11 @@ function DocListWithSearch({
   );
 }
 
-export function GlobalSearchProvider({ children }: { children: React.ReactNode }) {
+export function GlobalSearchProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [open, setOpen] = React.useState(false);
   const [docPages, setDocPages] = React.useState<DocsPageItem[]>([]);
   const [searchResults, setSearchResults] = React.useState<DocsPageItem[]>([]);
@@ -271,13 +275,16 @@ export function GlobalSearchProvider({ children }: { children: React.ReactNode }
         router.push(item.href);
       }
     },
-    [router]
+    [router],
   );
 
-  const runDoc = React.useCallback((page: DocsPageItem) => {
-    setOpen(false);
-    router.push(page.href);
-  }, [router]);
+  const runDoc = React.useCallback(
+    (page: DocsPageItem) => {
+      setOpen(false);
+      router.push(page.href);
+    },
+    [router],
+  );
 
   return (
     <GlobalSearchContext.Provider
@@ -306,8 +313,11 @@ export function GlobalSearchProvider({ children }: { children: React.ReactNode }
             className="flex items-center gap-2 border-t border-border bg-border px-3 py-2.5 text-xs text-muted-foreground"
             aria-hidden
           >
-            <CornerDownLeftIcon className="size-3.5 shrink-0" />
-            <span>Go to Page</span>
+            <div className="relative flex items-center gap-2 bg-background px-3 py-1.5">
+              <Decorations />
+              <CornerDownLeftIcon className="size-3.5 shrink-0" />
+              <span>Go to Page</span>
+            </div>
             <KbdGroup className="ml-auto">
               <Kbd>⌘</Kbd>
               <Kbd>K</Kbd>
@@ -333,12 +343,16 @@ export function GlobalSearchTrigger({
       aria-label="Search"
       {...props}
     >
-      <Decorations className="hidden sm:block"/>
-      <SearchIcon className="size-4" />
-      <span className="hidden sm:inline">Search</span>
+      <Decorations className="hidden sm:block" />
+      <SearchIcon className="size-4 group-hover:text-primary" />
+      <span className="hidden sm:inline group-hover:text-primary">Search</span>
       <KbdGroup className="hidden sm:inline-flex">
-        <Kbd>⌘</Kbd>
-        <Kbd>K</Kbd>
+        <Kbd className="group-hover:text-primary group-hover:bg-primary/10">
+          ⌘
+        </Kbd>
+        <Kbd className="group-hover:text-primary group-hover:bg-primary/10">
+          K
+        </Kbd>
       </KbdGroup>
     </button>
   );

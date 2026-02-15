@@ -1,12 +1,15 @@
 "use client";
 
+import Decorations from "../ui/decorations";
+
 /**
  * Minimal "Try it out" illustration: Send button → response.
  * Uses theme colors via Tailwind. Clean, no canvas.
  */
 export function AnimatedBrowser() {
   return (
-    <div className="flex min-h-[180px] flex-col items-center justify-center gap-6 px-6 py-8" aria-hidden>
+    <div className="flex min-h-[180px] flex-col items-center justify-center gap-6 px-6 py-8 relative" aria-hidden>
+      <Decorations/>
       <div className="flex w-full max-w-[260px] items-center gap-5">
         {/* Send button */}
         <div className="flex shrink-0 flex-col items-center gap-2">
