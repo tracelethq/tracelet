@@ -13,6 +13,10 @@
   ],
   "scripts": {
     "build": "yarn workspace @tracelet/core run build && yarn workspace @tracelet/ui run build && yarn workspace @tracelet/express run build",
-    "pack:sdks": "rm -rf packages/**/*.tgz && yarn build && npm pack --workspace=@tracelet/core && npm pack --workspace=@tracelet/express && npm pack --workspace=@tracelet/ui"
+    "pack:sdks": "rm -rf packages/**/*.tgz && yarn build && npm pack --workspace=@tracelet/core && npm pack --workspace=@tracelet/express && npm pack --workspace=@tracelet/ui",
+    "publish:core": "yarn build && npm publish --workspace=@tracelet/core",
+    "publish:express": "yarn build && npm publish --workspace=@tracelet/express",
+    "publish:ui": "yarn build && npm publish --workspace=@tracelet/ui",
+    "publish:all": "yarn build && npm publish --workspace=@tracelet/core && npm publish --workspace=@tracelet/ui && npm publish --workspace=@tracelet/express"
   }
 }
