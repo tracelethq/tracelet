@@ -5,6 +5,7 @@ import { AnimatedBrowser } from "@/components/svg/animated-browser";
 import { ZapIcon, BookOpenIcon, FileCodeIcon, PlayIcon } from "lucide-react";
 import Image from "next/image";
 import Decorations from "@/components/ui/decorations";
+import CustomImage from "@/components/custom-image";
 
 const tabs = [
   {
@@ -87,7 +88,7 @@ export function FeatureShowcaseSection() {
                 {tab.description}
               </p>
 
-              <div className="mt-2 min-w-0 overflow-x-auto overflow-y-hidden rounded-lg border border-border/50 bg-muted dark:border-white/10 dark:bg-white/5">
+              <div className="mt-2 min-w-0 border border-border/50 bg-muted dark:border-white/10 dark:bg-white/5">
                 {tab.content === "code" && tab.code ? (
                   <CodeBlock
                     code={tab.code}
@@ -97,8 +98,8 @@ export function FeatureShowcaseSection() {
                 ) : tab.content === "browser" ? (
                   <AnimatedBrowser />
                 ) : (
-                  <div className="relative aspect-16/10 w-full overflow-hidden">
-                    <Image
+                  <div className="relative aspect-video w-full">
+                    <CustomImage
                       src="/docs-sample.png"
                       alt="Tracelet docs UI showing API routes and try-it panel"
                       fill

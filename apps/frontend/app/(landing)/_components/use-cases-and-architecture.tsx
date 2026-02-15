@@ -45,7 +45,7 @@ function UseCasesList({ items }: { items: string[] }) {
   }, []);
 
   const listItemClass =
-    "shrink-0 whitespace-nowrap border border-border bg-muted/40 px-4 py-2 text-center text-sm transition-colors hover:border-primary/20 hover:bg-muted/60 dark:bg-muted/20 dark:hover:bg-muted/40";
+    "shrink-0 whitespace-nowrap border border-border bg-muted/40 px-4 py-2 text-center text-sm transition-colors hover:border-primary/20 hover:bg-muted/60 dark:bg-muted/20 dark:hover:bg-muted/40 flex-1";
 
   return (
     <div ref={containerRef} className="relative">

@@ -26,7 +26,7 @@ const Decorations = ({
   className?: string;
 }) => {
   return (
-    <span className={className}>
+    <span className={cn(className)}>
       {topLeft && (
         <span className={cn("absolute -left-px -top-px z-10")}>
         <span className="relative">

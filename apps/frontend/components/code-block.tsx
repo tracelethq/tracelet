@@ -91,7 +91,7 @@ export function CodeBlock({
           "border-b border-border bg-muted/30",
         )}
       >
-        <Decorations />
+        <Decorations className="absolute inset-0 top-0 left-0" />
         {hasTabs && tabKeys.length > 0 ? (
           <div className="flex gap-0.5">
             {tabKeys.map((key) => (

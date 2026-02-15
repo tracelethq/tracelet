@@ -43,7 +43,7 @@ function FeatureBox({
   return (
     <div
       className={cn(
-        "flex gap-4 justify-items-center rounded-2xl border-2 border-primary/30 bg-card/80 px-6 py-5 shadow-lg shadow-primary/5 transition-all duration-300 hover:border-primary/50 dark:border-primary/20 dark:bg-muted/10 dark:hover:border-primary/40 md:flex md:justify-center md:gap-4",
+        "flex gap-4 justify-between md:justify-items-center rounded-2xl border-2 border-primary/30 bg-card/80 px-6 py-5 shadow-lg shadow-primary/5 transition-all duration-300 hover:border-primary/50 dark:border-primary/20 dark:bg-muted/10 dark:hover:border-primary/40 md:flex md:justify-center md:gap-4",
         className
       )}
       style={{
