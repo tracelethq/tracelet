@@ -22,13 +22,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { useRouteInUrl } from "@/hooks/use-tracelet-persistence";
 import { flattenRoutesTree, type RouteMeta } from "@/types/route";
+import Decorations from "./ui/decorations";
 
 const apiBase =
   (import.meta.env.TRACELET_DOC_API_ROUTE as string | undefined) ?? "";
@@ -96,9 +94,7 @@ export function RoutesPage() {
           return match ?? flat[0] ?? null;
         });
       } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "Failed to fetch routes",
-        );
+        setError(err instanceof Error ? err.message : "Failed to fetch routes");
         setRoutes([]);
         setSelectedRoute(null);
         setRouteInUrl(null);
@@ -158,11 +154,14 @@ export function RoutesPage() {
     fetchRoutes(token);
   }, [fetchRoutes, token]);
 
-  const handleLoginSuccess = React.useCallback((newToken: string) => {
-    setToken(newToken || null);
-    if (newToken) fetchRoutes(newToken);
-    else fetchRoutes(null);
-  }, [fetchRoutes]);
+  const handleLoginSuccess = React.useCallback(
+    (newToken: string) => {
+      setToken(newToken || null);
+      if (newToken) fetchRoutes(newToken);
+      else fetchRoutes(null);
+    },
+    [fetchRoutes],
+  );
 
   // When route in URL no longer exists in fetched routes, sync URL to selected route
   React.useEffect(() => {
@@ -215,16 +214,19 @@ export function RoutesPage() {
         apiBase={apiBase}
       />
       <SidebarInset>
-        <header className="flex h-15 shrink-0 items-center justify-between gap-2 border-b border-border bg-background/95 px-4 backdrop-blur supports-backdrop-filter:bg-background/60">
-          <SidebarTrigger />
-          <div className="flex items-center gap-2">
-            <RouteCommandPalette
-              open={commandOpen}
-              onOpenChange={setCommandOpen}
-              routes={flatRoutes}
-              onSelectRoute={handleSelectRoute}
-            />
-            <ModeToggle />
+        <header className="flex h-(--header-height) shrink-0 items-center justify-between gap-2 border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 p-px pb-[2px] pr-[2px]">
+          <div className="relative flex items-center justify-between w-full h-full">
+            <Decorations className="-z-10 absolute inset-0" />
+            <SidebarTrigger />
+            <div className="flex items-center gap-2">
+              <RouteCommandPalette
+                open={commandOpen}
+                onOpenChange={setCommandOpen}
+                routes={flatRoutes}
+                onSelectRoute={handleSelectRoute}
+              />
+              <ModeToggle />
+            </div>
           </div>
         </header>
         <div className="relative flex flex-1 flex-col overflow-hidden">
@@ -251,7 +253,10 @@ export function RoutesPage() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <Button variant="outline" onClick={() => fetchRoutes(token)}>
+                    <Button
+                      variant="outline"
+                      onClick={() => fetchRoutes(token)}
+                    >
                       <RefreshCwIcon className="size-4" />
                       Retry
                     </Button>

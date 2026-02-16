@@ -25,12 +25,12 @@ import {
   DEFAULT_TABS_CONFIG,
   getRouteTabKey,
   getVisibleTabs,
-  requestBodySampleJson,
-  TAB_CLASS,
+  requestBodySampleJsonWithTypes,
   type AuthState,
   type ParamRow,
   type TabConfigItem,
 } from "./types";
+import Decorations from "../ui/decorations";
 
 export interface RouteTabsProps {
   activeTab: ApiTabValue;
@@ -128,8 +128,7 @@ export function RouteTabs({
       onResponseTabChange={onResponseTabChange}
     />
   );
-  const contentClass =
-    "mt-0 flex min-h-0 flex-1 flex-col overflow-hidden data-[state=inactive]:hidden px-2";
+
   const panelGroupClass = "flex-1 min-h-0";
 
   const resizableProps = {
@@ -141,17 +140,20 @@ export function RouteTabs({
     const inner = (() => {
       switch (value) {
         case "details": {
-          const requestBodySample = requestBodySampleJson(route.request);
+          const requestBodyWithTypes = requestBodySampleJsonWithTypes(route.request);
           return (
             <section className="flex flex-col gap-6 overflow-auto">
-              {requestBodySample !== "{}" && (
-                <div className="flex flex-col gap-2">
+              {requestBodyWithTypes !== "{}" && (
+                <div className="flex flex-col gap-2 p-px pr-1">
                   <h3 className="text-muted-foreground text-xs font-medium">
                     Request body (JSON)
                   </h3>
-                  <pre className="bg-muted/50 rounded-md border border-border p-3 font-mono text-xs overflow-auto">
-                    <JsonHighlight>{requestBodySample}</JsonHighlight>
-                  </pre>
+                  <div className="relative w-full">
+                    <Decorations />
+                    <pre className="bg-muted/50 border border-border p-3 font-mono text-xs overflow-auto">
+                      <JsonHighlight>{requestBodyWithTypes}</JsonHighlight>
+                    </pre>
+                  </div>
                 </div>
               )}
               <DetailsTab responses={route.responses ?? []} />
@@ -259,20 +261,33 @@ export function RouteTabs({
         <Tabs
           value={activeTab}
           onValueChange={(v) => onTabChange(v as ApiTabValue)}
-          className="flex min-h-0 flex-1 flex-col overflow-hidden"
+          className="flex min-h-0 flex-1 flex-col overflow-hidden gap-0"
         >
-          <TabsList className="h-9 w-full justify-start rounded-none border-b border-border bg-transparent p-0">
-            {visibleTabs.map((tab) => (
-              <TabsTrigger key={tab.id} value={tab.id} className={TAB_CLASS}>
-                {tab.label}
-              </TabsTrigger>
-            ))}
+          <TabsList className="h-9 w-full justify-start rounded-none border-b border-border bg-transparent p-px pr-[2px] relative">
+            <div className="relative flex items-center justify-start w-full h-full">
+              <Decorations />
+              {visibleTabs.map((tab) => (
+                <TabsTrigger key={tab.id} value={tab.id} className="tab-item">
+                  {tab.Icon && <tab.Icon className="size-4" />}
+                  {tab.label}
+                </TabsTrigger>
+              ))}
+            </div>
           </TabsList>
 
-          <div className="min-h-0 flex-1 overflow-auto pb-4">
+          <div className="min-h-0 flex-1">
             {visibleTabs.map((tab) => (
-              <TabsContent key={tab.id} value={tab.id} className={contentClass}>
-                {renderTabContent(tab.id)}
+              <TabsContent
+                key={tab.id}
+                value={tab.id}
+                className={"tab-content"}
+              >
+                <div className="relative h-full p-1">
+                  <Decorations />
+                  <div className="h-full overflow-auto">
+                    {renderTabContent(tab.id)}
+                  </div>
+                </div>
               </TabsContent>
             ))}
           </div>

@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { ResponseTabValue } from "@/hooks/use-tracelet-persistence";
 import { JsonHighlight } from "./json-highlight";
-import { TAB_CLASS, type AuthState, type ParamRow } from "./types";
+import { type AuthState, type ParamRow } from "./types";
+import Decorations from "../ui/decorations";
 
 export interface ResponseState {
   status: number | null;
@@ -46,7 +47,10 @@ export function buildUrl(
     if (pathParamSet.has(row.key)) {
       // When no value is present, keep the placeholder in the URL so the real path is shown (e.g. /users/:id).
       if (trimmed === "") continue;
-      path = path.replace(new RegExp(`:${row.key}(?=/|$)`), encodeURIComponent(trimmed));
+      path = path.replace(
+        new RegExp(`:${row.key}(?=/|$)`),
+        encodeURIComponent(trimmed),
+      );
     } else if (queryParamSet.has(row.key)) {
       const value = encodeURIComponent(trimmed);
       queryParts.push(`${encodeURIComponent(row.key)}=${value}`);
@@ -59,13 +63,13 @@ export function buildUrl(
   return queryParts.length ? `${url}?${queryParts.join("&")}` : url;
 }
 
-export type BodyContentType = "application/json" | "multipart/form-data"
+export type BodyContentType = "application/json" | "multipart/form-data";
 
 export function buildBody(
   method: string,
   bodyRows: ParamRow[],
   bodyJson?: string,
-  bodyContentType: BodyContentType = "application/json"
+  bodyContentType: BodyContentType = "application/json",
 ): string | FormData | undefined {
   const methodsWithBody = ["POST", "PUT", "PATCH"];
   if (!methodsWithBody.includes(method.toUpperCase())) return undefined;
@@ -74,7 +78,7 @@ export function buildBody(
       r.enabled &&
       r.key.trim() !== "" &&
       (r.type || "").toLowerCase() === "file" &&
-      (r.file || (r.files && r.files.length > 0))
+      (r.file || (r.files && r.files.length > 0)),
   );
   const useFormData = hasFile || bodyContentType === "multipart/form-data";
 
@@ -118,7 +122,8 @@ export function buildBody(
     } else if (type === "object") {
       try {
         const parsed = JSON.parse(row.value || "{}");
-        obj[row.key] = typeof parsed === "object" && parsed !== null ? parsed : {};
+        obj[row.key] =
+          typeof parsed === "object" && parsed !== null ? parsed : {};
       } catch {
         obj[row.key] = {};
       }
@@ -151,14 +156,14 @@ export function buildCurlRequest(
   bodyRows: ParamRow[],
   auth: AuthState,
   bodyJson?: string,
-  bodyContentType: BodyContentType = "application/json"
+  bodyContentType: BodyContentType = "application/json",
 ): string {
   const url = buildUrl(
     apiBase,
     pathTemplate,
     pathParamNames,
     queryParamNames,
-    paramsRows
+    paramsRows,
   );
   const headers = buildHeaders(headersRows);
   if (auth.type === "bearer" && auth.bearerToken?.trim()) {
@@ -166,7 +171,7 @@ export function buildCurlRequest(
   }
   if (auth.type === "basic" && auth.username != null && auth.password != null) {
     headers["Authorization"] = `Basic ${btoa(
-      `${auth.username}:${auth.password}`
+      `${auth.username}:${auth.password}`,
     )}`;
   }
   if (
@@ -225,65 +230,68 @@ export function ApiResponsePanel({
         onValueChange={(v) => onResponseTabChange(v as ResponseTabValue)}
         className="flex min-h-0 flex-1 flex-col overflow-hidden"
       >
-        <div className="text-muted-foreground flex h-9 shrink-0 w-full items-center justify-between gap-3 border-b border-border px-4">
-          <TabsList className="h-auto w-auto justify-start rounded-none border-0 bg-transparent p-0">
-            <TabsTrigger value="response" className={TAB_CLASS}>
-              Response
-            </TabsTrigger>
-            <TabsTrigger value="headers" className={TAB_CLASS}>
-              Headers
-            </TabsTrigger>
-          </TabsList>
-          <div className="flex shrink-0 items-center gap-3">
-            {response && response.status != null && (
-              <span className="font-mono text-xs text-foreground">
-                {response.status} {response.statusText}
-              </span>
-            )}
-            {response?.durationMs != null && (
-              <span className="font-mono text-xs">{response.durationMs} ms</span>
-            )}
-            {!response && !loading && (
-              <span className="text-xs">—</span>
-            )}
-            {response && !loading && (
-              <Button
-                variant="outline"
-                size="sm"
-                className="h-6 gap-1 px-2 text-xs"
-                onClick={handleCopyResponse}
-              >
-                <CopyIcon className="size-3" />
-                {copied ? "Copied" : "Copy"}
-              </Button>
-            )}
-            <div className="flex gap-0.5 rounded-md border border-border bg-muted/50 p-0.5">
-              <Button
-                variant={format === "json" ? "secondary" : "ghost"}
-                size="sm"
-                className="h-6 px-2 text-xs"
-                onClick={() => setFormat("json")}
-              >
-                JSON
-              </Button>
-              <Button
-                variant={format === "html" ? "secondary" : "ghost"}
-                size="sm"
-                className="h-6 px-2 text-xs"
-                onClick={() => setFormat("html")}
-              >
-                HTML
-              </Button>
-              <Button
-                variant={format === "raw" ? "secondary" : "ghost"}
-                size="sm"
-                className="h-6 px-2 text-xs"
-                onClick={() => setFormat("raw")}
-              >
-                Raw
-              </Button>
+        <div className="text-muted-foreground flex h-9 shrink-0 w-full items-center justify-between gap-3 border-b border-border p-px pr-[2px]">
+          <TabsList className="h-auto w-full justify-between rounded-none border-0 bg-transparent p-0 px-4 relative">
+            <div className="flex items-center justify-start gap-3">
+              <TabsTrigger value="response" className="tab-item">
+                Response
+              </TabsTrigger>
+              <TabsTrigger value="headers" className="tab-item">
+                Headers
+              </TabsTrigger>
             </div>
-          </div>
+            <Decorations />
+            <div className="flex shrink-0 items-center gap-3">
+              {response && response.status != null && (
+                <span className="font-mono text-xs text-foreground">
+                  {response.status} {response.statusText}
+                </span>
+              )}
+              {response?.durationMs != null && (
+                <span className="font-mono text-xs">
+                  {response.durationMs} ms
+                </span>
+              )}
+              {!response && !loading && <span className="text-xs">—</span>}
+              {response && !loading && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-6 gap-1 px-2 text-xs"
+                  onClick={handleCopyResponse}
+                >
+                  <CopyIcon className="size-3" />
+                  {copied ? "Copied" : "Copy"}
+                </Button>
+              )}
+              <div className="flex gap-0.5 rounded-md border border-border bg-muted/50 p-0.5">
+                <Button
+                  variant={format === "json" ? "secondary" : "ghost"}
+                  size="sm"
+                  className="h-6 px-2 text-xs"
+                  onClick={() => setFormat("json")}
+                >
+                  JSON
+                </Button>
+                <Button
+                  variant={format === "html" ? "secondary" : "ghost"}
+                  size="sm"
+                  className="h-6 px-2 text-xs"
+                  onClick={() => setFormat("html")}
+                >
+                  HTML
+                </Button>
+                <Button
+                  variant={format === "raw" ? "secondary" : "ghost"}
+                  size="sm"
+                  className="h-6 px-2 text-xs"
+                  onClick={() => setFormat("raw")}
+                >
+                  Raw
+                </Button>
+              </div>
+            </div>
+          </TabsList>
         </div>
 
         <TabsContent
@@ -309,37 +317,34 @@ export function ApiResponsePanel({
                     {response.error}
                   </p>
                 )}
-                {format === "json" && (() => {
-                  const bodyText = response.body || "(empty)";
-                  const lines = bodyText.split("\n");
-                  return (
-                    <div className="bg-background/80 flex min-h-0 flex-1 flex-col overflow-hidden rounded border border-border font-mono text-xs leading-7">
-                      <div className="flex min-h-0 min-w-0 flex-1 overflow-auto relative">
-                        {/* fake div */}
-                        <div className="w-10"/>
-                        <div
-                          className="absolute left-0 z-10 shrink-0 select-none border-r border-border bg-muted/50 py-2 pl-2 pr-3 text-right text-muted-foreground leading-7 w-10 min-h-full"
-                          aria-hidden
-                        >
-                          {lines.map((_, i) => (
-                            <div key={i}>{i + 1}</div>
-                          ))}
+                {format === "json" &&
+                  (() => {
+                    const bodyText = response.body || "(empty)";
+                    const lines = bodyText.split("\n");
+                    return (
+                      <div className="bg-background/80 flex min-h-0 flex-1 flex-col rounded border border-border font-mono text-xs leading-7 relative">
+                        <Decorations />
+                        <div className="flex min-h-0 min-w-0 flex-1 overflow-auto relative bg-muted/30">
+                          <div
+                            className="shrink-0 select-none py-2 pl-2 pr-3 text-right text-muted-foreground leading-7 min-w-10 h-full"
+                            aria-hidden
+                          >
+                            {lines.map((_, i) => (
+                              <div key={i}>{i + 1}</div>
+                            ))}
+                          </div>
+                          <pre className="min-w-0 flex-1 whitespace-pre-wrap break-all leading-7">
+                            <JsonHighlight className="block border-l bg-background py-2">
+                              {bodyText}
+                            </JsonHighlight>
+                          </pre>
                         </div>
-                        <pre className="min-w-0 flex-1 p-2 pl-3 whitespace-pre-wrap break-all leading-7">
-                          <JsonHighlight className="block">
-                            {bodyText}
-                          </JsonHighlight>
-                        </pre>
                       </div>
-                    </div>
-                  );
-                })()}
+                    );
+                  })()}
                 {format === "html" && (
-                  <iframe
-                    title="Response HTML"
-                    sandbox=""
-                    srcDoc={response.body || ""}
-                    className="bg-background border-border min-h-0 flex-1 rounded border overflow-auto"
+                  <div
+                    dangerouslySetInnerHTML={{ __html: response.body || "" }}
                   />
                 )}
                 {format === "raw" && (
