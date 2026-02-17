@@ -44,7 +44,7 @@ export function SignInForm() {
       setError(res.error.message ?? AUTH_COPY.errors.signInFailed);
       return;
     }
-    router.push(APP_ROUTES.dashboard);
+    router.push("/app");
   }
 
   return (
