@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Roboto } from "next/font/google";
-import { ThemeProvider } from "@/components/theme-provider";
-import { GlobalSearchProvider } from "@/components/global-search";
-import { ScrollLockFix } from "@/components/scroll-lock-fix";
+import { Providers } from "@/components/providers";
 import "./globals.css";
 
 const roboto = Roboto({ subsets: ["latin"], variable: "--font-sans" });
@@ -33,15 +31,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <ScrollLockFix />
-          <GlobalSearchProvider>{children}</GlobalSearchProvider>
-        </ThemeProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

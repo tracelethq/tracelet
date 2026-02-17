@@ -1,0 +1,17 @@
+// Better Auth: User model (https://better-auth.com/docs/adapters/prisma)
+model User {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
+  sessions      Session[]
+  accounts      Account[]
+  members       Member[]
+
+  @@unique([email])
+  @@map("user")
+  @@schema("better_auth")
+}
