@@ -23,6 +23,7 @@ import { useSidebarOpenKeys } from "@/hooks/use-tracelet-persistence";
 import { flattenRoutesTree, type RouteMeta } from "@/types/route";
 import { cn } from "@/lib/utils";
 import { Logo } from "./icons/logo";
+import Decorations from "./ui/decorations";
 
 /** HTTP method colors (Swagger/Postman-style). Returns className for badge/pill. */
 export function getMethodColors(method: string): string {
@@ -161,11 +162,7 @@ function RouteTriggerContent({
           methodClass,
         )}
       >
-        {method === "PARENT" ? (
-          <RouteIcon className="size-4" />
-        ) : (
-          method
-        )}
+        {method === "PARENT" ? <RouteIcon className="size-4" /> : method}
       </span>
       <span className="min-w-0 flex-1 truncate font-mono text-xs group-data-[collapsible=icon]:hidden">
         {path}
@@ -273,9 +270,7 @@ function RouteNode({
   );
 
   if (asSubItem) {
-    return (
-      <SidebarMenuSubItem>{collapsibleContent}</SidebarMenuSubItem>
-    );
+    return <SidebarMenuSubItem>{collapsibleContent}</SidebarMenuSubItem>;
   }
 
   return <SidebarMenuItem>{collapsibleContent}</SidebarMenuItem>;
@@ -296,8 +291,9 @@ export function RoutesSidebar({
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="border-b border-sidebar-border bg-sidebar/80">
-        <div className="flex w-full min-w-0 items-center gap-3 px-3 py-1 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
+      <SidebarHeader className="border-b border-sidebar-border bg-sidebar/80 p-px h-(--header-height)">
+        <div className="flex w-full min-w-0 items-center gap-3 px-3 py-1 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0 relative">
+          <Decorations />
           <div className="flex size-8 shrink-0 items-center justify-center rounded-md text-sidebar-accent-foreground">
             <Logo />
           </div>
@@ -320,20 +316,23 @@ export function RoutesSidebar({
           </Button>
         </div>
       </SidebarHeader>
-      <SidebarContent className="gap-0.5 px-1.5 py-2">
-        <SidebarMenu>
-          {routes.map((route, i) => (
-            <RouteNode
-              key={`${routeKey(route)}-${i}`}
-              route={route}
-              apiBase={apiBase}
-              selectedRoute={selectedRoute}
-              onSelectRoute={onSelectRoute}
-              openKeys={openKeys}
-              onToggleOpen={toggleOpen}
-            />
-          ))}
-        </SidebarMenu>
+      <SidebarContent className="gap-0.5 p-[2px] pt-0">
+        <div className="relative h-full">
+          <Decorations />
+          <SidebarMenu className="relative h-full overflow-auto">
+            {routes.map((route, i) => (
+              <RouteNode
+                key={`${routeKey(route)}-${i}`}
+                route={route}
+                apiBase={apiBase}
+                selectedRoute={selectedRoute}
+                onSelectRoute={onSelectRoute}
+                openKeys={openKeys}
+                onToggleOpen={toggleOpen}
+              />
+            ))}
+          </SidebarMenu>
+        </div>
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
