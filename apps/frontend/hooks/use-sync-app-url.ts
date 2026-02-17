@@ -8,7 +8,7 @@ import {
   APP_RESERVED_SEGMENTS,
   getAppOrgProjectPath,
   getAppOrgProjectsPath,
-  PROJECTS_PAGE_SEGMENT,
+  getOrgPathName
 } from "@/features/project/constants";
 import { useProjectsQuery } from "@/features/project/queries";
 import { useProjectStore } from "@/features/project/store";
@@ -16,6 +16,7 @@ import type { EnvId } from "@/features/project/store";
 import { ENV_OPTIONS } from "@/features/project/store";
 import { useOrganizationStore, useOrganizationsQuery } from "@/features/organization";
 import { APP_ROUTES } from "@/lib/constant";
+import { ORG_TABS } from "@/features/organization/constants";
 
 const DEV_ENV: EnvId = "development";
 
@@ -102,8 +103,10 @@ export function useSyncAppUrl() {
     }
     
     setSelectedOrgId(org.id);
-    
-    if(projectSlug==="projects") return;
+
+    if(ORG_TABS.some((tab) => pathname === getOrgPathName(org.slug, tab.href))) {
+      return;
+    }
     if (
       envSegmentFromPath &&
       envSegmentFromPath !== "" &&
@@ -112,18 +115,11 @@ export function useSyncAppUrl() {
       notFound();
     }
 
-    // Org selected but no project in URL → go to projects page
+    // Org selected but no project in URL → go to projects page (unless we're on settings)
     if (!projectSlug || projectSlug === "") {
       setSelectedProjectId("");
       setEnv(DEV_ENV);
       router.replace(getAppOrgProjectsPath(org.slug));
-      return;
-    }
-
-    // On projects list page: /app/[orgSlug]/projects
-    if (projectSlug === PROJECTS_PAGE_SEGMENT) {
-      setSelectedProjectId("");
-      setEnv(DEV_ENV);
       return;
     }
 

@@ -12,11 +12,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  getAppProjectPath,
   useProjectStore,
   ENV_OPTIONS,
   ProjectSwitcher,
+  CreateProjectDialog,
+  getAppOrgProjectPath,
 } from "@/features/project";
+import OrgTabs from "@/features/organization/components/org-tabs";
 
 function getPageTitle(pathname: string): string {
   const segment = pathname.split("/").filter(Boolean).pop();
@@ -32,7 +34,7 @@ export function TopBar({
   className?: string;
 }) {
   const router = useRouter();
-  const { orgSlug,projectSlug } = useParams();
+  const { orgSlug, projectSlug } = useParams();
   const pathname = usePathname();
   const displayTitle = title ?? getPageTitle(pathname);
   const env = useProjectStore((s) => s.env);
@@ -47,7 +49,13 @@ export function TopBar({
   function handleEnvChange(newEnvId: (typeof ENV_OPTIONS)[number]["id"]) {
     setEnv(newEnvId);
     if (selectedProject) {
-      router.push(getAppProjectPath(selectedProject.slug, newEnvId));
+      router.push(
+        getAppOrgProjectPath(
+          orgSlug as string,
+          projectSlug as string,
+          newEnvId,
+        ),
+      );
     }
   }
 
@@ -58,10 +66,7 @@ export function TopBar({
         className,
       )}
     >
-      <h1 className="truncate text-sm font-semibold text-foreground">
-        {displayTitle}
-      </h1>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 h-full">
         {projectSlug && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -88,7 +93,14 @@ export function TopBar({
             </DropdownMenuContent>
           </DropdownMenu>
         )}
-        {projectSlug && <ProjectSwitcher collapsed={false} />}
+        <OrgTabs />
+      </div>
+      <div className="flex items-center gap-2">
+        {projectSlug ? (
+          <ProjectSwitcher collapsed={false} />
+        ) : (
+          <CreateProjectDialog />
+        )}
       </div>
     </header>
   );

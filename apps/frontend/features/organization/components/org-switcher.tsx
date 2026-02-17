@@ -15,6 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { getAppOrgProjectsPath } from "@/features/project/constants";
+import { CreateOrgDialog } from "./create-org-dialog";
 import { useOrganizationStore } from "../store";
 import { useOrganizationsQuery } from "../queries";
 import { APP_ROUTES } from "@/lib/constant";
@@ -128,16 +129,7 @@ export function OrgSwitcher({ collapsed }: { collapsed: boolean }) {
             View all Orgs
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem
-          className="gap-2 bg-muted"
-          onSelect={(e) => e.preventDefault()}
-          onClick={() => {
-            // TODO: open create org (e.g. better-auth organization create)
-          }}
-        >
-          <Plus className="size-3.5" />
-          Create organization
-        </DropdownMenuItem>
+        <CreateOrgDialog />
       </DropdownMenuContent>
     </DropdownMenu>
   );

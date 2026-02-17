@@ -1,6 +1,52 @@
+import { APP_ROUTES } from "@/lib/constant";
+import {
+  BanIcon,
+  BuildingIcon,
+  FolderOpenIcon,
+  KeyIcon,
+  LayoutDashboard,
+  LogsIcon,
+  VariableIcon,
+  WebhookIcon,
+} from "lucide-react";
 
 /** Base path for app (main) routes. */
 export const APP_BASE_PATH = "/app";
+
+export const PROJECT_MAIN_LINKS = [
+  { href: "/", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/logs", label: "Logs", icon: LogsIcon },
+  { href: "/api-explorer", label: "API Explorer", icon: FolderOpenIcon },
+];
+
+export const PROJECT_SETTINGS_LINKS = [
+  {
+    id: "general",
+    name: "General",
+    icon: BuildingIcon,
+    href: "/settings/general",
+  },
+  {
+    id: "api-keys",
+    name: "API Keys",
+    icon: KeyIcon,
+    href: "/settings/api-keys",
+  },
+  {
+    id: "webhooks",
+    name: "Webhooks",
+    icon: WebhookIcon,
+    href: "/settings/webhooks",
+    isHidden: true,
+    isDisabled: false,
+  },
+  {
+    id: "danger-zone",
+    name: "Danger Zone",
+    icon: BanIcon,
+    href: "/settings/danger-zone",
+  },
+];
 
 /** Path segments that are not org/project (reserved routes). */
 export const APP_RESERVED_SEGMENTS = [
@@ -22,7 +68,7 @@ export const PROJECTS_PAGE_SEGMENT = "projects" as const;
 export function getAppOrgProjectPath(
   orgSlug: string,
   projectSlug?: string,
-  env?: string
+  env?: string,
 ): string {
   const base = `${APP_BASE_PATH}/${orgSlug}`;
   if (projectSlug == null || projectSlug === "") return base;
@@ -35,10 +81,25 @@ export function getAppOrgProjectsPath(orgSlug: string): string {
   return getAppOrgProjectPath(orgSlug, PROJECTS_PAGE_SEGMENT);
 }
 
-/** @deprecated Use getAppOrgProjectPath(orgSlug, projectSlug, env) for org-scoped paths. */
-export function getAppProjectPath(projectSlug: string, env?: string): string {
-  return getAppOrgProjectPath("", projectSlug, env);
-}
+export const getProjectPathName = (
+  orgSlug: string,
+  projectSlug: string,
+  env: string,
+  path: string,
+) => {
+  if (path.startsWith("/")) {
+    path = path.slice(1);
+  }
+  if(!path) return getAppOrgProjectPath(orgSlug, projectSlug, env);
+  return `${getAppOrgProjectPath(orgSlug, projectSlug, env)}/${path}`;
+};
+
+export const getOrgPathName = (orgSlug: string, path: string) => {
+  if (path.startsWith("/")) {
+    path = path.slice(1);
+  }
+  return `${APP_ROUTES.base}/${orgSlug}/${path}`;
+};
 
 /**
  * Parse org slug, project slug, and env from pathname.
@@ -62,7 +123,11 @@ export function parseOrgProjectEnvFromPath(pathname: string): {
   if (!first) {
     return { orgSlug: null, projectSlug: null, env: null };
   }
-  if (APP_RESERVED_SEGMENTS.includes(first as (typeof APP_RESERVED_SEGMENTS)[number])) {
+  if (
+    APP_RESERVED_SEGMENTS.includes(
+      first as (typeof APP_RESERVED_SEGMENTS)[number],
+    )
+  ) {
     return { orgSlug: null, projectSlug: null, env: null };
   }
   return {

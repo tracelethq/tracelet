@@ -16,20 +16,24 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { getAppOrgProjectPath } from "../constants";
+import { useProjectsQuery } from "../queries";
 import { useProjectStore } from "../store";
+import { CreateProjectDialog } from "./create-project-dialog";
 import { useOrganizationStore } from "@/features/organization";
-import { APP_ROUTES } from "@/lib/constant";
 
 export function ProjectSwitcher({ collapsed }: { collapsed: boolean }) {
   const router = useRouter();
   const { orgSlug } = useParams();
   const orgs = useOrganizationStore((s) => s.orgs);
   const selectedOrgId = useOrganizationStore((s) => s.selectedOrgId);
-  const projects = useProjectStore((s) => s.projects);
+  const projectsQuery = useProjectsQuery(selectedOrgId);
+  const projectsFromStore = useProjectStore((s) => s.projects);
+  const projects = projectsQuery.data ?? projectsFromStore;
   const selectedProjectId = useProjectStore((s) => s.selectedProjectId);
   const setSelectedProjectId = useProjectStore((s) => s.setSelectedProjectId);
   const env = useProjectStore((s) => s.env);
   const [search, setSearch] = useState("");
+  const [createProjectOpen, setCreateProjectOpen] = useState(false);
   const org = selectedOrgId ? orgs.find((o) => o.id === selectedOrgId) : null;
   const selectedProject = selectedProjectId
     ? projects.find((p) => p.id === selectedProjectId) ?? {
@@ -95,7 +99,11 @@ export function ProjectSwitcher({ collapsed }: { collapsed: boolean }) {
           />
         </div>
         <div className="max-h-48 overflow-y-auto py-1">
-          {filteredProjects.length === 0 ? (
+          {projectsQuery.isLoading && projects.length === 0 ? (
+            <p className="px-2 py-4 text-center text-xs text-muted-foreground">
+              Loading…
+            </p>
+          ) : filteredProjects.length === 0 ? (
             <p className="px-2 py-4 text-center text-xs text-muted-foreground">
               No projects found
             </p>
@@ -120,16 +128,7 @@ export function ProjectSwitcher({ collapsed }: { collapsed: boolean }) {
             View all projects
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem
-          className="gap-2 bg-muted"
-          onSelect={(e) => e.preventDefault()}
-          onClick={() => {
-            // TODO: open popover or navigate to create project page
-          }}
-        >
-          <Plus className="size-3.5" />
-          Create project
-        </DropdownMenuItem>
+        <CreateProjectDialog isIn={true} />
       </DropdownMenuContent>
     </DropdownMenu>
   );
