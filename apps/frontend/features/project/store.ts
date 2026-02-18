@@ -1,9 +1,9 @@
 import { create } from "zustand";
 
 export const ENV_OPTIONS = [
-  { id: "development", label: "Development" },
-  { id: "staging", label: "Staging" },
-  { id: "production", label: "Production" },
+  { id: "development", label: "Development", color: "bg-green-500" },
+  { id: "staging", label: "Staging", color: "bg-yellow-500" },
+  { id: "production", label: "Production", color: "bg-red-500" },
 ] as const;
 
 export type EnvId = (typeof ENV_OPTIONS)[number]["id"];
