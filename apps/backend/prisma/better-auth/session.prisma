@@ -1,5 +1,6 @@
 // Better Auth: Session model (https://better-auth.com/docs/adapters/prisma)
 // Organization plugin: activeOrganizationId, activeTeamId (https://better-auth.com/docs/plugins/organization)
+// Admin plugin: impersonatedBy (https://better-auth.com/docs/plugins/admin)
 model Session {
   id                    String   @id
   expiresAt             DateTime
@@ -12,6 +13,8 @@ model Session {
   user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   activeOrganizationId  String?
   activeTeamId          String?
+  // Admin plugin field
+  impersonatedBy        String?
 
   @@unique([token])
   @@map("session")

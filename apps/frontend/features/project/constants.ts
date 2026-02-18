@@ -4,7 +4,7 @@ import {
   FolderOpenIcon,
   KeyIcon,
   LayoutDashboard,
-  LogsIcon, WebhookIcon
+  LogsIcon, UsersIcon, WebhookIcon
 } from "lucide-react";
 
 /** Base path for app (main) routes. */
@@ -28,6 +28,14 @@ export const PROJECT_SETTINGS_LINKS = [
     name: "API Keys",
     icon: KeyIcon,
     href: "/settings/api-keys",
+  },
+  {
+    id: "members",
+    name: "Members",
+    icon: UsersIcon,
+    href: "/settings/members",
+    isHidden: true,
+    isDisabled: false,
   },
   {
     id: "webhooks",

@@ -114,20 +114,6 @@ export function Sidebar({
             )}
 
             <div className="h-px bg-sidebar-border my-2" />
-
-            <Link
-              href={getProjectSettingsPathName(projectSlug, "settings")}
-              className={cn(
-                "flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium transition-colors",
-                pathname === getProjectSettingsPathName(projectSlug, "settings")
-                  ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                  : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-                collapsed && "justify-center",
-              )}
-            >
-              <BuildingIcon className="size-4 shrink-0 text-muted-foreground" />
-              {!collapsed && <span>Project settings</span>}
-            </Link>
           </>
         ) : (
           <>

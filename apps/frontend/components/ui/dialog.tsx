@@ -51,7 +51,7 @@ function DialogOverlay({
 function DialogContent({
   className,
   children,
-  showCloseButton = true,
+  showCloseButton = false,
   showDecorations = false,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
@@ -69,7 +69,7 @@ function DialogContent({
         )}
         {...props}
       >
-        <div className="relative p-4">
+        <div className="relative p-4 w-full max-w-[calc(100svw-2rem)] sm:max-w-sm">
           {showDecorations && <Decorations className="absolute inset-0 z-0" />}
           {children}
         </div>

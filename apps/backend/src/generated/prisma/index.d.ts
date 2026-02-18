@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type Account = $Result.DefaultSelection<Prisma.$AccountPayload>
 /**
+ * Model ApiKey
+ * 
+ */
+export type ApiKey = $Result.DefaultSelection<Prisma.$ApiKeyPayload>
+/**
  * Model Invitation
  * 
  */
@@ -53,6 +58,16 @@ export type Verification = $Result.DefaultSelection<Prisma.$VerificationPayload>
  * 
  */
 export type OrganizationEnv = $Result.DefaultSelection<Prisma.$OrganizationEnvPayload>
+/**
+ * Model RequestLog
+ * 
+ */
+export type RequestLog = $Result.DefaultSelection<Prisma.$RequestLogPayload>
+/**
+ * Model ApiExplorerSnapshot
+ * 
+ */
+export type ApiExplorerSnapshot = $Result.DefaultSelection<Prisma.$ApiExplorerSnapshotPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -182,6 +197,16 @@ export class PrismaClient<
   get account(): Prisma.AccountDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.apiKey`: Exposes CRUD operations for the **ApiKey** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ApiKeys
+    * const apiKeys = await prisma.apiKey.findMany()
+    * ```
+    */
+  get apiKey(): Prisma.ApiKeyDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.invitation`: Exposes CRUD operations for the **Invitation** model.
     * Example usage:
     * ```ts
@@ -250,6 +275,26 @@ export class PrismaClient<
     * ```
     */
   get organizationEnv(): Prisma.OrganizationEnvDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.requestLog`: Exposes CRUD operations for the **RequestLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RequestLogs
+    * const requestLogs = await prisma.requestLog.findMany()
+    * ```
+    */
+  get requestLog(): Prisma.RequestLogDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.apiExplorerSnapshot`: Exposes CRUD operations for the **ApiExplorerSnapshot** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ApiExplorerSnapshots
+    * const apiExplorerSnapshots = await prisma.apiExplorerSnapshot.findMany()
+    * ```
+    */
+  get apiExplorerSnapshot(): Prisma.ApiExplorerSnapshotDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -685,13 +730,16 @@ export namespace Prisma {
 
   export const ModelName: {
     Account: 'Account',
+    ApiKey: 'ApiKey',
     Invitation: 'Invitation',
     Member: 'Member',
     Organization: 'Organization',
     Session: 'Session',
     User: 'User',
     Verification: 'Verification',
-    OrganizationEnv: 'OrganizationEnv'
+    OrganizationEnv: 'OrganizationEnv',
+    RequestLog: 'RequestLog',
+    ApiExplorerSnapshot: 'ApiExplorerSnapshot'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -707,7 +755,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "account" | "invitation" | "member" | "organization" | "session" | "user" | "verification" | "organizationEnv"
+      modelProps: "account" | "apiKey" | "invitation" | "member" | "organization" | "session" | "user" | "verification" | "organizationEnv" | "requestLog" | "apiExplorerSnapshot"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -782,6 +830,80 @@ export namespace Prisma {
           count: {
             args: Prisma.AccountCountArgs<ExtArgs>
             result: $Utils.Optional<AccountCountAggregateOutputType> | number
+          }
+        }
+      }
+      ApiKey: {
+        payload: Prisma.$ApiKeyPayload<ExtArgs>
+        fields: Prisma.ApiKeyFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ApiKeyFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ApiKeyFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyPayload>
+          }
+          findFirst: {
+            args: Prisma.ApiKeyFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ApiKeyFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyPayload>
+          }
+          findMany: {
+            args: Prisma.ApiKeyFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyPayload>[]
+          }
+          create: {
+            args: Prisma.ApiKeyCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyPayload>
+          }
+          createMany: {
+            args: Prisma.ApiKeyCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ApiKeyCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyPayload>[]
+          }
+          delete: {
+            args: Prisma.ApiKeyDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyPayload>
+          }
+          update: {
+            args: Prisma.ApiKeyUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyPayload>
+          }
+          deleteMany: {
+            args: Prisma.ApiKeyDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ApiKeyUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ApiKeyUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyPayload>[]
+          }
+          upsert: {
+            args: Prisma.ApiKeyUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiKeyPayload>
+          }
+          aggregate: {
+            args: Prisma.ApiKeyAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateApiKey>
+          }
+          groupBy: {
+            args: Prisma.ApiKeyGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ApiKeyGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ApiKeyCountArgs<ExtArgs>
+            result: $Utils.Optional<ApiKeyCountAggregateOutputType> | number
           }
         }
       }
@@ -1303,6 +1425,154 @@ export namespace Prisma {
           }
         }
       }
+      RequestLog: {
+        payload: Prisma.$RequestLogPayload<ExtArgs>
+        fields: Prisma.RequestLogFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RequestLogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RequestLogPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RequestLogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RequestLogPayload>
+          }
+          findFirst: {
+            args: Prisma.RequestLogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RequestLogPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RequestLogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RequestLogPayload>
+          }
+          findMany: {
+            args: Prisma.RequestLogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RequestLogPayload>[]
+          }
+          create: {
+            args: Prisma.RequestLogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RequestLogPayload>
+          }
+          createMany: {
+            args: Prisma.RequestLogCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RequestLogCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RequestLogPayload>[]
+          }
+          delete: {
+            args: Prisma.RequestLogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RequestLogPayload>
+          }
+          update: {
+            args: Prisma.RequestLogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RequestLogPayload>
+          }
+          deleteMany: {
+            args: Prisma.RequestLogDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RequestLogUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RequestLogUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RequestLogPayload>[]
+          }
+          upsert: {
+            args: Prisma.RequestLogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RequestLogPayload>
+          }
+          aggregate: {
+            args: Prisma.RequestLogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRequestLog>
+          }
+          groupBy: {
+            args: Prisma.RequestLogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RequestLogGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RequestLogCountArgs<ExtArgs>
+            result: $Utils.Optional<RequestLogCountAggregateOutputType> | number
+          }
+        }
+      }
+      ApiExplorerSnapshot: {
+        payload: Prisma.$ApiExplorerSnapshotPayload<ExtArgs>
+        fields: Prisma.ApiExplorerSnapshotFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ApiExplorerSnapshotFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiExplorerSnapshotPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ApiExplorerSnapshotFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiExplorerSnapshotPayload>
+          }
+          findFirst: {
+            args: Prisma.ApiExplorerSnapshotFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiExplorerSnapshotPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ApiExplorerSnapshotFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiExplorerSnapshotPayload>
+          }
+          findMany: {
+            args: Prisma.ApiExplorerSnapshotFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiExplorerSnapshotPayload>[]
+          }
+          create: {
+            args: Prisma.ApiExplorerSnapshotCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiExplorerSnapshotPayload>
+          }
+          createMany: {
+            args: Prisma.ApiExplorerSnapshotCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ApiExplorerSnapshotCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiExplorerSnapshotPayload>[]
+          }
+          delete: {
+            args: Prisma.ApiExplorerSnapshotDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiExplorerSnapshotPayload>
+          }
+          update: {
+            args: Prisma.ApiExplorerSnapshotUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiExplorerSnapshotPayload>
+          }
+          deleteMany: {
+            args: Prisma.ApiExplorerSnapshotDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ApiExplorerSnapshotUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ApiExplorerSnapshotUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiExplorerSnapshotPayload>[]
+          }
+          upsert: {
+            args: Prisma.ApiExplorerSnapshotUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApiExplorerSnapshotPayload>
+          }
+          aggregate: {
+            args: Prisma.ApiExplorerSnapshotAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateApiExplorerSnapshot>
+          }
+          groupBy: {
+            args: Prisma.ApiExplorerSnapshotGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ApiExplorerSnapshotGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ApiExplorerSnapshotCountArgs<ExtArgs>
+            result: $Utils.Optional<ApiExplorerSnapshotCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1412,6 +1682,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     account?: AccountOmit
+    apiKey?: ApiKeyOmit
     invitation?: InvitationOmit
     member?: MemberOmit
     organization?: OrganizationOmit
@@ -1419,6 +1690,8 @@ export namespace Prisma {
     user?: UserOmit
     verification?: VerificationOmit
     organizationEnv?: OrganizationEnvOmit
+    requestLog?: RequestLogOmit
+    apiExplorerSnapshot?: ApiExplorerSnapshotOmit
   }
 
   /* Types for Logging */
@@ -2746,6 +3019,1263 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AccountInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ApiKey
+   */
+
+  export type AggregateApiKey = {
+    _count: ApiKeyCountAggregateOutputType | null
+    _avg: ApiKeyAvgAggregateOutputType | null
+    _sum: ApiKeySumAggregateOutputType | null
+    _min: ApiKeyMinAggregateOutputType | null
+    _max: ApiKeyMaxAggregateOutputType | null
+  }
+
+  export type ApiKeyAvgAggregateOutputType = {
+    refillInterval: number | null
+    refillAmount: number | null
+    rateLimitTimeWindow: number | null
+    rateLimitMax: number | null
+    requestCount: number | null
+    remaining: number | null
+  }
+
+  export type ApiKeySumAggregateOutputType = {
+    refillInterval: number | null
+    refillAmount: number | null
+    rateLimitTimeWindow: number | null
+    rateLimitMax: number | null
+    requestCount: number | null
+    remaining: number | null
+  }
+
+  export type ApiKeyMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    start: string | null
+    prefix: string | null
+    key: string | null
+    userId: string | null
+    refillInterval: number | null
+    refillAmount: number | null
+    lastRefillAt: Date | null
+    enabled: boolean | null
+    rateLimitEnabled: boolean | null
+    rateLimitTimeWindow: number | null
+    rateLimitMax: number | null
+    requestCount: number | null
+    remaining: number | null
+    lastRequest: Date | null
+    expiresAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    permissions: string | null
+    metadata: string | null
+  }
+
+  export type ApiKeyMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    start: string | null
+    prefix: string | null
+    key: string | null
+    userId: string | null
+    refillInterval: number | null
+    refillAmount: number | null
+    lastRefillAt: Date | null
+    enabled: boolean | null
+    rateLimitEnabled: boolean | null
+    rateLimitTimeWindow: number | null
+    rateLimitMax: number | null
+    requestCount: number | null
+    remaining: number | null
+    lastRequest: Date | null
+    expiresAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    permissions: string | null
+    metadata: string | null
+  }
+
+  export type ApiKeyCountAggregateOutputType = {
+    id: number
+    name: number
+    start: number
+    prefix: number
+    key: number
+    userId: number
+    refillInterval: number
+    refillAmount: number
+    lastRefillAt: number
+    enabled: number
+    rateLimitEnabled: number
+    rateLimitTimeWindow: number
+    rateLimitMax: number
+    requestCount: number
+    remaining: number
+    lastRequest: number
+    expiresAt: number
+    createdAt: number
+    updatedAt: number
+    permissions: number
+    metadata: number
+    _all: number
+  }
+
+
+  export type ApiKeyAvgAggregateInputType = {
+    refillInterval?: true
+    refillAmount?: true
+    rateLimitTimeWindow?: true
+    rateLimitMax?: true
+    requestCount?: true
+    remaining?: true
+  }
+
+  export type ApiKeySumAggregateInputType = {
+    refillInterval?: true
+    refillAmount?: true
+    rateLimitTimeWindow?: true
+    rateLimitMax?: true
+    requestCount?: true
+    remaining?: true
+  }
+
+  export type ApiKeyMinAggregateInputType = {
+    id?: true
+    name?: true
+    start?: true
+    prefix?: true
+    key?: true
+    userId?: true
+    refillInterval?: true
+    refillAmount?: true
+    lastRefillAt?: true
+    enabled?: true
+    rateLimitEnabled?: true
+    rateLimitTimeWindow?: true
+    rateLimitMax?: true
+    requestCount?: true
+    remaining?: true
+    lastRequest?: true
+    expiresAt?: true
+    createdAt?: true
+    updatedAt?: true
+    permissions?: true
+    metadata?: true
+  }
+
+  export type ApiKeyMaxAggregateInputType = {
+    id?: true
+    name?: true
+    start?: true
+    prefix?: true
+    key?: true
+    userId?: true
+    refillInterval?: true
+    refillAmount?: true
+    lastRefillAt?: true
+    enabled?: true
+    rateLimitEnabled?: true
+    rateLimitTimeWindow?: true
+    rateLimitMax?: true
+    requestCount?: true
+    remaining?: true
+    lastRequest?: true
+    expiresAt?: true
+    createdAt?: true
+    updatedAt?: true
+    permissions?: true
+    metadata?: true
+  }
+
+  export type ApiKeyCountAggregateInputType = {
+    id?: true
+    name?: true
+    start?: true
+    prefix?: true
+    key?: true
+    userId?: true
+    refillInterval?: true
+    refillAmount?: true
+    lastRefillAt?: true
+    enabled?: true
+    rateLimitEnabled?: true
+    rateLimitTimeWindow?: true
+    rateLimitMax?: true
+    requestCount?: true
+    remaining?: true
+    lastRequest?: true
+    expiresAt?: true
+    createdAt?: true
+    updatedAt?: true
+    permissions?: true
+    metadata?: true
+    _all?: true
+  }
+
+  export type ApiKeyAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ApiKey to aggregate.
+     */
+    where?: ApiKeyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApiKeys to fetch.
+     */
+    orderBy?: ApiKeyOrderByWithRelationInput | ApiKeyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ApiKeyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApiKeys from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApiKeys.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ApiKeys
+    **/
+    _count?: true | ApiKeyCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ApiKeyAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ApiKeySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ApiKeyMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ApiKeyMaxAggregateInputType
+  }
+
+  export type GetApiKeyAggregateType<T extends ApiKeyAggregateArgs> = {
+        [P in keyof T & keyof AggregateApiKey]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateApiKey[P]>
+      : GetScalarType<T[P], AggregateApiKey[P]>
+  }
+
+
+
+
+  export type ApiKeyGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ApiKeyWhereInput
+    orderBy?: ApiKeyOrderByWithAggregationInput | ApiKeyOrderByWithAggregationInput[]
+    by: ApiKeyScalarFieldEnum[] | ApiKeyScalarFieldEnum
+    having?: ApiKeyScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ApiKeyCountAggregateInputType | true
+    _avg?: ApiKeyAvgAggregateInputType
+    _sum?: ApiKeySumAggregateInputType
+    _min?: ApiKeyMinAggregateInputType
+    _max?: ApiKeyMaxAggregateInputType
+  }
+
+  export type ApiKeyGroupByOutputType = {
+    id: string
+    name: string | null
+    start: string | null
+    prefix: string | null
+    key: string
+    userId: string
+    refillInterval: number | null
+    refillAmount: number | null
+    lastRefillAt: Date | null
+    enabled: boolean
+    rateLimitEnabled: boolean
+    rateLimitTimeWindow: number | null
+    rateLimitMax: number | null
+    requestCount: number
+    remaining: number | null
+    lastRequest: Date | null
+    expiresAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    permissions: string | null
+    metadata: string | null
+    _count: ApiKeyCountAggregateOutputType | null
+    _avg: ApiKeyAvgAggregateOutputType | null
+    _sum: ApiKeySumAggregateOutputType | null
+    _min: ApiKeyMinAggregateOutputType | null
+    _max: ApiKeyMaxAggregateOutputType | null
+  }
+
+  type GetApiKeyGroupByPayload<T extends ApiKeyGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ApiKeyGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ApiKeyGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ApiKeyGroupByOutputType[P]>
+            : GetScalarType<T[P], ApiKeyGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ApiKeySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    start?: boolean
+    prefix?: boolean
+    key?: boolean
+    userId?: boolean
+    refillInterval?: boolean
+    refillAmount?: boolean
+    lastRefillAt?: boolean
+    enabled?: boolean
+    rateLimitEnabled?: boolean
+    rateLimitTimeWindow?: boolean
+    rateLimitMax?: boolean
+    requestCount?: boolean
+    remaining?: boolean
+    lastRequest?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    permissions?: boolean
+    metadata?: boolean
+  }, ExtArgs["result"]["apiKey"]>
+
+  export type ApiKeySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    start?: boolean
+    prefix?: boolean
+    key?: boolean
+    userId?: boolean
+    refillInterval?: boolean
+    refillAmount?: boolean
+    lastRefillAt?: boolean
+    enabled?: boolean
+    rateLimitEnabled?: boolean
+    rateLimitTimeWindow?: boolean
+    rateLimitMax?: boolean
+    requestCount?: boolean
+    remaining?: boolean
+    lastRequest?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    permissions?: boolean
+    metadata?: boolean
+  }, ExtArgs["result"]["apiKey"]>
+
+  export type ApiKeySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    start?: boolean
+    prefix?: boolean
+    key?: boolean
+    userId?: boolean
+    refillInterval?: boolean
+    refillAmount?: boolean
+    lastRefillAt?: boolean
+    enabled?: boolean
+    rateLimitEnabled?: boolean
+    rateLimitTimeWindow?: boolean
+    rateLimitMax?: boolean
+    requestCount?: boolean
+    remaining?: boolean
+    lastRequest?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    permissions?: boolean
+    metadata?: boolean
+  }, ExtArgs["result"]["apiKey"]>
+
+  export type ApiKeySelectScalar = {
+    id?: boolean
+    name?: boolean
+    start?: boolean
+    prefix?: boolean
+    key?: boolean
+    userId?: boolean
+    refillInterval?: boolean
+    refillAmount?: boolean
+    lastRefillAt?: boolean
+    enabled?: boolean
+    rateLimitEnabled?: boolean
+    rateLimitTimeWindow?: boolean
+    rateLimitMax?: boolean
+    requestCount?: boolean
+    remaining?: boolean
+    lastRequest?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    permissions?: boolean
+    metadata?: boolean
+  }
+
+  export type ApiKeyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "start" | "prefix" | "key" | "userId" | "refillInterval" | "refillAmount" | "lastRefillAt" | "enabled" | "rateLimitEnabled" | "rateLimitTimeWindow" | "rateLimitMax" | "requestCount" | "remaining" | "lastRequest" | "expiresAt" | "createdAt" | "updatedAt" | "permissions" | "metadata", ExtArgs["result"]["apiKey"]>
+
+  export type $ApiKeyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ApiKey"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string | null
+      start: string | null
+      prefix: string | null
+      key: string
+      userId: string
+      refillInterval: number | null
+      refillAmount: number | null
+      lastRefillAt: Date | null
+      enabled: boolean
+      rateLimitEnabled: boolean
+      rateLimitTimeWindow: number | null
+      rateLimitMax: number | null
+      requestCount: number
+      remaining: number | null
+      lastRequest: Date | null
+      expiresAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+      permissions: string | null
+      metadata: string | null
+    }, ExtArgs["result"]["apiKey"]>
+    composites: {}
+  }
+
+  type ApiKeyGetPayload<S extends boolean | null | undefined | ApiKeyDefaultArgs> = $Result.GetResult<Prisma.$ApiKeyPayload, S>
+
+  type ApiKeyCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ApiKeyFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ApiKeyCountAggregateInputType | true
+    }
+
+  export interface ApiKeyDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ApiKey'], meta: { name: 'ApiKey' } }
+    /**
+     * Find zero or one ApiKey that matches the filter.
+     * @param {ApiKeyFindUniqueArgs} args - Arguments to find a ApiKey
+     * @example
+     * // Get one ApiKey
+     * const apiKey = await prisma.apiKey.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ApiKeyFindUniqueArgs>(args: SelectSubset<T, ApiKeyFindUniqueArgs<ExtArgs>>): Prisma__ApiKeyClient<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ApiKey that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ApiKeyFindUniqueOrThrowArgs} args - Arguments to find a ApiKey
+     * @example
+     * // Get one ApiKey
+     * const apiKey = await prisma.apiKey.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ApiKeyFindUniqueOrThrowArgs>(args: SelectSubset<T, ApiKeyFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ApiKeyClient<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ApiKey that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiKeyFindFirstArgs} args - Arguments to find a ApiKey
+     * @example
+     * // Get one ApiKey
+     * const apiKey = await prisma.apiKey.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ApiKeyFindFirstArgs>(args?: SelectSubset<T, ApiKeyFindFirstArgs<ExtArgs>>): Prisma__ApiKeyClient<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ApiKey that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiKeyFindFirstOrThrowArgs} args - Arguments to find a ApiKey
+     * @example
+     * // Get one ApiKey
+     * const apiKey = await prisma.apiKey.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ApiKeyFindFirstOrThrowArgs>(args?: SelectSubset<T, ApiKeyFindFirstOrThrowArgs<ExtArgs>>): Prisma__ApiKeyClient<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ApiKeys that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiKeyFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ApiKeys
+     * const apiKeys = await prisma.apiKey.findMany()
+     * 
+     * // Get first 10 ApiKeys
+     * const apiKeys = await prisma.apiKey.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const apiKeyWithIdOnly = await prisma.apiKey.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ApiKeyFindManyArgs>(args?: SelectSubset<T, ApiKeyFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ApiKey.
+     * @param {ApiKeyCreateArgs} args - Arguments to create a ApiKey.
+     * @example
+     * // Create one ApiKey
+     * const ApiKey = await prisma.apiKey.create({
+     *   data: {
+     *     // ... data to create a ApiKey
+     *   }
+     * })
+     * 
+     */
+    create<T extends ApiKeyCreateArgs>(args: SelectSubset<T, ApiKeyCreateArgs<ExtArgs>>): Prisma__ApiKeyClient<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ApiKeys.
+     * @param {ApiKeyCreateManyArgs} args - Arguments to create many ApiKeys.
+     * @example
+     * // Create many ApiKeys
+     * const apiKey = await prisma.apiKey.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ApiKeyCreateManyArgs>(args?: SelectSubset<T, ApiKeyCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ApiKeys and returns the data saved in the database.
+     * @param {ApiKeyCreateManyAndReturnArgs} args - Arguments to create many ApiKeys.
+     * @example
+     * // Create many ApiKeys
+     * const apiKey = await prisma.apiKey.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ApiKeys and only return the `id`
+     * const apiKeyWithIdOnly = await prisma.apiKey.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ApiKeyCreateManyAndReturnArgs>(args?: SelectSubset<T, ApiKeyCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ApiKey.
+     * @param {ApiKeyDeleteArgs} args - Arguments to delete one ApiKey.
+     * @example
+     * // Delete one ApiKey
+     * const ApiKey = await prisma.apiKey.delete({
+     *   where: {
+     *     // ... filter to delete one ApiKey
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ApiKeyDeleteArgs>(args: SelectSubset<T, ApiKeyDeleteArgs<ExtArgs>>): Prisma__ApiKeyClient<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ApiKey.
+     * @param {ApiKeyUpdateArgs} args - Arguments to update one ApiKey.
+     * @example
+     * // Update one ApiKey
+     * const apiKey = await prisma.apiKey.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ApiKeyUpdateArgs>(args: SelectSubset<T, ApiKeyUpdateArgs<ExtArgs>>): Prisma__ApiKeyClient<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ApiKeys.
+     * @param {ApiKeyDeleteManyArgs} args - Arguments to filter ApiKeys to delete.
+     * @example
+     * // Delete a few ApiKeys
+     * const { count } = await prisma.apiKey.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ApiKeyDeleteManyArgs>(args?: SelectSubset<T, ApiKeyDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ApiKeys.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiKeyUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ApiKeys
+     * const apiKey = await prisma.apiKey.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ApiKeyUpdateManyArgs>(args: SelectSubset<T, ApiKeyUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ApiKeys and returns the data updated in the database.
+     * @param {ApiKeyUpdateManyAndReturnArgs} args - Arguments to update many ApiKeys.
+     * @example
+     * // Update many ApiKeys
+     * const apiKey = await prisma.apiKey.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ApiKeys and only return the `id`
+     * const apiKeyWithIdOnly = await prisma.apiKey.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ApiKeyUpdateManyAndReturnArgs>(args: SelectSubset<T, ApiKeyUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ApiKey.
+     * @param {ApiKeyUpsertArgs} args - Arguments to update or create a ApiKey.
+     * @example
+     * // Update or create a ApiKey
+     * const apiKey = await prisma.apiKey.upsert({
+     *   create: {
+     *     // ... data to create a ApiKey
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ApiKey we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ApiKeyUpsertArgs>(args: SelectSubset<T, ApiKeyUpsertArgs<ExtArgs>>): Prisma__ApiKeyClient<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ApiKeys.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiKeyCountArgs} args - Arguments to filter ApiKeys to count.
+     * @example
+     * // Count the number of ApiKeys
+     * const count = await prisma.apiKey.count({
+     *   where: {
+     *     // ... the filter for the ApiKeys we want to count
+     *   }
+     * })
+    **/
+    count<T extends ApiKeyCountArgs>(
+      args?: Subset<T, ApiKeyCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ApiKeyCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ApiKey.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiKeyAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ApiKeyAggregateArgs>(args: Subset<T, ApiKeyAggregateArgs>): Prisma.PrismaPromise<GetApiKeyAggregateType<T>>
+
+    /**
+     * Group by ApiKey.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiKeyGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ApiKeyGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ApiKeyGroupByArgs['orderBy'] }
+        : { orderBy?: ApiKeyGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ApiKeyGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetApiKeyGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ApiKey model
+   */
+  readonly fields: ApiKeyFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ApiKey.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ApiKeyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ApiKey model
+   */
+  interface ApiKeyFieldRefs {
+    readonly id: FieldRef<"ApiKey", 'String'>
+    readonly name: FieldRef<"ApiKey", 'String'>
+    readonly start: FieldRef<"ApiKey", 'String'>
+    readonly prefix: FieldRef<"ApiKey", 'String'>
+    readonly key: FieldRef<"ApiKey", 'String'>
+    readonly userId: FieldRef<"ApiKey", 'String'>
+    readonly refillInterval: FieldRef<"ApiKey", 'Int'>
+    readonly refillAmount: FieldRef<"ApiKey", 'Int'>
+    readonly lastRefillAt: FieldRef<"ApiKey", 'DateTime'>
+    readonly enabled: FieldRef<"ApiKey", 'Boolean'>
+    readonly rateLimitEnabled: FieldRef<"ApiKey", 'Boolean'>
+    readonly rateLimitTimeWindow: FieldRef<"ApiKey", 'Int'>
+    readonly rateLimitMax: FieldRef<"ApiKey", 'Int'>
+    readonly requestCount: FieldRef<"ApiKey", 'Int'>
+    readonly remaining: FieldRef<"ApiKey", 'Int'>
+    readonly lastRequest: FieldRef<"ApiKey", 'DateTime'>
+    readonly expiresAt: FieldRef<"ApiKey", 'DateTime'>
+    readonly createdAt: FieldRef<"ApiKey", 'DateTime'>
+    readonly updatedAt: FieldRef<"ApiKey", 'DateTime'>
+    readonly permissions: FieldRef<"ApiKey", 'String'>
+    readonly metadata: FieldRef<"ApiKey", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ApiKey findUnique
+   */
+  export type ApiKeyFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * Filter, which ApiKey to fetch.
+     */
+    where: ApiKeyWhereUniqueInput
+  }
+
+  /**
+   * ApiKey findUniqueOrThrow
+   */
+  export type ApiKeyFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * Filter, which ApiKey to fetch.
+     */
+    where: ApiKeyWhereUniqueInput
+  }
+
+  /**
+   * ApiKey findFirst
+   */
+  export type ApiKeyFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * Filter, which ApiKey to fetch.
+     */
+    where?: ApiKeyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApiKeys to fetch.
+     */
+    orderBy?: ApiKeyOrderByWithRelationInput | ApiKeyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ApiKeys.
+     */
+    cursor?: ApiKeyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApiKeys from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApiKeys.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ApiKeys.
+     */
+    distinct?: ApiKeyScalarFieldEnum | ApiKeyScalarFieldEnum[]
+  }
+
+  /**
+   * ApiKey findFirstOrThrow
+   */
+  export type ApiKeyFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * Filter, which ApiKey to fetch.
+     */
+    where?: ApiKeyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApiKeys to fetch.
+     */
+    orderBy?: ApiKeyOrderByWithRelationInput | ApiKeyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ApiKeys.
+     */
+    cursor?: ApiKeyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApiKeys from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApiKeys.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ApiKeys.
+     */
+    distinct?: ApiKeyScalarFieldEnum | ApiKeyScalarFieldEnum[]
+  }
+
+  /**
+   * ApiKey findMany
+   */
+  export type ApiKeyFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * Filter, which ApiKeys to fetch.
+     */
+    where?: ApiKeyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApiKeys to fetch.
+     */
+    orderBy?: ApiKeyOrderByWithRelationInput | ApiKeyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ApiKeys.
+     */
+    cursor?: ApiKeyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApiKeys from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApiKeys.
+     */
+    skip?: number
+    distinct?: ApiKeyScalarFieldEnum | ApiKeyScalarFieldEnum[]
+  }
+
+  /**
+   * ApiKey create
+   */
+  export type ApiKeyCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * The data needed to create a ApiKey.
+     */
+    data: XOR<ApiKeyCreateInput, ApiKeyUncheckedCreateInput>
+  }
+
+  /**
+   * ApiKey createMany
+   */
+  export type ApiKeyCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ApiKeys.
+     */
+    data: ApiKeyCreateManyInput | ApiKeyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ApiKey createManyAndReturn
+   */
+  export type ApiKeyCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * The data used to create many ApiKeys.
+     */
+    data: ApiKeyCreateManyInput | ApiKeyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ApiKey update
+   */
+  export type ApiKeyUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * The data needed to update a ApiKey.
+     */
+    data: XOR<ApiKeyUpdateInput, ApiKeyUncheckedUpdateInput>
+    /**
+     * Choose, which ApiKey to update.
+     */
+    where: ApiKeyWhereUniqueInput
+  }
+
+  /**
+   * ApiKey updateMany
+   */
+  export type ApiKeyUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ApiKeys.
+     */
+    data: XOR<ApiKeyUpdateManyMutationInput, ApiKeyUncheckedUpdateManyInput>
+    /**
+     * Filter which ApiKeys to update
+     */
+    where?: ApiKeyWhereInput
+    /**
+     * Limit how many ApiKeys to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ApiKey updateManyAndReturn
+   */
+  export type ApiKeyUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * The data used to update ApiKeys.
+     */
+    data: XOR<ApiKeyUpdateManyMutationInput, ApiKeyUncheckedUpdateManyInput>
+    /**
+     * Filter which ApiKeys to update
+     */
+    where?: ApiKeyWhereInput
+    /**
+     * Limit how many ApiKeys to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ApiKey upsert
+   */
+  export type ApiKeyUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * The filter to search for the ApiKey to update in case it exists.
+     */
+    where: ApiKeyWhereUniqueInput
+    /**
+     * In case the ApiKey found by the `where` argument doesn't exist, create a new ApiKey with this data.
+     */
+    create: XOR<ApiKeyCreateInput, ApiKeyUncheckedCreateInput>
+    /**
+     * In case the ApiKey was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ApiKeyUpdateInput, ApiKeyUncheckedUpdateInput>
+  }
+
+  /**
+   * ApiKey delete
+   */
+  export type ApiKeyDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
+    /**
+     * Filter which ApiKey to delete.
+     */
+    where: ApiKeyWhereUniqueInput
+  }
+
+  /**
+   * ApiKey deleteMany
+   */
+  export type ApiKeyDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ApiKeys to delete
+     */
+    where?: ApiKeyWhereInput
+    /**
+     * Limit how many ApiKeys to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ApiKey without action
+   */
+  export type ApiKeyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiKey
+     */
+    select?: ApiKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiKey
+     */
+    omit?: ApiKeyOmit<ExtArgs> | null
   }
 
 
@@ -6044,6 +7574,7 @@ export namespace Prisma {
     userId: string | null
     activeOrganizationId: string | null
     activeTeamId: string | null
+    impersonatedBy: string | null
   }
 
   export type SessionMaxAggregateOutputType = {
@@ -6057,6 +7588,7 @@ export namespace Prisma {
     userId: string | null
     activeOrganizationId: string | null
     activeTeamId: string | null
+    impersonatedBy: string | null
   }
 
   export type SessionCountAggregateOutputType = {
@@ -6070,6 +7602,7 @@ export namespace Prisma {
     userId: number
     activeOrganizationId: number
     activeTeamId: number
+    impersonatedBy: number
     _all: number
   }
 
@@ -6085,6 +7618,7 @@ export namespace Prisma {
     userId?: true
     activeOrganizationId?: true
     activeTeamId?: true
+    impersonatedBy?: true
   }
 
   export type SessionMaxAggregateInputType = {
@@ -6098,6 +7632,7 @@ export namespace Prisma {
     userId?: true
     activeOrganizationId?: true
     activeTeamId?: true
+    impersonatedBy?: true
   }
 
   export type SessionCountAggregateInputType = {
@@ -6111,6 +7646,7 @@ export namespace Prisma {
     userId?: true
     activeOrganizationId?: true
     activeTeamId?: true
+    impersonatedBy?: true
     _all?: true
   }
 
@@ -6197,6 +7733,7 @@ export namespace Prisma {
     userId: string
     activeOrganizationId: string | null
     activeTeamId: string | null
+    impersonatedBy: string | null
     _count: SessionCountAggregateOutputType | null
     _min: SessionMinAggregateOutputType | null
     _max: SessionMaxAggregateOutputType | null
@@ -6227,6 +7764,7 @@ export namespace Prisma {
     userId?: boolean
     activeOrganizationId?: boolean
     activeTeamId?: boolean
+    impersonatedBy?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
 
@@ -6241,6 +7779,7 @@ export namespace Prisma {
     userId?: boolean
     activeOrganizationId?: boolean
     activeTeamId?: boolean
+    impersonatedBy?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
 
@@ -6255,6 +7794,7 @@ export namespace Prisma {
     userId?: boolean
     activeOrganizationId?: boolean
     activeTeamId?: boolean
+    impersonatedBy?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
 
@@ -6269,9 +7809,10 @@ export namespace Prisma {
     userId?: boolean
     activeOrganizationId?: boolean
     activeTeamId?: boolean
+    impersonatedBy?: boolean
   }
 
-  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "expiresAt" | "token" | "createdAt" | "updatedAt" | "ipAddress" | "userAgent" | "userId" | "activeOrganizationId" | "activeTeamId", ExtArgs["result"]["session"]>
+  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "expiresAt" | "token" | "createdAt" | "updatedAt" | "ipAddress" | "userAgent" | "userId" | "activeOrganizationId" | "activeTeamId" | "impersonatedBy", ExtArgs["result"]["session"]>
   export type SessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -6298,6 +7839,7 @@ export namespace Prisma {
       userId: string
       activeOrganizationId: string | null
       activeTeamId: string | null
+      impersonatedBy: string | null
     }, ExtArgs["result"]["session"]>
     composites: {}
   }
@@ -6732,6 +8274,7 @@ export namespace Prisma {
     readonly userId: FieldRef<"Session", 'String'>
     readonly activeOrganizationId: FieldRef<"Session", 'String'>
     readonly activeTeamId: FieldRef<"Session", 'String'>
+    readonly impersonatedBy: FieldRef<"Session", 'String'>
   }
     
 
@@ -7164,6 +8707,10 @@ export namespace Prisma {
     image: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    role: string | null
+    banned: boolean | null
+    banReason: string | null
+    banExpires: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -7174,6 +8721,10 @@ export namespace Prisma {
     image: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    role: string | null
+    banned: boolean | null
+    banReason: string | null
+    banExpires: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -7184,6 +8735,10 @@ export namespace Prisma {
     image: number
     createdAt: number
     updatedAt: number
+    role: number
+    banned: number
+    banReason: number
+    banExpires: number
     _all: number
   }
 
@@ -7196,6 +8751,10 @@ export namespace Prisma {
     image?: true
     createdAt?: true
     updatedAt?: true
+    role?: true
+    banned?: true
+    banReason?: true
+    banExpires?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -7206,6 +8765,10 @@ export namespace Prisma {
     image?: true
     createdAt?: true
     updatedAt?: true
+    role?: true
+    banned?: true
+    banReason?: true
+    banExpires?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -7216,6 +8779,10 @@ export namespace Prisma {
     image?: true
     createdAt?: true
     updatedAt?: true
+    role?: true
+    banned?: true
+    banReason?: true
+    banExpires?: true
     _all?: true
   }
 
@@ -7299,6 +8866,10 @@ export namespace Prisma {
     image: string | null
     createdAt: Date
     updatedAt: Date
+    role: string | null
+    banned: boolean | null
+    banReason: string | null
+    banExpires: Date | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -7326,6 +8897,10 @@ export namespace Prisma {
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    role?: boolean
+    banned?: boolean
+    banReason?: boolean
+    banExpires?: boolean
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
     members?: boolean | User$membersArgs<ExtArgs>
@@ -7340,6 +8915,10 @@ export namespace Prisma {
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    role?: boolean
+    banned?: boolean
+    banReason?: boolean
+    banExpires?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7350,6 +8929,10 @@ export namespace Prisma {
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    role?: boolean
+    banned?: boolean
+    banReason?: boolean
+    banExpires?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -7360,9 +8943,13 @@ export namespace Prisma {
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    role?: boolean
+    banned?: boolean
+    banReason?: boolean
+    banExpires?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "role" | "banned" | "banReason" | "banExpires", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
@@ -7387,6 +8974,10 @@ export namespace Prisma {
       image: string | null
       createdAt: Date
       updatedAt: Date
+      role: string | null
+      banned: boolean | null
+      banReason: string | null
+      banExpires: Date | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -7820,6 +9411,10 @@ export namespace Prisma {
     readonly image: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
+    readonly role: FieldRef<"User", 'String'>
+    readonly banned: FieldRef<"User", 'Boolean'>
+    readonly banReason: FieldRef<"User", 'String'>
+    readonly banExpires: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -10328,6 +11923,2125 @@ export namespace Prisma {
 
 
   /**
+   * Model RequestLog
+   */
+
+  export type AggregateRequestLog = {
+    _count: RequestLogCountAggregateOutputType | null
+    _avg: RequestLogAvgAggregateOutputType | null
+    _sum: RequestLogSumAggregateOutputType | null
+    _min: RequestLogMinAggregateOutputType | null
+    _max: RequestLogMaxAggregateOutputType | null
+  }
+
+  export type RequestLogAvgAggregateOutputType = {
+    statusCode: number | null
+    durationMs: number | null
+    responseSize: number | null
+  }
+
+  export type RequestLogSumAggregateOutputType = {
+    statusCode: number | null
+    durationMs: number | null
+    responseSize: number | null
+  }
+
+  export type RequestLogMinAggregateOutputType = {
+    id: string | null
+    organizationId: string | null
+    env: string | null
+    requestId: string | null
+    tracingId: string | null
+    method: string | null
+    route: string | null
+    statusCode: number | null
+    durationMs: number | null
+    responseSize: number | null
+    timestamp: Date | null
+    createdAt: Date | null
+  }
+
+  export type RequestLogMaxAggregateOutputType = {
+    id: string | null
+    organizationId: string | null
+    env: string | null
+    requestId: string | null
+    tracingId: string | null
+    method: string | null
+    route: string | null
+    statusCode: number | null
+    durationMs: number | null
+    responseSize: number | null
+    timestamp: Date | null
+    createdAt: Date | null
+  }
+
+  export type RequestLogCountAggregateOutputType = {
+    id: number
+    organizationId: number
+    env: number
+    requestId: number
+    tracingId: number
+    method: number
+    route: number
+    statusCode: number
+    durationMs: number
+    responseSize: number
+    timestamp: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type RequestLogAvgAggregateInputType = {
+    statusCode?: true
+    durationMs?: true
+    responseSize?: true
+  }
+
+  export type RequestLogSumAggregateInputType = {
+    statusCode?: true
+    durationMs?: true
+    responseSize?: true
+  }
+
+  export type RequestLogMinAggregateInputType = {
+    id?: true
+    organizationId?: true
+    env?: true
+    requestId?: true
+    tracingId?: true
+    method?: true
+    route?: true
+    statusCode?: true
+    durationMs?: true
+    responseSize?: true
+    timestamp?: true
+    createdAt?: true
+  }
+
+  export type RequestLogMaxAggregateInputType = {
+    id?: true
+    organizationId?: true
+    env?: true
+    requestId?: true
+    tracingId?: true
+    method?: true
+    route?: true
+    statusCode?: true
+    durationMs?: true
+    responseSize?: true
+    timestamp?: true
+    createdAt?: true
+  }
+
+  export type RequestLogCountAggregateInputType = {
+    id?: true
+    organizationId?: true
+    env?: true
+    requestId?: true
+    tracingId?: true
+    method?: true
+    route?: true
+    statusCode?: true
+    durationMs?: true
+    responseSize?: true
+    timestamp?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type RequestLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RequestLog to aggregate.
+     */
+    where?: RequestLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RequestLogs to fetch.
+     */
+    orderBy?: RequestLogOrderByWithRelationInput | RequestLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RequestLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RequestLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RequestLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RequestLogs
+    **/
+    _count?: true | RequestLogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RequestLogAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RequestLogSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RequestLogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RequestLogMaxAggregateInputType
+  }
+
+  export type GetRequestLogAggregateType<T extends RequestLogAggregateArgs> = {
+        [P in keyof T & keyof AggregateRequestLog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRequestLog[P]>
+      : GetScalarType<T[P], AggregateRequestLog[P]>
+  }
+
+
+
+
+  export type RequestLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RequestLogWhereInput
+    orderBy?: RequestLogOrderByWithAggregationInput | RequestLogOrderByWithAggregationInput[]
+    by: RequestLogScalarFieldEnum[] | RequestLogScalarFieldEnum
+    having?: RequestLogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RequestLogCountAggregateInputType | true
+    _avg?: RequestLogAvgAggregateInputType
+    _sum?: RequestLogSumAggregateInputType
+    _min?: RequestLogMinAggregateInputType
+    _max?: RequestLogMaxAggregateInputType
+  }
+
+  export type RequestLogGroupByOutputType = {
+    id: string
+    organizationId: string
+    env: string
+    requestId: string
+    tracingId: string
+    method: string
+    route: string
+    statusCode: number
+    durationMs: number
+    responseSize: number
+    timestamp: Date
+    createdAt: Date
+    _count: RequestLogCountAggregateOutputType | null
+    _avg: RequestLogAvgAggregateOutputType | null
+    _sum: RequestLogSumAggregateOutputType | null
+    _min: RequestLogMinAggregateOutputType | null
+    _max: RequestLogMaxAggregateOutputType | null
+  }
+
+  type GetRequestLogGroupByPayload<T extends RequestLogGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RequestLogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RequestLogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RequestLogGroupByOutputType[P]>
+            : GetScalarType<T[P], RequestLogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RequestLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    organizationId?: boolean
+    env?: boolean
+    requestId?: boolean
+    tracingId?: boolean
+    method?: boolean
+    route?: boolean
+    statusCode?: boolean
+    durationMs?: boolean
+    responseSize?: boolean
+    timestamp?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["requestLog"]>
+
+  export type RequestLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    organizationId?: boolean
+    env?: boolean
+    requestId?: boolean
+    tracingId?: boolean
+    method?: boolean
+    route?: boolean
+    statusCode?: boolean
+    durationMs?: boolean
+    responseSize?: boolean
+    timestamp?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["requestLog"]>
+
+  export type RequestLogSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    organizationId?: boolean
+    env?: boolean
+    requestId?: boolean
+    tracingId?: boolean
+    method?: boolean
+    route?: boolean
+    statusCode?: boolean
+    durationMs?: boolean
+    responseSize?: boolean
+    timestamp?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["requestLog"]>
+
+  export type RequestLogSelectScalar = {
+    id?: boolean
+    organizationId?: boolean
+    env?: boolean
+    requestId?: boolean
+    tracingId?: boolean
+    method?: boolean
+    route?: boolean
+    statusCode?: boolean
+    durationMs?: boolean
+    responseSize?: boolean
+    timestamp?: boolean
+    createdAt?: boolean
+  }
+
+  export type RequestLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "organizationId" | "env" | "requestId" | "tracingId" | "method" | "route" | "statusCode" | "durationMs" | "responseSize" | "timestamp" | "createdAt", ExtArgs["result"]["requestLog"]>
+
+  export type $RequestLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RequestLog"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      organizationId: string
+      env: string
+      requestId: string
+      tracingId: string
+      method: string
+      route: string
+      statusCode: number
+      durationMs: number
+      responseSize: number
+      timestamp: Date
+      createdAt: Date
+    }, ExtArgs["result"]["requestLog"]>
+    composites: {}
+  }
+
+  type RequestLogGetPayload<S extends boolean | null | undefined | RequestLogDefaultArgs> = $Result.GetResult<Prisma.$RequestLogPayload, S>
+
+  type RequestLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RequestLogFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RequestLogCountAggregateInputType | true
+    }
+
+  export interface RequestLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RequestLog'], meta: { name: 'RequestLog' } }
+    /**
+     * Find zero or one RequestLog that matches the filter.
+     * @param {RequestLogFindUniqueArgs} args - Arguments to find a RequestLog
+     * @example
+     * // Get one RequestLog
+     * const requestLog = await prisma.requestLog.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RequestLogFindUniqueArgs>(args: SelectSubset<T, RequestLogFindUniqueArgs<ExtArgs>>): Prisma__RequestLogClient<$Result.GetResult<Prisma.$RequestLogPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one RequestLog that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RequestLogFindUniqueOrThrowArgs} args - Arguments to find a RequestLog
+     * @example
+     * // Get one RequestLog
+     * const requestLog = await prisma.requestLog.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RequestLogFindUniqueOrThrowArgs>(args: SelectSubset<T, RequestLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RequestLogClient<$Result.GetResult<Prisma.$RequestLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RequestLog that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RequestLogFindFirstArgs} args - Arguments to find a RequestLog
+     * @example
+     * // Get one RequestLog
+     * const requestLog = await prisma.requestLog.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RequestLogFindFirstArgs>(args?: SelectSubset<T, RequestLogFindFirstArgs<ExtArgs>>): Prisma__RequestLogClient<$Result.GetResult<Prisma.$RequestLogPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RequestLog that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RequestLogFindFirstOrThrowArgs} args - Arguments to find a RequestLog
+     * @example
+     * // Get one RequestLog
+     * const requestLog = await prisma.requestLog.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RequestLogFindFirstOrThrowArgs>(args?: SelectSubset<T, RequestLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__RequestLogClient<$Result.GetResult<Prisma.$RequestLogPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more RequestLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RequestLogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RequestLogs
+     * const requestLogs = await prisma.requestLog.findMany()
+     * 
+     * // Get first 10 RequestLogs
+     * const requestLogs = await prisma.requestLog.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const requestLogWithIdOnly = await prisma.requestLog.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RequestLogFindManyArgs>(args?: SelectSubset<T, RequestLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RequestLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a RequestLog.
+     * @param {RequestLogCreateArgs} args - Arguments to create a RequestLog.
+     * @example
+     * // Create one RequestLog
+     * const RequestLog = await prisma.requestLog.create({
+     *   data: {
+     *     // ... data to create a RequestLog
+     *   }
+     * })
+     * 
+     */
+    create<T extends RequestLogCreateArgs>(args: SelectSubset<T, RequestLogCreateArgs<ExtArgs>>): Prisma__RequestLogClient<$Result.GetResult<Prisma.$RequestLogPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many RequestLogs.
+     * @param {RequestLogCreateManyArgs} args - Arguments to create many RequestLogs.
+     * @example
+     * // Create many RequestLogs
+     * const requestLog = await prisma.requestLog.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RequestLogCreateManyArgs>(args?: SelectSubset<T, RequestLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RequestLogs and returns the data saved in the database.
+     * @param {RequestLogCreateManyAndReturnArgs} args - Arguments to create many RequestLogs.
+     * @example
+     * // Create many RequestLogs
+     * const requestLog = await prisma.requestLog.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RequestLogs and only return the `id`
+     * const requestLogWithIdOnly = await prisma.requestLog.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RequestLogCreateManyAndReturnArgs>(args?: SelectSubset<T, RequestLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RequestLogPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a RequestLog.
+     * @param {RequestLogDeleteArgs} args - Arguments to delete one RequestLog.
+     * @example
+     * // Delete one RequestLog
+     * const RequestLog = await prisma.requestLog.delete({
+     *   where: {
+     *     // ... filter to delete one RequestLog
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RequestLogDeleteArgs>(args: SelectSubset<T, RequestLogDeleteArgs<ExtArgs>>): Prisma__RequestLogClient<$Result.GetResult<Prisma.$RequestLogPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one RequestLog.
+     * @param {RequestLogUpdateArgs} args - Arguments to update one RequestLog.
+     * @example
+     * // Update one RequestLog
+     * const requestLog = await prisma.requestLog.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RequestLogUpdateArgs>(args: SelectSubset<T, RequestLogUpdateArgs<ExtArgs>>): Prisma__RequestLogClient<$Result.GetResult<Prisma.$RequestLogPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more RequestLogs.
+     * @param {RequestLogDeleteManyArgs} args - Arguments to filter RequestLogs to delete.
+     * @example
+     * // Delete a few RequestLogs
+     * const { count } = await prisma.requestLog.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RequestLogDeleteManyArgs>(args?: SelectSubset<T, RequestLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RequestLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RequestLogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RequestLogs
+     * const requestLog = await prisma.requestLog.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RequestLogUpdateManyArgs>(args: SelectSubset<T, RequestLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RequestLogs and returns the data updated in the database.
+     * @param {RequestLogUpdateManyAndReturnArgs} args - Arguments to update many RequestLogs.
+     * @example
+     * // Update many RequestLogs
+     * const requestLog = await prisma.requestLog.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more RequestLogs and only return the `id`
+     * const requestLogWithIdOnly = await prisma.requestLog.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RequestLogUpdateManyAndReturnArgs>(args: SelectSubset<T, RequestLogUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RequestLogPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one RequestLog.
+     * @param {RequestLogUpsertArgs} args - Arguments to update or create a RequestLog.
+     * @example
+     * // Update or create a RequestLog
+     * const requestLog = await prisma.requestLog.upsert({
+     *   create: {
+     *     // ... data to create a RequestLog
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RequestLog we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RequestLogUpsertArgs>(args: SelectSubset<T, RequestLogUpsertArgs<ExtArgs>>): Prisma__RequestLogClient<$Result.GetResult<Prisma.$RequestLogPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of RequestLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RequestLogCountArgs} args - Arguments to filter RequestLogs to count.
+     * @example
+     * // Count the number of RequestLogs
+     * const count = await prisma.requestLog.count({
+     *   where: {
+     *     // ... the filter for the RequestLogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends RequestLogCountArgs>(
+      args?: Subset<T, RequestLogCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RequestLogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RequestLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RequestLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RequestLogAggregateArgs>(args: Subset<T, RequestLogAggregateArgs>): Prisma.PrismaPromise<GetRequestLogAggregateType<T>>
+
+    /**
+     * Group by RequestLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RequestLogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RequestLogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RequestLogGroupByArgs['orderBy'] }
+        : { orderBy?: RequestLogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RequestLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRequestLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RequestLog model
+   */
+  readonly fields: RequestLogFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RequestLog.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RequestLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RequestLog model
+   */
+  interface RequestLogFieldRefs {
+    readonly id: FieldRef<"RequestLog", 'String'>
+    readonly organizationId: FieldRef<"RequestLog", 'String'>
+    readonly env: FieldRef<"RequestLog", 'String'>
+    readonly requestId: FieldRef<"RequestLog", 'String'>
+    readonly tracingId: FieldRef<"RequestLog", 'String'>
+    readonly method: FieldRef<"RequestLog", 'String'>
+    readonly route: FieldRef<"RequestLog", 'String'>
+    readonly statusCode: FieldRef<"RequestLog", 'Int'>
+    readonly durationMs: FieldRef<"RequestLog", 'Int'>
+    readonly responseSize: FieldRef<"RequestLog", 'Int'>
+    readonly timestamp: FieldRef<"RequestLog", 'DateTime'>
+    readonly createdAt: FieldRef<"RequestLog", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RequestLog findUnique
+   */
+  export type RequestLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RequestLog
+     */
+    select?: RequestLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RequestLog
+     */
+    omit?: RequestLogOmit<ExtArgs> | null
+    /**
+     * Filter, which RequestLog to fetch.
+     */
+    where: RequestLogWhereUniqueInput
+  }
+
+  /**
+   * RequestLog findUniqueOrThrow
+   */
+  export type RequestLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RequestLog
+     */
+    select?: RequestLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RequestLog
+     */
+    omit?: RequestLogOmit<ExtArgs> | null
+    /**
+     * Filter, which RequestLog to fetch.
+     */
+    where: RequestLogWhereUniqueInput
+  }
+
+  /**
+   * RequestLog findFirst
+   */
+  export type RequestLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RequestLog
+     */
+    select?: RequestLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RequestLog
+     */
+    omit?: RequestLogOmit<ExtArgs> | null
+    /**
+     * Filter, which RequestLog to fetch.
+     */
+    where?: RequestLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RequestLogs to fetch.
+     */
+    orderBy?: RequestLogOrderByWithRelationInput | RequestLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RequestLogs.
+     */
+    cursor?: RequestLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RequestLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RequestLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RequestLogs.
+     */
+    distinct?: RequestLogScalarFieldEnum | RequestLogScalarFieldEnum[]
+  }
+
+  /**
+   * RequestLog findFirstOrThrow
+   */
+  export type RequestLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RequestLog
+     */
+    select?: RequestLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RequestLog
+     */
+    omit?: RequestLogOmit<ExtArgs> | null
+    /**
+     * Filter, which RequestLog to fetch.
+     */
+    where?: RequestLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RequestLogs to fetch.
+     */
+    orderBy?: RequestLogOrderByWithRelationInput | RequestLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RequestLogs.
+     */
+    cursor?: RequestLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RequestLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RequestLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RequestLogs.
+     */
+    distinct?: RequestLogScalarFieldEnum | RequestLogScalarFieldEnum[]
+  }
+
+  /**
+   * RequestLog findMany
+   */
+  export type RequestLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RequestLog
+     */
+    select?: RequestLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RequestLog
+     */
+    omit?: RequestLogOmit<ExtArgs> | null
+    /**
+     * Filter, which RequestLogs to fetch.
+     */
+    where?: RequestLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RequestLogs to fetch.
+     */
+    orderBy?: RequestLogOrderByWithRelationInput | RequestLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RequestLogs.
+     */
+    cursor?: RequestLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RequestLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RequestLogs.
+     */
+    skip?: number
+    distinct?: RequestLogScalarFieldEnum | RequestLogScalarFieldEnum[]
+  }
+
+  /**
+   * RequestLog create
+   */
+  export type RequestLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RequestLog
+     */
+    select?: RequestLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RequestLog
+     */
+    omit?: RequestLogOmit<ExtArgs> | null
+    /**
+     * The data needed to create a RequestLog.
+     */
+    data: XOR<RequestLogCreateInput, RequestLogUncheckedCreateInput>
+  }
+
+  /**
+   * RequestLog createMany
+   */
+  export type RequestLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RequestLogs.
+     */
+    data: RequestLogCreateManyInput | RequestLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RequestLog createManyAndReturn
+   */
+  export type RequestLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RequestLog
+     */
+    select?: RequestLogSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RequestLog
+     */
+    omit?: RequestLogOmit<ExtArgs> | null
+    /**
+     * The data used to create many RequestLogs.
+     */
+    data: RequestLogCreateManyInput | RequestLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RequestLog update
+   */
+  export type RequestLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RequestLog
+     */
+    select?: RequestLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RequestLog
+     */
+    omit?: RequestLogOmit<ExtArgs> | null
+    /**
+     * The data needed to update a RequestLog.
+     */
+    data: XOR<RequestLogUpdateInput, RequestLogUncheckedUpdateInput>
+    /**
+     * Choose, which RequestLog to update.
+     */
+    where: RequestLogWhereUniqueInput
+  }
+
+  /**
+   * RequestLog updateMany
+   */
+  export type RequestLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RequestLogs.
+     */
+    data: XOR<RequestLogUpdateManyMutationInput, RequestLogUncheckedUpdateManyInput>
+    /**
+     * Filter which RequestLogs to update
+     */
+    where?: RequestLogWhereInput
+    /**
+     * Limit how many RequestLogs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * RequestLog updateManyAndReturn
+   */
+  export type RequestLogUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RequestLog
+     */
+    select?: RequestLogSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RequestLog
+     */
+    omit?: RequestLogOmit<ExtArgs> | null
+    /**
+     * The data used to update RequestLogs.
+     */
+    data: XOR<RequestLogUpdateManyMutationInput, RequestLogUncheckedUpdateManyInput>
+    /**
+     * Filter which RequestLogs to update
+     */
+    where?: RequestLogWhereInput
+    /**
+     * Limit how many RequestLogs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * RequestLog upsert
+   */
+  export type RequestLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RequestLog
+     */
+    select?: RequestLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RequestLog
+     */
+    omit?: RequestLogOmit<ExtArgs> | null
+    /**
+     * The filter to search for the RequestLog to update in case it exists.
+     */
+    where: RequestLogWhereUniqueInput
+    /**
+     * In case the RequestLog found by the `where` argument doesn't exist, create a new RequestLog with this data.
+     */
+    create: XOR<RequestLogCreateInput, RequestLogUncheckedCreateInput>
+    /**
+     * In case the RequestLog was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RequestLogUpdateInput, RequestLogUncheckedUpdateInput>
+  }
+
+  /**
+   * RequestLog delete
+   */
+  export type RequestLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RequestLog
+     */
+    select?: RequestLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RequestLog
+     */
+    omit?: RequestLogOmit<ExtArgs> | null
+    /**
+     * Filter which RequestLog to delete.
+     */
+    where: RequestLogWhereUniqueInput
+  }
+
+  /**
+   * RequestLog deleteMany
+   */
+  export type RequestLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RequestLogs to delete
+     */
+    where?: RequestLogWhereInput
+    /**
+     * Limit how many RequestLogs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * RequestLog without action
+   */
+  export type RequestLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RequestLog
+     */
+    select?: RequestLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RequestLog
+     */
+    omit?: RequestLogOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ApiExplorerSnapshot
+   */
+
+  export type AggregateApiExplorerSnapshot = {
+    _count: ApiExplorerSnapshotCountAggregateOutputType | null
+    _min: ApiExplorerSnapshotMinAggregateOutputType | null
+    _max: ApiExplorerSnapshotMaxAggregateOutputType | null
+  }
+
+  export type ApiExplorerSnapshotMinAggregateOutputType = {
+    id: string | null
+    organizationId: string | null
+    env: string | null
+    updatedAt: Date | null
+  }
+
+  export type ApiExplorerSnapshotMaxAggregateOutputType = {
+    id: string | null
+    organizationId: string | null
+    env: string | null
+    updatedAt: Date | null
+  }
+
+  export type ApiExplorerSnapshotCountAggregateOutputType = {
+    id: number
+    organizationId: number
+    env: number
+    data: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ApiExplorerSnapshotMinAggregateInputType = {
+    id?: true
+    organizationId?: true
+    env?: true
+    updatedAt?: true
+  }
+
+  export type ApiExplorerSnapshotMaxAggregateInputType = {
+    id?: true
+    organizationId?: true
+    env?: true
+    updatedAt?: true
+  }
+
+  export type ApiExplorerSnapshotCountAggregateInputType = {
+    id?: true
+    organizationId?: true
+    env?: true
+    data?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ApiExplorerSnapshotAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ApiExplorerSnapshot to aggregate.
+     */
+    where?: ApiExplorerSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApiExplorerSnapshots to fetch.
+     */
+    orderBy?: ApiExplorerSnapshotOrderByWithRelationInput | ApiExplorerSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ApiExplorerSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApiExplorerSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApiExplorerSnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ApiExplorerSnapshots
+    **/
+    _count?: true | ApiExplorerSnapshotCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ApiExplorerSnapshotMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ApiExplorerSnapshotMaxAggregateInputType
+  }
+
+  export type GetApiExplorerSnapshotAggregateType<T extends ApiExplorerSnapshotAggregateArgs> = {
+        [P in keyof T & keyof AggregateApiExplorerSnapshot]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateApiExplorerSnapshot[P]>
+      : GetScalarType<T[P], AggregateApiExplorerSnapshot[P]>
+  }
+
+
+
+
+  export type ApiExplorerSnapshotGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ApiExplorerSnapshotWhereInput
+    orderBy?: ApiExplorerSnapshotOrderByWithAggregationInput | ApiExplorerSnapshotOrderByWithAggregationInput[]
+    by: ApiExplorerSnapshotScalarFieldEnum[] | ApiExplorerSnapshotScalarFieldEnum
+    having?: ApiExplorerSnapshotScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ApiExplorerSnapshotCountAggregateInputType | true
+    _min?: ApiExplorerSnapshotMinAggregateInputType
+    _max?: ApiExplorerSnapshotMaxAggregateInputType
+  }
+
+  export type ApiExplorerSnapshotGroupByOutputType = {
+    id: string
+    organizationId: string
+    env: string
+    data: JsonValue
+    updatedAt: Date
+    _count: ApiExplorerSnapshotCountAggregateOutputType | null
+    _min: ApiExplorerSnapshotMinAggregateOutputType | null
+    _max: ApiExplorerSnapshotMaxAggregateOutputType | null
+  }
+
+  type GetApiExplorerSnapshotGroupByPayload<T extends ApiExplorerSnapshotGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ApiExplorerSnapshotGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ApiExplorerSnapshotGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ApiExplorerSnapshotGroupByOutputType[P]>
+            : GetScalarType<T[P], ApiExplorerSnapshotGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ApiExplorerSnapshotSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    organizationId?: boolean
+    env?: boolean
+    data?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["apiExplorerSnapshot"]>
+
+  export type ApiExplorerSnapshotSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    organizationId?: boolean
+    env?: boolean
+    data?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["apiExplorerSnapshot"]>
+
+  export type ApiExplorerSnapshotSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    organizationId?: boolean
+    env?: boolean
+    data?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["apiExplorerSnapshot"]>
+
+  export type ApiExplorerSnapshotSelectScalar = {
+    id?: boolean
+    organizationId?: boolean
+    env?: boolean
+    data?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ApiExplorerSnapshotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "organizationId" | "env" | "data" | "updatedAt", ExtArgs["result"]["apiExplorerSnapshot"]>
+
+  export type $ApiExplorerSnapshotPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ApiExplorerSnapshot"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      organizationId: string
+      env: string
+      data: Prisma.JsonValue
+      updatedAt: Date
+    }, ExtArgs["result"]["apiExplorerSnapshot"]>
+    composites: {}
+  }
+
+  type ApiExplorerSnapshotGetPayload<S extends boolean | null | undefined | ApiExplorerSnapshotDefaultArgs> = $Result.GetResult<Prisma.$ApiExplorerSnapshotPayload, S>
+
+  type ApiExplorerSnapshotCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ApiExplorerSnapshotFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ApiExplorerSnapshotCountAggregateInputType | true
+    }
+
+  export interface ApiExplorerSnapshotDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ApiExplorerSnapshot'], meta: { name: 'ApiExplorerSnapshot' } }
+    /**
+     * Find zero or one ApiExplorerSnapshot that matches the filter.
+     * @param {ApiExplorerSnapshotFindUniqueArgs} args - Arguments to find a ApiExplorerSnapshot
+     * @example
+     * // Get one ApiExplorerSnapshot
+     * const apiExplorerSnapshot = await prisma.apiExplorerSnapshot.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ApiExplorerSnapshotFindUniqueArgs>(args: SelectSubset<T, ApiExplorerSnapshotFindUniqueArgs<ExtArgs>>): Prisma__ApiExplorerSnapshotClient<$Result.GetResult<Prisma.$ApiExplorerSnapshotPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ApiExplorerSnapshot that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ApiExplorerSnapshotFindUniqueOrThrowArgs} args - Arguments to find a ApiExplorerSnapshot
+     * @example
+     * // Get one ApiExplorerSnapshot
+     * const apiExplorerSnapshot = await prisma.apiExplorerSnapshot.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ApiExplorerSnapshotFindUniqueOrThrowArgs>(args: SelectSubset<T, ApiExplorerSnapshotFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ApiExplorerSnapshotClient<$Result.GetResult<Prisma.$ApiExplorerSnapshotPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ApiExplorerSnapshot that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiExplorerSnapshotFindFirstArgs} args - Arguments to find a ApiExplorerSnapshot
+     * @example
+     * // Get one ApiExplorerSnapshot
+     * const apiExplorerSnapshot = await prisma.apiExplorerSnapshot.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ApiExplorerSnapshotFindFirstArgs>(args?: SelectSubset<T, ApiExplorerSnapshotFindFirstArgs<ExtArgs>>): Prisma__ApiExplorerSnapshotClient<$Result.GetResult<Prisma.$ApiExplorerSnapshotPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ApiExplorerSnapshot that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiExplorerSnapshotFindFirstOrThrowArgs} args - Arguments to find a ApiExplorerSnapshot
+     * @example
+     * // Get one ApiExplorerSnapshot
+     * const apiExplorerSnapshot = await prisma.apiExplorerSnapshot.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ApiExplorerSnapshotFindFirstOrThrowArgs>(args?: SelectSubset<T, ApiExplorerSnapshotFindFirstOrThrowArgs<ExtArgs>>): Prisma__ApiExplorerSnapshotClient<$Result.GetResult<Prisma.$ApiExplorerSnapshotPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ApiExplorerSnapshots that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiExplorerSnapshotFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ApiExplorerSnapshots
+     * const apiExplorerSnapshots = await prisma.apiExplorerSnapshot.findMany()
+     * 
+     * // Get first 10 ApiExplorerSnapshots
+     * const apiExplorerSnapshots = await prisma.apiExplorerSnapshot.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const apiExplorerSnapshotWithIdOnly = await prisma.apiExplorerSnapshot.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ApiExplorerSnapshotFindManyArgs>(args?: SelectSubset<T, ApiExplorerSnapshotFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApiExplorerSnapshotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ApiExplorerSnapshot.
+     * @param {ApiExplorerSnapshotCreateArgs} args - Arguments to create a ApiExplorerSnapshot.
+     * @example
+     * // Create one ApiExplorerSnapshot
+     * const ApiExplorerSnapshot = await prisma.apiExplorerSnapshot.create({
+     *   data: {
+     *     // ... data to create a ApiExplorerSnapshot
+     *   }
+     * })
+     * 
+     */
+    create<T extends ApiExplorerSnapshotCreateArgs>(args: SelectSubset<T, ApiExplorerSnapshotCreateArgs<ExtArgs>>): Prisma__ApiExplorerSnapshotClient<$Result.GetResult<Prisma.$ApiExplorerSnapshotPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ApiExplorerSnapshots.
+     * @param {ApiExplorerSnapshotCreateManyArgs} args - Arguments to create many ApiExplorerSnapshots.
+     * @example
+     * // Create many ApiExplorerSnapshots
+     * const apiExplorerSnapshot = await prisma.apiExplorerSnapshot.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ApiExplorerSnapshotCreateManyArgs>(args?: SelectSubset<T, ApiExplorerSnapshotCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ApiExplorerSnapshots and returns the data saved in the database.
+     * @param {ApiExplorerSnapshotCreateManyAndReturnArgs} args - Arguments to create many ApiExplorerSnapshots.
+     * @example
+     * // Create many ApiExplorerSnapshots
+     * const apiExplorerSnapshot = await prisma.apiExplorerSnapshot.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ApiExplorerSnapshots and only return the `id`
+     * const apiExplorerSnapshotWithIdOnly = await prisma.apiExplorerSnapshot.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ApiExplorerSnapshotCreateManyAndReturnArgs>(args?: SelectSubset<T, ApiExplorerSnapshotCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApiExplorerSnapshotPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ApiExplorerSnapshot.
+     * @param {ApiExplorerSnapshotDeleteArgs} args - Arguments to delete one ApiExplorerSnapshot.
+     * @example
+     * // Delete one ApiExplorerSnapshot
+     * const ApiExplorerSnapshot = await prisma.apiExplorerSnapshot.delete({
+     *   where: {
+     *     // ... filter to delete one ApiExplorerSnapshot
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ApiExplorerSnapshotDeleteArgs>(args: SelectSubset<T, ApiExplorerSnapshotDeleteArgs<ExtArgs>>): Prisma__ApiExplorerSnapshotClient<$Result.GetResult<Prisma.$ApiExplorerSnapshotPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ApiExplorerSnapshot.
+     * @param {ApiExplorerSnapshotUpdateArgs} args - Arguments to update one ApiExplorerSnapshot.
+     * @example
+     * // Update one ApiExplorerSnapshot
+     * const apiExplorerSnapshot = await prisma.apiExplorerSnapshot.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ApiExplorerSnapshotUpdateArgs>(args: SelectSubset<T, ApiExplorerSnapshotUpdateArgs<ExtArgs>>): Prisma__ApiExplorerSnapshotClient<$Result.GetResult<Prisma.$ApiExplorerSnapshotPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ApiExplorerSnapshots.
+     * @param {ApiExplorerSnapshotDeleteManyArgs} args - Arguments to filter ApiExplorerSnapshots to delete.
+     * @example
+     * // Delete a few ApiExplorerSnapshots
+     * const { count } = await prisma.apiExplorerSnapshot.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ApiExplorerSnapshotDeleteManyArgs>(args?: SelectSubset<T, ApiExplorerSnapshotDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ApiExplorerSnapshots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiExplorerSnapshotUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ApiExplorerSnapshots
+     * const apiExplorerSnapshot = await prisma.apiExplorerSnapshot.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ApiExplorerSnapshotUpdateManyArgs>(args: SelectSubset<T, ApiExplorerSnapshotUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ApiExplorerSnapshots and returns the data updated in the database.
+     * @param {ApiExplorerSnapshotUpdateManyAndReturnArgs} args - Arguments to update many ApiExplorerSnapshots.
+     * @example
+     * // Update many ApiExplorerSnapshots
+     * const apiExplorerSnapshot = await prisma.apiExplorerSnapshot.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ApiExplorerSnapshots and only return the `id`
+     * const apiExplorerSnapshotWithIdOnly = await prisma.apiExplorerSnapshot.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ApiExplorerSnapshotUpdateManyAndReturnArgs>(args: SelectSubset<T, ApiExplorerSnapshotUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApiExplorerSnapshotPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ApiExplorerSnapshot.
+     * @param {ApiExplorerSnapshotUpsertArgs} args - Arguments to update or create a ApiExplorerSnapshot.
+     * @example
+     * // Update or create a ApiExplorerSnapshot
+     * const apiExplorerSnapshot = await prisma.apiExplorerSnapshot.upsert({
+     *   create: {
+     *     // ... data to create a ApiExplorerSnapshot
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ApiExplorerSnapshot we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ApiExplorerSnapshotUpsertArgs>(args: SelectSubset<T, ApiExplorerSnapshotUpsertArgs<ExtArgs>>): Prisma__ApiExplorerSnapshotClient<$Result.GetResult<Prisma.$ApiExplorerSnapshotPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ApiExplorerSnapshots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiExplorerSnapshotCountArgs} args - Arguments to filter ApiExplorerSnapshots to count.
+     * @example
+     * // Count the number of ApiExplorerSnapshots
+     * const count = await prisma.apiExplorerSnapshot.count({
+     *   where: {
+     *     // ... the filter for the ApiExplorerSnapshots we want to count
+     *   }
+     * })
+    **/
+    count<T extends ApiExplorerSnapshotCountArgs>(
+      args?: Subset<T, ApiExplorerSnapshotCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ApiExplorerSnapshotCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ApiExplorerSnapshot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiExplorerSnapshotAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ApiExplorerSnapshotAggregateArgs>(args: Subset<T, ApiExplorerSnapshotAggregateArgs>): Prisma.PrismaPromise<GetApiExplorerSnapshotAggregateType<T>>
+
+    /**
+     * Group by ApiExplorerSnapshot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApiExplorerSnapshotGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ApiExplorerSnapshotGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ApiExplorerSnapshotGroupByArgs['orderBy'] }
+        : { orderBy?: ApiExplorerSnapshotGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ApiExplorerSnapshotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetApiExplorerSnapshotGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ApiExplorerSnapshot model
+   */
+  readonly fields: ApiExplorerSnapshotFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ApiExplorerSnapshot.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ApiExplorerSnapshotClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ApiExplorerSnapshot model
+   */
+  interface ApiExplorerSnapshotFieldRefs {
+    readonly id: FieldRef<"ApiExplorerSnapshot", 'String'>
+    readonly organizationId: FieldRef<"ApiExplorerSnapshot", 'String'>
+    readonly env: FieldRef<"ApiExplorerSnapshot", 'String'>
+    readonly data: FieldRef<"ApiExplorerSnapshot", 'Json'>
+    readonly updatedAt: FieldRef<"ApiExplorerSnapshot", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ApiExplorerSnapshot findUnique
+   */
+  export type ApiExplorerSnapshotFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiExplorerSnapshot
+     */
+    select?: ApiExplorerSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiExplorerSnapshot
+     */
+    omit?: ApiExplorerSnapshotOmit<ExtArgs> | null
+    /**
+     * Filter, which ApiExplorerSnapshot to fetch.
+     */
+    where: ApiExplorerSnapshotWhereUniqueInput
+  }
+
+  /**
+   * ApiExplorerSnapshot findUniqueOrThrow
+   */
+  export type ApiExplorerSnapshotFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiExplorerSnapshot
+     */
+    select?: ApiExplorerSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiExplorerSnapshot
+     */
+    omit?: ApiExplorerSnapshotOmit<ExtArgs> | null
+    /**
+     * Filter, which ApiExplorerSnapshot to fetch.
+     */
+    where: ApiExplorerSnapshotWhereUniqueInput
+  }
+
+  /**
+   * ApiExplorerSnapshot findFirst
+   */
+  export type ApiExplorerSnapshotFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiExplorerSnapshot
+     */
+    select?: ApiExplorerSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiExplorerSnapshot
+     */
+    omit?: ApiExplorerSnapshotOmit<ExtArgs> | null
+    /**
+     * Filter, which ApiExplorerSnapshot to fetch.
+     */
+    where?: ApiExplorerSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApiExplorerSnapshots to fetch.
+     */
+    orderBy?: ApiExplorerSnapshotOrderByWithRelationInput | ApiExplorerSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ApiExplorerSnapshots.
+     */
+    cursor?: ApiExplorerSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApiExplorerSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApiExplorerSnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ApiExplorerSnapshots.
+     */
+    distinct?: ApiExplorerSnapshotScalarFieldEnum | ApiExplorerSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * ApiExplorerSnapshot findFirstOrThrow
+   */
+  export type ApiExplorerSnapshotFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiExplorerSnapshot
+     */
+    select?: ApiExplorerSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiExplorerSnapshot
+     */
+    omit?: ApiExplorerSnapshotOmit<ExtArgs> | null
+    /**
+     * Filter, which ApiExplorerSnapshot to fetch.
+     */
+    where?: ApiExplorerSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApiExplorerSnapshots to fetch.
+     */
+    orderBy?: ApiExplorerSnapshotOrderByWithRelationInput | ApiExplorerSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ApiExplorerSnapshots.
+     */
+    cursor?: ApiExplorerSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApiExplorerSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApiExplorerSnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ApiExplorerSnapshots.
+     */
+    distinct?: ApiExplorerSnapshotScalarFieldEnum | ApiExplorerSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * ApiExplorerSnapshot findMany
+   */
+  export type ApiExplorerSnapshotFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiExplorerSnapshot
+     */
+    select?: ApiExplorerSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiExplorerSnapshot
+     */
+    omit?: ApiExplorerSnapshotOmit<ExtArgs> | null
+    /**
+     * Filter, which ApiExplorerSnapshots to fetch.
+     */
+    where?: ApiExplorerSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApiExplorerSnapshots to fetch.
+     */
+    orderBy?: ApiExplorerSnapshotOrderByWithRelationInput | ApiExplorerSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ApiExplorerSnapshots.
+     */
+    cursor?: ApiExplorerSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApiExplorerSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApiExplorerSnapshots.
+     */
+    skip?: number
+    distinct?: ApiExplorerSnapshotScalarFieldEnum | ApiExplorerSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * ApiExplorerSnapshot create
+   */
+  export type ApiExplorerSnapshotCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiExplorerSnapshot
+     */
+    select?: ApiExplorerSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiExplorerSnapshot
+     */
+    omit?: ApiExplorerSnapshotOmit<ExtArgs> | null
+    /**
+     * The data needed to create a ApiExplorerSnapshot.
+     */
+    data: XOR<ApiExplorerSnapshotCreateInput, ApiExplorerSnapshotUncheckedCreateInput>
+  }
+
+  /**
+   * ApiExplorerSnapshot createMany
+   */
+  export type ApiExplorerSnapshotCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ApiExplorerSnapshots.
+     */
+    data: ApiExplorerSnapshotCreateManyInput | ApiExplorerSnapshotCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ApiExplorerSnapshot createManyAndReturn
+   */
+  export type ApiExplorerSnapshotCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiExplorerSnapshot
+     */
+    select?: ApiExplorerSnapshotSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiExplorerSnapshot
+     */
+    omit?: ApiExplorerSnapshotOmit<ExtArgs> | null
+    /**
+     * The data used to create many ApiExplorerSnapshots.
+     */
+    data: ApiExplorerSnapshotCreateManyInput | ApiExplorerSnapshotCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ApiExplorerSnapshot update
+   */
+  export type ApiExplorerSnapshotUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiExplorerSnapshot
+     */
+    select?: ApiExplorerSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiExplorerSnapshot
+     */
+    omit?: ApiExplorerSnapshotOmit<ExtArgs> | null
+    /**
+     * The data needed to update a ApiExplorerSnapshot.
+     */
+    data: XOR<ApiExplorerSnapshotUpdateInput, ApiExplorerSnapshotUncheckedUpdateInput>
+    /**
+     * Choose, which ApiExplorerSnapshot to update.
+     */
+    where: ApiExplorerSnapshotWhereUniqueInput
+  }
+
+  /**
+   * ApiExplorerSnapshot updateMany
+   */
+  export type ApiExplorerSnapshotUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ApiExplorerSnapshots.
+     */
+    data: XOR<ApiExplorerSnapshotUpdateManyMutationInput, ApiExplorerSnapshotUncheckedUpdateManyInput>
+    /**
+     * Filter which ApiExplorerSnapshots to update
+     */
+    where?: ApiExplorerSnapshotWhereInput
+    /**
+     * Limit how many ApiExplorerSnapshots to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ApiExplorerSnapshot updateManyAndReturn
+   */
+  export type ApiExplorerSnapshotUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiExplorerSnapshot
+     */
+    select?: ApiExplorerSnapshotSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiExplorerSnapshot
+     */
+    omit?: ApiExplorerSnapshotOmit<ExtArgs> | null
+    /**
+     * The data used to update ApiExplorerSnapshots.
+     */
+    data: XOR<ApiExplorerSnapshotUpdateManyMutationInput, ApiExplorerSnapshotUncheckedUpdateManyInput>
+    /**
+     * Filter which ApiExplorerSnapshots to update
+     */
+    where?: ApiExplorerSnapshotWhereInput
+    /**
+     * Limit how many ApiExplorerSnapshots to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ApiExplorerSnapshot upsert
+   */
+  export type ApiExplorerSnapshotUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiExplorerSnapshot
+     */
+    select?: ApiExplorerSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiExplorerSnapshot
+     */
+    omit?: ApiExplorerSnapshotOmit<ExtArgs> | null
+    /**
+     * The filter to search for the ApiExplorerSnapshot to update in case it exists.
+     */
+    where: ApiExplorerSnapshotWhereUniqueInput
+    /**
+     * In case the ApiExplorerSnapshot found by the `where` argument doesn't exist, create a new ApiExplorerSnapshot with this data.
+     */
+    create: XOR<ApiExplorerSnapshotCreateInput, ApiExplorerSnapshotUncheckedCreateInput>
+    /**
+     * In case the ApiExplorerSnapshot was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ApiExplorerSnapshotUpdateInput, ApiExplorerSnapshotUncheckedUpdateInput>
+  }
+
+  /**
+   * ApiExplorerSnapshot delete
+   */
+  export type ApiExplorerSnapshotDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiExplorerSnapshot
+     */
+    select?: ApiExplorerSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiExplorerSnapshot
+     */
+    omit?: ApiExplorerSnapshotOmit<ExtArgs> | null
+    /**
+     * Filter which ApiExplorerSnapshot to delete.
+     */
+    where: ApiExplorerSnapshotWhereUniqueInput
+  }
+
+  /**
+   * ApiExplorerSnapshot deleteMany
+   */
+  export type ApiExplorerSnapshotDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ApiExplorerSnapshots to delete
+     */
+    where?: ApiExplorerSnapshotWhereInput
+    /**
+     * Limit how many ApiExplorerSnapshots to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ApiExplorerSnapshot without action
+   */
+  export type ApiExplorerSnapshotDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApiExplorerSnapshot
+     */
+    select?: ApiExplorerSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApiExplorerSnapshot
+     */
+    omit?: ApiExplorerSnapshotOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -10358,6 +14072,33 @@ export namespace Prisma {
   };
 
   export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
+
+
+  export const ApiKeyScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    start: 'start',
+    prefix: 'prefix',
+    key: 'key',
+    userId: 'userId',
+    refillInterval: 'refillInterval',
+    refillAmount: 'refillAmount',
+    lastRefillAt: 'lastRefillAt',
+    enabled: 'enabled',
+    rateLimitEnabled: 'rateLimitEnabled',
+    rateLimitTimeWindow: 'rateLimitTimeWindow',
+    rateLimitMax: 'rateLimitMax',
+    requestCount: 'requestCount',
+    remaining: 'remaining',
+    lastRequest: 'lastRequest',
+    expiresAt: 'expiresAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    permissions: 'permissions',
+    metadata: 'metadata'
+  };
+
+  export type ApiKeyScalarFieldEnum = (typeof ApiKeyScalarFieldEnum)[keyof typeof ApiKeyScalarFieldEnum]
 
 
   export const InvitationScalarFieldEnum: {
@@ -10407,7 +14148,8 @@ export namespace Prisma {
     userAgent: 'userAgent',
     userId: 'userId',
     activeOrganizationId: 'activeOrganizationId',
-    activeTeamId: 'activeTeamId'
+    activeTeamId: 'activeTeamId',
+    impersonatedBy: 'impersonatedBy'
   };
 
   export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
@@ -10420,7 +14162,11 @@ export namespace Prisma {
     emailVerified: 'emailVerified',
     image: 'image',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    role: 'role',
+    banned: 'banned',
+    banReason: 'banReason',
+    banExpires: 'banExpires'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -10451,12 +14197,48 @@ export namespace Prisma {
   export type OrganizationEnvScalarFieldEnum = (typeof OrganizationEnvScalarFieldEnum)[keyof typeof OrganizationEnvScalarFieldEnum]
 
 
+  export const RequestLogScalarFieldEnum: {
+    id: 'id',
+    organizationId: 'organizationId',
+    env: 'env',
+    requestId: 'requestId',
+    tracingId: 'tracingId',
+    method: 'method',
+    route: 'route',
+    statusCode: 'statusCode',
+    durationMs: 'durationMs',
+    responseSize: 'responseSize',
+    timestamp: 'timestamp',
+    createdAt: 'createdAt'
+  };
+
+  export type RequestLogScalarFieldEnum = (typeof RequestLogScalarFieldEnum)[keyof typeof RequestLogScalarFieldEnum]
+
+
+  export const ApiExplorerSnapshotScalarFieldEnum: {
+    id: 'id',
+    organizationId: 'organizationId',
+    env: 'env',
+    data: 'data',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ApiExplorerSnapshotScalarFieldEnum = (typeof ApiExplorerSnapshotScalarFieldEnum)[keyof typeof ApiExplorerSnapshotScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
   export const QueryMode: {
@@ -10473,6 +14255,15 @@ export namespace Prisma {
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -10509,13 +14300,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -10526,6 +14310,41 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
   /**
    * Deep Input Types
@@ -10625,6 +14444,140 @@ export namespace Prisma {
     password?: StringNullableWithAggregatesFilter<"Account"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Account"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Account"> | Date | string
+  }
+
+  export type ApiKeyWhereInput = {
+    AND?: ApiKeyWhereInput | ApiKeyWhereInput[]
+    OR?: ApiKeyWhereInput[]
+    NOT?: ApiKeyWhereInput | ApiKeyWhereInput[]
+    id?: StringFilter<"ApiKey"> | string
+    name?: StringNullableFilter<"ApiKey"> | string | null
+    start?: StringNullableFilter<"ApiKey"> | string | null
+    prefix?: StringNullableFilter<"ApiKey"> | string | null
+    key?: StringFilter<"ApiKey"> | string
+    userId?: StringFilter<"ApiKey"> | string
+    refillInterval?: IntNullableFilter<"ApiKey"> | number | null
+    refillAmount?: IntNullableFilter<"ApiKey"> | number | null
+    lastRefillAt?: DateTimeNullableFilter<"ApiKey"> | Date | string | null
+    enabled?: BoolFilter<"ApiKey"> | boolean
+    rateLimitEnabled?: BoolFilter<"ApiKey"> | boolean
+    rateLimitTimeWindow?: IntNullableFilter<"ApiKey"> | number | null
+    rateLimitMax?: IntNullableFilter<"ApiKey"> | number | null
+    requestCount?: IntFilter<"ApiKey"> | number
+    remaining?: IntNullableFilter<"ApiKey"> | number | null
+    lastRequest?: DateTimeNullableFilter<"ApiKey"> | Date | string | null
+    expiresAt?: DateTimeNullableFilter<"ApiKey"> | Date | string | null
+    createdAt?: DateTimeFilter<"ApiKey"> | Date | string
+    updatedAt?: DateTimeFilter<"ApiKey"> | Date | string
+    permissions?: StringNullableFilter<"ApiKey"> | string | null
+    metadata?: StringNullableFilter<"ApiKey"> | string | null
+  }
+
+  export type ApiKeyOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrderInput | SortOrder
+    start?: SortOrderInput | SortOrder
+    prefix?: SortOrderInput | SortOrder
+    key?: SortOrder
+    userId?: SortOrder
+    refillInterval?: SortOrderInput | SortOrder
+    refillAmount?: SortOrderInput | SortOrder
+    lastRefillAt?: SortOrderInput | SortOrder
+    enabled?: SortOrder
+    rateLimitEnabled?: SortOrder
+    rateLimitTimeWindow?: SortOrderInput | SortOrder
+    rateLimitMax?: SortOrderInput | SortOrder
+    requestCount?: SortOrder
+    remaining?: SortOrderInput | SortOrder
+    lastRequest?: SortOrderInput | SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    permissions?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+  }
+
+  export type ApiKeyWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ApiKeyWhereInput | ApiKeyWhereInput[]
+    OR?: ApiKeyWhereInput[]
+    NOT?: ApiKeyWhereInput | ApiKeyWhereInput[]
+    name?: StringNullableFilter<"ApiKey"> | string | null
+    start?: StringNullableFilter<"ApiKey"> | string | null
+    prefix?: StringNullableFilter<"ApiKey"> | string | null
+    key?: StringFilter<"ApiKey"> | string
+    userId?: StringFilter<"ApiKey"> | string
+    refillInterval?: IntNullableFilter<"ApiKey"> | number | null
+    refillAmount?: IntNullableFilter<"ApiKey"> | number | null
+    lastRefillAt?: DateTimeNullableFilter<"ApiKey"> | Date | string | null
+    enabled?: BoolFilter<"ApiKey"> | boolean
+    rateLimitEnabled?: BoolFilter<"ApiKey"> | boolean
+    rateLimitTimeWindow?: IntNullableFilter<"ApiKey"> | number | null
+    rateLimitMax?: IntNullableFilter<"ApiKey"> | number | null
+    requestCount?: IntFilter<"ApiKey"> | number
+    remaining?: IntNullableFilter<"ApiKey"> | number | null
+    lastRequest?: DateTimeNullableFilter<"ApiKey"> | Date | string | null
+    expiresAt?: DateTimeNullableFilter<"ApiKey"> | Date | string | null
+    createdAt?: DateTimeFilter<"ApiKey"> | Date | string
+    updatedAt?: DateTimeFilter<"ApiKey"> | Date | string
+    permissions?: StringNullableFilter<"ApiKey"> | string | null
+    metadata?: StringNullableFilter<"ApiKey"> | string | null
+  }, "id">
+
+  export type ApiKeyOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrderInput | SortOrder
+    start?: SortOrderInput | SortOrder
+    prefix?: SortOrderInput | SortOrder
+    key?: SortOrder
+    userId?: SortOrder
+    refillInterval?: SortOrderInput | SortOrder
+    refillAmount?: SortOrderInput | SortOrder
+    lastRefillAt?: SortOrderInput | SortOrder
+    enabled?: SortOrder
+    rateLimitEnabled?: SortOrder
+    rateLimitTimeWindow?: SortOrderInput | SortOrder
+    rateLimitMax?: SortOrderInput | SortOrder
+    requestCount?: SortOrder
+    remaining?: SortOrderInput | SortOrder
+    lastRequest?: SortOrderInput | SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    permissions?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    _count?: ApiKeyCountOrderByAggregateInput
+    _avg?: ApiKeyAvgOrderByAggregateInput
+    _max?: ApiKeyMaxOrderByAggregateInput
+    _min?: ApiKeyMinOrderByAggregateInput
+    _sum?: ApiKeySumOrderByAggregateInput
+  }
+
+  export type ApiKeyScalarWhereWithAggregatesInput = {
+    AND?: ApiKeyScalarWhereWithAggregatesInput | ApiKeyScalarWhereWithAggregatesInput[]
+    OR?: ApiKeyScalarWhereWithAggregatesInput[]
+    NOT?: ApiKeyScalarWhereWithAggregatesInput | ApiKeyScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ApiKey"> | string
+    name?: StringNullableWithAggregatesFilter<"ApiKey"> | string | null
+    start?: StringNullableWithAggregatesFilter<"ApiKey"> | string | null
+    prefix?: StringNullableWithAggregatesFilter<"ApiKey"> | string | null
+    key?: StringWithAggregatesFilter<"ApiKey"> | string
+    userId?: StringWithAggregatesFilter<"ApiKey"> | string
+    refillInterval?: IntNullableWithAggregatesFilter<"ApiKey"> | number | null
+    refillAmount?: IntNullableWithAggregatesFilter<"ApiKey"> | number | null
+    lastRefillAt?: DateTimeNullableWithAggregatesFilter<"ApiKey"> | Date | string | null
+    enabled?: BoolWithAggregatesFilter<"ApiKey"> | boolean
+    rateLimitEnabled?: BoolWithAggregatesFilter<"ApiKey"> | boolean
+    rateLimitTimeWindow?: IntNullableWithAggregatesFilter<"ApiKey"> | number | null
+    rateLimitMax?: IntNullableWithAggregatesFilter<"ApiKey"> | number | null
+    requestCount?: IntWithAggregatesFilter<"ApiKey"> | number
+    remaining?: IntNullableWithAggregatesFilter<"ApiKey"> | number | null
+    lastRequest?: DateTimeNullableWithAggregatesFilter<"ApiKey"> | Date | string | null
+    expiresAt?: DateTimeNullableWithAggregatesFilter<"ApiKey"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ApiKey"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ApiKey"> | Date | string
+    permissions?: StringNullableWithAggregatesFilter<"ApiKey"> | string | null
+    metadata?: StringNullableWithAggregatesFilter<"ApiKey"> | string | null
   }
 
   export type InvitationWhereInput = {
@@ -10833,6 +14786,7 @@ export namespace Prisma {
     userId?: StringFilter<"Session"> | string
     activeOrganizationId?: StringNullableFilter<"Session"> | string | null
     activeTeamId?: StringNullableFilter<"Session"> | string | null
+    impersonatedBy?: StringNullableFilter<"Session"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -10847,6 +14801,7 @@ export namespace Prisma {
     userId?: SortOrder
     activeOrganizationId?: SortOrderInput | SortOrder
     activeTeamId?: SortOrderInput | SortOrder
+    impersonatedBy?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -10864,6 +14819,7 @@ export namespace Prisma {
     userId?: StringFilter<"Session"> | string
     activeOrganizationId?: StringNullableFilter<"Session"> | string | null
     activeTeamId?: StringNullableFilter<"Session"> | string | null
+    impersonatedBy?: StringNullableFilter<"Session"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "token">
 
@@ -10878,6 +14834,7 @@ export namespace Prisma {
     userId?: SortOrder
     activeOrganizationId?: SortOrderInput | SortOrder
     activeTeamId?: SortOrderInput | SortOrder
+    impersonatedBy?: SortOrderInput | SortOrder
     _count?: SessionCountOrderByAggregateInput
     _max?: SessionMaxOrderByAggregateInput
     _min?: SessionMinOrderByAggregateInput
@@ -10897,6 +14854,7 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"Session"> | string
     activeOrganizationId?: StringNullableWithAggregatesFilter<"Session"> | string | null
     activeTeamId?: StringNullableWithAggregatesFilter<"Session"> | string | null
+    impersonatedBy?: StringNullableWithAggregatesFilter<"Session"> | string | null
   }
 
   export type UserWhereInput = {
@@ -10910,6 +14868,10 @@ export namespace Prisma {
     image?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    role?: StringNullableFilter<"User"> | string | null
+    banned?: BoolNullableFilter<"User"> | boolean | null
+    banReason?: StringNullableFilter<"User"> | string | null
+    banExpires?: DateTimeNullableFilter<"User"> | Date | string | null
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
     members?: MemberListRelationFilter
@@ -10923,6 +14885,10 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    role?: SortOrderInput | SortOrder
+    banned?: SortOrderInput | SortOrder
+    banReason?: SortOrderInput | SortOrder
+    banExpires?: SortOrderInput | SortOrder
     sessions?: SessionOrderByRelationAggregateInput
     accounts?: AccountOrderByRelationAggregateInput
     members?: MemberOrderByRelationAggregateInput
@@ -10939,6 +14905,10 @@ export namespace Prisma {
     image?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    role?: StringNullableFilter<"User"> | string | null
+    banned?: BoolNullableFilter<"User"> | boolean | null
+    banReason?: StringNullableFilter<"User"> | string | null
+    banExpires?: DateTimeNullableFilter<"User"> | Date | string | null
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
     members?: MemberListRelationFilter
@@ -10952,6 +14922,10 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    role?: SortOrderInput | SortOrder
+    banned?: SortOrderInput | SortOrder
+    banReason?: SortOrderInput | SortOrder
+    banExpires?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -10968,6 +14942,10 @@ export namespace Prisma {
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    role?: StringNullableWithAggregatesFilter<"User"> | string | null
+    banned?: BoolNullableWithAggregatesFilter<"User"> | boolean | null
+    banReason?: StringNullableWithAggregatesFilter<"User"> | string | null
+    banExpires?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   }
 
   export type VerificationWhereInput = {
@@ -11090,6 +15068,148 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"OrganizationEnv"> | Date | string
   }
 
+  export type RequestLogWhereInput = {
+    AND?: RequestLogWhereInput | RequestLogWhereInput[]
+    OR?: RequestLogWhereInput[]
+    NOT?: RequestLogWhereInput | RequestLogWhereInput[]
+    id?: StringFilter<"RequestLog"> | string
+    organizationId?: StringFilter<"RequestLog"> | string
+    env?: StringFilter<"RequestLog"> | string
+    requestId?: StringFilter<"RequestLog"> | string
+    tracingId?: StringFilter<"RequestLog"> | string
+    method?: StringFilter<"RequestLog"> | string
+    route?: StringFilter<"RequestLog"> | string
+    statusCode?: IntFilter<"RequestLog"> | number
+    durationMs?: IntFilter<"RequestLog"> | number
+    responseSize?: IntFilter<"RequestLog"> | number
+    timestamp?: DateTimeFilter<"RequestLog"> | Date | string
+    createdAt?: DateTimeFilter<"RequestLog"> | Date | string
+  }
+
+  export type RequestLogOrderByWithRelationInput = {
+    id?: SortOrder
+    organizationId?: SortOrder
+    env?: SortOrder
+    requestId?: SortOrder
+    tracingId?: SortOrder
+    method?: SortOrder
+    route?: SortOrder
+    statusCode?: SortOrder
+    durationMs?: SortOrder
+    responseSize?: SortOrder
+    timestamp?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RequestLogWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RequestLogWhereInput | RequestLogWhereInput[]
+    OR?: RequestLogWhereInput[]
+    NOT?: RequestLogWhereInput | RequestLogWhereInput[]
+    organizationId?: StringFilter<"RequestLog"> | string
+    env?: StringFilter<"RequestLog"> | string
+    requestId?: StringFilter<"RequestLog"> | string
+    tracingId?: StringFilter<"RequestLog"> | string
+    method?: StringFilter<"RequestLog"> | string
+    route?: StringFilter<"RequestLog"> | string
+    statusCode?: IntFilter<"RequestLog"> | number
+    durationMs?: IntFilter<"RequestLog"> | number
+    responseSize?: IntFilter<"RequestLog"> | number
+    timestamp?: DateTimeFilter<"RequestLog"> | Date | string
+    createdAt?: DateTimeFilter<"RequestLog"> | Date | string
+  }, "id">
+
+  export type RequestLogOrderByWithAggregationInput = {
+    id?: SortOrder
+    organizationId?: SortOrder
+    env?: SortOrder
+    requestId?: SortOrder
+    tracingId?: SortOrder
+    method?: SortOrder
+    route?: SortOrder
+    statusCode?: SortOrder
+    durationMs?: SortOrder
+    responseSize?: SortOrder
+    timestamp?: SortOrder
+    createdAt?: SortOrder
+    _count?: RequestLogCountOrderByAggregateInput
+    _avg?: RequestLogAvgOrderByAggregateInput
+    _max?: RequestLogMaxOrderByAggregateInput
+    _min?: RequestLogMinOrderByAggregateInput
+    _sum?: RequestLogSumOrderByAggregateInput
+  }
+
+  export type RequestLogScalarWhereWithAggregatesInput = {
+    AND?: RequestLogScalarWhereWithAggregatesInput | RequestLogScalarWhereWithAggregatesInput[]
+    OR?: RequestLogScalarWhereWithAggregatesInput[]
+    NOT?: RequestLogScalarWhereWithAggregatesInput | RequestLogScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"RequestLog"> | string
+    organizationId?: StringWithAggregatesFilter<"RequestLog"> | string
+    env?: StringWithAggregatesFilter<"RequestLog"> | string
+    requestId?: StringWithAggregatesFilter<"RequestLog"> | string
+    tracingId?: StringWithAggregatesFilter<"RequestLog"> | string
+    method?: StringWithAggregatesFilter<"RequestLog"> | string
+    route?: StringWithAggregatesFilter<"RequestLog"> | string
+    statusCode?: IntWithAggregatesFilter<"RequestLog"> | number
+    durationMs?: IntWithAggregatesFilter<"RequestLog"> | number
+    responseSize?: IntWithAggregatesFilter<"RequestLog"> | number
+    timestamp?: DateTimeWithAggregatesFilter<"RequestLog"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"RequestLog"> | Date | string
+  }
+
+  export type ApiExplorerSnapshotWhereInput = {
+    AND?: ApiExplorerSnapshotWhereInput | ApiExplorerSnapshotWhereInput[]
+    OR?: ApiExplorerSnapshotWhereInput[]
+    NOT?: ApiExplorerSnapshotWhereInput | ApiExplorerSnapshotWhereInput[]
+    id?: StringFilter<"ApiExplorerSnapshot"> | string
+    organizationId?: StringFilter<"ApiExplorerSnapshot"> | string
+    env?: StringFilter<"ApiExplorerSnapshot"> | string
+    data?: JsonFilter<"ApiExplorerSnapshot">
+    updatedAt?: DateTimeFilter<"ApiExplorerSnapshot"> | Date | string
+  }
+
+  export type ApiExplorerSnapshotOrderByWithRelationInput = {
+    id?: SortOrder
+    organizationId?: SortOrder
+    env?: SortOrder
+    data?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ApiExplorerSnapshotWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    organizationId_env?: ApiExplorerSnapshotOrganizationIdEnvCompoundUniqueInput
+    AND?: ApiExplorerSnapshotWhereInput | ApiExplorerSnapshotWhereInput[]
+    OR?: ApiExplorerSnapshotWhereInput[]
+    NOT?: ApiExplorerSnapshotWhereInput | ApiExplorerSnapshotWhereInput[]
+    organizationId?: StringFilter<"ApiExplorerSnapshot"> | string
+    env?: StringFilter<"ApiExplorerSnapshot"> | string
+    data?: JsonFilter<"ApiExplorerSnapshot">
+    updatedAt?: DateTimeFilter<"ApiExplorerSnapshot"> | Date | string
+  }, "id" | "organizationId_env">
+
+  export type ApiExplorerSnapshotOrderByWithAggregationInput = {
+    id?: SortOrder
+    organizationId?: SortOrder
+    env?: SortOrder
+    data?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ApiExplorerSnapshotCountOrderByAggregateInput
+    _max?: ApiExplorerSnapshotMaxOrderByAggregateInput
+    _min?: ApiExplorerSnapshotMinOrderByAggregateInput
+  }
+
+  export type ApiExplorerSnapshotScalarWhereWithAggregatesInput = {
+    AND?: ApiExplorerSnapshotScalarWhereWithAggregatesInput | ApiExplorerSnapshotScalarWhereWithAggregatesInput[]
+    OR?: ApiExplorerSnapshotScalarWhereWithAggregatesInput[]
+    NOT?: ApiExplorerSnapshotScalarWhereWithAggregatesInput | ApiExplorerSnapshotScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ApiExplorerSnapshot"> | string
+    organizationId?: StringWithAggregatesFilter<"ApiExplorerSnapshot"> | string
+    env?: StringWithAggregatesFilter<"ApiExplorerSnapshot"> | string
+    data?: JsonWithAggregatesFilter<"ApiExplorerSnapshot">
+    updatedAt?: DateTimeWithAggregatesFilter<"ApiExplorerSnapshot"> | Date | string
+  }
+
   export type AccountCreateInput = {
     id: string
     accountId: string
@@ -11199,6 +15319,174 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApiKeyCreateInput = {
+    id: string
+    name?: string | null
+    start?: string | null
+    prefix?: string | null
+    key: string
+    userId: string
+    refillInterval?: number | null
+    refillAmount?: number | null
+    lastRefillAt?: Date | string | null
+    enabled?: boolean
+    rateLimitEnabled?: boolean
+    rateLimitTimeWindow?: number | null
+    rateLimitMax?: number | null
+    requestCount?: number
+    remaining?: number | null
+    lastRequest?: Date | string | null
+    expiresAt?: Date | string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    permissions?: string | null
+    metadata?: string | null
+  }
+
+  export type ApiKeyUncheckedCreateInput = {
+    id: string
+    name?: string | null
+    start?: string | null
+    prefix?: string | null
+    key: string
+    userId: string
+    refillInterval?: number | null
+    refillAmount?: number | null
+    lastRefillAt?: Date | string | null
+    enabled?: boolean
+    rateLimitEnabled?: boolean
+    rateLimitTimeWindow?: number | null
+    rateLimitMax?: number | null
+    requestCount?: number
+    remaining?: number | null
+    lastRequest?: Date | string | null
+    expiresAt?: Date | string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    permissions?: string | null
+    metadata?: string | null
+  }
+
+  export type ApiKeyUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    start?: NullableStringFieldUpdateOperationsInput | string | null
+    prefix?: NullableStringFieldUpdateOperationsInput | string | null
+    key?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    refillInterval?: NullableIntFieldUpdateOperationsInput | number | null
+    refillAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    lastRefillAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    rateLimitEnabled?: BoolFieldUpdateOperationsInput | boolean
+    rateLimitTimeWindow?: NullableIntFieldUpdateOperationsInput | number | null
+    rateLimitMax?: NullableIntFieldUpdateOperationsInput | number | null
+    requestCount?: IntFieldUpdateOperationsInput | number
+    remaining?: NullableIntFieldUpdateOperationsInput | number | null
+    lastRequest?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    permissions?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ApiKeyUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    start?: NullableStringFieldUpdateOperationsInput | string | null
+    prefix?: NullableStringFieldUpdateOperationsInput | string | null
+    key?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    refillInterval?: NullableIntFieldUpdateOperationsInput | number | null
+    refillAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    lastRefillAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    rateLimitEnabled?: BoolFieldUpdateOperationsInput | boolean
+    rateLimitTimeWindow?: NullableIntFieldUpdateOperationsInput | number | null
+    rateLimitMax?: NullableIntFieldUpdateOperationsInput | number | null
+    requestCount?: IntFieldUpdateOperationsInput | number
+    remaining?: NullableIntFieldUpdateOperationsInput | number | null
+    lastRequest?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    permissions?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ApiKeyCreateManyInput = {
+    id: string
+    name?: string | null
+    start?: string | null
+    prefix?: string | null
+    key: string
+    userId: string
+    refillInterval?: number | null
+    refillAmount?: number | null
+    lastRefillAt?: Date | string | null
+    enabled?: boolean
+    rateLimitEnabled?: boolean
+    rateLimitTimeWindow?: number | null
+    rateLimitMax?: number | null
+    requestCount?: number
+    remaining?: number | null
+    lastRequest?: Date | string | null
+    expiresAt?: Date | string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    permissions?: string | null
+    metadata?: string | null
+  }
+
+  export type ApiKeyUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    start?: NullableStringFieldUpdateOperationsInput | string | null
+    prefix?: NullableStringFieldUpdateOperationsInput | string | null
+    key?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    refillInterval?: NullableIntFieldUpdateOperationsInput | number | null
+    refillAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    lastRefillAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    rateLimitEnabled?: BoolFieldUpdateOperationsInput | boolean
+    rateLimitTimeWindow?: NullableIntFieldUpdateOperationsInput | number | null
+    rateLimitMax?: NullableIntFieldUpdateOperationsInput | number | null
+    requestCount?: IntFieldUpdateOperationsInput | number
+    remaining?: NullableIntFieldUpdateOperationsInput | number | null
+    lastRequest?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    permissions?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ApiKeyUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    start?: NullableStringFieldUpdateOperationsInput | string | null
+    prefix?: NullableStringFieldUpdateOperationsInput | string | null
+    key?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    refillInterval?: NullableIntFieldUpdateOperationsInput | number | null
+    refillAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    lastRefillAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    rateLimitEnabled?: BoolFieldUpdateOperationsInput | boolean
+    rateLimitTimeWindow?: NullableIntFieldUpdateOperationsInput | number | null
+    rateLimitMax?: NullableIntFieldUpdateOperationsInput | number | null
+    requestCount?: IntFieldUpdateOperationsInput | number
+    remaining?: NullableIntFieldUpdateOperationsInput | number | null
+    lastRequest?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    permissions?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type InvitationCreateInput = {
@@ -11412,6 +15700,7 @@ export namespace Prisma {
     userAgent?: string | null
     activeOrganizationId?: string | null
     activeTeamId?: string | null
+    impersonatedBy?: string | null
     user: UserCreateNestedOneWithoutSessionsInput
   }
 
@@ -11426,6 +15715,7 @@ export namespace Prisma {
     userId: string
     activeOrganizationId?: string | null
     activeTeamId?: string | null
+    impersonatedBy?: string | null
   }
 
   export type SessionUpdateInput = {
@@ -11438,6 +15728,7 @@ export namespace Prisma {
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     activeOrganizationId?: NullableStringFieldUpdateOperationsInput | string | null
     activeTeamId?: NullableStringFieldUpdateOperationsInput | string | null
+    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutSessionsNestedInput
   }
 
@@ -11452,6 +15743,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     activeOrganizationId?: NullableStringFieldUpdateOperationsInput | string | null
     activeTeamId?: NullableStringFieldUpdateOperationsInput | string | null
+    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionCreateManyInput = {
@@ -11465,6 +15757,7 @@ export namespace Prisma {
     userId: string
     activeOrganizationId?: string | null
     activeTeamId?: string | null
+    impersonatedBy?: string | null
   }
 
   export type SessionUpdateManyMutationInput = {
@@ -11477,6 +15770,7 @@ export namespace Prisma {
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     activeOrganizationId?: NullableStringFieldUpdateOperationsInput | string | null
     activeTeamId?: NullableStringFieldUpdateOperationsInput | string | null
+    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionUncheckedUpdateManyInput = {
@@ -11490,6 +15784,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     activeOrganizationId?: NullableStringFieldUpdateOperationsInput | string | null
     activeTeamId?: NullableStringFieldUpdateOperationsInput | string | null
+    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserCreateInput = {
@@ -11500,6 +15795,10 @@ export namespace Prisma {
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
+    role?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     members?: MemberCreateNestedManyWithoutUserInput
@@ -11513,6 +15812,10 @@ export namespace Prisma {
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
+    role?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     members?: MemberUncheckedCreateNestedManyWithoutUserInput
@@ -11526,6 +15829,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     members?: MemberUpdateManyWithoutUserNestedInput
@@ -11539,6 +15846,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     members?: MemberUncheckedUpdateManyWithoutUserNestedInput
@@ -11552,6 +15863,10 @@ export namespace Prisma {
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
+    role?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -11562,6 +15877,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -11572,6 +15891,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type VerificationCreateInput = {
@@ -11704,6 +16027,167 @@ export namespace Prisma {
     baseUrl?: NullableStringFieldUpdateOperationsInput | string | null
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RequestLogCreateInput = {
+    id?: string
+    organizationId: string
+    env: string
+    requestId: string
+    tracingId: string
+    method: string
+    route: string
+    statusCode: number
+    durationMs: number
+    responseSize?: number
+    timestamp: Date | string
+    createdAt?: Date | string
+  }
+
+  export type RequestLogUncheckedCreateInput = {
+    id?: string
+    organizationId: string
+    env: string
+    requestId: string
+    tracingId: string
+    method: string
+    route: string
+    statusCode: number
+    durationMs: number
+    responseSize?: number
+    timestamp: Date | string
+    createdAt?: Date | string
+  }
+
+  export type RequestLogUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    env?: StringFieldUpdateOperationsInput | string
+    requestId?: StringFieldUpdateOperationsInput | string
+    tracingId?: StringFieldUpdateOperationsInput | string
+    method?: StringFieldUpdateOperationsInput | string
+    route?: StringFieldUpdateOperationsInput | string
+    statusCode?: IntFieldUpdateOperationsInput | number
+    durationMs?: IntFieldUpdateOperationsInput | number
+    responseSize?: IntFieldUpdateOperationsInput | number
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RequestLogUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    env?: StringFieldUpdateOperationsInput | string
+    requestId?: StringFieldUpdateOperationsInput | string
+    tracingId?: StringFieldUpdateOperationsInput | string
+    method?: StringFieldUpdateOperationsInput | string
+    route?: StringFieldUpdateOperationsInput | string
+    statusCode?: IntFieldUpdateOperationsInput | number
+    durationMs?: IntFieldUpdateOperationsInput | number
+    responseSize?: IntFieldUpdateOperationsInput | number
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RequestLogCreateManyInput = {
+    id?: string
+    organizationId: string
+    env: string
+    requestId: string
+    tracingId: string
+    method: string
+    route: string
+    statusCode: number
+    durationMs: number
+    responseSize?: number
+    timestamp: Date | string
+    createdAt?: Date | string
+  }
+
+  export type RequestLogUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    env?: StringFieldUpdateOperationsInput | string
+    requestId?: StringFieldUpdateOperationsInput | string
+    tracingId?: StringFieldUpdateOperationsInput | string
+    method?: StringFieldUpdateOperationsInput | string
+    route?: StringFieldUpdateOperationsInput | string
+    statusCode?: IntFieldUpdateOperationsInput | number
+    durationMs?: IntFieldUpdateOperationsInput | number
+    responseSize?: IntFieldUpdateOperationsInput | number
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RequestLogUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    env?: StringFieldUpdateOperationsInput | string
+    requestId?: StringFieldUpdateOperationsInput | string
+    tracingId?: StringFieldUpdateOperationsInput | string
+    method?: StringFieldUpdateOperationsInput | string
+    route?: StringFieldUpdateOperationsInput | string
+    statusCode?: IntFieldUpdateOperationsInput | number
+    durationMs?: IntFieldUpdateOperationsInput | number
+    responseSize?: IntFieldUpdateOperationsInput | number
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApiExplorerSnapshotCreateInput = {
+    id?: string
+    organizationId: string
+    env: string
+    data: JsonNullValueInput | InputJsonValue
+    updatedAt?: Date | string
+  }
+
+  export type ApiExplorerSnapshotUncheckedCreateInput = {
+    id?: string
+    organizationId: string
+    env: string
+    data: JsonNullValueInput | InputJsonValue
+    updatedAt?: Date | string
+  }
+
+  export type ApiExplorerSnapshotUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    env?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApiExplorerSnapshotUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    env?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApiExplorerSnapshotCreateManyInput = {
+    id?: string
+    organizationId: string
+    env: string
+    data: JsonNullValueInput | InputJsonValue
+    updatedAt?: Date | string
+  }
+
+  export type ApiExplorerSnapshotUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    env?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApiExplorerSnapshotUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    env?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -11881,6 +16365,163 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type ApiKeyCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    start?: SortOrder
+    prefix?: SortOrder
+    key?: SortOrder
+    userId?: SortOrder
+    refillInterval?: SortOrder
+    refillAmount?: SortOrder
+    lastRefillAt?: SortOrder
+    enabled?: SortOrder
+    rateLimitEnabled?: SortOrder
+    rateLimitTimeWindow?: SortOrder
+    rateLimitMax?: SortOrder
+    requestCount?: SortOrder
+    remaining?: SortOrder
+    lastRequest?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    permissions?: SortOrder
+    metadata?: SortOrder
+  }
+
+  export type ApiKeyAvgOrderByAggregateInput = {
+    refillInterval?: SortOrder
+    refillAmount?: SortOrder
+    rateLimitTimeWindow?: SortOrder
+    rateLimitMax?: SortOrder
+    requestCount?: SortOrder
+    remaining?: SortOrder
+  }
+
+  export type ApiKeyMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    start?: SortOrder
+    prefix?: SortOrder
+    key?: SortOrder
+    userId?: SortOrder
+    refillInterval?: SortOrder
+    refillAmount?: SortOrder
+    lastRefillAt?: SortOrder
+    enabled?: SortOrder
+    rateLimitEnabled?: SortOrder
+    rateLimitTimeWindow?: SortOrder
+    rateLimitMax?: SortOrder
+    requestCount?: SortOrder
+    remaining?: SortOrder
+    lastRequest?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    permissions?: SortOrder
+    metadata?: SortOrder
+  }
+
+  export type ApiKeyMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    start?: SortOrder
+    prefix?: SortOrder
+    key?: SortOrder
+    userId?: SortOrder
+    refillInterval?: SortOrder
+    refillAmount?: SortOrder
+    lastRefillAt?: SortOrder
+    enabled?: SortOrder
+    rateLimitEnabled?: SortOrder
+    rateLimitTimeWindow?: SortOrder
+    rateLimitMax?: SortOrder
+    requestCount?: SortOrder
+    remaining?: SortOrder
+    lastRequest?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    permissions?: SortOrder
+    metadata?: SortOrder
+  }
+
+  export type ApiKeySumOrderByAggregateInput = {
+    refillInterval?: SortOrder
+    refillAmount?: SortOrder
+    rateLimitTimeWindow?: SortOrder
+    rateLimitMax?: SortOrder
+    requestCount?: SortOrder
+    remaining?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
   export type OrganizationScalarRelationFilter = {
     is?: OrganizationWhereInput
     isNot?: OrganizationWhereInput
@@ -12006,6 +16647,7 @@ export namespace Prisma {
     userId?: SortOrder
     activeOrganizationId?: SortOrder
     activeTeamId?: SortOrder
+    impersonatedBy?: SortOrder
   }
 
   export type SessionMaxOrderByAggregateInput = {
@@ -12019,6 +16661,7 @@ export namespace Prisma {
     userId?: SortOrder
     activeOrganizationId?: SortOrder
     activeTeamId?: SortOrder
+    impersonatedBy?: SortOrder
   }
 
   export type SessionMinOrderByAggregateInput = {
@@ -12032,11 +16675,12 @@ export namespace Prisma {
     userId?: SortOrder
     activeOrganizationId?: SortOrder
     activeTeamId?: SortOrder
+    impersonatedBy?: SortOrder
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
   }
 
   export type SessionListRelationFilter = {
@@ -12067,6 +16711,10 @@ export namespace Prisma {
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    role?: SortOrder
+    banned?: SortOrder
+    banReason?: SortOrder
+    banExpires?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -12077,6 +16725,10 @@ export namespace Prisma {
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    role?: SortOrder
+    banned?: SortOrder
+    banReason?: SortOrder
+    banExpires?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -12087,14 +16739,18 @@ export namespace Prisma {
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    role?: SortOrder
+    banned?: SortOrder
+    banReason?: SortOrder
+    banExpires?: SortOrder
   }
 
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type VerificationCountOrderByAggregateInput = {
@@ -12159,6 +16815,139 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type RequestLogCountOrderByAggregateInput = {
+    id?: SortOrder
+    organizationId?: SortOrder
+    env?: SortOrder
+    requestId?: SortOrder
+    tracingId?: SortOrder
+    method?: SortOrder
+    route?: SortOrder
+    statusCode?: SortOrder
+    durationMs?: SortOrder
+    responseSize?: SortOrder
+    timestamp?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RequestLogAvgOrderByAggregateInput = {
+    statusCode?: SortOrder
+    durationMs?: SortOrder
+    responseSize?: SortOrder
+  }
+
+  export type RequestLogMaxOrderByAggregateInput = {
+    id?: SortOrder
+    organizationId?: SortOrder
+    env?: SortOrder
+    requestId?: SortOrder
+    tracingId?: SortOrder
+    method?: SortOrder
+    route?: SortOrder
+    statusCode?: SortOrder
+    durationMs?: SortOrder
+    responseSize?: SortOrder
+    timestamp?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RequestLogMinOrderByAggregateInput = {
+    id?: SortOrder
+    organizationId?: SortOrder
+    env?: SortOrder
+    requestId?: SortOrder
+    tracingId?: SortOrder
+    method?: SortOrder
+    route?: SortOrder
+    statusCode?: SortOrder
+    durationMs?: SortOrder
+    responseSize?: SortOrder
+    timestamp?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RequestLogSumOrderByAggregateInput = {
+    statusCode?: SortOrder
+    durationMs?: SortOrder
+    responseSize?: SortOrder
+  }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type ApiExplorerSnapshotOrganizationIdEnvCompoundUniqueInput = {
+    organizationId: string
+    env: string
+  }
+
+  export type ApiExplorerSnapshotCountOrderByAggregateInput = {
+    id?: SortOrder
+    organizationId?: SortOrder
+    env?: SortOrder
+    data?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ApiExplorerSnapshotMaxOrderByAggregateInput = {
+    id?: SortOrder
+    organizationId?: SortOrder
+    env?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ApiExplorerSnapshotMinOrderByAggregateInput = {
+    id?: SortOrder
+    organizationId?: SortOrder
+    env?: SortOrder
+    updatedAt?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
+
   export type UserCreateNestedOneWithoutAccountsInput = {
     create?: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAccountsInput
@@ -12187,6 +16976,26 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutAccountsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAccountsInput, UserUpdateWithoutAccountsInput>, UserUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type OrganizationCreateNestedOneWithoutInvitationsInput = {
@@ -12371,8 +17180,8 @@ export namespace Prisma {
     connect?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
   }
 
   export type SessionUpdateManyWithoutUserNestedInput = {
@@ -12598,12 +17407,102 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedBoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
+  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -12614,6 +17513,10 @@ export namespace Prisma {
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
+    role?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     members?: MemberCreateNestedManyWithoutUserInput
   }
@@ -12626,6 +17529,10 @@ export namespace Prisma {
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
+    role?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     members?: MemberUncheckedCreateNestedManyWithoutUserInput
   }
@@ -12654,6 +17561,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     members?: MemberUpdateManyWithoutUserNestedInput
   }
@@ -12666,6 +17577,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     members?: MemberUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -12734,6 +17649,10 @@ export namespace Prisma {
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
+    role?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
   }
@@ -12746,6 +17665,10 @@ export namespace Prisma {
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
+    role?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
   }
@@ -12799,6 +17722,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
   }
@@ -12811,6 +17738,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -12965,6 +17896,10 @@ export namespace Prisma {
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
+    role?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     members?: MemberCreateNestedManyWithoutUserInput
   }
@@ -12977,6 +17912,10 @@ export namespace Prisma {
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
+    role?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     members?: MemberUncheckedCreateNestedManyWithoutUserInput
   }
@@ -13005,6 +17944,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     members?: MemberUpdateManyWithoutUserNestedInput
   }
@@ -13017,6 +17960,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     members?: MemberUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -13031,6 +17978,7 @@ export namespace Prisma {
     userAgent?: string | null
     activeOrganizationId?: string | null
     activeTeamId?: string | null
+    impersonatedBy?: string | null
   }
 
   export type SessionUncheckedCreateWithoutUserInput = {
@@ -13043,6 +17991,7 @@ export namespace Prisma {
     userAgent?: string | null
     activeOrganizationId?: string | null
     activeTeamId?: string | null
+    impersonatedBy?: string | null
   }
 
   export type SessionCreateOrConnectWithoutUserInput = {
@@ -13149,6 +18098,7 @@ export namespace Prisma {
     userId?: StringFilter<"Session"> | string
     activeOrganizationId?: StringNullableFilter<"Session"> | string | null
     activeTeamId?: StringNullableFilter<"Session"> | string | null
+    impersonatedBy?: StringNullableFilter<"Session"> | string | null
   }
 
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
@@ -13280,6 +18230,7 @@ export namespace Prisma {
     userAgent?: string | null
     activeOrganizationId?: string | null
     activeTeamId?: string | null
+    impersonatedBy?: string | null
   }
 
   export type AccountCreateManyUserInput = {
@@ -13314,6 +18265,7 @@ export namespace Prisma {
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     activeOrganizationId?: NullableStringFieldUpdateOperationsInput | string | null
     activeTeamId?: NullableStringFieldUpdateOperationsInput | string | null
+    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionUncheckedUpdateWithoutUserInput = {
@@ -13326,6 +18278,7 @@ export namespace Prisma {
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     activeOrganizationId?: NullableStringFieldUpdateOperationsInput | string | null
     activeTeamId?: NullableStringFieldUpdateOperationsInput | string | null
+    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionUncheckedUpdateManyWithoutUserInput = {
@@ -13338,6 +18291,7 @@ export namespace Prisma {
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     activeOrganizationId?: NullableStringFieldUpdateOperationsInput | string | null
     activeTeamId?: NullableStringFieldUpdateOperationsInput | string | null
+    impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AccountUpdateWithoutUserInput = {

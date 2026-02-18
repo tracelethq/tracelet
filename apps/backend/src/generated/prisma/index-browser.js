@@ -136,6 +136,30 @@ exports.Prisma.AccountScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ApiKeyScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  start: 'start',
+  prefix: 'prefix',
+  key: 'key',
+  userId: 'userId',
+  refillInterval: 'refillInterval',
+  refillAmount: 'refillAmount',
+  lastRefillAt: 'lastRefillAt',
+  enabled: 'enabled',
+  rateLimitEnabled: 'rateLimitEnabled',
+  rateLimitTimeWindow: 'rateLimitTimeWindow',
+  rateLimitMax: 'rateLimitMax',
+  requestCount: 'requestCount',
+  remaining: 'remaining',
+  lastRequest: 'lastRequest',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  permissions: 'permissions',
+  metadata: 'metadata'
+};
+
 exports.Prisma.InvitationScalarFieldEnum = {
   id: 'id',
   email: 'email',
@@ -174,7 +198,8 @@ exports.Prisma.SessionScalarFieldEnum = {
   userAgent: 'userAgent',
   userId: 'userId',
   activeOrganizationId: 'activeOrganizationId',
-  activeTeamId: 'activeTeamId'
+  activeTeamId: 'activeTeamId',
+  impersonatedBy: 'impersonatedBy'
 };
 
 exports.Prisma.UserScalarFieldEnum = {
@@ -184,7 +209,11 @@ exports.Prisma.UserScalarFieldEnum = {
   emailVerified: 'emailVerified',
   image: 'image',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  role: 'role',
+  banned: 'banned',
+  banReason: 'banReason',
+  banExpires: 'banExpires'
 };
 
 exports.Prisma.VerificationScalarFieldEnum = {
@@ -206,9 +235,36 @@ exports.Prisma.OrganizationEnvScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.RequestLogScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  env: 'env',
+  requestId: 'requestId',
+  tracingId: 'tracingId',
+  method: 'method',
+  route: 'route',
+  statusCode: 'statusCode',
+  durationMs: 'durationMs',
+  responseSize: 'responseSize',
+  timestamp: 'timestamp',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ApiExplorerSnapshotScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  env: 'env',
+  data: 'data',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -221,16 +277,25 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+
 
 exports.Prisma.ModelName = {
   Account: 'Account',
+  ApiKey: 'ApiKey',
   Invitation: 'Invitation',
   Member: 'Member',
   Organization: 'Organization',
   Session: 'Session',
   User: 'User',
   Verification: 'Verification',
-  OrganizationEnv: 'OrganizationEnv'
+  OrganizationEnv: 'OrganizationEnv',
+  RequestLog: 'RequestLog',
+  ApiExplorerSnapshot: 'ApiExplorerSnapshot'
 };
 
 /**
