@@ -2,29 +2,19 @@
 
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
-import {
-  LayoutDashboard,
-  PanelLeftClose,
-  PanelLeft,
-  LogsIcon,
-  FolderOpenIcon,
-  BuildingIcon,
-} from "lucide-react";
+import { PanelLeftClose, PanelLeft, BuildingIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { UserProfile } from "@/features/auth";
 import {
-  CreateOrgDialog,
-  OrgSwitcher,
-  useOrganizationStore,
-} from "@/features/organization";
-import {
-  getOrgPathName,
+  ProjectSwitcher,
   getProjectPathName,
+  getProjectSettingsPathName,
   PROJECT_MAIN_LINKS,
   PROJECT_SETTINGS_LINKS,
-} from "@/features/project/constants";
+} from "@/features/project";
+import { APP_ROUTES } from "@/lib/constant";
 
 export function Sidebar({
   collapsed,
@@ -33,13 +23,10 @@ export function Sidebar({
   collapsed: boolean;
   onToggle: () => void;
 }) {
-  const pathname = usePathname();
   const params = useParams();
-  const orgSlug = params.orgSlug as string;
-  const projectSlug = params.projectSlug as string;
+  const pathname = usePathname();
+  const projectSlug = params.projectSlug as string | undefined;
   const env = (params.environment as string) ?? "development";
-
-  const orgsFromStore = useOrganizationStore((s) => s.orgs);
 
   return (
     <aside
@@ -54,51 +41,10 @@ export function Sidebar({
           collapsed && "justify-center",
         )}
       >
-        <OrgSwitcher collapsed={collapsed} />
+        <ProjectSwitcher collapsed={collapsed} />
       </div>
       <nav className="flex flex-1 flex-col gap-0.5 overflow-auto p-2">
-        {!projectSlug && (
-          <>
-            <div
-              className={cn(
-                "flex gap-0.5 items-center text-muted-foreground",
-                collapsed && "justify-center",
-              )}
-            >
-              <BuildingIcon className="size-4 shrink-0" />
-              {!collapsed && (
-                <span className="text-sm font-medium">Organizations</span>
-              )}
-            </div>
-            {orgsFromStore.map((org) => {
-              const isActive = pathname.startsWith(
-                getOrgPathName(org.slug, ""),
-              );
-              return (
-                <Link
-                  key={org.id}
-                  href={getOrgPathName(org.slug, "/projects")}
-                  className={cn(
-                    "flex items-center gap-2 text-sm font-medium transition-colors",
-                    isActive
-                      ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                      : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-                    collapsed && "justify-center px-0",
-                  )}
-                >
-                  <span className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium transition-colors">
-                    <span className="size-6 shrink-0 flex items-center justify-center bg-sidebar-accent text-sidebar-accent-foreground uppercase">
-                      {org.name.charAt(0)}
-                    </span>
-                    {!collapsed && <span>{org.name}</span>}
-                  </span>
-                </Link>
-              );
-            })}
-            <CreateOrgDialog className="mt-4" />
-          </>
-        )}
-        {orgSlug && projectSlug && (
+        {projectSlug ? (
           <>
             <div
               className={cn(
@@ -111,7 +57,7 @@ export function Sidebar({
               )}
             </div>
             {PROJECT_MAIN_LINKS.map(({ href, label, icon: Icon }) => {
-              const link = getProjectPathName(orgSlug, projectSlug, env, href);
+              const link = getProjectPathName(projectSlug, env, href);
               const isActive = pathname === link;
               return (
                 <Link key={href} href={link}>
@@ -121,7 +67,7 @@ export function Sidebar({
                       isActive
                         ? "bg-sidebar-accent text-sidebar-accent-foreground"
                         : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-                      collapsed && "justify-center px-0",
+                      collapsed && "justify-center",
                     )}
                   >
                     <Icon className="size-4 shrink-0 text-muted-foreground" />
@@ -143,27 +89,54 @@ export function Sidebar({
                 <span className="text-sm font-medium">Settings</span>
               )}
             </div>
-            {PROJECT_SETTINGS_LINKS.map(({ id, name, icon: Icon, href, isHidden }) => {
-              if (isHidden) return null;
-              const link = getProjectPathName(orgSlug, projectSlug, env, href);
-              const isActive = pathname === link;
-              return (
-                <Link key={href} href={link}>
-                  <span
-                    className={cn(
-                      "flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium transition-colors",
-                      isActive
-                        ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                        : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-                      collapsed && "justify-center px-0",
-                    )}
-                  >
-                    <Icon className="size-4 shrink-0 text-muted-foreground" />
-                    {!collapsed && <span>{name}</span>}
-                  </span>
-                </Link>
-              );
-            })}
+            {PROJECT_SETTINGS_LINKS.map(
+              ({ id, name, icon: Icon, href, isHidden }) => {
+                if (isHidden) return null;
+                const link = getProjectPathName(projectSlug, env, href);
+                const isActive = pathname === link;
+                return (
+                  <Link key={href} href={link}>
+                    <span
+                      className={cn(
+                        "flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium transition-colors",
+                        isActive
+                          ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                          : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                        collapsed && "justify-center",
+                      )}
+                    >
+                      <Icon className="size-4 shrink-0 text-muted-foreground" />
+                      {!collapsed && <span>{name}</span>}
+                    </span>
+                  </Link>
+                );
+              },
+            )}
+
+            <div className="h-px bg-sidebar-border my-2" />
+
+            <Link
+              href={getProjectSettingsPathName(projectSlug, "settings")}
+              className={cn(
+                "flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium transition-colors",
+                pathname === getProjectSettingsPathName(projectSlug, "settings")
+                  ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                  : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                collapsed && "justify-center",
+              )}
+            >
+              <BuildingIcon className="size-4 shrink-0 text-muted-foreground" />
+              {!collapsed && <span>Project settings</span>}
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link href={APP_ROUTES.projects.route}>
+              <span className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium transition-colors">
+                <BuildingIcon className="size-4 shrink-0 text-muted-foreground" />
+                {!collapsed && <span>Projects</span>}
+              </span>
+            </Link>
           </>
         )}
       </nav>

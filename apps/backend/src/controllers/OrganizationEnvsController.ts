@@ -40,31 +40,24 @@ async function isMemberOfOrg(userId: string, organizationId: string): Promise<bo
   return !!m;
 }
 
-async function getProjectForUser(projectId: string, userId: string) {
-  const project = await prisma.project.findFirst({
-    where: { id: projectId },
-  });
-  if (!project) return null;
-  return (await isMemberOfOrg(userId, project.organizationId)) ? project : null;
-}
-
-@Controller("/projects")
-export class ProjectEnvsController {
-  /** List envs for a project */
-  @Get("/:projectId/envs")
+@Controller("/organizations")
+export class OrganizationEnvsController {
+  /** List envs for an organization (project). */
+  @Get("/:organizationId/envs")
   async list(
-    @Param("projectId") projectId: string,
+    @Param("organizationId") organizationId: string,
     @Req() req: Request,
     @Res() res: Response
   ) {
     const session = await getSession(req);
     if (!session) return res.status(401).json({ error: "Unauthorized" });
 
-    const project = await getProjectForUser(projectId, session.user.id);
-    if (!project) return res.status(404).json({ error: "Project not found" });
+    if (!(await isMemberOfOrg(session.user.id, organizationId))) {
+      return res.status(404).json({ error: "Project not found" });
+    }
 
-    const envs = await prisma.projectEnv.findMany({
-      where: { projectId },
+    const envs = await prisma.organizationEnv.findMany({
+      where: { organizationId },
       orderBy: { env: "asc" },
       select: {
         id: true,
@@ -78,10 +71,10 @@ export class ProjectEnvsController {
     return res.json(envs);
   }
 
-  /** Create or replace an env for a project (upsert by projectId + env) */
-  @Post("/:projectId/envs")
+  /** Create or replace an env (upsert by organizationId + env). */
+  @Post("/:organizationId/envs")
   async create(
-    @Param("projectId") projectId: string,
+    @Param("organizationId") organizationId: string,
     @Body() body: unknown,
     @Req() req: Request,
     @Res() res: Response
@@ -89,8 +82,9 @@ export class ProjectEnvsController {
     const session = await getSession(req);
     if (!session) return res.status(401).json({ error: "Unauthorized" });
 
-    const project = await getProjectForUser(projectId, session.user.id);
-    if (!project) return res.status(404).json({ error: "Project not found" });
+    if (!(await isMemberOfOrg(session.user.id, organizationId))) {
+      return res.status(404).json({ error: "Project not found" });
+    }
 
     const parsed = createEnvSchema.safeParse(body);
     if (!parsed.success) {
@@ -101,12 +95,12 @@ export class ProjectEnvsController {
     }
 
     const { env, baseUrl, apiKey } = parsed.data;
-    const envRecord = await prisma.projectEnv.upsert({
+    const envRecord = await prisma.organizationEnv.upsert({
       where: {
-        projectId_env: { projectId, env },
+        organizationId_env: { organizationId, env },
       },
       create: {
-        projectId,
+        organizationId,
         env,
         baseUrl: baseUrl || null,
         apiKey: apiKey ?? null,
@@ -127,10 +121,10 @@ export class ProjectEnvsController {
     return res.status(201).json(envRecord);
   }
 
-  /** Update an env by id */
-  @Patch("/:projectId/envs/:envId")
+  /** Update an env by id. */
+  @Patch("/:organizationId/envs/:envId")
   async update(
-    @Param("projectId") projectId: string,
+    @Param("organizationId") organizationId: string,
     @Param("envId") envId: string,
     @Body() body: unknown,
     @Req() req: Request,
@@ -139,8 +133,9 @@ export class ProjectEnvsController {
     const session = await getSession(req);
     if (!session) return res.status(401).json({ error: "Unauthorized" });
 
-    const project = await getProjectForUser(projectId, session.user.id);
-    if (!project) return res.status(404).json({ error: "Project not found" });
+    if (!(await isMemberOfOrg(session.user.id, organizationId))) {
+      return res.status(404).json({ error: "Project not found" });
+    }
 
     const parsed = updateEnvSchema.safeParse(body);
     if (!parsed.success) {
@@ -150,12 +145,12 @@ export class ProjectEnvsController {
       });
     }
 
-    const envRecord = await prisma.projectEnv.findFirst({
-      where: { id: envId, projectId },
+    const envRecord = await prisma.organizationEnv.findFirst({
+      where: { id: envId, organizationId },
     });
     if (!envRecord) return res.status(404).json({ error: "Environment not found" });
 
-    const updated = await prisma.projectEnv.update({
+    const updated = await prisma.organizationEnv.update({
       where: { id: envId },
       data: {
         ...(parsed.data.baseUrl !== undefined && {
@@ -175,10 +170,10 @@ export class ProjectEnvsController {
     return res.json(updated);
   }
 
-  /** Delete an env */
-  @Delete("/:projectId/envs/:envId")
+  /** Delete an env. */
+  @Delete("/:organizationId/envs/:envId")
   async delete(
-    @Param("projectId") projectId: string,
+    @Param("organizationId") organizationId: string,
     @Param("envId") envId: string,
     @Req() req: Request,
     @Res() res: Response
@@ -186,15 +181,16 @@ export class ProjectEnvsController {
     const session = await getSession(req);
     if (!session) return res.status(401).json({ error: "Unauthorized" });
 
-    const project = await getProjectForUser(projectId, session.user.id);
-    if (!project) return res.status(404).json({ error: "Project not found" });
+    if (!(await isMemberOfOrg(session.user.id, organizationId))) {
+      return res.status(404).json({ error: "Project not found" });
+    }
 
-    const envRecord = await prisma.projectEnv.findFirst({
-      where: { id: envId, projectId },
+    const envRecord = await prisma.organizationEnv.findFirst({
+      where: { id: envId, organizationId },
     });
     if (!envRecord) return res.status(404).json({ error: "Environment not found" });
 
-    await prisma.projectEnv.delete({ where: { id: envId } });
+    await prisma.organizationEnv.delete({ where: { id: envId } });
     return res.status(204).send();
   }
 }

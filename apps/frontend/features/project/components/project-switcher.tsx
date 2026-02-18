@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { ChevronDown, Folder, LayoutGrid, Plus, Search } from "lucide-react";
+import { ChevronDown, Folder, Plus, Search } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -11,43 +10,35 @@ import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getAppOrgProjectPath } from "../constants";
+import { getAppProjectPath } from "../constants";
 import { useProjectsQuery } from "../queries";
 import { useProjectStore } from "../store";
 import { CreateProjectDialog } from "./create-project-dialog";
-import { useOrganizationStore } from "@/features/organization";
+import Link from "next/link";
+import { APP_ROUTES } from "@/lib/constant";
 
 export function ProjectSwitcher({ collapsed }: { collapsed: boolean }) {
   const router = useRouter();
-  const { orgSlug } = useParams();
-  const orgs = useOrganizationStore((s) => s.orgs);
-  const selectedOrgId = useOrganizationStore((s) => s.selectedOrgId);
-  const projectsQuery = useProjectsQuery(selectedOrgId);
-  const projectsFromStore = useProjectStore((s) => s.projects);
-  const projects = projectsQuery.data ?? projectsFromStore;
+  const projectSlug = useParams().projectSlug as string | undefined;
+  const env = useProjectStore((s) => s.env);
+  const projectsQuery = useProjectsQuery();
+  const projects = useProjectStore((s) => s.projects);
   const selectedProjectId = useProjectStore((s) => s.selectedProjectId);
   const setSelectedProjectId = useProjectStore((s) => s.setSelectedProjectId);
-  const env = useProjectStore((s) => s.env);
   const [search, setSearch] = useState("");
-  const [createProjectOpen, setCreateProjectOpen] = useState(false);
-  const org = selectedOrgId ? orgs.find((o) => o.id === selectedOrgId) : null;
-  const selectedProject = selectedProjectId
-    ? projects.find((p) => p.id === selectedProjectId) ?? {
-        id: "",
-        name: "Select project",
-        slug: "",
-      }
-    : {
-        id: "",
-        name: "Select project",
-        slug: "",
-      };
 
-    const createProjectPath = `/app/${orgSlug}/projects`;
+  const selectedProject = selectedProjectId
+    ? (projects.find((p) => p.id === selectedProjectId) ?? {
+        id: "",
+        name: "Select project",
+        slug: "",
+      })
+    : { id: "", name: "Select project", slug: "" };
 
   const filteredProjects = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -69,7 +60,7 @@ export function ProjectSwitcher({ collapsed }: { collapsed: boolean }) {
             "w-full min-w-0 justify-start gap-2 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-sidebar-ring",
             collapsed && "justify-center px-2",
           )}
-          divClassName={"w-full"}
+          divClassName="w-full"
           aria-label="Change project"
         >
           <Folder className="size-4 shrink-0" />
@@ -113,7 +104,7 @@ export function ProjectSwitcher({ collapsed }: { collapsed: boolean }) {
                 key={project.id}
                 onClick={() => {
                   setSelectedProjectId(project.id);
-                  if (org) router.push(getAppOrgProjectPath(org.slug, project.slug, env));
+                  router.push(getAppProjectPath(project.slug, env));
                 }}
               >
                 {project.name}
@@ -121,14 +112,15 @@ export function ProjectSwitcher({ collapsed }: { collapsed: boolean }) {
             ))
           )}
         </div>
-        <DropdownMenuSeparator className="mx-0" />
-        <DropdownMenuItem asChild>
-          <Link href={createProjectPath} className="gap-2">
-            <LayoutGrid className="size-3.5" />
-            View all projects
-          </Link>
-        </DropdownMenuItem>
-        <CreateProjectDialog isIn={true} />
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup className="bg-muted">
+          <DropdownMenuItem asChild>
+            <Link href={APP_ROUTES.projects.route}>
+              <span className="text-sm font-medium">All project</span>
+            </Link>
+          </DropdownMenuItem>
+          <CreateProjectDialog isIn={true} />
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );

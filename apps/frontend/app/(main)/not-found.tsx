@@ -13,14 +13,14 @@ export default function NotFoundPage() {
       </p>
       <div className="flex flex-wrap items-center justify-center gap-3">
         <Link
-          href={APP_ROUTES.getStarted}
+          href={APP_ROUTES.projects.route}
           className="text-sm font-medium text-primary hover:underline"
         >
-          Get started
+          Get Projects
         </Link>
         <span className="text-muted-foreground">·</span>
         <Link
-          href={APP_ROUTES.base}
+          href={APP_ROUTES.base.route}
           className="text-sm font-medium text-primary hover:underline"
         >
           Go to app

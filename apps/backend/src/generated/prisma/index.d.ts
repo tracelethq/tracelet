@@ -49,15 +49,10 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  */
 export type Verification = $Result.DefaultSelection<Prisma.$VerificationPayload>
 /**
- * Model Project
+ * Model OrganizationEnv
  * 
  */
-export type Project = $Result.DefaultSelection<Prisma.$ProjectPayload>
-/**
- * Model ProjectEnv
- * 
- */
-export type ProjectEnv = $Result.DefaultSelection<Prisma.$ProjectEnvPayload>
+export type OrganizationEnv = $Result.DefaultSelection<Prisma.$OrganizationEnvPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -247,24 +242,14 @@ export class PrismaClient<
   get verification(): Prisma.VerificationDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.project`: Exposes CRUD operations for the **Project** model.
+   * `prisma.organizationEnv`: Exposes CRUD operations for the **OrganizationEnv** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Projects
-    * const projects = await prisma.project.findMany()
+    * // Fetch zero or more OrganizationEnvs
+    * const organizationEnvs = await prisma.organizationEnv.findMany()
     * ```
     */
-  get project(): Prisma.ProjectDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.projectEnv`: Exposes CRUD operations for the **ProjectEnv** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more ProjectEnvs
-    * const projectEnvs = await prisma.projectEnv.findMany()
-    * ```
-    */
-  get projectEnv(): Prisma.ProjectEnvDelegate<ExtArgs, ClientOptions>;
+  get organizationEnv(): Prisma.OrganizationEnvDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -706,8 +691,7 @@ export namespace Prisma {
     Session: 'Session',
     User: 'User',
     Verification: 'Verification',
-    Project: 'Project',
-    ProjectEnv: 'ProjectEnv'
+    OrganizationEnv: 'OrganizationEnv'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -723,7 +707,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "account" | "invitation" | "member" | "organization" | "session" | "user" | "verification" | "project" | "projectEnv"
+      modelProps: "account" | "invitation" | "member" | "organization" | "session" | "user" | "verification" | "organizationEnv"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1245,151 +1229,77 @@ export namespace Prisma {
           }
         }
       }
-      Project: {
-        payload: Prisma.$ProjectPayload<ExtArgs>
-        fields: Prisma.ProjectFieldRefs
+      OrganizationEnv: {
+        payload: Prisma.$OrganizationEnvPayload<ExtArgs>
+        fields: Prisma.OrganizationEnvFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.ProjectFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProjectPayload> | null
+            args: Prisma.OrganizationEnvFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrganizationEnvPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.ProjectFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProjectPayload>
+            args: Prisma.OrganizationEnvFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrganizationEnvPayload>
           }
           findFirst: {
-            args: Prisma.ProjectFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProjectPayload> | null
+            args: Prisma.OrganizationEnvFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrganizationEnvPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.ProjectFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProjectPayload>
+            args: Prisma.OrganizationEnvFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrganizationEnvPayload>
           }
           findMany: {
-            args: Prisma.ProjectFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProjectPayload>[]
+            args: Prisma.OrganizationEnvFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrganizationEnvPayload>[]
           }
           create: {
-            args: Prisma.ProjectCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProjectPayload>
+            args: Prisma.OrganizationEnvCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrganizationEnvPayload>
           }
           createMany: {
-            args: Prisma.ProjectCreateManyArgs<ExtArgs>
+            args: Prisma.OrganizationEnvCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.ProjectCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProjectPayload>[]
+            args: Prisma.OrganizationEnvCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrganizationEnvPayload>[]
           }
           delete: {
-            args: Prisma.ProjectDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProjectPayload>
+            args: Prisma.OrganizationEnvDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrganizationEnvPayload>
           }
           update: {
-            args: Prisma.ProjectUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProjectPayload>
+            args: Prisma.OrganizationEnvUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrganizationEnvPayload>
           }
           deleteMany: {
-            args: Prisma.ProjectDeleteManyArgs<ExtArgs>
+            args: Prisma.OrganizationEnvDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.ProjectUpdateManyArgs<ExtArgs>
+            args: Prisma.OrganizationEnvUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.ProjectUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProjectPayload>[]
+            args: Prisma.OrganizationEnvUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrganizationEnvPayload>[]
           }
           upsert: {
-            args: Prisma.ProjectUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProjectPayload>
+            args: Prisma.OrganizationEnvUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrganizationEnvPayload>
           }
           aggregate: {
-            args: Prisma.ProjectAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateProject>
+            args: Prisma.OrganizationEnvAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOrganizationEnv>
           }
           groupBy: {
-            args: Prisma.ProjectGroupByArgs<ExtArgs>
-            result: $Utils.Optional<ProjectGroupByOutputType>[]
+            args: Prisma.OrganizationEnvGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OrganizationEnvGroupByOutputType>[]
           }
           count: {
-            args: Prisma.ProjectCountArgs<ExtArgs>
-            result: $Utils.Optional<ProjectCountAggregateOutputType> | number
-          }
-        }
-      }
-      ProjectEnv: {
-        payload: Prisma.$ProjectEnvPayload<ExtArgs>
-        fields: Prisma.ProjectEnvFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.ProjectEnvFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProjectEnvPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.ProjectEnvFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProjectEnvPayload>
-          }
-          findFirst: {
-            args: Prisma.ProjectEnvFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProjectEnvPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.ProjectEnvFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProjectEnvPayload>
-          }
-          findMany: {
-            args: Prisma.ProjectEnvFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProjectEnvPayload>[]
-          }
-          create: {
-            args: Prisma.ProjectEnvCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProjectEnvPayload>
-          }
-          createMany: {
-            args: Prisma.ProjectEnvCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.ProjectEnvCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProjectEnvPayload>[]
-          }
-          delete: {
-            args: Prisma.ProjectEnvDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProjectEnvPayload>
-          }
-          update: {
-            args: Prisma.ProjectEnvUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProjectEnvPayload>
-          }
-          deleteMany: {
-            args: Prisma.ProjectEnvDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.ProjectEnvUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.ProjectEnvUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProjectEnvPayload>[]
-          }
-          upsert: {
-            args: Prisma.ProjectEnvUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProjectEnvPayload>
-          }
-          aggregate: {
-            args: Prisma.ProjectEnvAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateProjectEnv>
-          }
-          groupBy: {
-            args: Prisma.ProjectEnvGroupByArgs<ExtArgs>
-            result: $Utils.Optional<ProjectEnvGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.ProjectEnvCountArgs<ExtArgs>
-            result: $Utils.Optional<ProjectEnvCountAggregateOutputType> | number
+            args: Prisma.OrganizationEnvCountArgs<ExtArgs>
+            result: $Utils.Optional<OrganizationEnvCountAggregateOutputType> | number
           }
         }
       }
@@ -1508,8 +1418,7 @@ export namespace Prisma {
     session?: SessionOmit
     user?: UserOmit
     verification?: VerificationOmit
-    project?: ProjectOmit
-    projectEnv?: ProjectEnvOmit
+    organizationEnv?: OrganizationEnvOmit
   }
 
   /* Types for Logging */
@@ -1671,37 +1580,6 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountMembersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MemberWhereInput
-  }
-
-
-  /**
-   * Count Type ProjectCountOutputType
-   */
-
-  export type ProjectCountOutputType = {
-    envs: number
-  }
-
-  export type ProjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    envs?: boolean | ProjectCountOutputTypeCountEnvsArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * ProjectCountOutputType without action
-   */
-  export type ProjectCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProjectCountOutputType
-     */
-    select?: ProjectCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * ProjectCountOutputType without action
-   */
-  export type ProjectCountOutputTypeCountEnvsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ProjectEnvWhereInput
   }
 
 
@@ -9429,1134 +9307,38 @@ export namespace Prisma {
 
 
   /**
-   * Model Project
+   * Model OrganizationEnv
    */
 
-  export type AggregateProject = {
-    _count: ProjectCountAggregateOutputType | null
-    _min: ProjectMinAggregateOutputType | null
-    _max: ProjectMaxAggregateOutputType | null
+  export type AggregateOrganizationEnv = {
+    _count: OrganizationEnvCountAggregateOutputType | null
+    _min: OrganizationEnvMinAggregateOutputType | null
+    _max: OrganizationEnvMaxAggregateOutputType | null
   }
 
-  export type ProjectMinAggregateOutputType = {
+  export type OrganizationEnvMinAggregateOutputType = {
     id: string | null
-    name: string | null
-    slug: string | null
-    userId: string | null
     organizationId: string | null
+    env: string | null
+    baseUrl: string | null
+    apiKey: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
-  export type ProjectMaxAggregateOutputType = {
+  export type OrganizationEnvMaxAggregateOutputType = {
     id: string | null
-    name: string | null
-    slug: string | null
-    userId: string | null
     organizationId: string | null
+    env: string | null
+    baseUrl: string | null
+    apiKey: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
-  export type ProjectCountAggregateOutputType = {
+  export type OrganizationEnvCountAggregateOutputType = {
     id: number
-    name: number
-    slug: number
-    userId: number
     organizationId: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type ProjectMinAggregateInputType = {
-    id?: true
-    name?: true
-    slug?: true
-    userId?: true
-    organizationId?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type ProjectMaxAggregateInputType = {
-    id?: true
-    name?: true
-    slug?: true
-    userId?: true
-    organizationId?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type ProjectCountAggregateInputType = {
-    id?: true
-    name?: true
-    slug?: true
-    userId?: true
-    organizationId?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type ProjectAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Project to aggregate.
-     */
-    where?: ProjectWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Projects to fetch.
-     */
-    orderBy?: ProjectOrderByWithRelationInput | ProjectOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: ProjectWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Projects from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Projects.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Projects
-    **/
-    _count?: true | ProjectCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: ProjectMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: ProjectMaxAggregateInputType
-  }
-
-  export type GetProjectAggregateType<T extends ProjectAggregateArgs> = {
-        [P in keyof T & keyof AggregateProject]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateProject[P]>
-      : GetScalarType<T[P], AggregateProject[P]>
-  }
-
-
-
-
-  export type ProjectGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ProjectWhereInput
-    orderBy?: ProjectOrderByWithAggregationInput | ProjectOrderByWithAggregationInput[]
-    by: ProjectScalarFieldEnum[] | ProjectScalarFieldEnum
-    having?: ProjectScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: ProjectCountAggregateInputType | true
-    _min?: ProjectMinAggregateInputType
-    _max?: ProjectMaxAggregateInputType
-  }
-
-  export type ProjectGroupByOutputType = {
-    id: string
-    name: string
-    slug: string
-    userId: string
-    organizationId: string
-    createdAt: Date
-    updatedAt: Date
-    _count: ProjectCountAggregateOutputType | null
-    _min: ProjectMinAggregateOutputType | null
-    _max: ProjectMaxAggregateOutputType | null
-  }
-
-  type GetProjectGroupByPayload<T extends ProjectGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<ProjectGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof ProjectGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], ProjectGroupByOutputType[P]>
-            : GetScalarType<T[P], ProjectGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type ProjectSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    slug?: boolean
-    userId?: boolean
-    organizationId?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    envs?: boolean | Project$envsArgs<ExtArgs>
-    _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["project"]>
-
-  export type ProjectSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    slug?: boolean
-    userId?: boolean
-    organizationId?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["project"]>
-
-  export type ProjectSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    slug?: boolean
-    userId?: boolean
-    organizationId?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["project"]>
-
-  export type ProjectSelectScalar = {
-    id?: boolean
-    name?: boolean
-    slug?: boolean
-    userId?: boolean
-    organizationId?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "userId" | "organizationId" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
-  export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    envs?: boolean | Project$envsArgs<ExtArgs>
-    _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type ProjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type ProjectIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-
-  export type $ProjectPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Project"
-    objects: {
-      envs: Prisma.$ProjectEnvPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      name: string
-      slug: string
-      userId: string
-      organizationId: string
-      createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["project"]>
-    composites: {}
-  }
-
-  type ProjectGetPayload<S extends boolean | null | undefined | ProjectDefaultArgs> = $Result.GetResult<Prisma.$ProjectPayload, S>
-
-  type ProjectCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<ProjectFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: ProjectCountAggregateInputType | true
-    }
-
-  export interface ProjectDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Project'], meta: { name: 'Project' } }
-    /**
-     * Find zero or one Project that matches the filter.
-     * @param {ProjectFindUniqueArgs} args - Arguments to find a Project
-     * @example
-     * // Get one Project
-     * const project = await prisma.project.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends ProjectFindUniqueArgs>(args: SelectSubset<T, ProjectFindUniqueArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Project that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {ProjectFindUniqueOrThrowArgs} args - Arguments to find a Project
-     * @example
-     * // Get one Project
-     * const project = await prisma.project.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends ProjectFindUniqueOrThrowArgs>(args: SelectSubset<T, ProjectFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Project that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProjectFindFirstArgs} args - Arguments to find a Project
-     * @example
-     * // Get one Project
-     * const project = await prisma.project.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends ProjectFindFirstArgs>(args?: SelectSubset<T, ProjectFindFirstArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Project that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProjectFindFirstOrThrowArgs} args - Arguments to find a Project
-     * @example
-     * // Get one Project
-     * const project = await prisma.project.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends ProjectFindFirstOrThrowArgs>(args?: SelectSubset<T, ProjectFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Projects that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProjectFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Projects
-     * const projects = await prisma.project.findMany()
-     * 
-     * // Get first 10 Projects
-     * const projects = await prisma.project.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const projectWithIdOnly = await prisma.project.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends ProjectFindManyArgs>(args?: SelectSubset<T, ProjectFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Project.
-     * @param {ProjectCreateArgs} args - Arguments to create a Project.
-     * @example
-     * // Create one Project
-     * const Project = await prisma.project.create({
-     *   data: {
-     *     // ... data to create a Project
-     *   }
-     * })
-     * 
-     */
-    create<T extends ProjectCreateArgs>(args: SelectSubset<T, ProjectCreateArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Projects.
-     * @param {ProjectCreateManyArgs} args - Arguments to create many Projects.
-     * @example
-     * // Create many Projects
-     * const project = await prisma.project.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends ProjectCreateManyArgs>(args?: SelectSubset<T, ProjectCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Projects and returns the data saved in the database.
-     * @param {ProjectCreateManyAndReturnArgs} args - Arguments to create many Projects.
-     * @example
-     * // Create many Projects
-     * const project = await prisma.project.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Projects and only return the `id`
-     * const projectWithIdOnly = await prisma.project.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends ProjectCreateManyAndReturnArgs>(args?: SelectSubset<T, ProjectCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Project.
-     * @param {ProjectDeleteArgs} args - Arguments to delete one Project.
-     * @example
-     * // Delete one Project
-     * const Project = await prisma.project.delete({
-     *   where: {
-     *     // ... filter to delete one Project
-     *   }
-     * })
-     * 
-     */
-    delete<T extends ProjectDeleteArgs>(args: SelectSubset<T, ProjectDeleteArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Project.
-     * @param {ProjectUpdateArgs} args - Arguments to update one Project.
-     * @example
-     * // Update one Project
-     * const project = await prisma.project.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends ProjectUpdateArgs>(args: SelectSubset<T, ProjectUpdateArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Projects.
-     * @param {ProjectDeleteManyArgs} args - Arguments to filter Projects to delete.
-     * @example
-     * // Delete a few Projects
-     * const { count } = await prisma.project.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends ProjectDeleteManyArgs>(args?: SelectSubset<T, ProjectDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Projects.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProjectUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Projects
-     * const project = await prisma.project.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends ProjectUpdateManyArgs>(args: SelectSubset<T, ProjectUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Projects and returns the data updated in the database.
-     * @param {ProjectUpdateManyAndReturnArgs} args - Arguments to update many Projects.
-     * @example
-     * // Update many Projects
-     * const project = await prisma.project.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Projects and only return the `id`
-     * const projectWithIdOnly = await prisma.project.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends ProjectUpdateManyAndReturnArgs>(args: SelectSubset<T, ProjectUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Project.
-     * @param {ProjectUpsertArgs} args - Arguments to update or create a Project.
-     * @example
-     * // Update or create a Project
-     * const project = await prisma.project.upsert({
-     *   create: {
-     *     // ... data to create a Project
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Project we want to update
-     *   }
-     * })
-     */
-    upsert<T extends ProjectUpsertArgs>(args: SelectSubset<T, ProjectUpsertArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Projects.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProjectCountArgs} args - Arguments to filter Projects to count.
-     * @example
-     * // Count the number of Projects
-     * const count = await prisma.project.count({
-     *   where: {
-     *     // ... the filter for the Projects we want to count
-     *   }
-     * })
-    **/
-    count<T extends ProjectCountArgs>(
-      args?: Subset<T, ProjectCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], ProjectCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Project.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProjectAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends ProjectAggregateArgs>(args: Subset<T, ProjectAggregateArgs>): Prisma.PrismaPromise<GetProjectAggregateType<T>>
-
-    /**
-     * Group by Project.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProjectGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends ProjectGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: ProjectGroupByArgs['orderBy'] }
-        : { orderBy?: ProjectGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, ProjectGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProjectGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Project model
-   */
-  readonly fields: ProjectFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Project.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    envs<T extends Project$envsArgs<ExtArgs> = {}>(args?: Subset<T, Project$envsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectEnvPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Project model
-   */
-  interface ProjectFieldRefs {
-    readonly id: FieldRef<"Project", 'String'>
-    readonly name: FieldRef<"Project", 'String'>
-    readonly slug: FieldRef<"Project", 'String'>
-    readonly userId: FieldRef<"Project", 'String'>
-    readonly organizationId: FieldRef<"Project", 'String'>
-    readonly createdAt: FieldRef<"Project", 'DateTime'>
-    readonly updatedAt: FieldRef<"Project", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Project findUnique
-   */
-  export type ProjectFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Project
-     */
-    select?: ProjectSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Project
-     */
-    omit?: ProjectOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectInclude<ExtArgs> | null
-    /**
-     * Filter, which Project to fetch.
-     */
-    where: ProjectWhereUniqueInput
-  }
-
-  /**
-   * Project findUniqueOrThrow
-   */
-  export type ProjectFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Project
-     */
-    select?: ProjectSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Project
-     */
-    omit?: ProjectOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectInclude<ExtArgs> | null
-    /**
-     * Filter, which Project to fetch.
-     */
-    where: ProjectWhereUniqueInput
-  }
-
-  /**
-   * Project findFirst
-   */
-  export type ProjectFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Project
-     */
-    select?: ProjectSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Project
-     */
-    omit?: ProjectOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectInclude<ExtArgs> | null
-    /**
-     * Filter, which Project to fetch.
-     */
-    where?: ProjectWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Projects to fetch.
-     */
-    orderBy?: ProjectOrderByWithRelationInput | ProjectOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Projects.
-     */
-    cursor?: ProjectWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Projects from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Projects.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Projects.
-     */
-    distinct?: ProjectScalarFieldEnum | ProjectScalarFieldEnum[]
-  }
-
-  /**
-   * Project findFirstOrThrow
-   */
-  export type ProjectFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Project
-     */
-    select?: ProjectSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Project
-     */
-    omit?: ProjectOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectInclude<ExtArgs> | null
-    /**
-     * Filter, which Project to fetch.
-     */
-    where?: ProjectWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Projects to fetch.
-     */
-    orderBy?: ProjectOrderByWithRelationInput | ProjectOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Projects.
-     */
-    cursor?: ProjectWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Projects from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Projects.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Projects.
-     */
-    distinct?: ProjectScalarFieldEnum | ProjectScalarFieldEnum[]
-  }
-
-  /**
-   * Project findMany
-   */
-  export type ProjectFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Project
-     */
-    select?: ProjectSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Project
-     */
-    omit?: ProjectOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectInclude<ExtArgs> | null
-    /**
-     * Filter, which Projects to fetch.
-     */
-    where?: ProjectWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Projects to fetch.
-     */
-    orderBy?: ProjectOrderByWithRelationInput | ProjectOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Projects.
-     */
-    cursor?: ProjectWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Projects from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Projects.
-     */
-    skip?: number
-    distinct?: ProjectScalarFieldEnum | ProjectScalarFieldEnum[]
-  }
-
-  /**
-   * Project create
-   */
-  export type ProjectCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Project
-     */
-    select?: ProjectSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Project
-     */
-    omit?: ProjectOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Project.
-     */
-    data: XOR<ProjectCreateInput, ProjectUncheckedCreateInput>
-  }
-
-  /**
-   * Project createMany
-   */
-  export type ProjectCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Projects.
-     */
-    data: ProjectCreateManyInput | ProjectCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Project createManyAndReturn
-   */
-  export type ProjectCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Project
-     */
-    select?: ProjectSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Project
-     */
-    omit?: ProjectOmit<ExtArgs> | null
-    /**
-     * The data used to create many Projects.
-     */
-    data: ProjectCreateManyInput | ProjectCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Project update
-   */
-  export type ProjectUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Project
-     */
-    select?: ProjectSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Project
-     */
-    omit?: ProjectOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Project.
-     */
-    data: XOR<ProjectUpdateInput, ProjectUncheckedUpdateInput>
-    /**
-     * Choose, which Project to update.
-     */
-    where: ProjectWhereUniqueInput
-  }
-
-  /**
-   * Project updateMany
-   */
-  export type ProjectUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Projects.
-     */
-    data: XOR<ProjectUpdateManyMutationInput, ProjectUncheckedUpdateManyInput>
-    /**
-     * Filter which Projects to update
-     */
-    where?: ProjectWhereInput
-    /**
-     * Limit how many Projects to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Project updateManyAndReturn
-   */
-  export type ProjectUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Project
-     */
-    select?: ProjectSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Project
-     */
-    omit?: ProjectOmit<ExtArgs> | null
-    /**
-     * The data used to update Projects.
-     */
-    data: XOR<ProjectUpdateManyMutationInput, ProjectUncheckedUpdateManyInput>
-    /**
-     * Filter which Projects to update
-     */
-    where?: ProjectWhereInput
-    /**
-     * Limit how many Projects to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Project upsert
-   */
-  export type ProjectUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Project
-     */
-    select?: ProjectSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Project
-     */
-    omit?: ProjectOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Project to update in case it exists.
-     */
-    where: ProjectWhereUniqueInput
-    /**
-     * In case the Project found by the `where` argument doesn't exist, create a new Project with this data.
-     */
-    create: XOR<ProjectCreateInput, ProjectUncheckedCreateInput>
-    /**
-     * In case the Project was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<ProjectUpdateInput, ProjectUncheckedUpdateInput>
-  }
-
-  /**
-   * Project delete
-   */
-  export type ProjectDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Project
-     */
-    select?: ProjectSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Project
-     */
-    omit?: ProjectOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectInclude<ExtArgs> | null
-    /**
-     * Filter which Project to delete.
-     */
-    where: ProjectWhereUniqueInput
-  }
-
-  /**
-   * Project deleteMany
-   */
-  export type ProjectDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Projects to delete
-     */
-    where?: ProjectWhereInput
-    /**
-     * Limit how many Projects to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Project.envs
-   */
-  export type Project$envsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProjectEnv
-     */
-    select?: ProjectEnvSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProjectEnv
-     */
-    omit?: ProjectEnvOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectEnvInclude<ExtArgs> | null
-    where?: ProjectEnvWhereInput
-    orderBy?: ProjectEnvOrderByWithRelationInput | ProjectEnvOrderByWithRelationInput[]
-    cursor?: ProjectEnvWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ProjectEnvScalarFieldEnum | ProjectEnvScalarFieldEnum[]
-  }
-
-  /**
-   * Project without action
-   */
-  export type ProjectDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Project
-     */
-    select?: ProjectSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Project
-     */
-    omit?: ProjectOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model ProjectEnv
-   */
-
-  export type AggregateProjectEnv = {
-    _count: ProjectEnvCountAggregateOutputType | null
-    _min: ProjectEnvMinAggregateOutputType | null
-    _max: ProjectEnvMaxAggregateOutputType | null
-  }
-
-  export type ProjectEnvMinAggregateOutputType = {
-    id: string | null
-    projectId: string | null
-    env: string | null
-    baseUrl: string | null
-    apiKey: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type ProjectEnvMaxAggregateOutputType = {
-    id: string | null
-    projectId: string | null
-    env: string | null
-    baseUrl: string | null
-    apiKey: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type ProjectEnvCountAggregateOutputType = {
-    id: number
-    projectId: number
     env: number
     baseUrl: number
     apiKey: number
@@ -10566,9 +9348,9 @@ export namespace Prisma {
   }
 
 
-  export type ProjectEnvMinAggregateInputType = {
+  export type OrganizationEnvMinAggregateInputType = {
     id?: true
-    projectId?: true
+    organizationId?: true
     env?: true
     baseUrl?: true
     apiKey?: true
@@ -10576,9 +9358,9 @@ export namespace Prisma {
     updatedAt?: true
   }
 
-  export type ProjectEnvMaxAggregateInputType = {
+  export type OrganizationEnvMaxAggregateInputType = {
     id?: true
-    projectId?: true
+    organizationId?: true
     env?: true
     baseUrl?: true
     apiKey?: true
@@ -10586,9 +9368,9 @@ export namespace Prisma {
     updatedAt?: true
   }
 
-  export type ProjectEnvCountAggregateInputType = {
+  export type OrganizationEnvCountAggregateInputType = {
     id?: true
-    projectId?: true
+    organizationId?: true
     env?: true
     baseUrl?: true
     apiKey?: true
@@ -10597,141 +9379,138 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type ProjectEnvAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OrganizationEnvAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which ProjectEnv to aggregate.
+     * Filter which OrganizationEnv to aggregate.
      */
-    where?: ProjectEnvWhereInput
+    where?: OrganizationEnvWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ProjectEnvs to fetch.
+     * Determine the order of OrganizationEnvs to fetch.
      */
-    orderBy?: ProjectEnvOrderByWithRelationInput | ProjectEnvOrderByWithRelationInput[]
+    orderBy?: OrganizationEnvOrderByWithRelationInput | OrganizationEnvOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: ProjectEnvWhereUniqueInput
+    cursor?: OrganizationEnvWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ProjectEnvs from the position of the cursor.
+     * Take `±n` OrganizationEnvs from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ProjectEnvs.
+     * Skip the first `n` OrganizationEnvs.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned ProjectEnvs
+     * Count returned OrganizationEnvs
     **/
-    _count?: true | ProjectEnvCountAggregateInputType
+    _count?: true | OrganizationEnvCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: ProjectEnvMinAggregateInputType
+    _min?: OrganizationEnvMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: ProjectEnvMaxAggregateInputType
+    _max?: OrganizationEnvMaxAggregateInputType
   }
 
-  export type GetProjectEnvAggregateType<T extends ProjectEnvAggregateArgs> = {
-        [P in keyof T & keyof AggregateProjectEnv]: P extends '_count' | 'count'
+  export type GetOrganizationEnvAggregateType<T extends OrganizationEnvAggregateArgs> = {
+        [P in keyof T & keyof AggregateOrganizationEnv]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateProjectEnv[P]>
-      : GetScalarType<T[P], AggregateProjectEnv[P]>
+        : GetScalarType<T[P], AggregateOrganizationEnv[P]>
+      : GetScalarType<T[P], AggregateOrganizationEnv[P]>
   }
 
 
 
 
-  export type ProjectEnvGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ProjectEnvWhereInput
-    orderBy?: ProjectEnvOrderByWithAggregationInput | ProjectEnvOrderByWithAggregationInput[]
-    by: ProjectEnvScalarFieldEnum[] | ProjectEnvScalarFieldEnum
-    having?: ProjectEnvScalarWhereWithAggregatesInput
+  export type OrganizationEnvGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrganizationEnvWhereInput
+    orderBy?: OrganizationEnvOrderByWithAggregationInput | OrganizationEnvOrderByWithAggregationInput[]
+    by: OrganizationEnvScalarFieldEnum[] | OrganizationEnvScalarFieldEnum
+    having?: OrganizationEnvScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: ProjectEnvCountAggregateInputType | true
-    _min?: ProjectEnvMinAggregateInputType
-    _max?: ProjectEnvMaxAggregateInputType
+    _count?: OrganizationEnvCountAggregateInputType | true
+    _min?: OrganizationEnvMinAggregateInputType
+    _max?: OrganizationEnvMaxAggregateInputType
   }
 
-  export type ProjectEnvGroupByOutputType = {
+  export type OrganizationEnvGroupByOutputType = {
     id: string
-    projectId: string
+    organizationId: string
     env: string
     baseUrl: string | null
     apiKey: string | null
     createdAt: Date
     updatedAt: Date
-    _count: ProjectEnvCountAggregateOutputType | null
-    _min: ProjectEnvMinAggregateOutputType | null
-    _max: ProjectEnvMaxAggregateOutputType | null
+    _count: OrganizationEnvCountAggregateOutputType | null
+    _min: OrganizationEnvMinAggregateOutputType | null
+    _max: OrganizationEnvMaxAggregateOutputType | null
   }
 
-  type GetProjectEnvGroupByPayload<T extends ProjectEnvGroupByArgs> = Prisma.PrismaPromise<
+  type GetOrganizationEnvGroupByPayload<T extends OrganizationEnvGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<ProjectEnvGroupByOutputType, T['by']> &
+      PickEnumerable<OrganizationEnvGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof ProjectEnvGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof OrganizationEnvGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], ProjectEnvGroupByOutputType[P]>
-            : GetScalarType<T[P], ProjectEnvGroupByOutputType[P]>
+              : GetScalarType<T[P], OrganizationEnvGroupByOutputType[P]>
+            : GetScalarType<T[P], OrganizationEnvGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type ProjectEnvSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type OrganizationEnvSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    projectId?: boolean
+    organizationId?: boolean
     env?: boolean
     baseUrl?: boolean
     apiKey?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    project?: boolean | ProjectDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["projectEnv"]>
+  }, ExtArgs["result"]["organizationEnv"]>
 
-  export type ProjectEnvSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type OrganizationEnvSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    projectId?: boolean
+    organizationId?: boolean
     env?: boolean
     baseUrl?: boolean
     apiKey?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    project?: boolean | ProjectDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["projectEnv"]>
+  }, ExtArgs["result"]["organizationEnv"]>
 
-  export type ProjectEnvSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type OrganizationEnvSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    projectId?: boolean
+    organizationId?: boolean
     env?: boolean
     baseUrl?: boolean
     apiKey?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    project?: boolean | ProjectDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["projectEnv"]>
+  }, ExtArgs["result"]["organizationEnv"]>
 
-  export type ProjectEnvSelectScalar = {
+  export type OrganizationEnvSelectScalar = {
     id?: boolean
-    projectId?: boolean
+    organizationId?: boolean
     env?: boolean
     baseUrl?: boolean
     apiKey?: boolean
@@ -10739,160 +9518,149 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ProjectEnvOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "projectId" | "env" | "baseUrl" | "apiKey" | "createdAt" | "updatedAt", ExtArgs["result"]["projectEnv"]>
-  export type ProjectEnvInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    project?: boolean | ProjectDefaultArgs<ExtArgs>
-  }
-  export type ProjectEnvIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    project?: boolean | ProjectDefaultArgs<ExtArgs>
-  }
-  export type ProjectEnvIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    project?: boolean | ProjectDefaultArgs<ExtArgs>
-  }
+  export type OrganizationEnvOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "organizationId" | "env" | "baseUrl" | "apiKey" | "createdAt" | "updatedAt", ExtArgs["result"]["organizationEnv"]>
 
-  export type $ProjectEnvPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "ProjectEnv"
-    objects: {
-      project: Prisma.$ProjectPayload<ExtArgs>
-    }
+  export type $OrganizationEnvPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "OrganizationEnv"
+    objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      projectId: string
+      organizationId: string
       env: string
       baseUrl: string | null
       apiKey: string | null
       createdAt: Date
       updatedAt: Date
-    }, ExtArgs["result"]["projectEnv"]>
+    }, ExtArgs["result"]["organizationEnv"]>
     composites: {}
   }
 
-  type ProjectEnvGetPayload<S extends boolean | null | undefined | ProjectEnvDefaultArgs> = $Result.GetResult<Prisma.$ProjectEnvPayload, S>
+  type OrganizationEnvGetPayload<S extends boolean | null | undefined | OrganizationEnvDefaultArgs> = $Result.GetResult<Prisma.$OrganizationEnvPayload, S>
 
-  type ProjectEnvCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<ProjectEnvFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: ProjectEnvCountAggregateInputType | true
+  type OrganizationEnvCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<OrganizationEnvFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: OrganizationEnvCountAggregateInputType | true
     }
 
-  export interface ProjectEnvDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProjectEnv'], meta: { name: 'ProjectEnv' } }
+  export interface OrganizationEnvDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['OrganizationEnv'], meta: { name: 'OrganizationEnv' } }
     /**
-     * Find zero or one ProjectEnv that matches the filter.
-     * @param {ProjectEnvFindUniqueArgs} args - Arguments to find a ProjectEnv
+     * Find zero or one OrganizationEnv that matches the filter.
+     * @param {OrganizationEnvFindUniqueArgs} args - Arguments to find a OrganizationEnv
      * @example
-     * // Get one ProjectEnv
-     * const projectEnv = await prisma.projectEnv.findUnique({
+     * // Get one OrganizationEnv
+     * const organizationEnv = await prisma.organizationEnv.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends ProjectEnvFindUniqueArgs>(args: SelectSubset<T, ProjectEnvFindUniqueArgs<ExtArgs>>): Prisma__ProjectEnvClient<$Result.GetResult<Prisma.$ProjectEnvPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends OrganizationEnvFindUniqueArgs>(args: SelectSubset<T, OrganizationEnvFindUniqueArgs<ExtArgs>>): Prisma__OrganizationEnvClient<$Result.GetResult<Prisma.$OrganizationEnvPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one ProjectEnv that matches the filter or throw an error with `error.code='P2025'`
+     * Find one OrganizationEnv that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {ProjectEnvFindUniqueOrThrowArgs} args - Arguments to find a ProjectEnv
+     * @param {OrganizationEnvFindUniqueOrThrowArgs} args - Arguments to find a OrganizationEnv
      * @example
-     * // Get one ProjectEnv
-     * const projectEnv = await prisma.projectEnv.findUniqueOrThrow({
+     * // Get one OrganizationEnv
+     * const organizationEnv = await prisma.organizationEnv.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends ProjectEnvFindUniqueOrThrowArgs>(args: SelectSubset<T, ProjectEnvFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProjectEnvClient<$Result.GetResult<Prisma.$ProjectEnvPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends OrganizationEnvFindUniqueOrThrowArgs>(args: SelectSubset<T, OrganizationEnvFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OrganizationEnvClient<$Result.GetResult<Prisma.$OrganizationEnvPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first ProjectEnv that matches the filter.
+     * Find the first OrganizationEnv that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProjectEnvFindFirstArgs} args - Arguments to find a ProjectEnv
+     * @param {OrganizationEnvFindFirstArgs} args - Arguments to find a OrganizationEnv
      * @example
-     * // Get one ProjectEnv
-     * const projectEnv = await prisma.projectEnv.findFirst({
+     * // Get one OrganizationEnv
+     * const organizationEnv = await prisma.organizationEnv.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends ProjectEnvFindFirstArgs>(args?: SelectSubset<T, ProjectEnvFindFirstArgs<ExtArgs>>): Prisma__ProjectEnvClient<$Result.GetResult<Prisma.$ProjectEnvPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends OrganizationEnvFindFirstArgs>(args?: SelectSubset<T, OrganizationEnvFindFirstArgs<ExtArgs>>): Prisma__OrganizationEnvClient<$Result.GetResult<Prisma.$OrganizationEnvPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first ProjectEnv that matches the filter or
+     * Find the first OrganizationEnv that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProjectEnvFindFirstOrThrowArgs} args - Arguments to find a ProjectEnv
+     * @param {OrganizationEnvFindFirstOrThrowArgs} args - Arguments to find a OrganizationEnv
      * @example
-     * // Get one ProjectEnv
-     * const projectEnv = await prisma.projectEnv.findFirstOrThrow({
+     * // Get one OrganizationEnv
+     * const organizationEnv = await prisma.organizationEnv.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends ProjectEnvFindFirstOrThrowArgs>(args?: SelectSubset<T, ProjectEnvFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProjectEnvClient<$Result.GetResult<Prisma.$ProjectEnvPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends OrganizationEnvFindFirstOrThrowArgs>(args?: SelectSubset<T, OrganizationEnvFindFirstOrThrowArgs<ExtArgs>>): Prisma__OrganizationEnvClient<$Result.GetResult<Prisma.$OrganizationEnvPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more ProjectEnvs that matches the filter.
+     * Find zero or more OrganizationEnvs that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProjectEnvFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {OrganizationEnvFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all ProjectEnvs
-     * const projectEnvs = await prisma.projectEnv.findMany()
+     * // Get all OrganizationEnvs
+     * const organizationEnvs = await prisma.organizationEnv.findMany()
      * 
-     * // Get first 10 ProjectEnvs
-     * const projectEnvs = await prisma.projectEnv.findMany({ take: 10 })
+     * // Get first 10 OrganizationEnvs
+     * const organizationEnvs = await prisma.organizationEnv.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const projectEnvWithIdOnly = await prisma.projectEnv.findMany({ select: { id: true } })
+     * const organizationEnvWithIdOnly = await prisma.organizationEnv.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends ProjectEnvFindManyArgs>(args?: SelectSubset<T, ProjectEnvFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectEnvPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends OrganizationEnvFindManyArgs>(args?: SelectSubset<T, OrganizationEnvFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrganizationEnvPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a ProjectEnv.
-     * @param {ProjectEnvCreateArgs} args - Arguments to create a ProjectEnv.
+     * Create a OrganizationEnv.
+     * @param {OrganizationEnvCreateArgs} args - Arguments to create a OrganizationEnv.
      * @example
-     * // Create one ProjectEnv
-     * const ProjectEnv = await prisma.projectEnv.create({
+     * // Create one OrganizationEnv
+     * const OrganizationEnv = await prisma.organizationEnv.create({
      *   data: {
-     *     // ... data to create a ProjectEnv
+     *     // ... data to create a OrganizationEnv
      *   }
      * })
      * 
      */
-    create<T extends ProjectEnvCreateArgs>(args: SelectSubset<T, ProjectEnvCreateArgs<ExtArgs>>): Prisma__ProjectEnvClient<$Result.GetResult<Prisma.$ProjectEnvPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends OrganizationEnvCreateArgs>(args: SelectSubset<T, OrganizationEnvCreateArgs<ExtArgs>>): Prisma__OrganizationEnvClient<$Result.GetResult<Prisma.$OrganizationEnvPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many ProjectEnvs.
-     * @param {ProjectEnvCreateManyArgs} args - Arguments to create many ProjectEnvs.
+     * Create many OrganizationEnvs.
+     * @param {OrganizationEnvCreateManyArgs} args - Arguments to create many OrganizationEnvs.
      * @example
-     * // Create many ProjectEnvs
-     * const projectEnv = await prisma.projectEnv.createMany({
+     * // Create many OrganizationEnvs
+     * const organizationEnv = await prisma.organizationEnv.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends ProjectEnvCreateManyArgs>(args?: SelectSubset<T, ProjectEnvCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends OrganizationEnvCreateManyArgs>(args?: SelectSubset<T, OrganizationEnvCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many ProjectEnvs and returns the data saved in the database.
-     * @param {ProjectEnvCreateManyAndReturnArgs} args - Arguments to create many ProjectEnvs.
+     * Create many OrganizationEnvs and returns the data saved in the database.
+     * @param {OrganizationEnvCreateManyAndReturnArgs} args - Arguments to create many OrganizationEnvs.
      * @example
-     * // Create many ProjectEnvs
-     * const projectEnv = await prisma.projectEnv.createManyAndReturn({
+     * // Create many OrganizationEnvs
+     * const organizationEnv = await prisma.organizationEnv.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many ProjectEnvs and only return the `id`
-     * const projectEnvWithIdOnly = await prisma.projectEnv.createManyAndReturn({
+     * // Create many OrganizationEnvs and only return the `id`
+     * const organizationEnvWithIdOnly = await prisma.organizationEnv.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -10902,28 +9670,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends ProjectEnvCreateManyAndReturnArgs>(args?: SelectSubset<T, ProjectEnvCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectEnvPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends OrganizationEnvCreateManyAndReturnArgs>(args?: SelectSubset<T, OrganizationEnvCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrganizationEnvPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a ProjectEnv.
-     * @param {ProjectEnvDeleteArgs} args - Arguments to delete one ProjectEnv.
+     * Delete a OrganizationEnv.
+     * @param {OrganizationEnvDeleteArgs} args - Arguments to delete one OrganizationEnv.
      * @example
-     * // Delete one ProjectEnv
-     * const ProjectEnv = await prisma.projectEnv.delete({
+     * // Delete one OrganizationEnv
+     * const OrganizationEnv = await prisma.organizationEnv.delete({
      *   where: {
-     *     // ... filter to delete one ProjectEnv
+     *     // ... filter to delete one OrganizationEnv
      *   }
      * })
      * 
      */
-    delete<T extends ProjectEnvDeleteArgs>(args: SelectSubset<T, ProjectEnvDeleteArgs<ExtArgs>>): Prisma__ProjectEnvClient<$Result.GetResult<Prisma.$ProjectEnvPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends OrganizationEnvDeleteArgs>(args: SelectSubset<T, OrganizationEnvDeleteArgs<ExtArgs>>): Prisma__OrganizationEnvClient<$Result.GetResult<Prisma.$OrganizationEnvPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one ProjectEnv.
-     * @param {ProjectEnvUpdateArgs} args - Arguments to update one ProjectEnv.
+     * Update one OrganizationEnv.
+     * @param {OrganizationEnvUpdateArgs} args - Arguments to update one OrganizationEnv.
      * @example
-     * // Update one ProjectEnv
-     * const projectEnv = await prisma.projectEnv.update({
+     * // Update one OrganizationEnv
+     * const organizationEnv = await prisma.organizationEnv.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -10933,30 +9701,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends ProjectEnvUpdateArgs>(args: SelectSubset<T, ProjectEnvUpdateArgs<ExtArgs>>): Prisma__ProjectEnvClient<$Result.GetResult<Prisma.$ProjectEnvPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends OrganizationEnvUpdateArgs>(args: SelectSubset<T, OrganizationEnvUpdateArgs<ExtArgs>>): Prisma__OrganizationEnvClient<$Result.GetResult<Prisma.$OrganizationEnvPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more ProjectEnvs.
-     * @param {ProjectEnvDeleteManyArgs} args - Arguments to filter ProjectEnvs to delete.
+     * Delete zero or more OrganizationEnvs.
+     * @param {OrganizationEnvDeleteManyArgs} args - Arguments to filter OrganizationEnvs to delete.
      * @example
-     * // Delete a few ProjectEnvs
-     * const { count } = await prisma.projectEnv.deleteMany({
+     * // Delete a few OrganizationEnvs
+     * const { count } = await prisma.organizationEnv.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends ProjectEnvDeleteManyArgs>(args?: SelectSubset<T, ProjectEnvDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends OrganizationEnvDeleteManyArgs>(args?: SelectSubset<T, OrganizationEnvDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more ProjectEnvs.
+     * Update zero or more OrganizationEnvs.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProjectEnvUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {OrganizationEnvUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many ProjectEnvs
-     * const projectEnv = await prisma.projectEnv.updateMany({
+     * // Update many OrganizationEnvs
+     * const organizationEnv = await prisma.organizationEnv.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -10966,14 +9734,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends ProjectEnvUpdateManyArgs>(args: SelectSubset<T, ProjectEnvUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends OrganizationEnvUpdateManyArgs>(args: SelectSubset<T, OrganizationEnvUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more ProjectEnvs and returns the data updated in the database.
-     * @param {ProjectEnvUpdateManyAndReturnArgs} args - Arguments to update many ProjectEnvs.
+     * Update zero or more OrganizationEnvs and returns the data updated in the database.
+     * @param {OrganizationEnvUpdateManyAndReturnArgs} args - Arguments to update many OrganizationEnvs.
      * @example
-     * // Update many ProjectEnvs
-     * const projectEnv = await prisma.projectEnv.updateManyAndReturn({
+     * // Update many OrganizationEnvs
+     * const organizationEnv = await prisma.organizationEnv.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -10982,8 +9750,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more ProjectEnvs and only return the `id`
-     * const projectEnvWithIdOnly = await prisma.projectEnv.updateManyAndReturn({
+     * // Update zero or more OrganizationEnvs and only return the `id`
+     * const organizationEnvWithIdOnly = await prisma.organizationEnv.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -10996,56 +9764,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends ProjectEnvUpdateManyAndReturnArgs>(args: SelectSubset<T, ProjectEnvUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectEnvPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends OrganizationEnvUpdateManyAndReturnArgs>(args: SelectSubset<T, OrganizationEnvUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrganizationEnvPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one ProjectEnv.
-     * @param {ProjectEnvUpsertArgs} args - Arguments to update or create a ProjectEnv.
+     * Create or update one OrganizationEnv.
+     * @param {OrganizationEnvUpsertArgs} args - Arguments to update or create a OrganizationEnv.
      * @example
-     * // Update or create a ProjectEnv
-     * const projectEnv = await prisma.projectEnv.upsert({
+     * // Update or create a OrganizationEnv
+     * const organizationEnv = await prisma.organizationEnv.upsert({
      *   create: {
-     *     // ... data to create a ProjectEnv
+     *     // ... data to create a OrganizationEnv
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the ProjectEnv we want to update
+     *     // ... the filter for the OrganizationEnv we want to update
      *   }
      * })
      */
-    upsert<T extends ProjectEnvUpsertArgs>(args: SelectSubset<T, ProjectEnvUpsertArgs<ExtArgs>>): Prisma__ProjectEnvClient<$Result.GetResult<Prisma.$ProjectEnvPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends OrganizationEnvUpsertArgs>(args: SelectSubset<T, OrganizationEnvUpsertArgs<ExtArgs>>): Prisma__OrganizationEnvClient<$Result.GetResult<Prisma.$OrganizationEnvPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of ProjectEnvs.
+     * Count the number of OrganizationEnvs.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProjectEnvCountArgs} args - Arguments to filter ProjectEnvs to count.
+     * @param {OrganizationEnvCountArgs} args - Arguments to filter OrganizationEnvs to count.
      * @example
-     * // Count the number of ProjectEnvs
-     * const count = await prisma.projectEnv.count({
+     * // Count the number of OrganizationEnvs
+     * const count = await prisma.organizationEnv.count({
      *   where: {
-     *     // ... the filter for the ProjectEnvs we want to count
+     *     // ... the filter for the OrganizationEnvs we want to count
      *   }
      * })
     **/
-    count<T extends ProjectEnvCountArgs>(
-      args?: Subset<T, ProjectEnvCountArgs>,
+    count<T extends OrganizationEnvCountArgs>(
+      args?: Subset<T, OrganizationEnvCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], ProjectEnvCountAggregateOutputType>
+          : GetScalarType<T['select'], OrganizationEnvCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a ProjectEnv.
+     * Allows you to perform aggregations operations on a OrganizationEnv.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProjectEnvAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {OrganizationEnvAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -11065,13 +9833,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends ProjectEnvAggregateArgs>(args: Subset<T, ProjectEnvAggregateArgs>): Prisma.PrismaPromise<GetProjectEnvAggregateType<T>>
+    aggregate<T extends OrganizationEnvAggregateArgs>(args: Subset<T, OrganizationEnvAggregateArgs>): Prisma.PrismaPromise<GetOrganizationEnvAggregateType<T>>
 
     /**
-     * Group by ProjectEnv.
+     * Group by OrganizationEnv.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProjectEnvGroupByArgs} args - Group by arguments.
+     * @param {OrganizationEnvGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -11086,14 +9854,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends ProjectEnvGroupByArgs,
+      T extends OrganizationEnvGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: ProjectEnvGroupByArgs['orderBy'] }
-        : { orderBy?: ProjectEnvGroupByArgs['orderBy'] },
+        ? { orderBy: OrganizationEnvGroupByArgs['orderBy'] }
+        : { orderBy?: OrganizationEnvGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -11142,22 +9910,21 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, ProjectEnvGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProjectEnvGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, OrganizationEnvGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOrganizationEnvGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the ProjectEnv model
+   * Fields of the OrganizationEnv model
    */
-  readonly fields: ProjectEnvFieldRefs;
+  readonly fields: OrganizationEnvFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for ProjectEnv.
+   * The delegate class that acts as a "Promise-like" for OrganizationEnv.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__ProjectEnvClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__OrganizationEnvClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    project<T extends ProjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectDefaultArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11184,427 +9951,379 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the ProjectEnv model
+   * Fields of the OrganizationEnv model
    */
-  interface ProjectEnvFieldRefs {
-    readonly id: FieldRef<"ProjectEnv", 'String'>
-    readonly projectId: FieldRef<"ProjectEnv", 'String'>
-    readonly env: FieldRef<"ProjectEnv", 'String'>
-    readonly baseUrl: FieldRef<"ProjectEnv", 'String'>
-    readonly apiKey: FieldRef<"ProjectEnv", 'String'>
-    readonly createdAt: FieldRef<"ProjectEnv", 'DateTime'>
-    readonly updatedAt: FieldRef<"ProjectEnv", 'DateTime'>
+  interface OrganizationEnvFieldRefs {
+    readonly id: FieldRef<"OrganizationEnv", 'String'>
+    readonly organizationId: FieldRef<"OrganizationEnv", 'String'>
+    readonly env: FieldRef<"OrganizationEnv", 'String'>
+    readonly baseUrl: FieldRef<"OrganizationEnv", 'String'>
+    readonly apiKey: FieldRef<"OrganizationEnv", 'String'>
+    readonly createdAt: FieldRef<"OrganizationEnv", 'DateTime'>
+    readonly updatedAt: FieldRef<"OrganizationEnv", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * ProjectEnv findUnique
+   * OrganizationEnv findUnique
    */
-  export type ProjectEnvFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OrganizationEnvFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProjectEnv
+     * Select specific fields to fetch from the OrganizationEnv
      */
-    select?: ProjectEnvSelect<ExtArgs> | null
+    select?: OrganizationEnvSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProjectEnv
+     * Omit specific fields from the OrganizationEnv
      */
-    omit?: ProjectEnvOmit<ExtArgs> | null
+    omit?: OrganizationEnvOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
+     * Filter, which OrganizationEnv to fetch.
      */
-    include?: ProjectEnvInclude<ExtArgs> | null
-    /**
-     * Filter, which ProjectEnv to fetch.
-     */
-    where: ProjectEnvWhereUniqueInput
+    where: OrganizationEnvWhereUniqueInput
   }
 
   /**
-   * ProjectEnv findUniqueOrThrow
+   * OrganizationEnv findUniqueOrThrow
    */
-  export type ProjectEnvFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OrganizationEnvFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProjectEnv
+     * Select specific fields to fetch from the OrganizationEnv
      */
-    select?: ProjectEnvSelect<ExtArgs> | null
+    select?: OrganizationEnvSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProjectEnv
+     * Omit specific fields from the OrganizationEnv
      */
-    omit?: ProjectEnvOmit<ExtArgs> | null
+    omit?: OrganizationEnvOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
+     * Filter, which OrganizationEnv to fetch.
      */
-    include?: ProjectEnvInclude<ExtArgs> | null
-    /**
-     * Filter, which ProjectEnv to fetch.
-     */
-    where: ProjectEnvWhereUniqueInput
+    where: OrganizationEnvWhereUniqueInput
   }
 
   /**
-   * ProjectEnv findFirst
+   * OrganizationEnv findFirst
    */
-  export type ProjectEnvFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OrganizationEnvFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProjectEnv
+     * Select specific fields to fetch from the OrganizationEnv
      */
-    select?: ProjectEnvSelect<ExtArgs> | null
+    select?: OrganizationEnvSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProjectEnv
+     * Omit specific fields from the OrganizationEnv
      */
-    omit?: ProjectEnvOmit<ExtArgs> | null
+    omit?: OrganizationEnvOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
+     * Filter, which OrganizationEnv to fetch.
      */
-    include?: ProjectEnvInclude<ExtArgs> | null
-    /**
-     * Filter, which ProjectEnv to fetch.
-     */
-    where?: ProjectEnvWhereInput
+    where?: OrganizationEnvWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ProjectEnvs to fetch.
+     * Determine the order of OrganizationEnvs to fetch.
      */
-    orderBy?: ProjectEnvOrderByWithRelationInput | ProjectEnvOrderByWithRelationInput[]
+    orderBy?: OrganizationEnvOrderByWithRelationInput | OrganizationEnvOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for ProjectEnvs.
+     * Sets the position for searching for OrganizationEnvs.
      */
-    cursor?: ProjectEnvWhereUniqueInput
+    cursor?: OrganizationEnvWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ProjectEnvs from the position of the cursor.
+     * Take `±n` OrganizationEnvs from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ProjectEnvs.
+     * Skip the first `n` OrganizationEnvs.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of ProjectEnvs.
+     * Filter by unique combinations of OrganizationEnvs.
      */
-    distinct?: ProjectEnvScalarFieldEnum | ProjectEnvScalarFieldEnum[]
+    distinct?: OrganizationEnvScalarFieldEnum | OrganizationEnvScalarFieldEnum[]
   }
 
   /**
-   * ProjectEnv findFirstOrThrow
+   * OrganizationEnv findFirstOrThrow
    */
-  export type ProjectEnvFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OrganizationEnvFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProjectEnv
+     * Select specific fields to fetch from the OrganizationEnv
      */
-    select?: ProjectEnvSelect<ExtArgs> | null
+    select?: OrganizationEnvSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProjectEnv
+     * Omit specific fields from the OrganizationEnv
      */
-    omit?: ProjectEnvOmit<ExtArgs> | null
+    omit?: OrganizationEnvOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
+     * Filter, which OrganizationEnv to fetch.
      */
-    include?: ProjectEnvInclude<ExtArgs> | null
-    /**
-     * Filter, which ProjectEnv to fetch.
-     */
-    where?: ProjectEnvWhereInput
+    where?: OrganizationEnvWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ProjectEnvs to fetch.
+     * Determine the order of OrganizationEnvs to fetch.
      */
-    orderBy?: ProjectEnvOrderByWithRelationInput | ProjectEnvOrderByWithRelationInput[]
+    orderBy?: OrganizationEnvOrderByWithRelationInput | OrganizationEnvOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for ProjectEnvs.
+     * Sets the position for searching for OrganizationEnvs.
      */
-    cursor?: ProjectEnvWhereUniqueInput
+    cursor?: OrganizationEnvWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ProjectEnvs from the position of the cursor.
+     * Take `±n` OrganizationEnvs from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ProjectEnvs.
+     * Skip the first `n` OrganizationEnvs.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of ProjectEnvs.
+     * Filter by unique combinations of OrganizationEnvs.
      */
-    distinct?: ProjectEnvScalarFieldEnum | ProjectEnvScalarFieldEnum[]
+    distinct?: OrganizationEnvScalarFieldEnum | OrganizationEnvScalarFieldEnum[]
   }
 
   /**
-   * ProjectEnv findMany
+   * OrganizationEnv findMany
    */
-  export type ProjectEnvFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OrganizationEnvFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProjectEnv
+     * Select specific fields to fetch from the OrganizationEnv
      */
-    select?: ProjectEnvSelect<ExtArgs> | null
+    select?: OrganizationEnvSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProjectEnv
+     * Omit specific fields from the OrganizationEnv
      */
-    omit?: ProjectEnvOmit<ExtArgs> | null
+    omit?: OrganizationEnvOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
+     * Filter, which OrganizationEnvs to fetch.
      */
-    include?: ProjectEnvInclude<ExtArgs> | null
-    /**
-     * Filter, which ProjectEnvs to fetch.
-     */
-    where?: ProjectEnvWhereInput
+    where?: OrganizationEnvWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ProjectEnvs to fetch.
+     * Determine the order of OrganizationEnvs to fetch.
      */
-    orderBy?: ProjectEnvOrderByWithRelationInput | ProjectEnvOrderByWithRelationInput[]
+    orderBy?: OrganizationEnvOrderByWithRelationInput | OrganizationEnvOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing ProjectEnvs.
+     * Sets the position for listing OrganizationEnvs.
      */
-    cursor?: ProjectEnvWhereUniqueInput
+    cursor?: OrganizationEnvWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ProjectEnvs from the position of the cursor.
+     * Take `±n` OrganizationEnvs from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ProjectEnvs.
+     * Skip the first `n` OrganizationEnvs.
      */
     skip?: number
-    distinct?: ProjectEnvScalarFieldEnum | ProjectEnvScalarFieldEnum[]
+    distinct?: OrganizationEnvScalarFieldEnum | OrganizationEnvScalarFieldEnum[]
   }
 
   /**
-   * ProjectEnv create
+   * OrganizationEnv create
    */
-  export type ProjectEnvCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OrganizationEnvCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProjectEnv
+     * Select specific fields to fetch from the OrganizationEnv
      */
-    select?: ProjectEnvSelect<ExtArgs> | null
+    select?: OrganizationEnvSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProjectEnv
+     * Omit specific fields from the OrganizationEnv
      */
-    omit?: ProjectEnvOmit<ExtArgs> | null
+    omit?: OrganizationEnvOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
+     * The data needed to create a OrganizationEnv.
      */
-    include?: ProjectEnvInclude<ExtArgs> | null
-    /**
-     * The data needed to create a ProjectEnv.
-     */
-    data: XOR<ProjectEnvCreateInput, ProjectEnvUncheckedCreateInput>
+    data: XOR<OrganizationEnvCreateInput, OrganizationEnvUncheckedCreateInput>
   }
 
   /**
-   * ProjectEnv createMany
+   * OrganizationEnv createMany
    */
-  export type ProjectEnvCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OrganizationEnvCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many ProjectEnvs.
+     * The data used to create many OrganizationEnvs.
      */
-    data: ProjectEnvCreateManyInput | ProjectEnvCreateManyInput[]
+    data: OrganizationEnvCreateManyInput | OrganizationEnvCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * ProjectEnv createManyAndReturn
+   * OrganizationEnv createManyAndReturn
    */
-  export type ProjectEnvCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OrganizationEnvCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProjectEnv
+     * Select specific fields to fetch from the OrganizationEnv
      */
-    select?: ProjectEnvSelectCreateManyAndReturn<ExtArgs> | null
+    select?: OrganizationEnvSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the ProjectEnv
+     * Omit specific fields from the OrganizationEnv
      */
-    omit?: ProjectEnvOmit<ExtArgs> | null
+    omit?: OrganizationEnvOmit<ExtArgs> | null
     /**
-     * The data used to create many ProjectEnvs.
+     * The data used to create many OrganizationEnvs.
      */
-    data: ProjectEnvCreateManyInput | ProjectEnvCreateManyInput[]
+    data: OrganizationEnvCreateManyInput | OrganizationEnvCreateManyInput[]
     skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectEnvIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * ProjectEnv update
+   * OrganizationEnv update
    */
-  export type ProjectEnvUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OrganizationEnvUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProjectEnv
+     * Select specific fields to fetch from the OrganizationEnv
      */
-    select?: ProjectEnvSelect<ExtArgs> | null
+    select?: OrganizationEnvSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProjectEnv
+     * Omit specific fields from the OrganizationEnv
      */
-    omit?: ProjectEnvOmit<ExtArgs> | null
+    omit?: OrganizationEnvOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
+     * The data needed to update a OrganizationEnv.
      */
-    include?: ProjectEnvInclude<ExtArgs> | null
+    data: XOR<OrganizationEnvUpdateInput, OrganizationEnvUncheckedUpdateInput>
     /**
-     * The data needed to update a ProjectEnv.
+     * Choose, which OrganizationEnv to update.
      */
-    data: XOR<ProjectEnvUpdateInput, ProjectEnvUncheckedUpdateInput>
-    /**
-     * Choose, which ProjectEnv to update.
-     */
-    where: ProjectEnvWhereUniqueInput
+    where: OrganizationEnvWhereUniqueInput
   }
 
   /**
-   * ProjectEnv updateMany
+   * OrganizationEnv updateMany
    */
-  export type ProjectEnvUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OrganizationEnvUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update ProjectEnvs.
+     * The data used to update OrganizationEnvs.
      */
-    data: XOR<ProjectEnvUpdateManyMutationInput, ProjectEnvUncheckedUpdateManyInput>
+    data: XOR<OrganizationEnvUpdateManyMutationInput, OrganizationEnvUncheckedUpdateManyInput>
     /**
-     * Filter which ProjectEnvs to update
+     * Filter which OrganizationEnvs to update
      */
-    where?: ProjectEnvWhereInput
+    where?: OrganizationEnvWhereInput
     /**
-     * Limit how many ProjectEnvs to update.
+     * Limit how many OrganizationEnvs to update.
      */
     limit?: number
   }
 
   /**
-   * ProjectEnv updateManyAndReturn
+   * OrganizationEnv updateManyAndReturn
    */
-  export type ProjectEnvUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OrganizationEnvUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProjectEnv
+     * Select specific fields to fetch from the OrganizationEnv
      */
-    select?: ProjectEnvSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: OrganizationEnvSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the ProjectEnv
+     * Omit specific fields from the OrganizationEnv
      */
-    omit?: ProjectEnvOmit<ExtArgs> | null
+    omit?: OrganizationEnvOmit<ExtArgs> | null
     /**
-     * The data used to update ProjectEnvs.
+     * The data used to update OrganizationEnvs.
      */
-    data: XOR<ProjectEnvUpdateManyMutationInput, ProjectEnvUncheckedUpdateManyInput>
+    data: XOR<OrganizationEnvUpdateManyMutationInput, OrganizationEnvUncheckedUpdateManyInput>
     /**
-     * Filter which ProjectEnvs to update
+     * Filter which OrganizationEnvs to update
      */
-    where?: ProjectEnvWhereInput
+    where?: OrganizationEnvWhereInput
     /**
-     * Limit how many ProjectEnvs to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectEnvIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * ProjectEnv upsert
-   */
-  export type ProjectEnvUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProjectEnv
-     */
-    select?: ProjectEnvSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProjectEnv
-     */
-    omit?: ProjectEnvOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectEnvInclude<ExtArgs> | null
-    /**
-     * The filter to search for the ProjectEnv to update in case it exists.
-     */
-    where: ProjectEnvWhereUniqueInput
-    /**
-     * In case the ProjectEnv found by the `where` argument doesn't exist, create a new ProjectEnv with this data.
-     */
-    create: XOR<ProjectEnvCreateInput, ProjectEnvUncheckedCreateInput>
-    /**
-     * In case the ProjectEnv was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<ProjectEnvUpdateInput, ProjectEnvUncheckedUpdateInput>
-  }
-
-  /**
-   * ProjectEnv delete
-   */
-  export type ProjectEnvDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProjectEnv
-     */
-    select?: ProjectEnvSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProjectEnv
-     */
-    omit?: ProjectEnvOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectEnvInclude<ExtArgs> | null
-    /**
-     * Filter which ProjectEnv to delete.
-     */
-    where: ProjectEnvWhereUniqueInput
-  }
-
-  /**
-   * ProjectEnv deleteMany
-   */
-  export type ProjectEnvDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which ProjectEnvs to delete
-     */
-    where?: ProjectEnvWhereInput
-    /**
-     * Limit how many ProjectEnvs to delete.
+     * Limit how many OrganizationEnvs to update.
      */
     limit?: number
   }
 
   /**
-   * ProjectEnv without action
+   * OrganizationEnv upsert
    */
-  export type ProjectEnvDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OrganizationEnvUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProjectEnv
+     * Select specific fields to fetch from the OrganizationEnv
      */
-    select?: ProjectEnvSelect<ExtArgs> | null
+    select?: OrganizationEnvSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProjectEnv
+     * Omit specific fields from the OrganizationEnv
      */
-    omit?: ProjectEnvOmit<ExtArgs> | null
+    omit?: OrganizationEnvOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
+     * The filter to search for the OrganizationEnv to update in case it exists.
      */
-    include?: ProjectEnvInclude<ExtArgs> | null
+    where: OrganizationEnvWhereUniqueInput
+    /**
+     * In case the OrganizationEnv found by the `where` argument doesn't exist, create a new OrganizationEnv with this data.
+     */
+    create: XOR<OrganizationEnvCreateInput, OrganizationEnvUncheckedCreateInput>
+    /**
+     * In case the OrganizationEnv was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OrganizationEnvUpdateInput, OrganizationEnvUncheckedUpdateInput>
+  }
+
+  /**
+   * OrganizationEnv delete
+   */
+  export type OrganizationEnvDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrganizationEnv
+     */
+    select?: OrganizationEnvSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrganizationEnv
+     */
+    omit?: OrganizationEnvOmit<ExtArgs> | null
+    /**
+     * Filter which OrganizationEnv to delete.
+     */
+    where: OrganizationEnvWhereUniqueInput
+  }
+
+  /**
+   * OrganizationEnv deleteMany
+   */
+  export type OrganizationEnvDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OrganizationEnvs to delete
+     */
+    where?: OrganizationEnvWhereInput
+    /**
+     * Limit how many OrganizationEnvs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * OrganizationEnv without action
+   */
+  export type OrganizationEnvDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrganizationEnv
+     */
+    select?: OrganizationEnvSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrganizationEnv
+     */
+    omit?: OrganizationEnvOmit<ExtArgs> | null
   }
 
 
@@ -11719,22 +10438,9 @@ export namespace Prisma {
   export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
 
 
-  export const ProjectScalarFieldEnum: {
+  export const OrganizationEnvScalarFieldEnum: {
     id: 'id',
-    name: 'name',
-    slug: 'slug',
-    userId: 'userId',
     organizationId: 'organizationId',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
-
-
-  export const ProjectEnvScalarFieldEnum: {
-    id: 'id',
-    projectId: 'projectId',
     env: 'env',
     baseUrl: 'baseUrl',
     apiKey: 'apiKey',
@@ -11742,7 +10448,7 @@ export namespace Prisma {
     updatedAt: 'updatedAt'
   };
 
-  export type ProjectEnvScalarFieldEnum = (typeof ProjectEnvScalarFieldEnum)[keyof typeof ProjectEnvScalarFieldEnum]
+  export type OrganizationEnvScalarFieldEnum = (typeof OrganizationEnvScalarFieldEnum)[keyof typeof OrganizationEnvScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -12321,136 +11027,67 @@ export namespace Prisma {
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Verification"> | Date | string | null
   }
 
-  export type ProjectWhereInput = {
-    AND?: ProjectWhereInput | ProjectWhereInput[]
-    OR?: ProjectWhereInput[]
-    NOT?: ProjectWhereInput | ProjectWhereInput[]
-    id?: StringFilter<"Project"> | string
-    name?: StringFilter<"Project"> | string
-    slug?: StringFilter<"Project"> | string
-    userId?: StringFilter<"Project"> | string
-    organizationId?: StringFilter<"Project"> | string
-    createdAt?: DateTimeFilter<"Project"> | Date | string
-    updatedAt?: DateTimeFilter<"Project"> | Date | string
-    envs?: ProjectEnvListRelationFilter
+  export type OrganizationEnvWhereInput = {
+    AND?: OrganizationEnvWhereInput | OrganizationEnvWhereInput[]
+    OR?: OrganizationEnvWhereInput[]
+    NOT?: OrganizationEnvWhereInput | OrganizationEnvWhereInput[]
+    id?: StringFilter<"OrganizationEnv"> | string
+    organizationId?: StringFilter<"OrganizationEnv"> | string
+    env?: StringFilter<"OrganizationEnv"> | string
+    baseUrl?: StringNullableFilter<"OrganizationEnv"> | string | null
+    apiKey?: StringNullableFilter<"OrganizationEnv"> | string | null
+    createdAt?: DateTimeFilter<"OrganizationEnv"> | Date | string
+    updatedAt?: DateTimeFilter<"OrganizationEnv"> | Date | string
   }
 
-  export type ProjectOrderByWithRelationInput = {
+  export type OrganizationEnvOrderByWithRelationInput = {
     id?: SortOrder
-    name?: SortOrder
-    slug?: SortOrder
-    userId?: SortOrder
     organizationId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    envs?: ProjectEnvOrderByRelationAggregateInput
-  }
-
-  export type ProjectWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    organizationId_slug?: ProjectOrganizationIdSlugCompoundUniqueInput
-    AND?: ProjectWhereInput | ProjectWhereInput[]
-    OR?: ProjectWhereInput[]
-    NOT?: ProjectWhereInput | ProjectWhereInput[]
-    name?: StringFilter<"Project"> | string
-    slug?: StringFilter<"Project"> | string
-    userId?: StringFilter<"Project"> | string
-    organizationId?: StringFilter<"Project"> | string
-    createdAt?: DateTimeFilter<"Project"> | Date | string
-    updatedAt?: DateTimeFilter<"Project"> | Date | string
-    envs?: ProjectEnvListRelationFilter
-  }, "id" | "organizationId_slug">
-
-  export type ProjectOrderByWithAggregationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    slug?: SortOrder
-    userId?: SortOrder
-    organizationId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: ProjectCountOrderByAggregateInput
-    _max?: ProjectMaxOrderByAggregateInput
-    _min?: ProjectMinOrderByAggregateInput
-  }
-
-  export type ProjectScalarWhereWithAggregatesInput = {
-    AND?: ProjectScalarWhereWithAggregatesInput | ProjectScalarWhereWithAggregatesInput[]
-    OR?: ProjectScalarWhereWithAggregatesInput[]
-    NOT?: ProjectScalarWhereWithAggregatesInput | ProjectScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Project"> | string
-    name?: StringWithAggregatesFilter<"Project"> | string
-    slug?: StringWithAggregatesFilter<"Project"> | string
-    userId?: StringWithAggregatesFilter<"Project"> | string
-    organizationId?: StringWithAggregatesFilter<"Project"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
-  }
-
-  export type ProjectEnvWhereInput = {
-    AND?: ProjectEnvWhereInput | ProjectEnvWhereInput[]
-    OR?: ProjectEnvWhereInput[]
-    NOT?: ProjectEnvWhereInput | ProjectEnvWhereInput[]
-    id?: StringFilter<"ProjectEnv"> | string
-    projectId?: StringFilter<"ProjectEnv"> | string
-    env?: StringFilter<"ProjectEnv"> | string
-    baseUrl?: StringNullableFilter<"ProjectEnv"> | string | null
-    apiKey?: StringNullableFilter<"ProjectEnv"> | string | null
-    createdAt?: DateTimeFilter<"ProjectEnv"> | Date | string
-    updatedAt?: DateTimeFilter<"ProjectEnv"> | Date | string
-    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
-  }
-
-  export type ProjectEnvOrderByWithRelationInput = {
-    id?: SortOrder
-    projectId?: SortOrder
     env?: SortOrder
     baseUrl?: SortOrderInput | SortOrder
     apiKey?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    project?: ProjectOrderByWithRelationInput
   }
 
-  export type ProjectEnvWhereUniqueInput = Prisma.AtLeast<{
+  export type OrganizationEnvWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    projectId_env?: ProjectEnvProjectIdEnvCompoundUniqueInput
-    AND?: ProjectEnvWhereInput | ProjectEnvWhereInput[]
-    OR?: ProjectEnvWhereInput[]
-    NOT?: ProjectEnvWhereInput | ProjectEnvWhereInput[]
-    projectId?: StringFilter<"ProjectEnv"> | string
-    env?: StringFilter<"ProjectEnv"> | string
-    baseUrl?: StringNullableFilter<"ProjectEnv"> | string | null
-    apiKey?: StringNullableFilter<"ProjectEnv"> | string | null
-    createdAt?: DateTimeFilter<"ProjectEnv"> | Date | string
-    updatedAt?: DateTimeFilter<"ProjectEnv"> | Date | string
-    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
-  }, "id" | "projectId_env">
+    organizationId_env?: OrganizationEnvOrganizationIdEnvCompoundUniqueInput
+    AND?: OrganizationEnvWhereInput | OrganizationEnvWhereInput[]
+    OR?: OrganizationEnvWhereInput[]
+    NOT?: OrganizationEnvWhereInput | OrganizationEnvWhereInput[]
+    organizationId?: StringFilter<"OrganizationEnv"> | string
+    env?: StringFilter<"OrganizationEnv"> | string
+    baseUrl?: StringNullableFilter<"OrganizationEnv"> | string | null
+    apiKey?: StringNullableFilter<"OrganizationEnv"> | string | null
+    createdAt?: DateTimeFilter<"OrganizationEnv"> | Date | string
+    updatedAt?: DateTimeFilter<"OrganizationEnv"> | Date | string
+  }, "id" | "organizationId_env">
 
-  export type ProjectEnvOrderByWithAggregationInput = {
+  export type OrganizationEnvOrderByWithAggregationInput = {
     id?: SortOrder
-    projectId?: SortOrder
+    organizationId?: SortOrder
     env?: SortOrder
     baseUrl?: SortOrderInput | SortOrder
     apiKey?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    _count?: ProjectEnvCountOrderByAggregateInput
-    _max?: ProjectEnvMaxOrderByAggregateInput
-    _min?: ProjectEnvMinOrderByAggregateInput
+    _count?: OrganizationEnvCountOrderByAggregateInput
+    _max?: OrganizationEnvMaxOrderByAggregateInput
+    _min?: OrganizationEnvMinOrderByAggregateInput
   }
 
-  export type ProjectEnvScalarWhereWithAggregatesInput = {
-    AND?: ProjectEnvScalarWhereWithAggregatesInput | ProjectEnvScalarWhereWithAggregatesInput[]
-    OR?: ProjectEnvScalarWhereWithAggregatesInput[]
-    NOT?: ProjectEnvScalarWhereWithAggregatesInput | ProjectEnvScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"ProjectEnv"> | string
-    projectId?: StringWithAggregatesFilter<"ProjectEnv"> | string
-    env?: StringWithAggregatesFilter<"ProjectEnv"> | string
-    baseUrl?: StringNullableWithAggregatesFilter<"ProjectEnv"> | string | null
-    apiKey?: StringNullableWithAggregatesFilter<"ProjectEnv"> | string | null
-    createdAt?: DateTimeWithAggregatesFilter<"ProjectEnv"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"ProjectEnv"> | Date | string
+  export type OrganizationEnvScalarWhereWithAggregatesInput = {
+    AND?: OrganizationEnvScalarWhereWithAggregatesInput | OrganizationEnvScalarWhereWithAggregatesInput[]
+    OR?: OrganizationEnvScalarWhereWithAggregatesInput[]
+    NOT?: OrganizationEnvScalarWhereWithAggregatesInput | OrganizationEnvScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"OrganizationEnv"> | string
+    organizationId?: StringWithAggregatesFilter<"OrganizationEnv"> | string
+    env?: StringWithAggregatesFilter<"OrganizationEnv"> | string
+    baseUrl?: StringNullableWithAggregatesFilter<"OrganizationEnv"> | string | null
+    apiKey?: StringNullableWithAggregatesFilter<"OrganizationEnv"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"OrganizationEnv"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"OrganizationEnv"> | Date | string
   }
 
   export type AccountCreateInput = {
@@ -13000,93 +11637,9 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type ProjectCreateInput = {
+  export type OrganizationEnvCreateInput = {
     id?: string
-    name: string
-    slug: string
-    userId: string
     organizationId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    envs?: ProjectEnvCreateNestedManyWithoutProjectInput
-  }
-
-  export type ProjectUncheckedCreateInput = {
-    id?: string
-    name: string
-    slug: string
-    userId: string
-    organizationId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    envs?: ProjectEnvUncheckedCreateNestedManyWithoutProjectInput
-  }
-
-  export type ProjectUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    organizationId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    envs?: ProjectEnvUpdateManyWithoutProjectNestedInput
-  }
-
-  export type ProjectUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    organizationId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    envs?: ProjectEnvUncheckedUpdateManyWithoutProjectNestedInput
-  }
-
-  export type ProjectCreateManyInput = {
-    id?: string
-    name: string
-    slug: string
-    userId: string
-    organizationId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ProjectUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    organizationId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ProjectUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    organizationId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ProjectEnvCreateInput = {
-    id?: string
-    env: string
-    baseUrl?: string | null
-    apiKey?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    project: ProjectCreateNestedOneWithoutEnvsInput
-  }
-
-  export type ProjectEnvUncheckedCreateInput = {
-    id?: string
-    projectId: string
     env: string
     baseUrl?: string | null
     apiKey?: string | null
@@ -13094,29 +11647,9 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type ProjectEnvUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    env?: StringFieldUpdateOperationsInput | string
-    baseUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    project?: ProjectUpdateOneRequiredWithoutEnvsNestedInput
-  }
-
-  export type ProjectEnvUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    projectId?: StringFieldUpdateOperationsInput | string
-    env?: StringFieldUpdateOperationsInput | string
-    baseUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ProjectEnvCreateManyInput = {
+  export type OrganizationEnvUncheckedCreateInput = {
     id?: string
-    projectId: string
+    organizationId: string
     env: string
     baseUrl?: string | null
     apiKey?: string | null
@@ -13124,8 +11657,9 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type ProjectEnvUpdateManyMutationInput = {
+  export type OrganizationEnvUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
     env?: StringFieldUpdateOperationsInput | string
     baseUrl?: NullableStringFieldUpdateOperationsInput | string | null
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13133,9 +11667,39 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ProjectEnvUncheckedUpdateManyInput = {
+  export type OrganizationEnvUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    projectId?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    env?: StringFieldUpdateOperationsInput | string
+    baseUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OrganizationEnvCreateManyInput = {
+    id?: string
+    organizationId: string
+    env: string
+    baseUrl?: string | null
+    apiKey?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OrganizationEnvUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    env?: StringFieldUpdateOperationsInput | string
+    baseUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OrganizationEnvUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
     env?: StringFieldUpdateOperationsInput | string
     baseUrl?: NullableStringFieldUpdateOperationsInput | string | null
     apiKey?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13560,64 +12124,14 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type ProjectEnvListRelationFilter = {
-    every?: ProjectEnvWhereInput
-    some?: ProjectEnvWhereInput
-    none?: ProjectEnvWhereInput
-  }
-
-  export type ProjectEnvOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type ProjectOrganizationIdSlugCompoundUniqueInput = {
+  export type OrganizationEnvOrganizationIdEnvCompoundUniqueInput = {
     organizationId: string
-    slug: string
-  }
-
-  export type ProjectCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    slug?: SortOrder
-    userId?: SortOrder
-    organizationId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type ProjectMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    slug?: SortOrder
-    userId?: SortOrder
-    organizationId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type ProjectMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    slug?: SortOrder
-    userId?: SortOrder
-    organizationId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type ProjectScalarRelationFilter = {
-    is?: ProjectWhereInput
-    isNot?: ProjectWhereInput
-  }
-
-  export type ProjectEnvProjectIdEnvCompoundUniqueInput = {
-    projectId: string
     env: string
   }
 
-  export type ProjectEnvCountOrderByAggregateInput = {
+  export type OrganizationEnvCountOrderByAggregateInput = {
     id?: SortOrder
-    projectId?: SortOrder
+    organizationId?: SortOrder
     env?: SortOrder
     baseUrl?: SortOrder
     apiKey?: SortOrder
@@ -13625,9 +12139,9 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type ProjectEnvMaxOrderByAggregateInput = {
+  export type OrganizationEnvMaxOrderByAggregateInput = {
     id?: SortOrder
-    projectId?: SortOrder
+    organizationId?: SortOrder
     env?: SortOrder
     baseUrl?: SortOrder
     apiKey?: SortOrder
@@ -13635,9 +12149,9 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type ProjectEnvMinOrderByAggregateInput = {
+  export type OrganizationEnvMinOrderByAggregateInput = {
     id?: SortOrder
-    projectId?: SortOrder
+    organizationId?: SortOrder
     env?: SortOrder
     baseUrl?: SortOrder
     apiKey?: SortOrder
@@ -13943,62 +12457,6 @@ export namespace Prisma {
     update?: MemberUpdateWithWhereUniqueWithoutUserInput | MemberUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: MemberUpdateManyWithWhereWithoutUserInput | MemberUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: MemberScalarWhereInput | MemberScalarWhereInput[]
-  }
-
-  export type ProjectEnvCreateNestedManyWithoutProjectInput = {
-    create?: XOR<ProjectEnvCreateWithoutProjectInput, ProjectEnvUncheckedCreateWithoutProjectInput> | ProjectEnvCreateWithoutProjectInput[] | ProjectEnvUncheckedCreateWithoutProjectInput[]
-    connectOrCreate?: ProjectEnvCreateOrConnectWithoutProjectInput | ProjectEnvCreateOrConnectWithoutProjectInput[]
-    createMany?: ProjectEnvCreateManyProjectInputEnvelope
-    connect?: ProjectEnvWhereUniqueInput | ProjectEnvWhereUniqueInput[]
-  }
-
-  export type ProjectEnvUncheckedCreateNestedManyWithoutProjectInput = {
-    create?: XOR<ProjectEnvCreateWithoutProjectInput, ProjectEnvUncheckedCreateWithoutProjectInput> | ProjectEnvCreateWithoutProjectInput[] | ProjectEnvUncheckedCreateWithoutProjectInput[]
-    connectOrCreate?: ProjectEnvCreateOrConnectWithoutProjectInput | ProjectEnvCreateOrConnectWithoutProjectInput[]
-    createMany?: ProjectEnvCreateManyProjectInputEnvelope
-    connect?: ProjectEnvWhereUniqueInput | ProjectEnvWhereUniqueInput[]
-  }
-
-  export type ProjectEnvUpdateManyWithoutProjectNestedInput = {
-    create?: XOR<ProjectEnvCreateWithoutProjectInput, ProjectEnvUncheckedCreateWithoutProjectInput> | ProjectEnvCreateWithoutProjectInput[] | ProjectEnvUncheckedCreateWithoutProjectInput[]
-    connectOrCreate?: ProjectEnvCreateOrConnectWithoutProjectInput | ProjectEnvCreateOrConnectWithoutProjectInput[]
-    upsert?: ProjectEnvUpsertWithWhereUniqueWithoutProjectInput | ProjectEnvUpsertWithWhereUniqueWithoutProjectInput[]
-    createMany?: ProjectEnvCreateManyProjectInputEnvelope
-    set?: ProjectEnvWhereUniqueInput | ProjectEnvWhereUniqueInput[]
-    disconnect?: ProjectEnvWhereUniqueInput | ProjectEnvWhereUniqueInput[]
-    delete?: ProjectEnvWhereUniqueInput | ProjectEnvWhereUniqueInput[]
-    connect?: ProjectEnvWhereUniqueInput | ProjectEnvWhereUniqueInput[]
-    update?: ProjectEnvUpdateWithWhereUniqueWithoutProjectInput | ProjectEnvUpdateWithWhereUniqueWithoutProjectInput[]
-    updateMany?: ProjectEnvUpdateManyWithWhereWithoutProjectInput | ProjectEnvUpdateManyWithWhereWithoutProjectInput[]
-    deleteMany?: ProjectEnvScalarWhereInput | ProjectEnvScalarWhereInput[]
-  }
-
-  export type ProjectEnvUncheckedUpdateManyWithoutProjectNestedInput = {
-    create?: XOR<ProjectEnvCreateWithoutProjectInput, ProjectEnvUncheckedCreateWithoutProjectInput> | ProjectEnvCreateWithoutProjectInput[] | ProjectEnvUncheckedCreateWithoutProjectInput[]
-    connectOrCreate?: ProjectEnvCreateOrConnectWithoutProjectInput | ProjectEnvCreateOrConnectWithoutProjectInput[]
-    upsert?: ProjectEnvUpsertWithWhereUniqueWithoutProjectInput | ProjectEnvUpsertWithWhereUniqueWithoutProjectInput[]
-    createMany?: ProjectEnvCreateManyProjectInputEnvelope
-    set?: ProjectEnvWhereUniqueInput | ProjectEnvWhereUniqueInput[]
-    disconnect?: ProjectEnvWhereUniqueInput | ProjectEnvWhereUniqueInput[]
-    delete?: ProjectEnvWhereUniqueInput | ProjectEnvWhereUniqueInput[]
-    connect?: ProjectEnvWhereUniqueInput | ProjectEnvWhereUniqueInput[]
-    update?: ProjectEnvUpdateWithWhereUniqueWithoutProjectInput | ProjectEnvUpdateWithWhereUniqueWithoutProjectInput[]
-    updateMany?: ProjectEnvUpdateManyWithWhereWithoutProjectInput | ProjectEnvUpdateManyWithWhereWithoutProjectInput[]
-    deleteMany?: ProjectEnvScalarWhereInput | ProjectEnvScalarWhereInput[]
-  }
-
-  export type ProjectCreateNestedOneWithoutEnvsInput = {
-    create?: XOR<ProjectCreateWithoutEnvsInput, ProjectUncheckedCreateWithoutEnvsInput>
-    connectOrCreate?: ProjectCreateOrConnectWithoutEnvsInput
-    connect?: ProjectWhereUniqueInput
-  }
-
-  export type ProjectUpdateOneRequiredWithoutEnvsNestedInput = {
-    create?: XOR<ProjectCreateWithoutEnvsInput, ProjectUncheckedCreateWithoutEnvsInput>
-    connectOrCreate?: ProjectCreateOrConnectWithoutEnvsInput
-    upsert?: ProjectUpsertWithoutEnvsInput
-    connect?: ProjectWhereUniqueInput
-    update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutEnvsInput, ProjectUpdateWithoutEnvsInput>, ProjectUncheckedUpdateWithoutEnvsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -14744,119 +13202,6 @@ export namespace Prisma {
     data: XOR<MemberUpdateManyMutationInput, MemberUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type ProjectEnvCreateWithoutProjectInput = {
-    id?: string
-    env: string
-    baseUrl?: string | null
-    apiKey?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ProjectEnvUncheckedCreateWithoutProjectInput = {
-    id?: string
-    env: string
-    baseUrl?: string | null
-    apiKey?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ProjectEnvCreateOrConnectWithoutProjectInput = {
-    where: ProjectEnvWhereUniqueInput
-    create: XOR<ProjectEnvCreateWithoutProjectInput, ProjectEnvUncheckedCreateWithoutProjectInput>
-  }
-
-  export type ProjectEnvCreateManyProjectInputEnvelope = {
-    data: ProjectEnvCreateManyProjectInput | ProjectEnvCreateManyProjectInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type ProjectEnvUpsertWithWhereUniqueWithoutProjectInput = {
-    where: ProjectEnvWhereUniqueInput
-    update: XOR<ProjectEnvUpdateWithoutProjectInput, ProjectEnvUncheckedUpdateWithoutProjectInput>
-    create: XOR<ProjectEnvCreateWithoutProjectInput, ProjectEnvUncheckedCreateWithoutProjectInput>
-  }
-
-  export type ProjectEnvUpdateWithWhereUniqueWithoutProjectInput = {
-    where: ProjectEnvWhereUniqueInput
-    data: XOR<ProjectEnvUpdateWithoutProjectInput, ProjectEnvUncheckedUpdateWithoutProjectInput>
-  }
-
-  export type ProjectEnvUpdateManyWithWhereWithoutProjectInput = {
-    where: ProjectEnvScalarWhereInput
-    data: XOR<ProjectEnvUpdateManyMutationInput, ProjectEnvUncheckedUpdateManyWithoutProjectInput>
-  }
-
-  export type ProjectEnvScalarWhereInput = {
-    AND?: ProjectEnvScalarWhereInput | ProjectEnvScalarWhereInput[]
-    OR?: ProjectEnvScalarWhereInput[]
-    NOT?: ProjectEnvScalarWhereInput | ProjectEnvScalarWhereInput[]
-    id?: StringFilter<"ProjectEnv"> | string
-    projectId?: StringFilter<"ProjectEnv"> | string
-    env?: StringFilter<"ProjectEnv"> | string
-    baseUrl?: StringNullableFilter<"ProjectEnv"> | string | null
-    apiKey?: StringNullableFilter<"ProjectEnv"> | string | null
-    createdAt?: DateTimeFilter<"ProjectEnv"> | Date | string
-    updatedAt?: DateTimeFilter<"ProjectEnv"> | Date | string
-  }
-
-  export type ProjectCreateWithoutEnvsInput = {
-    id?: string
-    name: string
-    slug: string
-    userId: string
-    organizationId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ProjectUncheckedCreateWithoutEnvsInput = {
-    id?: string
-    name: string
-    slug: string
-    userId: string
-    organizationId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ProjectCreateOrConnectWithoutEnvsInput = {
-    where: ProjectWhereUniqueInput
-    create: XOR<ProjectCreateWithoutEnvsInput, ProjectUncheckedCreateWithoutEnvsInput>
-  }
-
-  export type ProjectUpsertWithoutEnvsInput = {
-    update: XOR<ProjectUpdateWithoutEnvsInput, ProjectUncheckedUpdateWithoutEnvsInput>
-    create: XOR<ProjectCreateWithoutEnvsInput, ProjectUncheckedCreateWithoutEnvsInput>
-    where?: ProjectWhereInput
-  }
-
-  export type ProjectUpdateToOneWithWhereWithoutEnvsInput = {
-    where?: ProjectWhereInput
-    data: XOR<ProjectUpdateWithoutEnvsInput, ProjectUncheckedUpdateWithoutEnvsInput>
-  }
-
-  export type ProjectUpdateWithoutEnvsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    organizationId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ProjectUncheckedUpdateWithoutEnvsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    organizationId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type MemberCreateManyOrganizationInput = {
     id: string
     userId: string
@@ -15059,42 +13404,6 @@ export namespace Prisma {
     organizationId?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ProjectEnvCreateManyProjectInput = {
-    id?: string
-    env: string
-    baseUrl?: string | null
-    apiKey?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ProjectEnvUpdateWithoutProjectInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    env?: StringFieldUpdateOperationsInput | string
-    baseUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ProjectEnvUncheckedUpdateWithoutProjectInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    env?: StringFieldUpdateOperationsInput | string
-    baseUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ProjectEnvUncheckedUpdateManyWithoutProjectInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    env?: StringFieldUpdateOperationsInput | string
-    baseUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

@@ -3,10 +3,12 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
 import { LogOut, User } from "lucide-react";
 
 import { useSession, signOut } from "../lib/auth-client";
 import { AUTH_ROUTES } from "../constants";
+import { useProjectStore } from "@/features/project/store";
 import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
@@ -17,8 +19,11 @@ import {
 
 export function UserProfile({ collapsed }: { collapsed: boolean }) {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { data, isPending, error } = useSession();
   const user = data?.user;
+  const setProjects = useProjectStore((s) => s.setProjects);
+  const setSelectedProjectId = useProjectStore((s) => s.setSelectedProjectId);
 
   useEffect(() => {
     if (!isPending && error) {
@@ -26,9 +31,15 @@ export function UserProfile({ collapsed }: { collapsed: boolean }) {
     }
   }, [isPending, error, router]);
 
-  async function handleSignOut() {
-    await signOut();
-    router.push(AUTH_ROUTES.signIn);
+  function handleSignOut() {
+    queryClient.removeQueries({ queryKey: ["projects"] });
+    signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push(AUTH_ROUTES.signIn);
+        },
+      },
+    });
   }
 
   if (isPending || !user) {

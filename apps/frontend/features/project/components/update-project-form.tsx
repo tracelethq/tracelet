@@ -13,22 +13,19 @@ function slugFromName(name: string): string {
     .replace(/[^a-z0-9-]/g, "");
 }
 
-export type UpdateOrgFormValues = {
-  name: string;
-  slug: string;
-};
+export type UpdateProjectFormValues = { name: string; slug: string };
 
-type UpdateOrgFormProps = {
-  defaultValues: UpdateOrgFormValues;
-  onSubmit: (values: UpdateOrgFormValues) => Promise<void>;
+type UpdateProjectFormProps = {
+  defaultValues: UpdateProjectFormValues;
+  onSubmit: (values: UpdateProjectFormValues) => Promise<void>;
   submitLabel?: string;
 };
 
-export function UpdateOrgForm({
+export function UpdateProjectForm({
   defaultValues,
   onSubmit,
   submitLabel = "Save changes",
-}: UpdateOrgFormProps) {
+}: UpdateProjectFormProps) {
   const [name, setName] = useState(defaultValues.name);
   const [slug, setSlug] = useState(defaultValues.slug);
   const [error, setError] = useState<string | null>(null);
@@ -49,11 +46,11 @@ export function UpdateOrgForm({
     const finalName = name.trim();
     const finalSlug = (slug.trim() || slugFromName(finalName)).toLowerCase().replace(/\s+/g, "-");
     if (!finalName) {
-      setError("Organization name is required.");
+      setError("Project name is required.");
       return;
     }
     if (!finalSlug) {
-      setError("Organization slug is required (e.g. my-org).");
+      setError("Project slug is required (e.g. my-project).");
       return;
     }
     setIsSubmitting(true);
@@ -63,7 +60,7 @@ export function UpdateOrgForm({
       const message =
         err && typeof err === "object" && "message" in err
           ? String((err as { message: unknown }).message)
-          : "Failed to update organization.";
+          : "Failed to update project.";
       setError(message);
     } finally {
       setIsSubmitting(false);
@@ -74,26 +71,26 @@ export function UpdateOrgForm({
     <form onSubmit={handleSubmit}>
       <FieldGroup>
         <Field>
-          <FieldLabel htmlFor="update-org-name">Name</FieldLabel>
+          <FieldLabel htmlFor="update-project-name">Name</FieldLabel>
           <FieldContent>
             <Input
-              id="update-org-name"
+              id="update-project-name"
               value={name}
               onChange={handleNameChange}
-              placeholder="Acme Inc"
+              placeholder="My Project"
               disabled={isSubmitting}
               autoComplete="organization"
             />
           </FieldContent>
         </Field>
         <Field>
-          <FieldLabel htmlFor="update-org-slug">Slug</FieldLabel>
+          <FieldLabel htmlFor="update-project-slug">Slug</FieldLabel>
           <FieldContent>
             <Input
-              id="update-org-slug"
+              id="update-project-slug"
               value={slug}
               onChange={(e) => setSlug(e.target.value)}
-              placeholder="acme"
+              placeholder="my-project"
               disabled={isSubmitting}
               autoComplete="off"
             />

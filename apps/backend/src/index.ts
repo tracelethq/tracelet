@@ -8,8 +8,7 @@ import { auth } from "./lib/auth.js";
 import { ExampleController } from "./controllers/ExampleController.js";
 import { UsersController } from "./controllers/UsersController.js";
 import { OrganizationsController } from "./controllers/OrganizationsController.js";
-import { ProjectsController } from "./controllers/ProjectsController.js";
-import { ProjectEnvsController } from "./controllers/ProjectEnvsController.js";
+import { OrganizationEnvsController } from "./controllers/OrganizationEnvsController.js";
 
 const app = express();
 const port = Number(process.env.PORT) || 3005;
@@ -48,7 +47,7 @@ app.get("/health", (_req, res) => {
 // API controllers (routing-controllers)
 useExpressServer(app, {
   routePrefix: "/api",
-  controllers: [ExampleController, UsersController, OrganizationsController, ProjectsController, ProjectEnvsController],
+  controllers: [ExampleController, UsersController, OrganizationsController, OrganizationEnvsController],
 });
 
 app.listen(port, () => {

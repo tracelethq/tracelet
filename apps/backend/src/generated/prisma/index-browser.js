@@ -196,19 +196,9 @@ exports.Prisma.VerificationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.ProjectScalarFieldEnum = {
+exports.Prisma.OrganizationEnvScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  slug: 'slug',
-  userId: 'userId',
   organizationId: 'organizationId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.ProjectEnvScalarFieldEnum = {
-  id: 'id',
-  projectId: 'projectId',
   env: 'env',
   baseUrl: 'baseUrl',
   apiKey: 'apiKey',
@@ -240,8 +230,7 @@ exports.Prisma.ModelName = {
   Session: 'Session',
   User: 'User',
   Verification: 'Verification',
-  Project: 'Project',
-  ProjectEnv: 'ProjectEnv'
+  OrganizationEnv: 'OrganizationEnv'
 };
 
 /**

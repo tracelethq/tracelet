@@ -117,35 +117,18 @@ model Verification {
   @@schema("better_auth")
 }
 
-// App models: projects and per-project environments (public schema)
-model Project {
-  id             String       @id @default(cuid())
-  name           String
-  slug           String
-  userId         String // created by
-  organizationId String // org that owns the project
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
-  envs           ProjectEnv[]
+// App: env config per organization (org = project). Public schema.
+model OrganizationEnv {
+  id             String   @id @default(cuid())
+  organizationId String // org id from better_auth.organization
+  env            String // "development" | "staging" | "production"
+  baseUrl        String?
+  apiKey         String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
-  @@unique([organizationId, slug])
-  @@map("project")
-  @@schema("public")
-}
-
-model ProjectEnv {
-  id        String   @id @default(cuid())
-  projectId String
-  env       String // "development" | "staging" | "production"
-  baseUrl   String?
-  apiKey    String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-
-  @@unique([projectId, env])
-  @@map("project_env")
+  @@unique([organizationId, env])
+  @@map("organization_env")
   @@schema("public")
 }
 

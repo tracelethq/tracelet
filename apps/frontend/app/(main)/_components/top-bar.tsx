@@ -14,16 +14,19 @@ import {
 import {
   useProjectStore,
   ENV_OPTIONS,
-  ProjectSwitcher,
+  getAppProjectPath,
   CreateProjectDialog,
-  getAppOrgProjectPath,
 } from "@/features/project";
-import OrgTabs from "@/features/organization/components/org-tabs";
+import { APP_ROUTES } from "@/lib/constant";
 
-function getPageTitle(pathname: string): string {
-  const segment = pathname.split("/").filter(Boolean).pop();
-  if (!segment) return "Dashboard";
-  return segment.charAt(0).toUpperCase() + segment.slice(1);
+function getPageTitle(pathname: string, projectName?: string): string {
+  if (pathname === APP_ROUTES.base.route)
+    return projectName ?? APP_ROUTES.base.label;
+  if (pathname === APP_ROUTES.projects.route) return APP_ROUTES.projects.label;
+  if (pathname === APP_ROUTES.profile.route) return APP_ROUTES.profile.label;
+  if (pathname === APP_ROUTES.getStarted.route)
+    return APP_ROUTES.getStarted.label;
+  return projectName ?? APP_ROUTES.base.label;
 }
 
 export function TopBar({
@@ -34,28 +37,17 @@ export function TopBar({
   className?: string;
 }) {
   const router = useRouter();
-  const { orgSlug, projectSlug } = useParams();
-  const pathname = usePathname();
-  const displayTitle = title ?? getPageTitle(pathname);
+  const projectSlug = useParams().projectSlug as string | undefined;
   const env = useProjectStore((s) => s.env);
   const setEnv = useProjectStore((s) => s.setEnv);
-  const projects = useProjectStore((s) => s.projects);
-  const selectedProjectId = useProjectStore((s) => s.selectedProjectId);
   const currentEnv = ENV_OPTIONS.find((e) => e.id === env) ?? ENV_OPTIONS[0];
-  const selectedProject = selectedProjectId
-    ? projects.find((p) => p.id === selectedProjectId)
-    : null;
-
+  const pathname = usePathname();
+  const projects = useProjectStore((s) => s.projects);
+  const project = projects.find((p) => p.slug === projectSlug);
   function handleEnvChange(newEnvId: (typeof ENV_OPTIONS)[number]["id"]) {
     setEnv(newEnvId);
-    if (selectedProject) {
-      router.push(
-        getAppOrgProjectPath(
-          orgSlug as string,
-          projectSlug as string,
-          newEnvId,
-        ),
-      );
+    if (projectSlug) {
+      router.push(getAppProjectPath(projectSlug, newEnvId));
     }
   }
 
@@ -66,8 +58,11 @@ export function TopBar({
         className,
       )}
     >
-      <div className="flex items-center gap-2 h-full">
-        {projectSlug && (
+      <div className="flex items-center gap-2 h-full justify-between w-full">
+        <h1 className="text-lg font-semibold">
+          {getPageTitle(pathname, project?.name)}
+        </h1>
+        {projectSlug ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -92,12 +87,6 @@ export function TopBar({
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-        )}
-        <OrgTabs />
-      </div>
-      <div className="flex items-center gap-2">
-        {projectSlug ? (
-          <ProjectSwitcher collapsed={false} />
         ) : (
           <CreateProjectDialog />
         )}

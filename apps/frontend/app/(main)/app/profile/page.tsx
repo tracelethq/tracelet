@@ -107,7 +107,7 @@ export default function ProfilePage() {
         </Card>
         <div className="flex gap-2">
           <Button variant="outline" asChild>
-            <Link href={"/app"}>Back to Orgs</Link>
+            <Link href={APP_ROUTES.base.route}>{APP_ROUTES.base.label}</Link>
           </Button>
         </div>
       </div>

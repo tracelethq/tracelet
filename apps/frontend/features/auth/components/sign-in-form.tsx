@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { signIn } from "../lib/auth-client";
 import { AUTH_ROUTES, AUTH_COPY } from "../constants";
 import { Button } from "@/components/ui/button";
@@ -20,13 +22,14 @@ import {
   FieldError,
   FieldLabel,
 } from "@/components/ui/field";
-import { useRouter } from "next/navigation";
 import { APP_ROUTES } from "@/lib/constant";
 
 export function SignInForm() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const queryClient = useQueryClient();
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
@@ -44,7 +47,8 @@ export function SignInForm() {
       setError(res.error.message ?? AUTH_COPY.errors.signInFailed);
       return;
     }
-    router.push("/app");
+    queryClient.invalidateQueries({ queryKey: ["projects"] });
+    router.push(APP_ROUTES.projects.route);
   }
 
   return (
