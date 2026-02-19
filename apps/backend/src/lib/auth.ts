@@ -1,5 +1,6 @@
 import { betterAuth } from "better-auth";
 import { organization, admin, apiKey } from "better-auth/plugins";
+import { sso } from "@better-auth/sso";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "./prisma.js";
 
@@ -82,5 +83,7 @@ export const auth = betterAuth({
         },
       },
     }),
+    // SSO plugin: OIDC, OAuth2, SAML 2.0 (https://www.better-auth.com/docs/plugins/sso)
+    sso(),
   ],
 });

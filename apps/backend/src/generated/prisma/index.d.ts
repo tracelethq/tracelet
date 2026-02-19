@@ -44,6 +44,11 @@ export type Organization = $Result.DefaultSelection<Prisma.$OrganizationPayload>
  */
 export type Session = $Result.DefaultSelection<Prisma.$SessionPayload>
 /**
+ * Model SsoProvider
+ * 
+ */
+export type SsoProvider = $Result.DefaultSelection<Prisma.$SsoProviderPayload>
+/**
  * Model User
  * 
  */
@@ -176,7 +181,7 @@ export class PrismaClient<
    * ])
    * ```
    * 
-   * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
+   * Read more in our [docs](https://www.prisma.io/docs/orm/prisma-client/queries/transactions).
    */
   $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
 
@@ -245,6 +250,16 @@ export class PrismaClient<
     * ```
     */
   get session(): Prisma.SessionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.ssoProvider`: Exposes CRUD operations for the **SsoProvider** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SsoProviders
+    * const ssoProviders = await prisma.ssoProvider.findMany()
+    * ```
+    */
+  get ssoProvider(): Prisma.SsoProviderDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.user`: Exposes CRUD operations for the **User** model.
@@ -345,8 +360,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 7.4.0
-   * Query Engine version: ab56fe763f921d033a6c195e7ddeb3e255bdbb57
+   * Prisma Client JS version: 7.4.1
+   * Query Engine version: 55ae170b1ced7fc6ed07a15f110549408c501bb3
    */
   export type PrismaVersion = {
     client: string
@@ -735,6 +750,7 @@ export namespace Prisma {
     Member: 'Member',
     Organization: 'Organization',
     Session: 'Session',
+    SsoProvider: 'SsoProvider',
     User: 'User',
     Verification: 'Verification',
     OrganizationEnv: 'OrganizationEnv',
@@ -755,7 +771,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "account" | "apiKey" | "invitation" | "member" | "organization" | "session" | "user" | "verification" | "organizationEnv" | "requestLog" | "apiExplorerSnapshot"
+      modelProps: "account" | "apiKey" | "invitation" | "member" | "organization" | "session" | "ssoProvider" | "user" | "verification" | "organizationEnv" | "requestLog" | "apiExplorerSnapshot"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1200,6 +1216,80 @@ export namespace Prisma {
           count: {
             args: Prisma.SessionCountArgs<ExtArgs>
             result: $Utils.Optional<SessionCountAggregateOutputType> | number
+          }
+        }
+      }
+      SsoProvider: {
+        payload: Prisma.$SsoProviderPayload<ExtArgs>
+        fields: Prisma.SsoProviderFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SsoProviderFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SsoProviderPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SsoProviderFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SsoProviderPayload>
+          }
+          findFirst: {
+            args: Prisma.SsoProviderFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SsoProviderPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SsoProviderFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SsoProviderPayload>
+          }
+          findMany: {
+            args: Prisma.SsoProviderFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SsoProviderPayload>[]
+          }
+          create: {
+            args: Prisma.SsoProviderCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SsoProviderPayload>
+          }
+          createMany: {
+            args: Prisma.SsoProviderCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SsoProviderCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SsoProviderPayload>[]
+          }
+          delete: {
+            args: Prisma.SsoProviderDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SsoProviderPayload>
+          }
+          update: {
+            args: Prisma.SsoProviderUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SsoProviderPayload>
+          }
+          deleteMany: {
+            args: Prisma.SsoProviderDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SsoProviderUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SsoProviderUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SsoProviderPayload>[]
+          }
+          upsert: {
+            args: Prisma.SsoProviderUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SsoProviderPayload>
+          }
+          aggregate: {
+            args: Prisma.SsoProviderAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSsoProvider>
+          }
+          groupBy: {
+            args: Prisma.SsoProviderGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SsoProviderGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SsoProviderCountArgs<ExtArgs>
+            result: $Utils.Optional<SsoProviderCountAggregateOutputType> | number
           }
         }
       }
@@ -1687,6 +1777,7 @@ export namespace Prisma {
     member?: MemberOmit
     organization?: OrganizationOmit
     session?: SessionOmit
+    ssoProvider?: SsoProviderOmit
     user?: UserOmit
     verification?: VerificationOmit
     organizationEnv?: OrganizationEnvOmit
@@ -1815,12 +1906,14 @@ export namespace Prisma {
     sessions: number
     accounts: number
     members: number
+    ssoProviders: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     members?: boolean | UserCountOutputTypeCountMembersArgs
+    ssoProviders?: boolean | UserCountOutputTypeCountSsoProvidersArgs
   }
 
   // Custom InputTypes
@@ -1853,6 +1946,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountMembersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MemberWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSsoProvidersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SsoProviderWhereInput
   }
 
 
@@ -8690,6 +8790,1103 @@ export namespace Prisma {
 
 
   /**
+   * Model SsoProvider
+   */
+
+  export type AggregateSsoProvider = {
+    _count: SsoProviderCountAggregateOutputType | null
+    _min: SsoProviderMinAggregateOutputType | null
+    _max: SsoProviderMaxAggregateOutputType | null
+  }
+
+  export type SsoProviderMinAggregateOutputType = {
+    id: string | null
+    issuer: string | null
+    domain: string | null
+    oidcConfig: string | null
+    samlConfig: string | null
+    userId: string | null
+    providerId: string | null
+    organizationId: string | null
+  }
+
+  export type SsoProviderMaxAggregateOutputType = {
+    id: string | null
+    issuer: string | null
+    domain: string | null
+    oidcConfig: string | null
+    samlConfig: string | null
+    userId: string | null
+    providerId: string | null
+    organizationId: string | null
+  }
+
+  export type SsoProviderCountAggregateOutputType = {
+    id: number
+    issuer: number
+    domain: number
+    oidcConfig: number
+    samlConfig: number
+    userId: number
+    providerId: number
+    organizationId: number
+    _all: number
+  }
+
+
+  export type SsoProviderMinAggregateInputType = {
+    id?: true
+    issuer?: true
+    domain?: true
+    oidcConfig?: true
+    samlConfig?: true
+    userId?: true
+    providerId?: true
+    organizationId?: true
+  }
+
+  export type SsoProviderMaxAggregateInputType = {
+    id?: true
+    issuer?: true
+    domain?: true
+    oidcConfig?: true
+    samlConfig?: true
+    userId?: true
+    providerId?: true
+    organizationId?: true
+  }
+
+  export type SsoProviderCountAggregateInputType = {
+    id?: true
+    issuer?: true
+    domain?: true
+    oidcConfig?: true
+    samlConfig?: true
+    userId?: true
+    providerId?: true
+    organizationId?: true
+    _all?: true
+  }
+
+  export type SsoProviderAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SsoProvider to aggregate.
+     */
+    where?: SsoProviderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SsoProviders to fetch.
+     */
+    orderBy?: SsoProviderOrderByWithRelationInput | SsoProviderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SsoProviderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SsoProviders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SsoProviders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SsoProviders
+    **/
+    _count?: true | SsoProviderCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SsoProviderMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SsoProviderMaxAggregateInputType
+  }
+
+  export type GetSsoProviderAggregateType<T extends SsoProviderAggregateArgs> = {
+        [P in keyof T & keyof AggregateSsoProvider]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSsoProvider[P]>
+      : GetScalarType<T[P], AggregateSsoProvider[P]>
+  }
+
+
+
+
+  export type SsoProviderGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SsoProviderWhereInput
+    orderBy?: SsoProviderOrderByWithAggregationInput | SsoProviderOrderByWithAggregationInput[]
+    by: SsoProviderScalarFieldEnum[] | SsoProviderScalarFieldEnum
+    having?: SsoProviderScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SsoProviderCountAggregateInputType | true
+    _min?: SsoProviderMinAggregateInputType
+    _max?: SsoProviderMaxAggregateInputType
+  }
+
+  export type SsoProviderGroupByOutputType = {
+    id: string
+    issuer: string
+    domain: string
+    oidcConfig: string | null
+    samlConfig: string | null
+    userId: string
+    providerId: string
+    organizationId: string | null
+    _count: SsoProviderCountAggregateOutputType | null
+    _min: SsoProviderMinAggregateOutputType | null
+    _max: SsoProviderMaxAggregateOutputType | null
+  }
+
+  type GetSsoProviderGroupByPayload<T extends SsoProviderGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SsoProviderGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SsoProviderGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SsoProviderGroupByOutputType[P]>
+            : GetScalarType<T[P], SsoProviderGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SsoProviderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    issuer?: boolean
+    domain?: boolean
+    oidcConfig?: boolean
+    samlConfig?: boolean
+    userId?: boolean
+    providerId?: boolean
+    organizationId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ssoProvider"]>
+
+  export type SsoProviderSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    issuer?: boolean
+    domain?: boolean
+    oidcConfig?: boolean
+    samlConfig?: boolean
+    userId?: boolean
+    providerId?: boolean
+    organizationId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ssoProvider"]>
+
+  export type SsoProviderSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    issuer?: boolean
+    domain?: boolean
+    oidcConfig?: boolean
+    samlConfig?: boolean
+    userId?: boolean
+    providerId?: boolean
+    organizationId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ssoProvider"]>
+
+  export type SsoProviderSelectScalar = {
+    id?: boolean
+    issuer?: boolean
+    domain?: boolean
+    oidcConfig?: boolean
+    samlConfig?: boolean
+    userId?: boolean
+    providerId?: boolean
+    organizationId?: boolean
+  }
+
+  export type SsoProviderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "issuer" | "domain" | "oidcConfig" | "samlConfig" | "userId" | "providerId" | "organizationId", ExtArgs["result"]["ssoProvider"]>
+  export type SsoProviderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type SsoProviderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type SsoProviderIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $SsoProviderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SsoProvider"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      issuer: string
+      domain: string
+      oidcConfig: string | null
+      samlConfig: string | null
+      userId: string
+      providerId: string
+      organizationId: string | null
+    }, ExtArgs["result"]["ssoProvider"]>
+    composites: {}
+  }
+
+  type SsoProviderGetPayload<S extends boolean | null | undefined | SsoProviderDefaultArgs> = $Result.GetResult<Prisma.$SsoProviderPayload, S>
+
+  type SsoProviderCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SsoProviderFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SsoProviderCountAggregateInputType | true
+    }
+
+  export interface SsoProviderDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SsoProvider'], meta: { name: 'SsoProvider' } }
+    /**
+     * Find zero or one SsoProvider that matches the filter.
+     * @param {SsoProviderFindUniqueArgs} args - Arguments to find a SsoProvider
+     * @example
+     * // Get one SsoProvider
+     * const ssoProvider = await prisma.ssoProvider.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SsoProviderFindUniqueArgs>(args: SelectSubset<T, SsoProviderFindUniqueArgs<ExtArgs>>): Prisma__SsoProviderClient<$Result.GetResult<Prisma.$SsoProviderPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SsoProvider that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SsoProviderFindUniqueOrThrowArgs} args - Arguments to find a SsoProvider
+     * @example
+     * // Get one SsoProvider
+     * const ssoProvider = await prisma.ssoProvider.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SsoProviderFindUniqueOrThrowArgs>(args: SelectSubset<T, SsoProviderFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SsoProviderClient<$Result.GetResult<Prisma.$SsoProviderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SsoProvider that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SsoProviderFindFirstArgs} args - Arguments to find a SsoProvider
+     * @example
+     * // Get one SsoProvider
+     * const ssoProvider = await prisma.ssoProvider.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SsoProviderFindFirstArgs>(args?: SelectSubset<T, SsoProviderFindFirstArgs<ExtArgs>>): Prisma__SsoProviderClient<$Result.GetResult<Prisma.$SsoProviderPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SsoProvider that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SsoProviderFindFirstOrThrowArgs} args - Arguments to find a SsoProvider
+     * @example
+     * // Get one SsoProvider
+     * const ssoProvider = await prisma.ssoProvider.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SsoProviderFindFirstOrThrowArgs>(args?: SelectSubset<T, SsoProviderFindFirstOrThrowArgs<ExtArgs>>): Prisma__SsoProviderClient<$Result.GetResult<Prisma.$SsoProviderPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SsoProviders that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SsoProviderFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SsoProviders
+     * const ssoProviders = await prisma.ssoProvider.findMany()
+     * 
+     * // Get first 10 SsoProviders
+     * const ssoProviders = await prisma.ssoProvider.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const ssoProviderWithIdOnly = await prisma.ssoProvider.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SsoProviderFindManyArgs>(args?: SelectSubset<T, SsoProviderFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SsoProviderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SsoProvider.
+     * @param {SsoProviderCreateArgs} args - Arguments to create a SsoProvider.
+     * @example
+     * // Create one SsoProvider
+     * const SsoProvider = await prisma.ssoProvider.create({
+     *   data: {
+     *     // ... data to create a SsoProvider
+     *   }
+     * })
+     * 
+     */
+    create<T extends SsoProviderCreateArgs>(args: SelectSubset<T, SsoProviderCreateArgs<ExtArgs>>): Prisma__SsoProviderClient<$Result.GetResult<Prisma.$SsoProviderPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SsoProviders.
+     * @param {SsoProviderCreateManyArgs} args - Arguments to create many SsoProviders.
+     * @example
+     * // Create many SsoProviders
+     * const ssoProvider = await prisma.ssoProvider.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SsoProviderCreateManyArgs>(args?: SelectSubset<T, SsoProviderCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SsoProviders and returns the data saved in the database.
+     * @param {SsoProviderCreateManyAndReturnArgs} args - Arguments to create many SsoProviders.
+     * @example
+     * // Create many SsoProviders
+     * const ssoProvider = await prisma.ssoProvider.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SsoProviders and only return the `id`
+     * const ssoProviderWithIdOnly = await prisma.ssoProvider.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SsoProviderCreateManyAndReturnArgs>(args?: SelectSubset<T, SsoProviderCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SsoProviderPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SsoProvider.
+     * @param {SsoProviderDeleteArgs} args - Arguments to delete one SsoProvider.
+     * @example
+     * // Delete one SsoProvider
+     * const SsoProvider = await prisma.ssoProvider.delete({
+     *   where: {
+     *     // ... filter to delete one SsoProvider
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SsoProviderDeleteArgs>(args: SelectSubset<T, SsoProviderDeleteArgs<ExtArgs>>): Prisma__SsoProviderClient<$Result.GetResult<Prisma.$SsoProviderPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SsoProvider.
+     * @param {SsoProviderUpdateArgs} args - Arguments to update one SsoProvider.
+     * @example
+     * // Update one SsoProvider
+     * const ssoProvider = await prisma.ssoProvider.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SsoProviderUpdateArgs>(args: SelectSubset<T, SsoProviderUpdateArgs<ExtArgs>>): Prisma__SsoProviderClient<$Result.GetResult<Prisma.$SsoProviderPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SsoProviders.
+     * @param {SsoProviderDeleteManyArgs} args - Arguments to filter SsoProviders to delete.
+     * @example
+     * // Delete a few SsoProviders
+     * const { count } = await prisma.ssoProvider.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SsoProviderDeleteManyArgs>(args?: SelectSubset<T, SsoProviderDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SsoProviders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SsoProviderUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SsoProviders
+     * const ssoProvider = await prisma.ssoProvider.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SsoProviderUpdateManyArgs>(args: SelectSubset<T, SsoProviderUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SsoProviders and returns the data updated in the database.
+     * @param {SsoProviderUpdateManyAndReturnArgs} args - Arguments to update many SsoProviders.
+     * @example
+     * // Update many SsoProviders
+     * const ssoProvider = await prisma.ssoProvider.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SsoProviders and only return the `id`
+     * const ssoProviderWithIdOnly = await prisma.ssoProvider.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SsoProviderUpdateManyAndReturnArgs>(args: SelectSubset<T, SsoProviderUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SsoProviderPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SsoProvider.
+     * @param {SsoProviderUpsertArgs} args - Arguments to update or create a SsoProvider.
+     * @example
+     * // Update or create a SsoProvider
+     * const ssoProvider = await prisma.ssoProvider.upsert({
+     *   create: {
+     *     // ... data to create a SsoProvider
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SsoProvider we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SsoProviderUpsertArgs>(args: SelectSubset<T, SsoProviderUpsertArgs<ExtArgs>>): Prisma__SsoProviderClient<$Result.GetResult<Prisma.$SsoProviderPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SsoProviders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SsoProviderCountArgs} args - Arguments to filter SsoProviders to count.
+     * @example
+     * // Count the number of SsoProviders
+     * const count = await prisma.ssoProvider.count({
+     *   where: {
+     *     // ... the filter for the SsoProviders we want to count
+     *   }
+     * })
+    **/
+    count<T extends SsoProviderCountArgs>(
+      args?: Subset<T, SsoProviderCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SsoProviderCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SsoProvider.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SsoProviderAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SsoProviderAggregateArgs>(args: Subset<T, SsoProviderAggregateArgs>): Prisma.PrismaPromise<GetSsoProviderAggregateType<T>>
+
+    /**
+     * Group by SsoProvider.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SsoProviderGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SsoProviderGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SsoProviderGroupByArgs['orderBy'] }
+        : { orderBy?: SsoProviderGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SsoProviderGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSsoProviderGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SsoProvider model
+   */
+  readonly fields: SsoProviderFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SsoProvider.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SsoProviderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SsoProvider model
+   */
+  interface SsoProviderFieldRefs {
+    readonly id: FieldRef<"SsoProvider", 'String'>
+    readonly issuer: FieldRef<"SsoProvider", 'String'>
+    readonly domain: FieldRef<"SsoProvider", 'String'>
+    readonly oidcConfig: FieldRef<"SsoProvider", 'String'>
+    readonly samlConfig: FieldRef<"SsoProvider", 'String'>
+    readonly userId: FieldRef<"SsoProvider", 'String'>
+    readonly providerId: FieldRef<"SsoProvider", 'String'>
+    readonly organizationId: FieldRef<"SsoProvider", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SsoProvider findUnique
+   */
+  export type SsoProviderFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SsoProvider
+     */
+    select?: SsoProviderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SsoProvider
+     */
+    omit?: SsoProviderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SsoProviderInclude<ExtArgs> | null
+    /**
+     * Filter, which SsoProvider to fetch.
+     */
+    where: SsoProviderWhereUniqueInput
+  }
+
+  /**
+   * SsoProvider findUniqueOrThrow
+   */
+  export type SsoProviderFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SsoProvider
+     */
+    select?: SsoProviderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SsoProvider
+     */
+    omit?: SsoProviderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SsoProviderInclude<ExtArgs> | null
+    /**
+     * Filter, which SsoProvider to fetch.
+     */
+    where: SsoProviderWhereUniqueInput
+  }
+
+  /**
+   * SsoProvider findFirst
+   */
+  export type SsoProviderFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SsoProvider
+     */
+    select?: SsoProviderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SsoProvider
+     */
+    omit?: SsoProviderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SsoProviderInclude<ExtArgs> | null
+    /**
+     * Filter, which SsoProvider to fetch.
+     */
+    where?: SsoProviderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SsoProviders to fetch.
+     */
+    orderBy?: SsoProviderOrderByWithRelationInput | SsoProviderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SsoProviders.
+     */
+    cursor?: SsoProviderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SsoProviders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SsoProviders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SsoProviders.
+     */
+    distinct?: SsoProviderScalarFieldEnum | SsoProviderScalarFieldEnum[]
+  }
+
+  /**
+   * SsoProvider findFirstOrThrow
+   */
+  export type SsoProviderFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SsoProvider
+     */
+    select?: SsoProviderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SsoProvider
+     */
+    omit?: SsoProviderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SsoProviderInclude<ExtArgs> | null
+    /**
+     * Filter, which SsoProvider to fetch.
+     */
+    where?: SsoProviderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SsoProviders to fetch.
+     */
+    orderBy?: SsoProviderOrderByWithRelationInput | SsoProviderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SsoProviders.
+     */
+    cursor?: SsoProviderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SsoProviders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SsoProviders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SsoProviders.
+     */
+    distinct?: SsoProviderScalarFieldEnum | SsoProviderScalarFieldEnum[]
+  }
+
+  /**
+   * SsoProvider findMany
+   */
+  export type SsoProviderFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SsoProvider
+     */
+    select?: SsoProviderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SsoProvider
+     */
+    omit?: SsoProviderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SsoProviderInclude<ExtArgs> | null
+    /**
+     * Filter, which SsoProviders to fetch.
+     */
+    where?: SsoProviderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SsoProviders to fetch.
+     */
+    orderBy?: SsoProviderOrderByWithRelationInput | SsoProviderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SsoProviders.
+     */
+    cursor?: SsoProviderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SsoProviders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SsoProviders.
+     */
+    skip?: number
+    distinct?: SsoProviderScalarFieldEnum | SsoProviderScalarFieldEnum[]
+  }
+
+  /**
+   * SsoProvider create
+   */
+  export type SsoProviderCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SsoProvider
+     */
+    select?: SsoProviderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SsoProvider
+     */
+    omit?: SsoProviderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SsoProviderInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SsoProvider.
+     */
+    data: XOR<SsoProviderCreateInput, SsoProviderUncheckedCreateInput>
+  }
+
+  /**
+   * SsoProvider createMany
+   */
+  export type SsoProviderCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SsoProviders.
+     */
+    data: SsoProviderCreateManyInput | SsoProviderCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SsoProvider createManyAndReturn
+   */
+  export type SsoProviderCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SsoProvider
+     */
+    select?: SsoProviderSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SsoProvider
+     */
+    omit?: SsoProviderOmit<ExtArgs> | null
+    /**
+     * The data used to create many SsoProviders.
+     */
+    data: SsoProviderCreateManyInput | SsoProviderCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SsoProviderIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SsoProvider update
+   */
+  export type SsoProviderUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SsoProvider
+     */
+    select?: SsoProviderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SsoProvider
+     */
+    omit?: SsoProviderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SsoProviderInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SsoProvider.
+     */
+    data: XOR<SsoProviderUpdateInput, SsoProviderUncheckedUpdateInput>
+    /**
+     * Choose, which SsoProvider to update.
+     */
+    where: SsoProviderWhereUniqueInput
+  }
+
+  /**
+   * SsoProvider updateMany
+   */
+  export type SsoProviderUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SsoProviders.
+     */
+    data: XOR<SsoProviderUpdateManyMutationInput, SsoProviderUncheckedUpdateManyInput>
+    /**
+     * Filter which SsoProviders to update
+     */
+    where?: SsoProviderWhereInput
+    /**
+     * Limit how many SsoProviders to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SsoProvider updateManyAndReturn
+   */
+  export type SsoProviderUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SsoProvider
+     */
+    select?: SsoProviderSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SsoProvider
+     */
+    omit?: SsoProviderOmit<ExtArgs> | null
+    /**
+     * The data used to update SsoProviders.
+     */
+    data: XOR<SsoProviderUpdateManyMutationInput, SsoProviderUncheckedUpdateManyInput>
+    /**
+     * Filter which SsoProviders to update
+     */
+    where?: SsoProviderWhereInput
+    /**
+     * Limit how many SsoProviders to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SsoProviderIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SsoProvider upsert
+   */
+  export type SsoProviderUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SsoProvider
+     */
+    select?: SsoProviderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SsoProvider
+     */
+    omit?: SsoProviderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SsoProviderInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SsoProvider to update in case it exists.
+     */
+    where: SsoProviderWhereUniqueInput
+    /**
+     * In case the SsoProvider found by the `where` argument doesn't exist, create a new SsoProvider with this data.
+     */
+    create: XOR<SsoProviderCreateInput, SsoProviderUncheckedCreateInput>
+    /**
+     * In case the SsoProvider was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SsoProviderUpdateInput, SsoProviderUncheckedUpdateInput>
+  }
+
+  /**
+   * SsoProvider delete
+   */
+  export type SsoProviderDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SsoProvider
+     */
+    select?: SsoProviderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SsoProvider
+     */
+    omit?: SsoProviderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SsoProviderInclude<ExtArgs> | null
+    /**
+     * Filter which SsoProvider to delete.
+     */
+    where: SsoProviderWhereUniqueInput
+  }
+
+  /**
+   * SsoProvider deleteMany
+   */
+  export type SsoProviderDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SsoProviders to delete
+     */
+    where?: SsoProviderWhereInput
+    /**
+     * Limit how many SsoProviders to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SsoProvider without action
+   */
+  export type SsoProviderDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SsoProvider
+     */
+    select?: SsoProviderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SsoProvider
+     */
+    omit?: SsoProviderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SsoProviderInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model User
    */
 
@@ -8904,6 +10101,7 @@ export namespace Prisma {
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
     members?: boolean | User$membersArgs<ExtArgs>
+    ssoProviders?: boolean | User$ssoProvidersArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -8954,6 +10152,7 @@ export namespace Prisma {
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
     members?: boolean | User$membersArgs<ExtArgs>
+    ssoProviders?: boolean | User$ssoProvidersArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -8965,6 +10164,7 @@ export namespace Prisma {
       sessions: Prisma.$SessionPayload<ExtArgs>[]
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       members: Prisma.$MemberPayload<ExtArgs>[]
+      ssoProviders: Prisma.$SsoProviderPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9375,6 +10575,7 @@ export namespace Prisma {
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     members<T extends User$membersArgs<ExtArgs> = {}>(args?: Subset<T, User$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ssoProviders<T extends User$ssoProvidersArgs<ExtArgs> = {}>(args?: Subset<T, User$ssoProvidersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SsoProviderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9872,6 +11073,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MemberScalarFieldEnum | MemberScalarFieldEnum[]
+  }
+
+  /**
+   * User.ssoProviders
+   */
+  export type User$ssoProvidersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SsoProvider
+     */
+    select?: SsoProviderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SsoProvider
+     */
+    omit?: SsoProviderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SsoProviderInclude<ExtArgs> | null
+    where?: SsoProviderWhereInput
+    orderBy?: SsoProviderOrderByWithRelationInput | SsoProviderOrderByWithRelationInput[]
+    cursor?: SsoProviderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SsoProviderScalarFieldEnum | SsoProviderScalarFieldEnum[]
   }
 
   /**
@@ -14155,6 +15380,20 @@ export namespace Prisma {
   export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
 
 
+  export const SsoProviderScalarFieldEnum: {
+    id: 'id',
+    issuer: 'issuer',
+    domain: 'domain',
+    oidcConfig: 'oidcConfig',
+    samlConfig: 'samlConfig',
+    userId: 'userId',
+    providerId: 'providerId',
+    organizationId: 'organizationId'
+  };
+
+  export type SsoProviderScalarFieldEnum = (typeof SsoProviderScalarFieldEnum)[keyof typeof SsoProviderScalarFieldEnum]
+
+
   export const UserScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -14857,6 +16096,76 @@ export namespace Prisma {
     impersonatedBy?: StringNullableWithAggregatesFilter<"Session"> | string | null
   }
 
+  export type SsoProviderWhereInput = {
+    AND?: SsoProviderWhereInput | SsoProviderWhereInput[]
+    OR?: SsoProviderWhereInput[]
+    NOT?: SsoProviderWhereInput | SsoProviderWhereInput[]
+    id?: StringFilter<"SsoProvider"> | string
+    issuer?: StringFilter<"SsoProvider"> | string
+    domain?: StringFilter<"SsoProvider"> | string
+    oidcConfig?: StringNullableFilter<"SsoProvider"> | string | null
+    samlConfig?: StringNullableFilter<"SsoProvider"> | string | null
+    userId?: StringFilter<"SsoProvider"> | string
+    providerId?: StringFilter<"SsoProvider"> | string
+    organizationId?: StringNullableFilter<"SsoProvider"> | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type SsoProviderOrderByWithRelationInput = {
+    id?: SortOrder
+    issuer?: SortOrder
+    domain?: SortOrder
+    oidcConfig?: SortOrderInput | SortOrder
+    samlConfig?: SortOrderInput | SortOrder
+    userId?: SortOrder
+    providerId?: SortOrder
+    organizationId?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type SsoProviderWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    providerId?: string
+    AND?: SsoProviderWhereInput | SsoProviderWhereInput[]
+    OR?: SsoProviderWhereInput[]
+    NOT?: SsoProviderWhereInput | SsoProviderWhereInput[]
+    issuer?: StringFilter<"SsoProvider"> | string
+    domain?: StringFilter<"SsoProvider"> | string
+    oidcConfig?: StringNullableFilter<"SsoProvider"> | string | null
+    samlConfig?: StringNullableFilter<"SsoProvider"> | string | null
+    userId?: StringFilter<"SsoProvider"> | string
+    organizationId?: StringNullableFilter<"SsoProvider"> | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "providerId">
+
+  export type SsoProviderOrderByWithAggregationInput = {
+    id?: SortOrder
+    issuer?: SortOrder
+    domain?: SortOrder
+    oidcConfig?: SortOrderInput | SortOrder
+    samlConfig?: SortOrderInput | SortOrder
+    userId?: SortOrder
+    providerId?: SortOrder
+    organizationId?: SortOrderInput | SortOrder
+    _count?: SsoProviderCountOrderByAggregateInput
+    _max?: SsoProviderMaxOrderByAggregateInput
+    _min?: SsoProviderMinOrderByAggregateInput
+  }
+
+  export type SsoProviderScalarWhereWithAggregatesInput = {
+    AND?: SsoProviderScalarWhereWithAggregatesInput | SsoProviderScalarWhereWithAggregatesInput[]
+    OR?: SsoProviderScalarWhereWithAggregatesInput[]
+    NOT?: SsoProviderScalarWhereWithAggregatesInput | SsoProviderScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SsoProvider"> | string
+    issuer?: StringWithAggregatesFilter<"SsoProvider"> | string
+    domain?: StringWithAggregatesFilter<"SsoProvider"> | string
+    oidcConfig?: StringNullableWithAggregatesFilter<"SsoProvider"> | string | null
+    samlConfig?: StringNullableWithAggregatesFilter<"SsoProvider"> | string | null
+    userId?: StringWithAggregatesFilter<"SsoProvider"> | string
+    providerId?: StringWithAggregatesFilter<"SsoProvider"> | string
+    organizationId?: StringNullableWithAggregatesFilter<"SsoProvider"> | string | null
+  }
+
   export type UserWhereInput = {
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
@@ -14875,6 +16184,7 @@ export namespace Prisma {
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
     members?: MemberListRelationFilter
+    ssoProviders?: SsoProviderListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -14892,6 +16202,7 @@ export namespace Prisma {
     sessions?: SessionOrderByRelationAggregateInput
     accounts?: AccountOrderByRelationAggregateInput
     members?: MemberOrderByRelationAggregateInput
+    ssoProviders?: SsoProviderOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -14912,6 +16223,7 @@ export namespace Prisma {
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
     members?: MemberListRelationFilter
+    ssoProviders?: SsoProviderListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -15787,6 +17099,82 @@ export namespace Prisma {
     impersonatedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type SsoProviderCreateInput = {
+    id: string
+    issuer: string
+    domain: string
+    oidcConfig?: string | null
+    samlConfig?: string | null
+    providerId: string
+    organizationId?: string | null
+    user: UserCreateNestedOneWithoutSsoProvidersInput
+  }
+
+  export type SsoProviderUncheckedCreateInput = {
+    id: string
+    issuer: string
+    domain: string
+    oidcConfig?: string | null
+    samlConfig?: string | null
+    userId: string
+    providerId: string
+    organizationId?: string | null
+  }
+
+  export type SsoProviderUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issuer?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    oidcConfig?: NullableStringFieldUpdateOperationsInput | string | null
+    samlConfig?: NullableStringFieldUpdateOperationsInput | string | null
+    providerId?: StringFieldUpdateOperationsInput | string
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneRequiredWithoutSsoProvidersNestedInput
+  }
+
+  export type SsoProviderUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issuer?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    oidcConfig?: NullableStringFieldUpdateOperationsInput | string | null
+    samlConfig?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    providerId?: StringFieldUpdateOperationsInput | string
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SsoProviderCreateManyInput = {
+    id: string
+    issuer: string
+    domain: string
+    oidcConfig?: string | null
+    samlConfig?: string | null
+    userId: string
+    providerId: string
+    organizationId?: string | null
+  }
+
+  export type SsoProviderUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issuer?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    oidcConfig?: NullableStringFieldUpdateOperationsInput | string | null
+    samlConfig?: NullableStringFieldUpdateOperationsInput | string | null
+    providerId?: StringFieldUpdateOperationsInput | string
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SsoProviderUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issuer?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    oidcConfig?: NullableStringFieldUpdateOperationsInput | string | null
+    samlConfig?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    providerId?: StringFieldUpdateOperationsInput | string
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type UserCreateInput = {
     id: string
     name: string
@@ -15802,6 +17190,7 @@ export namespace Prisma {
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     members?: MemberCreateNestedManyWithoutUserInput
+    ssoProviders?: SsoProviderCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -15819,6 +17208,7 @@ export namespace Prisma {
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     members?: MemberUncheckedCreateNestedManyWithoutUserInput
+    ssoProviders?: SsoProviderUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -15836,6 +17226,7 @@ export namespace Prisma {
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     members?: MemberUpdateManyWithoutUserNestedInput
+    ssoProviders?: SsoProviderUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -15853,6 +17244,7 @@ export namespace Prisma {
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     members?: MemberUncheckedUpdateManyWithoutUserNestedInput
+    ssoProviders?: SsoProviderUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -16678,6 +18070,39 @@ export namespace Prisma {
     impersonatedBy?: SortOrder
   }
 
+  export type SsoProviderCountOrderByAggregateInput = {
+    id?: SortOrder
+    issuer?: SortOrder
+    domain?: SortOrder
+    oidcConfig?: SortOrder
+    samlConfig?: SortOrder
+    userId?: SortOrder
+    providerId?: SortOrder
+    organizationId?: SortOrder
+  }
+
+  export type SsoProviderMaxOrderByAggregateInput = {
+    id?: SortOrder
+    issuer?: SortOrder
+    domain?: SortOrder
+    oidcConfig?: SortOrder
+    samlConfig?: SortOrder
+    userId?: SortOrder
+    providerId?: SortOrder
+    organizationId?: SortOrder
+  }
+
+  export type SsoProviderMinOrderByAggregateInput = {
+    id?: SortOrder
+    issuer?: SortOrder
+    domain?: SortOrder
+    oidcConfig?: SortOrder
+    samlConfig?: SortOrder
+    userId?: SortOrder
+    providerId?: SortOrder
+    organizationId?: SortOrder
+  }
+
   export type BoolNullableFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
     not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
@@ -16695,11 +18120,21 @@ export namespace Prisma {
     none?: AccountWhereInput
   }
 
+  export type SsoProviderListRelationFilter = {
+    every?: SsoProviderWhereInput
+    some?: SsoProviderWhereInput
+    none?: SsoProviderWhereInput
+  }
+
   export type SessionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type AccountOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SsoProviderOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -17138,6 +18573,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSessionsInput, UserUpdateWithoutSessionsInput>, UserUncheckedUpdateWithoutSessionsInput>
   }
 
+  export type UserCreateNestedOneWithoutSsoProvidersInput = {
+    create?: XOR<UserCreateWithoutSsoProvidersInput, UserUncheckedCreateWithoutSsoProvidersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSsoProvidersInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutSsoProvidersNestedInput = {
+    create?: XOR<UserCreateWithoutSsoProvidersInput, UserUncheckedCreateWithoutSsoProvidersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSsoProvidersInput
+    upsert?: UserUpsertWithoutSsoProvidersInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSsoProvidersInput, UserUpdateWithoutSsoProvidersInput>, UserUncheckedUpdateWithoutSsoProvidersInput>
+  }
+
   export type SessionCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -17159,6 +18608,13 @@ export namespace Prisma {
     connect?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
   }
 
+  export type SsoProviderCreateNestedManyWithoutUserInput = {
+    create?: XOR<SsoProviderCreateWithoutUserInput, SsoProviderUncheckedCreateWithoutUserInput> | SsoProviderCreateWithoutUserInput[] | SsoProviderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SsoProviderCreateOrConnectWithoutUserInput | SsoProviderCreateOrConnectWithoutUserInput[]
+    createMany?: SsoProviderCreateManyUserInputEnvelope
+    connect?: SsoProviderWhereUniqueInput | SsoProviderWhereUniqueInput[]
+  }
+
   export type SessionUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -17178,6 +18634,13 @@ export namespace Prisma {
     connectOrCreate?: MemberCreateOrConnectWithoutUserInput | MemberCreateOrConnectWithoutUserInput[]
     createMany?: MemberCreateManyUserInputEnvelope
     connect?: MemberWhereUniqueInput | MemberWhereUniqueInput[]
+  }
+
+  export type SsoProviderUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<SsoProviderCreateWithoutUserInput, SsoProviderUncheckedCreateWithoutUserInput> | SsoProviderCreateWithoutUserInput[] | SsoProviderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SsoProviderCreateOrConnectWithoutUserInput | SsoProviderCreateOrConnectWithoutUserInput[]
+    createMany?: SsoProviderCreateManyUserInputEnvelope
+    connect?: SsoProviderWhereUniqueInput | SsoProviderWhereUniqueInput[]
   }
 
   export type NullableBoolFieldUpdateOperationsInput = {
@@ -17226,6 +18689,20 @@ export namespace Prisma {
     deleteMany?: MemberScalarWhereInput | MemberScalarWhereInput[]
   }
 
+  export type SsoProviderUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SsoProviderCreateWithoutUserInput, SsoProviderUncheckedCreateWithoutUserInput> | SsoProviderCreateWithoutUserInput[] | SsoProviderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SsoProviderCreateOrConnectWithoutUserInput | SsoProviderCreateOrConnectWithoutUserInput[]
+    upsert?: SsoProviderUpsertWithWhereUniqueWithoutUserInput | SsoProviderUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SsoProviderCreateManyUserInputEnvelope
+    set?: SsoProviderWhereUniqueInput | SsoProviderWhereUniqueInput[]
+    disconnect?: SsoProviderWhereUniqueInput | SsoProviderWhereUniqueInput[]
+    delete?: SsoProviderWhereUniqueInput | SsoProviderWhereUniqueInput[]
+    connect?: SsoProviderWhereUniqueInput | SsoProviderWhereUniqueInput[]
+    update?: SsoProviderUpdateWithWhereUniqueWithoutUserInput | SsoProviderUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SsoProviderUpdateManyWithWhereWithoutUserInput | SsoProviderUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SsoProviderScalarWhereInput | SsoProviderScalarWhereInput[]
+  }
+
   export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -17266,6 +18743,20 @@ export namespace Prisma {
     update?: MemberUpdateWithWhereUniqueWithoutUserInput | MemberUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: MemberUpdateManyWithWhereWithoutUserInput | MemberUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: MemberScalarWhereInput | MemberScalarWhereInput[]
+  }
+
+  export type SsoProviderUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SsoProviderCreateWithoutUserInput, SsoProviderUncheckedCreateWithoutUserInput> | SsoProviderCreateWithoutUserInput[] | SsoProviderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SsoProviderCreateOrConnectWithoutUserInput | SsoProviderCreateOrConnectWithoutUserInput[]
+    upsert?: SsoProviderUpsertWithWhereUniqueWithoutUserInput | SsoProviderUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SsoProviderCreateManyUserInputEnvelope
+    set?: SsoProviderWhereUniqueInput | SsoProviderWhereUniqueInput[]
+    disconnect?: SsoProviderWhereUniqueInput | SsoProviderWhereUniqueInput[]
+    delete?: SsoProviderWhereUniqueInput | SsoProviderWhereUniqueInput[]
+    connect?: SsoProviderWhereUniqueInput | SsoProviderWhereUniqueInput[]
+    update?: SsoProviderUpdateWithWhereUniqueWithoutUserInput | SsoProviderUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SsoProviderUpdateManyWithWhereWithoutUserInput | SsoProviderUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SsoProviderScalarWhereInput | SsoProviderScalarWhereInput[]
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -17519,6 +19010,7 @@ export namespace Prisma {
     banExpires?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     members?: MemberCreateNestedManyWithoutUserInput
+    ssoProviders?: SsoProviderCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -17535,6 +19027,7 @@ export namespace Prisma {
     banExpires?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     members?: MemberUncheckedCreateNestedManyWithoutUserInput
+    ssoProviders?: SsoProviderUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -17567,6 +19060,7 @@ export namespace Prisma {
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     members?: MemberUpdateManyWithoutUserNestedInput
+    ssoProviders?: SsoProviderUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -17583,6 +19077,7 @@ export namespace Prisma {
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     members?: MemberUncheckedUpdateManyWithoutUserNestedInput
+    ssoProviders?: SsoProviderUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type OrganizationCreateWithoutInvitationsInput = {
@@ -17655,6 +19150,7 @@ export namespace Prisma {
     banExpires?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
+    ssoProviders?: SsoProviderCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMembersInput = {
@@ -17671,6 +19167,7 @@ export namespace Prisma {
     banExpires?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    ssoProviders?: SsoProviderUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMembersInput = {
@@ -17728,6 +19225,7 @@ export namespace Prisma {
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
+    ssoProviders?: SsoProviderUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMembersInput = {
@@ -17744,6 +19242,7 @@ export namespace Prisma {
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    ssoProviders?: SsoProviderUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type OrganizationUpsertWithoutMembersInput = {
@@ -17902,6 +19401,7 @@ export namespace Prisma {
     banExpires?: Date | string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     members?: MemberCreateNestedManyWithoutUserInput
+    ssoProviders?: SsoProviderCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -17918,6 +19418,7 @@ export namespace Prisma {
     banExpires?: Date | string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     members?: MemberUncheckedCreateNestedManyWithoutUserInput
+    ssoProviders?: SsoProviderUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -17950,6 +19451,7 @@ export namespace Prisma {
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     members?: MemberUpdateManyWithoutUserNestedInput
+    ssoProviders?: SsoProviderUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -17964,6 +19466,91 @@ export namespace Prisma {
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    members?: MemberUncheckedUpdateManyWithoutUserNestedInput
+    ssoProviders?: SsoProviderUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutSsoProvidersInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    role?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    members?: MemberCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutSsoProvidersInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    role?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    members?: MemberUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutSsoProvidersInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSsoProvidersInput, UserUncheckedCreateWithoutSsoProvidersInput>
+  }
+
+  export type UserUpsertWithoutSsoProvidersInput = {
+    update: XOR<UserUpdateWithoutSsoProvidersInput, UserUncheckedUpdateWithoutSsoProvidersInput>
+    create: XOR<UserCreateWithoutSsoProvidersInput, UserUncheckedCreateWithoutSsoProvidersInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSsoProvidersInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSsoProvidersInput, UserUncheckedUpdateWithoutSsoProvidersInput>
+  }
+
+  export type UserUpdateWithoutSsoProvidersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    members?: MemberUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSsoProvidersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     members?: MemberUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -18068,6 +19655,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SsoProviderCreateWithoutUserInput = {
+    id: string
+    issuer: string
+    domain: string
+    oidcConfig?: string | null
+    samlConfig?: string | null
+    providerId: string
+    organizationId?: string | null
+  }
+
+  export type SsoProviderUncheckedCreateWithoutUserInput = {
+    id: string
+    issuer: string
+    domain: string
+    oidcConfig?: string | null
+    samlConfig?: string | null
+    providerId: string
+    organizationId?: string | null
+  }
+
+  export type SsoProviderCreateOrConnectWithoutUserInput = {
+    where: SsoProviderWhereUniqueInput
+    create: XOR<SsoProviderCreateWithoutUserInput, SsoProviderUncheckedCreateWithoutUserInput>
+  }
+
+  export type SsoProviderCreateManyUserInputEnvelope = {
+    data: SsoProviderCreateManyUserInput | SsoProviderCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SessionUpsertWithWhereUniqueWithoutUserInput = {
     where: SessionWhereUniqueInput
     update: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
@@ -18150,6 +19767,36 @@ export namespace Prisma {
   export type MemberUpdateManyWithWhereWithoutUserInput = {
     where: MemberScalarWhereInput
     data: XOR<MemberUpdateManyMutationInput, MemberUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type SsoProviderUpsertWithWhereUniqueWithoutUserInput = {
+    where: SsoProviderWhereUniqueInput
+    update: XOR<SsoProviderUpdateWithoutUserInput, SsoProviderUncheckedUpdateWithoutUserInput>
+    create: XOR<SsoProviderCreateWithoutUserInput, SsoProviderUncheckedCreateWithoutUserInput>
+  }
+
+  export type SsoProviderUpdateWithWhereUniqueWithoutUserInput = {
+    where: SsoProviderWhereUniqueInput
+    data: XOR<SsoProviderUpdateWithoutUserInput, SsoProviderUncheckedUpdateWithoutUserInput>
+  }
+
+  export type SsoProviderUpdateManyWithWhereWithoutUserInput = {
+    where: SsoProviderScalarWhereInput
+    data: XOR<SsoProviderUpdateManyMutationInput, SsoProviderUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type SsoProviderScalarWhereInput = {
+    AND?: SsoProviderScalarWhereInput | SsoProviderScalarWhereInput[]
+    OR?: SsoProviderScalarWhereInput[]
+    NOT?: SsoProviderScalarWhereInput | SsoProviderScalarWhereInput[]
+    id?: StringFilter<"SsoProvider"> | string
+    issuer?: StringFilter<"SsoProvider"> | string
+    domain?: StringFilter<"SsoProvider"> | string
+    oidcConfig?: StringNullableFilter<"SsoProvider"> | string | null
+    samlConfig?: StringNullableFilter<"SsoProvider"> | string | null
+    userId?: StringFilter<"SsoProvider"> | string
+    providerId?: StringFilter<"SsoProvider"> | string
+    organizationId?: StringNullableFilter<"SsoProvider"> | string | null
   }
 
   export type MemberCreateManyOrganizationInput = {
@@ -18255,6 +19902,16 @@ export namespace Prisma {
     createdAt: Date | string
   }
 
+  export type SsoProviderCreateManyUserInput = {
+    id: string
+    issuer: string
+    domain: string
+    oidcConfig?: string | null
+    samlConfig?: string | null
+    providerId: string
+    organizationId?: string | null
+  }
+
   export type SessionUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18358,6 +20015,36 @@ export namespace Prisma {
     organizationId?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SsoProviderUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issuer?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    oidcConfig?: NullableStringFieldUpdateOperationsInput | string | null
+    samlConfig?: NullableStringFieldUpdateOperationsInput | string | null
+    providerId?: StringFieldUpdateOperationsInput | string
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SsoProviderUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issuer?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    oidcConfig?: NullableStringFieldUpdateOperationsInput | string | null
+    samlConfig?: NullableStringFieldUpdateOperationsInput | string | null
+    providerId?: StringFieldUpdateOperationsInput | string
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SsoProviderUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issuer?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    oidcConfig?: NullableStringFieldUpdateOperationsInput | string | null
+    samlConfig?: NullableStringFieldUpdateOperationsInput | string | null
+    providerId?: StringFieldUpdateOperationsInput | string
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

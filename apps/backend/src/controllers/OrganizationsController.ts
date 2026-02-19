@@ -19,12 +19,18 @@ export class OrganizationsController {
 
     const members = await prisma.member.findMany({
       where: { userId: session.user.id },
-      include: { organization: true },
+      include: {
+        organization: {
+          include: { _count: { select: { members: true } } },
+        },
+      },
     });
     const orgs = members.map((m) => ({
       id: m.organization.id,
       name: m.organization.name,
       slug: m.organization.slug,
+      createdAt: m.organization.createdAt,
+      memberCount: m.organization._count.members,
     }));
     return res.json(orgs);
   }

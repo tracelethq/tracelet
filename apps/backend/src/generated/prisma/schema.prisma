@@ -117,10 +117,27 @@ model Session {
   @@schema("better_auth")
 }
 
+// Better Auth: SSO plugin (https://www.better-auth.com/docs/plugins/sso#schema)
+model SsoProvider {
+  id             String  @id
+  issuer         String
+  domain         String
+  oidcConfig     String?
+  samlConfig     String?
+  userId         String
+  providerId     String
+  organizationId String?
+  user           User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([providerId])
+  @@map("ssoprovider")
+  @@schema("better_auth")
+}
+
 // Better Auth: User model (https://better-auth.com/docs/adapters/prisma)
 // Admin plugin: role, banned, banReason, banExpires (https://better-auth.com/docs/plugins/admin)
 model User {
-  id            String    @id
+  id            String        @id
   name          String
   email         String
   emailVerified Boolean
@@ -130,6 +147,7 @@ model User {
   sessions      Session[]
   accounts      Account[]
   members       Member[]
+  ssoProviders  SsoProvider[]
   // Admin plugin fields
   role          String?
   banned        Boolean?

@@ -11,6 +11,7 @@ model User {
   sessions      Session[]
   accounts      Account[]
   members       Member[]
+  ssoProviders  SsoProvider[]
   // Admin plugin fields
   role          String?
   banned        Boolean?
