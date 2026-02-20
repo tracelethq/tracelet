@@ -8,9 +8,9 @@ description: Install and use the Tracelet core SDK for logging and metadata.
 Install only `@tracelet/core` from a `.tgz` tarball (or from npm when published).
 
 <CodeBlockTabs
-  npm="npm install ./tracelet-core-0.0.1.tgz"
-  yarn="yarn add file:./tracelet-core-0.0.1.tgz"
-  pnpm="pnpm add ./tracelet-core-0.0.1.tgz"
+  npm="npm install @tracelet/core"
+  yarn="yarn add @tracelet/core"
+  pnpm="pnpm add @tracelet/core"
   language="bash"
 />
 
@@ -19,10 +19,15 @@ Install only `@tracelet/core` from a `.tgz` tarball (or from npm when published)
 Use `@tracelet/core` for logging and metadata in your app. You integrate it with your own framework or server (no Express required).
 
 ```typescript
-import { createTraceEvent } from "@tracelet/core";
+import { TraceletCore } from "@tracelet/core";
 
 // Use the core SDK for events, logging, and metadata.
 // See @tracelet/core docs for API details.
+const tracelet = new TraceletCore({
+      serviceName: serviceName,
+      environment: environment,
+      apiKey: apiKey
+    });
 ```
 
 For Express apps with the built-in docs UI, use the **Express** setup instead.
