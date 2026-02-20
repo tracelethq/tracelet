@@ -271,7 +271,7 @@ const components = {
   img: (props: React.ComponentProps<"img">) => (
     <span className="relative">
       <Decorations />
-      <img className="rounded-md" {...props} />
+      <img className="rounded-md border" {...props} />
     </span>
   ),
 };

@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: tracelet-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: tracelet
+      POSTGRES_PASSWORD: tracelet
+      POSTGRES_DB: tracelet
+    ports:
+      - "5432:5432"
+    volumes:
+      - tracelet_pgdata:/var/lib/postgresql/data
+
+volumes:
+  tracelet_pgdata:

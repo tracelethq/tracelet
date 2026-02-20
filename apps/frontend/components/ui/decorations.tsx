@@ -4,8 +4,9 @@ import { cva } from "class-variance-authority";
 const DecorationsVariant = cva("", {
   variants: {
     variant: {
-      default: "bg-muted-foreground group-hover:bg-primary",
+      default: "bg-muted-foreground",
       primary: "bg-primary",
+      active: "bg-muted-foreground group-hover:bg-primary",
     },
   },
 });
@@ -22,7 +23,7 @@ const Decorations = ({
   bottomRight?: boolean;
   bottomLeft?: boolean;
   topLeft?: boolean;
-  variant?: "default" | "primary";
+  variant?: "default" | "primary" | "active";
   className?: string;
 }) => {
   return (

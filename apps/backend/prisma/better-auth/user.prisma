@@ -1,0 +1,24 @@
+// Better Auth: User model (https://better-auth.com/docs/adapters/prisma)
+// Admin plugin: role, banned, banReason, banExpires (https://better-auth.com/docs/plugins/admin)
+model User {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
+  sessions      Session[]
+  accounts      Account[]
+  members       Member[]
+  ssoProviders  SsoProvider[]
+  // Admin plugin fields
+  role          String?
+  banned        Boolean?
+  banReason     String?
+  banExpires    DateTime?
+
+  @@unique([email])
+  @@map("user")
+  @@schema("better_auth")
+}

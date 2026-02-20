@@ -47,17 +47,21 @@ function Button({
   size = "default",
   asChild = false,
   decorations = true,
+  divClassName,
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
     decorations?: boolean;
+    divClassName?: string;
   }) {
   const Comp = asChild ? Slot.Root : "button";
 
   return (
-    <div className="relative">
-      {decorations && <Decorations variant={variant==="active" ? "primary" : "default"} />}
+    <div className={cn("relative", divClassName)}>
+      {(variant === "outline" || variant === "active") && decorations && (
+        <Decorations variant={variant === "active" ? "primary" : "default"} />
+      )}
       <Comp
         data-slot="button"
         data-variant={variant}
