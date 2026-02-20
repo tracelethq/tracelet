@@ -8,7 +8,7 @@ import Decorations from "@/components/ui/decorations";
 
 export function Hero() {
   return (
-    <div className="relative bg-background dark:bg-[#0a0a0b] border">
+    <div className="relative bg-background border">
       <Decorations />
 
       <section className="relative grid grid-cols-1 items-center lg:grid-cols-2">
@@ -23,14 +23,13 @@ export function Hero() {
             Observe and document
             <br />
             <span className="bg-linear-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-              your APIs automatically.
+              your APIs.
             </span>
           </h1>
 
           <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground leading-relaxed lg:mx-0">
-            Production-ready logs and live API docs for Express — from real
-            traffic and real routes. No decorators. No schemas. No duplicate
-            work.
+            Ship production-ready request logs and live API docs from one place.
+            No multiple schemas, no extra work.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4 lg:justify-start">

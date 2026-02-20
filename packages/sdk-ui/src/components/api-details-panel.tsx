@@ -145,7 +145,7 @@ export function ApiDetailsPanel({ route, apiBase, tabsConfig }: ApiDetailsPanelP
       const row = bodyRows.find((r) => r.key.trim() === name)
       return !row || !row.enabled || (row.value.trim() === "" && !row.file && !(row.files && row.files.length > 0))
     })
-
+    
     if (missingPath.length > 0 || missingBody.length > 0) {
       setValidationErrorsByRoute((prev) => ({
         ...prev,

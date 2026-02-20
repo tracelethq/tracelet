@@ -17,12 +17,12 @@ const tabs = [
       "Add a single middleware. Tracelet captures routes, logs traffic, and serves docs. No decorators, no schema definitions.",
     content: "code",
     code: `import express from "express";
-import { tracelet, traceletDoc } from "@tracelet/express";
+import { traceletExpress } from "@tracelet/express";
 
 const app = express();
 
 // Init Tracelet
-app.use(tracelet({ serviceName: "external-test", environment: "dev" }));
+traceletExpress({app, serviceName: "Your API", environment: "local"});
 
 // Your routes — Tracelet observes them automatically
 app.get("/users/:id", (req, res) => {
@@ -50,10 +50,10 @@ app.listen(3000);
     description:
       "Request context, payload shapes, response status, and timing. Everything you need to debug without extra tooling.",
     content: "code",
-    code: `[tracelet] GET /users/42 200 12ms
-  params: { id: "42" }
-  body: { ... }
-  status: 200`,
+    code: `[Your API] GET    /ping
+  304 REDIRECT  4ms  0 B  req:cbb17bc0  trace:cbb17bc0
+  2026-02-20T07:01:18.282Z
+payload: { ... }`,
     language: "text",
   },
   {

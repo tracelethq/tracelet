@@ -1,0 +1,27 @@
+// Better Auth: API Key plugin (https://better-auth.com/docs/plugins/api-key)
+model ApiKey {
+  id                    String    @id
+  name                  String?
+  start                 String?
+  prefix                String?
+  key                   String
+  userId                String
+  refillInterval        Int?
+  refillAmount          Int?
+  lastRefillAt          DateTime?
+  enabled               Boolean   @default(true)
+  rateLimitEnabled       Boolean   @default(true)
+  rateLimitTimeWindow   Int?
+  rateLimitMax          Int?
+  requestCount          Int       @default(0)
+  remaining             Int?
+  lastRequest           DateTime?
+  expiresAt             DateTime?
+  createdAt             DateTime
+  updatedAt             DateTime
+  permissions           String?
+  metadata              String?
+
+  @@map("apikey")
+  @@schema("better_auth")
+}

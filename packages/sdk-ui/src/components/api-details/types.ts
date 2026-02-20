@@ -1,4 +1,5 @@
 import type { RouteProperty } from "@/types/route"
+import { BookOpenIcon, FileBracesCornerIcon, FingerprintPatternIcon, HeadingIcon, LampDeskIcon, type LucideProps } from "lucide-react"
 
 export interface ParamRow {
   id: string
@@ -34,7 +35,7 @@ export function canonicalParamRowType(type: string | undefined): string {
   if (t === "number" || t === "integer" || t === "int" || t === "float" || t === "double") return "Number"
 
   // File
-  if (t === "file") return "File"
+  if (t === "file") return "file"
 
   // Keep unknowns as-is (fallback to String for empty)
   return raw || "String"
@@ -138,16 +139,51 @@ export function requestBodySampleJson(
   return JSON.stringify(obj, null, 2)
 }
 
+/** Build sample request body as JSON string with type as value (e.g. "name": "string"). */
+export function requestBodySampleJsonWithTypes(
+  request:
+    | RouteProperty[]
+    | { properties?: Record<string, SchemaProperty> }
+    | undefined
+): string {
+  const props = normalizeRequestBody(request)
+  if (props.length === 0) return "{}"
+  const obj: Record<string, string> = {}
+  for (const p of props) {
+    const typeLabel =
+      p.type === "enum" && p.enum?.length
+        ? `enum (${p.enum.join(" | ")})`
+        : canonicalParamRowType(p.type).toLowerCase()
+    obj[p.name] = typeLabel
+  }
+  return JSON.stringify(obj, null, 2)
+}
+
+/** Build a type string for the request body (e.g. "{ name: string; age: number }") for display. */
+export function requestBodyTypeString(
+  request:
+    | RouteProperty[]
+    | { properties?: Record<string, SchemaProperty> }
+    | undefined
+): string {
+  const props = normalizeRequestBody(request)
+  if (props.length === 0) return "object"
+  const parts = props.map((p) => {
+    const optional = p.required ? "" : "?"
+    const type = p.type === "enum" && p.enum?.length
+      ? p.enum.map((e) => `"${String(e).replace(/"/g, '\\"')}"`).join(" | ")
+      : canonicalParamRowType(p.type).toLowerCase()
+    return `${p.name}${optional}: ${type}`
+  })
+  return `{ ${parts.join("; ")} }`
+}
+
 export type ApiTabValue =
   | "details"
   | "params"
   | "body"
   | "headers"
   | "authorization"
-
-/** Shared tab trigger style: primary bottom border when active, no bg or other borders. */
-export const TAB_CLASS =
-  "max-w-28 truncate rounded-none border-0 border-b-2 border-transparent bg-transparent shadow-none data-[state=active]:border-b-2 data-[state=active]:border-b-primary! data-[state=active]:bg-transparent data-[state=active]:border-x-0 data-[state=active]:border-t-0 data-[state=active]:text-foreground"
 
 /** Visibility condition for a tab. JSON-serializable. */
 export type TabVisibility =
@@ -162,15 +198,16 @@ export interface TabConfigItem {
   label: string
   /** When to show this tab. Default "always". */
   visible?: TabVisibility
+  Icon?: React.ComponentType<LucideProps>
 }
 
 /** Default tab config. Override via tabsConfig prop for custom order/labels. */
 export const DEFAULT_TABS_CONFIG: TabConfigItem[] = [
-  { id: "details", label: "Details", visible: "whenResponseTypesOrBody" },
-  { id: "params", label: "Params", visible: "whenParams" },
-  { id: "body", label: "Body", visible: "whenBody" },
-  { id: "headers", label: "Headers", visible: "always" },
-  { id: "authorization", label: "Authorization", visible: "always" },
+  { id: "details", label: "Details", visible: "whenResponseTypesOrBody", Icon: LampDeskIcon },
+  { id: "params", label: "Params", visible: "whenParams", Icon: BookOpenIcon },
+  { id: "body", label: "Body", visible: "whenBody", Icon: FileBracesCornerIcon },
+  { id: "headers", label: "Headers", visible: "always", Icon: HeadingIcon },
+  { id: "authorization", label: "Authorization", visible: "always", Icon: FingerprintPatternIcon },
 ]
 
 export function getVisibleTabs(

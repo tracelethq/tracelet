@@ -1,0 +1,15 @@
+// Better Auth: Organization plugin - Invitation (https://better-auth.com/docs/plugins/organization)
+model Invitation {
+  id             String       @id
+  email          String
+  inviterId      String
+  organizationId String
+  role           String
+  status         String
+  createdAt      DateTime
+  expiresAt      DateTime
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@map("invitation")
+  @@schema("better_auth")
+}

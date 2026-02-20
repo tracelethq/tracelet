@@ -61,7 +61,7 @@ function toPlainExcerpt(md: string): string {
  * but keeps the text content inside them.
  */
 function stripJsxToRenderedText(md: string): string {
-  let out = md
+  const out = md
     // Self-closing JSX: <Component ... /> or <Component />
     .replace(/<[A-Za-z][A-Za-z0-9.-]*(?:\s[^>]*)?\/\s*>/g, " ")
     // Opening JSX/HTML tags: <Tag ...> (keep content after for now)
