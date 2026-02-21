@@ -1,10 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { createLogger } from "@tracelet/core";
-
-interface TraceletExpressOptions {
-  serviceName: string;
-  environment?: string;
-}
+import { Logger } from "@tracelet/core";
 
 // Type for route info
 interface RouteInfo {
@@ -14,25 +9,25 @@ interface RouteInfo {
 
 const collectedRoutes: RouteInfo[] = [];
 
-export function traceletMiddleware(options: TraceletExpressOptions) {
-  const logger = createLogger({
-    serviceName: options.serviceName,
-    environment: options.environment ?? "prod",
-  });
-
+export function traceletMiddleware(logger: Logger, basePath: string) {
   return function (req: Request, res: Response, next: NextFunction) {
     const startTime = process.hrtime.bigint();
-    const tracingId = logger.createTracingId();
+    const path = req.originalUrl?.split("?")[0] ?? "";
+    const route =
+      path ||
+      (req.baseUrl && req.path ? req.baseUrl + req.path : undefined) ||
+      req.originalUrl ||
+      req.url ||
+      "";
+    const method = req.method;
+    const tracingId = logger.init({ method, route });
 
     req.traceletRequestId = tracingId;
     req.traceletTracingId = tracingId;
     req.traceletLogger = logger;
 
     res.on("finish", () => {
-      const path = req.originalUrl.split("?")[0];
-      const route =
-        req.route?.path || req.baseUrl + req.path || req.originalUrl;
-      if (path === "/tracelet-docs" || path.startsWith("/tracelet-docs/") || route.startsWith("undefined")) {
+      if (path === basePath || path.startsWith(basePath + "/") || route.startsWith("undefined")) {
         return;
       }
 
@@ -45,9 +40,7 @@ export function traceletMiddleware(options: TraceletExpressOptions) {
           : 0;
 
       logger.logHttp({
-        requestId: tracingId,
-        tracingId,
-        method: req.method,
+        method,
         route,
         statusCode: res.statusCode,
         durationMs,

@@ -1,5 +1,8 @@
+import { getConstants } from "@/constants";
+
 export function Logo({ width = 40, height = 40, isLong = false }: { width?: number, height?: number, isLong?: boolean }) {
-  const logoSrc = "/tracelet-docs/logo.svg";
+  const { basePath } = getConstants();
+  const logoSrc = `${basePath.replace(/\/$/, "")}/logo.svg`;
   return (
     <div className="flex items-center gap-2">
       <img
