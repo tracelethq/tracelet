@@ -2,9 +2,22 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script type="application/json" id="tracelet-constants">{{TRACELET_UI_CONSTANTS}}</script>
+    <script>
+      window.tracelet = window.tracelet || {};
+      try {
+        var el = document.getElementById("tracelet-constants");
+        window.tracelet.constants = el && el.textContent ? JSON.parse(el.textContent) : {};
+      } catch (e) {
+        window.tracelet.constants = {};
+      }
+      // Dynamic base for vite-plugin-dynamic-base: must be set before app script loads
+      var base = (window.tracelet.constants.basePath || "/tracelet-docs").replace(/\/$/, "");
+      window.__dynamic_base__ = (base.startsWith("/") ? base : "/" + base) + "/";
+    </script>
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>vite-app</title>
+    <title>Tracelet Docs</title>
   </head>
   <body>
     <div id="root"></div>

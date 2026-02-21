@@ -1,5 +1,6 @@
 import { RouteIcon, BookOpenIcon, RefreshCwIcon } from "lucide-react"
 
+import { getConstants } from "@/constants"
 import {
   Empty,
   EmptyContent,
@@ -15,8 +16,7 @@ interface EmptyRoutesStateProps {
 }
 
 export function EmptyRoutesState({ onRefresh }: EmptyRoutesStateProps) {
-  const apiUrl =
-    import.meta.env.TRACELET_DOC_API_ROUTE ?? ""
+  const { basePath: apiUrl } = getConstants()
 
   return (
     <Empty className="border">

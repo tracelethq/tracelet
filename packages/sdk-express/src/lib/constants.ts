@@ -1,0 +1,1 @@
+export const DEFAULT_TRACELET_DOCS_BASE_PATH = "/tracelet-docs";

@@ -1,6 +1,6 @@
 {
   "name": "@tracelet/express",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Express middleware for Tracelet",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,8 +9,8 @@
     "build": "tsc -p tsconfig.build.json"
   },
   "dependencies": {
-    "@tracelet/core": "^0.0.1",
-    "@tracelet/ui": "^0.0.2",
+    "@tracelet/core": "^0.0.2",
+    "@tracelet/ui": "^0.0.3",
     "express": "^5.2.1"
   },
   "peerDependencies": {
