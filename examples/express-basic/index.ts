@@ -1,29 +1,44 @@
 import express from "express";
-import { tracelet } from "@tracelet/express";
+import { traceletExpress } from "@tracelet/express";
+import cors from "cors";
+import { userRoutes } from "./routes/users";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
-
 app.use(express.json());
+app.use(cors());
 
-// 🔌 Tracelet middleware
-app.use(tracelet({
-  serviceName: "express-basic-example",
-  environment: "dev",
-}));
-
-  
-app.get("/health", (_req, res) => {
-  res.json({ ok: true });
+// Init Tracelet
+// app.use(tracelet({ serviceName: "external-test", environment: "dev" }));
+traceletExpress({
+  app,
+  serviceName: "external-test",
+  environment: "local",
 });
 
-app.post("/users", (req, res) => {
-  res.status(201).json({
-    id: "user_123",
-    name: req.body.name,
-    password: req.body.password, // should be REDACTED
-  });
-});
+/**
+ * @description Login endpoint
+ * @request { "username": "string", "password": "string" }
+ * @response { "token": "string" }
+ */
+function loginHandler(req: express.Request, res: express.Response) {
+  res.json({ token: "abc123" });
+}
 
-app.listen(3000, () => {
-  console.log("🚀 Express example running on http://localhost:3000");
-});
+function pingHandler(req: express.Request, res: express.Response) {
+  // req.traceletLogger.error({ message: "Pinging the server" });
+  // req.traceletLogger.info({ message: "Pinging the server" });
+  // req.traceletLogger.warn({ message: "Pinging the server" });
+  // req.traceletLogger.debug({ message: "Pinging the server" });
+  res.json({ message: "pong" });
+}
+
+// Register routes
+app.post("/login", loginHandler);
+app.get("/ping", pingHandler);
+
+app.use("/users", userRoutes);
+
+app.listen(3000, () => console.log("Server running on http://localhost:3000"));

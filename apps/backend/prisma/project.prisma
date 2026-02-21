@@ -1,0 +1,71 @@
+// App: env config per organization (org = project). Public schema.
+model OrganizationEnv {
+  id             String   @id @default(cuid())
+  organizationId String   // org id from better_auth.organization
+  env            String   // "development" | "staging" | "production"
+  baseUrl        String?
+  apiKey         String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([organizationId, env])
+  @@map("organization_env")
+  @@schema("public")
+}
+
+// Ingest: One row per API hit (HTTP request). App logs for that request are stored in appLogs array.
+model Logger {
+  id             String   @id @default(cuid())
+  organizationId String
+  env            String   // "development" | "staging" | "production"
+  type           String   // "http"
+  tracingId      String
+  requestId      String?
+  timestamp      DateTime
+  createdAt      DateTime @default(now())
+  // HTTP log fields
+  method         String?
+  route          String?
+  statusCode     Int?
+  durationMs     Int?
+  responseSize   Int?
+  // App logs for this request. Array of { level, message?, payload?, timestamp? }.
+  appLogs        Json?    // [{ level, message?, payload?, timestamp? }, ...]
+
+  @@index([organizationId, env])
+  @@index([organizationId, env, type])
+  @@index([organizationId, env, tracingId])
+  @@index([organizationId, env, timestamp])
+  @@map("logger")
+  @@schema("public")
+}
+
+// Aggregated stats for dashboard (updated async on ingest; not blocking).
+model DashboardSnapshot {
+  id             String   @id @default(cuid())
+  organizationId String
+  env            String
+  totalHttpLogs  Int      @default(0)
+  successCount   Int      @default(0)
+  clientErrorCount Int   @default(0)
+  serverErrorCount Int   @default(0)
+  totalRoutes   Int      @default(0)
+  updatedAt     DateTime @updatedAt
+
+  @@unique([organizationId, env])
+  @@map("dashboard_snapshot")
+  @@schema("public")
+}
+
+// Ingest: API explorer JSON from SDK (route tree / tracelet.doc.json resolved per project/env).
+model ApiExplorerSnapshot {
+  id             String   @id @default(cuid())
+  organizationId String
+  env            String
+  data           Json     // TraceletMeta[] or route tree from @tracelet/core
+  updatedAt      DateTime @updatedAt
+
+  @@unique([organizationId, env])
+  @@map("api_explorer_snapshot")
+  @@schema("public")
+}

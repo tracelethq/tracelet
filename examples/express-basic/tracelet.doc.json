@@ -1,0 +1,205 @@
+[
+  {
+    "description": "Ping endpoint",
+    "method": "GET",
+    "path": "/ping",
+    "responses": [
+      {
+        "status": 200,
+        "description": "Success",
+        "properties": [{ "name": "message", "type": "string" }]
+      }
+    ]
+  },
+  {
+    "description": "Login user",
+    "method": "POST",
+    "path": "/login",
+    "request": [
+      { "name": "username", "type": "string", "required": true },
+      { "name": "password", "type": "string", "required": true }
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "description": "Success",
+        "properties": [{ "name": "token", "type": "string" }]
+      },
+      {
+        "status": 400,
+        "description": "Bad request",
+        "properties": [{ "name": "error", "type": "string" }]
+      }
+    ]
+  },
+  {
+    "description": "List all users",
+    "method": "PARENT",
+    "path": "/users",
+    "routes": [
+      {
+        "description": "Get all users",
+        "method": "GET",
+        "path": "",
+        "responses": [
+          {
+            "status": 200,
+            "description": "Success",
+            "properties": [
+              {
+                "name": "users",
+                "type": "array",
+                "desc": "List of user objects"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "description": "Get user by ID",
+        "method": "GET",
+        "path": "/:id",
+        "responses": [
+          {
+            "status": 200,
+            "description": "Success",
+            "properties": [
+              { "name": "id", "type": "string" },
+              { "name": "name", "type": "string" },
+              { "name": "email", "type": "string" }
+            ]
+          },
+          {
+            "status": 404,
+            "description": "User not found",
+            "properties": [{ "name": "error", "type": "string" }]
+          }
+        ]
+      },
+      {
+        "description": "Update user",
+        "method": "PATCH",
+        "path": ":id",
+        "params": [{ "name": "id", "type": "string" }],
+        "request": [
+          { "name": "name", "type": "string" },
+          { "name": "email", "type": "string" }
+        ],
+        "responses": [
+          {
+            "status": 200,
+            "description": "Success",
+            "properties": [
+              { "name": "id", "type": "string" },
+              { "name": "name", "type": "string" },
+              { "name": "email", "type": "string" }
+            ]
+          },
+          {
+            "status": 400,
+            "description": "Bad request",
+            "properties": [{ "name": "error", "type": "string" }]
+          },
+          {
+            "status": 404,
+            "description": "User not found",
+            "properties": [{ "name": "error", "type": "string" }]
+          }
+        ]
+      },
+      {
+        "description": "Get posts for a user",
+        "method": "GET",
+        "path": ":id/posts",
+        "params": [{ "name": "id", "type": "string" }],
+        "query": [
+          { "name": "limit", "type": "string", "desc": "Max number of posts" },
+          { "name": "offset", "type": "string", "desc": "Number to skip" }
+        ],
+        "responses": [
+          {
+            "status": 200,
+            "description": "Success",
+            "properties": [
+              {
+                "name": "posts",
+                "type": "array",
+                "desc": "List of post objects"
+              }
+            ]
+          },
+          {
+            "status": 404,
+            "description": "User not found",
+            "properties": [{ "name": "error", "type": "string" }]
+          }
+        ]
+      },
+      {
+        "description": "Create a post for a user",
+        "method": "POST",
+        "path": ":id/posts",
+        "params": [{ "name": "id", "type": "string" }],
+        "requestContentType": "multipart/form-data",
+        "request": [
+          { "name": "title", "type": "string", "required": true },
+          { "name": "body", "type": "string" },
+          { "name": "images", "type": "file", "desc": "1-4 image files (multipart field: images)", "required": true, "maxFiles": 4 },
+          { "name": "createdAt", "type": "datetime", "desc": "Creation date" }
+        ],
+        "responses": [
+          {
+            "status": 201,
+            "description": "Created",
+            "properties": [
+              { "name": "id", "type": "string" },
+              { "name": "title", "type": "string" },
+              { "name": "body", "type": "string" },
+              { "name": "userId", "type": "string" },
+              { "name": "images", "type": "array", "desc": "1-4 image file info (originalname, size, mimetype)" }
+            ]
+          },
+          {
+            "status": 400,
+            "description": "Bad request",
+            "properties": [{ "name": "error", "type": "string" }]
+          },
+          {
+            "status": 404,
+            "description": "User not found",
+            "properties": [{ "name": "error", "type": "string" }]
+          }
+        ]
+      },
+      {
+        "description": "Get user settings",
+        "method": "GET",
+        "path": ":id/settings",
+        "params": [{ "name": "id", "type": "string" }],
+        "response": [
+          { "name": "theme", "type": "string" },
+          { "name": "notifications", "type": "boolean" }
+        ],
+        "responses": [
+          {
+            "status": 200,
+            "description": "Success",
+            "properties": [
+              { "name": "theme", "type": "string", "desc": "UI theme" },
+              {
+                "name": "notifications",
+                "type": "boolean",
+                "desc": "Notifications enabled"
+              }
+            ]
+          },
+          {
+            "status": 404,
+            "description": "User not found",
+            "properties": [{ "name": "error", "type": "string" }]
+          }
+        ]
+      }
+    ]
+  }
+]
