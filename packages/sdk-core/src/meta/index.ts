@@ -1,5 +1,7 @@
 import fs from "fs";
 import path from "path";
+// import { IngestClient } from "../ingest";
+// import { LOG_START_PREFIX, LogMessages } from "../lib/constants";
 
 /** Supported HTTP methods for route metadata */
 export type TraceletHttpMethod =
@@ -71,6 +73,10 @@ function joinPath(parent: string, child: string): string {
 export interface RouteMetaOptions {
   /** Default filename for doc JSON when path not provided (default `tracelet.doc.json`). */
   defaultDocFile?: string;
+  /** Ingest client for sending API explorer snapshot; created with env defaults if not provided. */
+  // ingestClient: IngestClient;
+  /** Meta to use instead of reading from file. */
+  meta?: TraceletMeta[] | null;
 }
 
 /**
@@ -79,13 +85,18 @@ export interface RouteMetaOptions {
  */
 export class RouteMeta {
   readonly defaultDocFile: string;
+  readonly meta?: TraceletMeta[] | null;
+  // private readonly ingestClient: IngestClient;
 
-  constructor(options: RouteMetaOptions = {}) {
+  constructor(options: RouteMetaOptions) {
     this.defaultDocFile = options.defaultDocFile ?? DEFAULT_DOC_FILE;
+    // this.ingestClient = options.ingestClient;
+    this.meta = options.meta ?? null;
   }
 
   /** Read TraceletMeta[] from a JSON file. Returns null if file missing or invalid. */
-  readFromFile(filePath: string): TraceletMeta[] | null {
+  readFromFile(): TraceletMeta[] | null {
+    const filePath = this.defaultDocFile;
     const resolved = path.isAbsolute(filePath)
       ? filePath
       : path.join(process.cwd(), filePath);
@@ -124,17 +135,27 @@ export class RouteMeta {
   /**
    * Load meta from file, merge with param meta, and return merged list.
    * Use resolveTree() when you need full paths for the docs JSON response.
+   * Automatically sends the resolved route tree to ingest as apiExplorer (fire-and-forget).
    */
-  loadAndMerge(
-    docFilePath: string,
-    paramMeta: TraceletMeta[] = []
-  ): TraceletMeta[] {
-    const fileMeta = this.readFromFile(docFilePath);
-    return this.merge(fileMeta ?? [], paramMeta);
+  loadAndMerge(): TraceletMeta[] {
+    const fileMeta = this.readFromFile();
+    const merged = this.merge(fileMeta ?? [], this.meta ?? []);
+    const resolved = this.resolveTree(merged);
+    // this.ingestApiExplorer(resolved);
+    return resolved;
   }
-}
 
-/** Create a RouteMeta instance. */
-export function createRouteMeta(options?: RouteMetaOptions): RouteMeta {
-  return new RouteMeta(options);
+  // ingestApiExplorer(resolved: TraceletMeta[]): void {
+    // this.ingestClient
+    //   .send({ logs: [], apiExplorer: { routes: resolved } })
+    //   .then((response) => {
+    //     if(!response){
+    //       return;
+    //     }
+    //     console.log(`${LOG_START_PREFIX} ${LogMessages.DOCS_JSON_SYNCED_TO_SERVER}`);
+    //   })
+    //   .catch((error) => {
+    //     console.error(`${LOG_START_PREFIX} ${LogMessages.ERROR_SYNCING_DOCS_JSON_TO_SERVER}`, error.message);
+    //   });
+  // }
 }

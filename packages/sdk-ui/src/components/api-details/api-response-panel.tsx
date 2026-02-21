@@ -334,7 +334,7 @@ export function ApiResponsePanel({
                             ))}
                           </div>
                           <pre className="min-w-0 flex-1 whitespace-pre-wrap break-all leading-7">
-                            <JsonHighlight className="block border-l bg-background py-2">
+                            <JsonHighlight className="block border-l bg-background py-2 min-h-full pl-3">
                               {bodyText}
                             </JsonHighlight>
                           </pre>

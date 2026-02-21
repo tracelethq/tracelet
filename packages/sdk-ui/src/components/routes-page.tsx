@@ -24,6 +24,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
+import { getConstants } from "@/constants";
 import { useRouteInUrl } from "@/hooks/use-tracelet-persistence";
 import { flattenRoutesTree, type RouteMeta } from "@/types/route";
 import Decorations from "./ui/decorations";
@@ -45,10 +46,13 @@ export function RoutesPage() {
     getStoredToken(),
   );
 
+  const { basePath } = getConstants();
   const baseUrl = apiBase.replace(/\/$/, "");
-  const checkAuthUrl = `${baseUrl}/tracelet-docs/check-auth`;
-  const authUrl = `${baseUrl}/tracelet-docs/auth`;
-  const routesUrl = `${baseUrl}/tracelet-docs?json=true`;
+  const apiRoutePath = basePath.replace(/^\//, "").replace(/\/$/, "");
+  const checkAuthUrl = `${baseUrl}/${apiRoutePath}/check-auth`;
+  const authUrl = `${baseUrl}/${apiRoutePath}/auth`;
+  const routesUrl = `${baseUrl}/${apiRoutePath}?json=true`;
+  console.log("checkAuthUrl", checkAuthUrl);
 
   const fetchRoutes = React.useCallback(
     async (authToken: string | null) => {
