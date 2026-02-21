@@ -64,10 +64,15 @@ export type Verification = $Result.DefaultSelection<Prisma.$VerificationPayload>
  */
 export type OrganizationEnv = $Result.DefaultSelection<Prisma.$OrganizationEnvPayload>
 /**
- * Model RequestLog
+ * Model Logger
  * 
  */
-export type RequestLog = $Result.DefaultSelection<Prisma.$RequestLogPayload>
+export type Logger = $Result.DefaultSelection<Prisma.$LoggerPayload>
+/**
+ * Model DashboardSnapshot
+ * 
+ */
+export type DashboardSnapshot = $Result.DefaultSelection<Prisma.$DashboardSnapshotPayload>
 /**
  * Model ApiExplorerSnapshot
  * 
@@ -292,14 +297,24 @@ export class PrismaClient<
   get organizationEnv(): Prisma.OrganizationEnvDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.requestLog`: Exposes CRUD operations for the **RequestLog** model.
+   * `prisma.logger`: Exposes CRUD operations for the **Logger** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more RequestLogs
-    * const requestLogs = await prisma.requestLog.findMany()
+    * // Fetch zero or more Loggers
+    * const loggers = await prisma.logger.findMany()
     * ```
     */
-  get requestLog(): Prisma.RequestLogDelegate<ExtArgs, ClientOptions>;
+  get logger(): Prisma.LoggerDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.dashboardSnapshot`: Exposes CRUD operations for the **DashboardSnapshot** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DashboardSnapshots
+    * const dashboardSnapshots = await prisma.dashboardSnapshot.findMany()
+    * ```
+    */
+  get dashboardSnapshot(): Prisma.DashboardSnapshotDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.apiExplorerSnapshot`: Exposes CRUD operations for the **ApiExplorerSnapshot** model.
@@ -754,7 +769,8 @@ export namespace Prisma {
     User: 'User',
     Verification: 'Verification',
     OrganizationEnv: 'OrganizationEnv',
-    RequestLog: 'RequestLog',
+    Logger: 'Logger',
+    DashboardSnapshot: 'DashboardSnapshot',
     ApiExplorerSnapshot: 'ApiExplorerSnapshot'
   };
 
@@ -771,7 +787,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "account" | "apiKey" | "invitation" | "member" | "organization" | "session" | "ssoProvider" | "user" | "verification" | "organizationEnv" | "requestLog" | "apiExplorerSnapshot"
+      modelProps: "account" | "apiKey" | "invitation" | "member" | "organization" | "session" | "ssoProvider" | "user" | "verification" | "organizationEnv" | "logger" | "dashboardSnapshot" | "apiExplorerSnapshot"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1515,77 +1531,151 @@ export namespace Prisma {
           }
         }
       }
-      RequestLog: {
-        payload: Prisma.$RequestLogPayload<ExtArgs>
-        fields: Prisma.RequestLogFieldRefs
+      Logger: {
+        payload: Prisma.$LoggerPayload<ExtArgs>
+        fields: Prisma.LoggerFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.RequestLogFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RequestLogPayload> | null
+            args: Prisma.LoggerFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoggerPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.RequestLogFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RequestLogPayload>
+            args: Prisma.LoggerFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoggerPayload>
           }
           findFirst: {
-            args: Prisma.RequestLogFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RequestLogPayload> | null
+            args: Prisma.LoggerFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoggerPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.RequestLogFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RequestLogPayload>
+            args: Prisma.LoggerFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoggerPayload>
           }
           findMany: {
-            args: Prisma.RequestLogFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RequestLogPayload>[]
+            args: Prisma.LoggerFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoggerPayload>[]
           }
           create: {
-            args: Prisma.RequestLogCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RequestLogPayload>
+            args: Prisma.LoggerCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoggerPayload>
           }
           createMany: {
-            args: Prisma.RequestLogCreateManyArgs<ExtArgs>
+            args: Prisma.LoggerCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.RequestLogCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RequestLogPayload>[]
+            args: Prisma.LoggerCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoggerPayload>[]
           }
           delete: {
-            args: Prisma.RequestLogDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RequestLogPayload>
+            args: Prisma.LoggerDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoggerPayload>
           }
           update: {
-            args: Prisma.RequestLogUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RequestLogPayload>
+            args: Prisma.LoggerUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoggerPayload>
           }
           deleteMany: {
-            args: Prisma.RequestLogDeleteManyArgs<ExtArgs>
+            args: Prisma.LoggerDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.RequestLogUpdateManyArgs<ExtArgs>
+            args: Prisma.LoggerUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.RequestLogUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RequestLogPayload>[]
+            args: Prisma.LoggerUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoggerPayload>[]
           }
           upsert: {
-            args: Prisma.RequestLogUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RequestLogPayload>
+            args: Prisma.LoggerUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoggerPayload>
           }
           aggregate: {
-            args: Prisma.RequestLogAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateRequestLog>
+            args: Prisma.LoggerAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLogger>
           }
           groupBy: {
-            args: Prisma.RequestLogGroupByArgs<ExtArgs>
-            result: $Utils.Optional<RequestLogGroupByOutputType>[]
+            args: Prisma.LoggerGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LoggerGroupByOutputType>[]
           }
           count: {
-            args: Prisma.RequestLogCountArgs<ExtArgs>
-            result: $Utils.Optional<RequestLogCountAggregateOutputType> | number
+            args: Prisma.LoggerCountArgs<ExtArgs>
+            result: $Utils.Optional<LoggerCountAggregateOutputType> | number
+          }
+        }
+      }
+      DashboardSnapshot: {
+        payload: Prisma.$DashboardSnapshotPayload<ExtArgs>
+        fields: Prisma.DashboardSnapshotFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DashboardSnapshotFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DashboardSnapshotPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DashboardSnapshotFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DashboardSnapshotPayload>
+          }
+          findFirst: {
+            args: Prisma.DashboardSnapshotFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DashboardSnapshotPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DashboardSnapshotFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DashboardSnapshotPayload>
+          }
+          findMany: {
+            args: Prisma.DashboardSnapshotFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DashboardSnapshotPayload>[]
+          }
+          create: {
+            args: Prisma.DashboardSnapshotCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DashboardSnapshotPayload>
+          }
+          createMany: {
+            args: Prisma.DashboardSnapshotCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DashboardSnapshotCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DashboardSnapshotPayload>[]
+          }
+          delete: {
+            args: Prisma.DashboardSnapshotDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DashboardSnapshotPayload>
+          }
+          update: {
+            args: Prisma.DashboardSnapshotUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DashboardSnapshotPayload>
+          }
+          deleteMany: {
+            args: Prisma.DashboardSnapshotDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DashboardSnapshotUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DashboardSnapshotUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DashboardSnapshotPayload>[]
+          }
+          upsert: {
+            args: Prisma.DashboardSnapshotUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DashboardSnapshotPayload>
+          }
+          aggregate: {
+            args: Prisma.DashboardSnapshotAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDashboardSnapshot>
+          }
+          groupBy: {
+            args: Prisma.DashboardSnapshotGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DashboardSnapshotGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DashboardSnapshotCountArgs<ExtArgs>
+            result: $Utils.Optional<DashboardSnapshotCountAggregateOutputType> | number
           }
         }
       }
@@ -1781,7 +1871,8 @@ export namespace Prisma {
     user?: UserOmit
     verification?: VerificationOmit
     organizationEnv?: OrganizationEnvOmit
-    requestLog?: RequestLogOmit
+    logger?: LoggerOmit
+    dashboardSnapshot?: DashboardSnapshotOmit
     apiExplorerSnapshot?: ApiExplorerSnapshotOmit
   }
 
@@ -13148,462 +13239,482 @@ export namespace Prisma {
 
 
   /**
-   * Model RequestLog
+   * Model Logger
    */
 
-  export type AggregateRequestLog = {
-    _count: RequestLogCountAggregateOutputType | null
-    _avg: RequestLogAvgAggregateOutputType | null
-    _sum: RequestLogSumAggregateOutputType | null
-    _min: RequestLogMinAggregateOutputType | null
-    _max: RequestLogMaxAggregateOutputType | null
+  export type AggregateLogger = {
+    _count: LoggerCountAggregateOutputType | null
+    _avg: LoggerAvgAggregateOutputType | null
+    _sum: LoggerSumAggregateOutputType | null
+    _min: LoggerMinAggregateOutputType | null
+    _max: LoggerMaxAggregateOutputType | null
   }
 
-  export type RequestLogAvgAggregateOutputType = {
+  export type LoggerAvgAggregateOutputType = {
     statusCode: number | null
     durationMs: number | null
     responseSize: number | null
   }
 
-  export type RequestLogSumAggregateOutputType = {
+  export type LoggerSumAggregateOutputType = {
     statusCode: number | null
     durationMs: number | null
     responseSize: number | null
   }
 
-  export type RequestLogMinAggregateOutputType = {
+  export type LoggerMinAggregateOutputType = {
     id: string | null
     organizationId: string | null
     env: string | null
-    requestId: string | null
+    type: string | null
     tracingId: string | null
+    requestId: string | null
+    timestamp: Date | null
+    createdAt: Date | null
     method: string | null
     route: string | null
     statusCode: number | null
     durationMs: number | null
     responseSize: number | null
-    timestamp: Date | null
-    createdAt: Date | null
   }
 
-  export type RequestLogMaxAggregateOutputType = {
+  export type LoggerMaxAggregateOutputType = {
     id: string | null
     organizationId: string | null
     env: string | null
-    requestId: string | null
+    type: string | null
     tracingId: string | null
+    requestId: string | null
+    timestamp: Date | null
+    createdAt: Date | null
     method: string | null
     route: string | null
     statusCode: number | null
     durationMs: number | null
     responseSize: number | null
-    timestamp: Date | null
-    createdAt: Date | null
   }
 
-  export type RequestLogCountAggregateOutputType = {
+  export type LoggerCountAggregateOutputType = {
     id: number
     organizationId: number
     env: number
-    requestId: number
+    type: number
     tracingId: number
+    requestId: number
+    timestamp: number
+    createdAt: number
     method: number
     route: number
     statusCode: number
     durationMs: number
     responseSize: number
-    timestamp: number
-    createdAt: number
+    appLogs: number
     _all: number
   }
 
 
-  export type RequestLogAvgAggregateInputType = {
+  export type LoggerAvgAggregateInputType = {
     statusCode?: true
     durationMs?: true
     responseSize?: true
   }
 
-  export type RequestLogSumAggregateInputType = {
+  export type LoggerSumAggregateInputType = {
     statusCode?: true
     durationMs?: true
     responseSize?: true
   }
 
-  export type RequestLogMinAggregateInputType = {
+  export type LoggerMinAggregateInputType = {
     id?: true
     organizationId?: true
     env?: true
-    requestId?: true
+    type?: true
     tracingId?: true
+    requestId?: true
+    timestamp?: true
+    createdAt?: true
     method?: true
     route?: true
     statusCode?: true
     durationMs?: true
     responseSize?: true
-    timestamp?: true
-    createdAt?: true
   }
 
-  export type RequestLogMaxAggregateInputType = {
+  export type LoggerMaxAggregateInputType = {
     id?: true
     organizationId?: true
     env?: true
-    requestId?: true
+    type?: true
     tracingId?: true
+    requestId?: true
+    timestamp?: true
+    createdAt?: true
     method?: true
     route?: true
     statusCode?: true
     durationMs?: true
     responseSize?: true
-    timestamp?: true
-    createdAt?: true
   }
 
-  export type RequestLogCountAggregateInputType = {
+  export type LoggerCountAggregateInputType = {
     id?: true
     organizationId?: true
     env?: true
-    requestId?: true
+    type?: true
     tracingId?: true
+    requestId?: true
+    timestamp?: true
+    createdAt?: true
     method?: true
     route?: true
     statusCode?: true
     durationMs?: true
     responseSize?: true
-    timestamp?: true
-    createdAt?: true
+    appLogs?: true
     _all?: true
   }
 
-  export type RequestLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoggerAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which RequestLog to aggregate.
+     * Filter which Logger to aggregate.
      */
-    where?: RequestLogWhereInput
+    where?: LoggerWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of RequestLogs to fetch.
+     * Determine the order of Loggers to fetch.
      */
-    orderBy?: RequestLogOrderByWithRelationInput | RequestLogOrderByWithRelationInput[]
+    orderBy?: LoggerOrderByWithRelationInput | LoggerOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: RequestLogWhereUniqueInput
+    cursor?: LoggerWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` RequestLogs from the position of the cursor.
+     * Take `±n` Loggers from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` RequestLogs.
+     * Skip the first `n` Loggers.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned RequestLogs
+     * Count returned Loggers
     **/
-    _count?: true | RequestLogCountAggregateInputType
+    _count?: true | LoggerCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: RequestLogAvgAggregateInputType
+    _avg?: LoggerAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: RequestLogSumAggregateInputType
+    _sum?: LoggerSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: RequestLogMinAggregateInputType
+    _min?: LoggerMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: RequestLogMaxAggregateInputType
+    _max?: LoggerMaxAggregateInputType
   }
 
-  export type GetRequestLogAggregateType<T extends RequestLogAggregateArgs> = {
-        [P in keyof T & keyof AggregateRequestLog]: P extends '_count' | 'count'
+  export type GetLoggerAggregateType<T extends LoggerAggregateArgs> = {
+        [P in keyof T & keyof AggregateLogger]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateRequestLog[P]>
-      : GetScalarType<T[P], AggregateRequestLog[P]>
+        : GetScalarType<T[P], AggregateLogger[P]>
+      : GetScalarType<T[P], AggregateLogger[P]>
   }
 
 
 
 
-  export type RequestLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: RequestLogWhereInput
-    orderBy?: RequestLogOrderByWithAggregationInput | RequestLogOrderByWithAggregationInput[]
-    by: RequestLogScalarFieldEnum[] | RequestLogScalarFieldEnum
-    having?: RequestLogScalarWhereWithAggregatesInput
+  export type LoggerGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoggerWhereInput
+    orderBy?: LoggerOrderByWithAggregationInput | LoggerOrderByWithAggregationInput[]
+    by: LoggerScalarFieldEnum[] | LoggerScalarFieldEnum
+    having?: LoggerScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: RequestLogCountAggregateInputType | true
-    _avg?: RequestLogAvgAggregateInputType
-    _sum?: RequestLogSumAggregateInputType
-    _min?: RequestLogMinAggregateInputType
-    _max?: RequestLogMaxAggregateInputType
+    _count?: LoggerCountAggregateInputType | true
+    _avg?: LoggerAvgAggregateInputType
+    _sum?: LoggerSumAggregateInputType
+    _min?: LoggerMinAggregateInputType
+    _max?: LoggerMaxAggregateInputType
   }
 
-  export type RequestLogGroupByOutputType = {
+  export type LoggerGroupByOutputType = {
     id: string
     organizationId: string
     env: string
-    requestId: string
+    type: string
     tracingId: string
-    method: string
-    route: string
-    statusCode: number
-    durationMs: number
-    responseSize: number
+    requestId: string | null
     timestamp: Date
     createdAt: Date
-    _count: RequestLogCountAggregateOutputType | null
-    _avg: RequestLogAvgAggregateOutputType | null
-    _sum: RequestLogSumAggregateOutputType | null
-    _min: RequestLogMinAggregateOutputType | null
-    _max: RequestLogMaxAggregateOutputType | null
+    method: string | null
+    route: string | null
+    statusCode: number | null
+    durationMs: number | null
+    responseSize: number | null
+    appLogs: JsonValue | null
+    _count: LoggerCountAggregateOutputType | null
+    _avg: LoggerAvgAggregateOutputType | null
+    _sum: LoggerSumAggregateOutputType | null
+    _min: LoggerMinAggregateOutputType | null
+    _max: LoggerMaxAggregateOutputType | null
   }
 
-  type GetRequestLogGroupByPayload<T extends RequestLogGroupByArgs> = Prisma.PrismaPromise<
+  type GetLoggerGroupByPayload<T extends LoggerGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<RequestLogGroupByOutputType, T['by']> &
+      PickEnumerable<LoggerGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof RequestLogGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof LoggerGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], RequestLogGroupByOutputType[P]>
-            : GetScalarType<T[P], RequestLogGroupByOutputType[P]>
+              : GetScalarType<T[P], LoggerGroupByOutputType[P]>
+            : GetScalarType<T[P], LoggerGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type RequestLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type LoggerSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     organizationId?: boolean
     env?: boolean
-    requestId?: boolean
+    type?: boolean
     tracingId?: boolean
+    requestId?: boolean
+    timestamp?: boolean
+    createdAt?: boolean
     method?: boolean
     route?: boolean
     statusCode?: boolean
     durationMs?: boolean
     responseSize?: boolean
-    timestamp?: boolean
-    createdAt?: boolean
-  }, ExtArgs["result"]["requestLog"]>
+    appLogs?: boolean
+  }, ExtArgs["result"]["logger"]>
 
-  export type RequestLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type LoggerSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     organizationId?: boolean
     env?: boolean
-    requestId?: boolean
+    type?: boolean
     tracingId?: boolean
+    requestId?: boolean
+    timestamp?: boolean
+    createdAt?: boolean
     method?: boolean
     route?: boolean
     statusCode?: boolean
     durationMs?: boolean
     responseSize?: boolean
-    timestamp?: boolean
-    createdAt?: boolean
-  }, ExtArgs["result"]["requestLog"]>
+    appLogs?: boolean
+  }, ExtArgs["result"]["logger"]>
 
-  export type RequestLogSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type LoggerSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     organizationId?: boolean
     env?: boolean
-    requestId?: boolean
+    type?: boolean
     tracingId?: boolean
+    requestId?: boolean
+    timestamp?: boolean
+    createdAt?: boolean
     method?: boolean
     route?: boolean
     statusCode?: boolean
     durationMs?: boolean
     responseSize?: boolean
-    timestamp?: boolean
-    createdAt?: boolean
-  }, ExtArgs["result"]["requestLog"]>
+    appLogs?: boolean
+  }, ExtArgs["result"]["logger"]>
 
-  export type RequestLogSelectScalar = {
+  export type LoggerSelectScalar = {
     id?: boolean
     organizationId?: boolean
     env?: boolean
-    requestId?: boolean
+    type?: boolean
     tracingId?: boolean
+    requestId?: boolean
+    timestamp?: boolean
+    createdAt?: boolean
     method?: boolean
     route?: boolean
     statusCode?: boolean
     durationMs?: boolean
     responseSize?: boolean
-    timestamp?: boolean
-    createdAt?: boolean
+    appLogs?: boolean
   }
 
-  export type RequestLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "organizationId" | "env" | "requestId" | "tracingId" | "method" | "route" | "statusCode" | "durationMs" | "responseSize" | "timestamp" | "createdAt", ExtArgs["result"]["requestLog"]>
+  export type LoggerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "organizationId" | "env" | "type" | "tracingId" | "requestId" | "timestamp" | "createdAt" | "method" | "route" | "statusCode" | "durationMs" | "responseSize" | "appLogs", ExtArgs["result"]["logger"]>
 
-  export type $RequestLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "RequestLog"
+  export type $LoggerPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Logger"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: string
       organizationId: string
       env: string
-      requestId: string
+      type: string
       tracingId: string
-      method: string
-      route: string
-      statusCode: number
-      durationMs: number
-      responseSize: number
+      requestId: string | null
       timestamp: Date
       createdAt: Date
-    }, ExtArgs["result"]["requestLog"]>
+      method: string | null
+      route: string | null
+      statusCode: number | null
+      durationMs: number | null
+      responseSize: number | null
+      appLogs: Prisma.JsonValue | null
+    }, ExtArgs["result"]["logger"]>
     composites: {}
   }
 
-  type RequestLogGetPayload<S extends boolean | null | undefined | RequestLogDefaultArgs> = $Result.GetResult<Prisma.$RequestLogPayload, S>
+  type LoggerGetPayload<S extends boolean | null | undefined | LoggerDefaultArgs> = $Result.GetResult<Prisma.$LoggerPayload, S>
 
-  type RequestLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<RequestLogFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: RequestLogCountAggregateInputType | true
+  type LoggerCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LoggerFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LoggerCountAggregateInputType | true
     }
 
-  export interface RequestLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RequestLog'], meta: { name: 'RequestLog' } }
+  export interface LoggerDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Logger'], meta: { name: 'Logger' } }
     /**
-     * Find zero or one RequestLog that matches the filter.
-     * @param {RequestLogFindUniqueArgs} args - Arguments to find a RequestLog
+     * Find zero or one Logger that matches the filter.
+     * @param {LoggerFindUniqueArgs} args - Arguments to find a Logger
      * @example
-     * // Get one RequestLog
-     * const requestLog = await prisma.requestLog.findUnique({
+     * // Get one Logger
+     * const logger = await prisma.logger.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends RequestLogFindUniqueArgs>(args: SelectSubset<T, RequestLogFindUniqueArgs<ExtArgs>>): Prisma__RequestLogClient<$Result.GetResult<Prisma.$RequestLogPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends LoggerFindUniqueArgs>(args: SelectSubset<T, LoggerFindUniqueArgs<ExtArgs>>): Prisma__LoggerClient<$Result.GetResult<Prisma.$LoggerPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one RequestLog that matches the filter or throw an error with `error.code='P2025'`
+     * Find one Logger that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {RequestLogFindUniqueOrThrowArgs} args - Arguments to find a RequestLog
+     * @param {LoggerFindUniqueOrThrowArgs} args - Arguments to find a Logger
      * @example
-     * // Get one RequestLog
-     * const requestLog = await prisma.requestLog.findUniqueOrThrow({
+     * // Get one Logger
+     * const logger = await prisma.logger.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends RequestLogFindUniqueOrThrowArgs>(args: SelectSubset<T, RequestLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RequestLogClient<$Result.GetResult<Prisma.$RequestLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends LoggerFindUniqueOrThrowArgs>(args: SelectSubset<T, LoggerFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LoggerClient<$Result.GetResult<Prisma.$LoggerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first RequestLog that matches the filter.
+     * Find the first Logger that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RequestLogFindFirstArgs} args - Arguments to find a RequestLog
+     * @param {LoggerFindFirstArgs} args - Arguments to find a Logger
      * @example
-     * // Get one RequestLog
-     * const requestLog = await prisma.requestLog.findFirst({
+     * // Get one Logger
+     * const logger = await prisma.logger.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends RequestLogFindFirstArgs>(args?: SelectSubset<T, RequestLogFindFirstArgs<ExtArgs>>): Prisma__RequestLogClient<$Result.GetResult<Prisma.$RequestLogPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends LoggerFindFirstArgs>(args?: SelectSubset<T, LoggerFindFirstArgs<ExtArgs>>): Prisma__LoggerClient<$Result.GetResult<Prisma.$LoggerPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first RequestLog that matches the filter or
+     * Find the first Logger that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RequestLogFindFirstOrThrowArgs} args - Arguments to find a RequestLog
+     * @param {LoggerFindFirstOrThrowArgs} args - Arguments to find a Logger
      * @example
-     * // Get one RequestLog
-     * const requestLog = await prisma.requestLog.findFirstOrThrow({
+     * // Get one Logger
+     * const logger = await prisma.logger.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends RequestLogFindFirstOrThrowArgs>(args?: SelectSubset<T, RequestLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__RequestLogClient<$Result.GetResult<Prisma.$RequestLogPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends LoggerFindFirstOrThrowArgs>(args?: SelectSubset<T, LoggerFindFirstOrThrowArgs<ExtArgs>>): Prisma__LoggerClient<$Result.GetResult<Prisma.$LoggerPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more RequestLogs that matches the filter.
+     * Find zero or more Loggers that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RequestLogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {LoggerFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all RequestLogs
-     * const requestLogs = await prisma.requestLog.findMany()
+     * // Get all Loggers
+     * const loggers = await prisma.logger.findMany()
      * 
-     * // Get first 10 RequestLogs
-     * const requestLogs = await prisma.requestLog.findMany({ take: 10 })
+     * // Get first 10 Loggers
+     * const loggers = await prisma.logger.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const requestLogWithIdOnly = await prisma.requestLog.findMany({ select: { id: true } })
+     * const loggerWithIdOnly = await prisma.logger.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends RequestLogFindManyArgs>(args?: SelectSubset<T, RequestLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RequestLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends LoggerFindManyArgs>(args?: SelectSubset<T, LoggerFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoggerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a RequestLog.
-     * @param {RequestLogCreateArgs} args - Arguments to create a RequestLog.
+     * Create a Logger.
+     * @param {LoggerCreateArgs} args - Arguments to create a Logger.
      * @example
-     * // Create one RequestLog
-     * const RequestLog = await prisma.requestLog.create({
+     * // Create one Logger
+     * const Logger = await prisma.logger.create({
      *   data: {
-     *     // ... data to create a RequestLog
+     *     // ... data to create a Logger
      *   }
      * })
      * 
      */
-    create<T extends RequestLogCreateArgs>(args: SelectSubset<T, RequestLogCreateArgs<ExtArgs>>): Prisma__RequestLogClient<$Result.GetResult<Prisma.$RequestLogPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends LoggerCreateArgs>(args: SelectSubset<T, LoggerCreateArgs<ExtArgs>>): Prisma__LoggerClient<$Result.GetResult<Prisma.$LoggerPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many RequestLogs.
-     * @param {RequestLogCreateManyArgs} args - Arguments to create many RequestLogs.
+     * Create many Loggers.
+     * @param {LoggerCreateManyArgs} args - Arguments to create many Loggers.
      * @example
-     * // Create many RequestLogs
-     * const requestLog = await prisma.requestLog.createMany({
+     * // Create many Loggers
+     * const logger = await prisma.logger.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends RequestLogCreateManyArgs>(args?: SelectSubset<T, RequestLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends LoggerCreateManyArgs>(args?: SelectSubset<T, LoggerCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many RequestLogs and returns the data saved in the database.
-     * @param {RequestLogCreateManyAndReturnArgs} args - Arguments to create many RequestLogs.
+     * Create many Loggers and returns the data saved in the database.
+     * @param {LoggerCreateManyAndReturnArgs} args - Arguments to create many Loggers.
      * @example
-     * // Create many RequestLogs
-     * const requestLog = await prisma.requestLog.createManyAndReturn({
+     * // Create many Loggers
+     * const logger = await prisma.logger.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many RequestLogs and only return the `id`
-     * const requestLogWithIdOnly = await prisma.requestLog.createManyAndReturn({
+     * // Create many Loggers and only return the `id`
+     * const loggerWithIdOnly = await prisma.logger.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -13613,28 +13724,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends RequestLogCreateManyAndReturnArgs>(args?: SelectSubset<T, RequestLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RequestLogPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends LoggerCreateManyAndReturnArgs>(args?: SelectSubset<T, LoggerCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoggerPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a RequestLog.
-     * @param {RequestLogDeleteArgs} args - Arguments to delete one RequestLog.
+     * Delete a Logger.
+     * @param {LoggerDeleteArgs} args - Arguments to delete one Logger.
      * @example
-     * // Delete one RequestLog
-     * const RequestLog = await prisma.requestLog.delete({
+     * // Delete one Logger
+     * const Logger = await prisma.logger.delete({
      *   where: {
-     *     // ... filter to delete one RequestLog
+     *     // ... filter to delete one Logger
      *   }
      * })
      * 
      */
-    delete<T extends RequestLogDeleteArgs>(args: SelectSubset<T, RequestLogDeleteArgs<ExtArgs>>): Prisma__RequestLogClient<$Result.GetResult<Prisma.$RequestLogPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends LoggerDeleteArgs>(args: SelectSubset<T, LoggerDeleteArgs<ExtArgs>>): Prisma__LoggerClient<$Result.GetResult<Prisma.$LoggerPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one RequestLog.
-     * @param {RequestLogUpdateArgs} args - Arguments to update one RequestLog.
+     * Update one Logger.
+     * @param {LoggerUpdateArgs} args - Arguments to update one Logger.
      * @example
-     * // Update one RequestLog
-     * const requestLog = await prisma.requestLog.update({
+     * // Update one Logger
+     * const logger = await prisma.logger.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -13644,30 +13755,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends RequestLogUpdateArgs>(args: SelectSubset<T, RequestLogUpdateArgs<ExtArgs>>): Prisma__RequestLogClient<$Result.GetResult<Prisma.$RequestLogPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends LoggerUpdateArgs>(args: SelectSubset<T, LoggerUpdateArgs<ExtArgs>>): Prisma__LoggerClient<$Result.GetResult<Prisma.$LoggerPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more RequestLogs.
-     * @param {RequestLogDeleteManyArgs} args - Arguments to filter RequestLogs to delete.
+     * Delete zero or more Loggers.
+     * @param {LoggerDeleteManyArgs} args - Arguments to filter Loggers to delete.
      * @example
-     * // Delete a few RequestLogs
-     * const { count } = await prisma.requestLog.deleteMany({
+     * // Delete a few Loggers
+     * const { count } = await prisma.logger.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends RequestLogDeleteManyArgs>(args?: SelectSubset<T, RequestLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends LoggerDeleteManyArgs>(args?: SelectSubset<T, LoggerDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more RequestLogs.
+     * Update zero or more Loggers.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RequestLogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {LoggerUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many RequestLogs
-     * const requestLog = await prisma.requestLog.updateMany({
+     * // Update many Loggers
+     * const logger = await prisma.logger.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -13677,14 +13788,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends RequestLogUpdateManyArgs>(args: SelectSubset<T, RequestLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends LoggerUpdateManyArgs>(args: SelectSubset<T, LoggerUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more RequestLogs and returns the data updated in the database.
-     * @param {RequestLogUpdateManyAndReturnArgs} args - Arguments to update many RequestLogs.
+     * Update zero or more Loggers and returns the data updated in the database.
+     * @param {LoggerUpdateManyAndReturnArgs} args - Arguments to update many Loggers.
      * @example
-     * // Update many RequestLogs
-     * const requestLog = await prisma.requestLog.updateManyAndReturn({
+     * // Update many Loggers
+     * const logger = await prisma.logger.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -13693,8 +13804,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more RequestLogs and only return the `id`
-     * const requestLogWithIdOnly = await prisma.requestLog.updateManyAndReturn({
+     * // Update zero or more Loggers and only return the `id`
+     * const loggerWithIdOnly = await prisma.logger.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -13707,56 +13818,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends RequestLogUpdateManyAndReturnArgs>(args: SelectSubset<T, RequestLogUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RequestLogPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends LoggerUpdateManyAndReturnArgs>(args: SelectSubset<T, LoggerUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoggerPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one RequestLog.
-     * @param {RequestLogUpsertArgs} args - Arguments to update or create a RequestLog.
+     * Create or update one Logger.
+     * @param {LoggerUpsertArgs} args - Arguments to update or create a Logger.
      * @example
-     * // Update or create a RequestLog
-     * const requestLog = await prisma.requestLog.upsert({
+     * // Update or create a Logger
+     * const logger = await prisma.logger.upsert({
      *   create: {
-     *     // ... data to create a RequestLog
+     *     // ... data to create a Logger
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the RequestLog we want to update
+     *     // ... the filter for the Logger we want to update
      *   }
      * })
      */
-    upsert<T extends RequestLogUpsertArgs>(args: SelectSubset<T, RequestLogUpsertArgs<ExtArgs>>): Prisma__RequestLogClient<$Result.GetResult<Prisma.$RequestLogPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends LoggerUpsertArgs>(args: SelectSubset<T, LoggerUpsertArgs<ExtArgs>>): Prisma__LoggerClient<$Result.GetResult<Prisma.$LoggerPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of RequestLogs.
+     * Count the number of Loggers.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RequestLogCountArgs} args - Arguments to filter RequestLogs to count.
+     * @param {LoggerCountArgs} args - Arguments to filter Loggers to count.
      * @example
-     * // Count the number of RequestLogs
-     * const count = await prisma.requestLog.count({
+     * // Count the number of Loggers
+     * const count = await prisma.logger.count({
      *   where: {
-     *     // ... the filter for the RequestLogs we want to count
+     *     // ... the filter for the Loggers we want to count
      *   }
      * })
     **/
-    count<T extends RequestLogCountArgs>(
-      args?: Subset<T, RequestLogCountArgs>,
+    count<T extends LoggerCountArgs>(
+      args?: Subset<T, LoggerCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], RequestLogCountAggregateOutputType>
+          : GetScalarType<T['select'], LoggerCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a RequestLog.
+     * Allows you to perform aggregations operations on a Logger.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RequestLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {LoggerAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -13776,13 +13887,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends RequestLogAggregateArgs>(args: Subset<T, RequestLogAggregateArgs>): Prisma.PrismaPromise<GetRequestLogAggregateType<T>>
+    aggregate<T extends LoggerAggregateArgs>(args: Subset<T, LoggerAggregateArgs>): Prisma.PrismaPromise<GetLoggerAggregateType<T>>
 
     /**
-     * Group by RequestLog.
+     * Group by Logger.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RequestLogGroupByArgs} args - Group by arguments.
+     * @param {LoggerGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -13797,14 +13908,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends RequestLogGroupByArgs,
+      T extends LoggerGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: RequestLogGroupByArgs['orderBy'] }
-        : { orderBy?: RequestLogGroupByArgs['orderBy'] },
+        ? { orderBy: LoggerGroupByArgs['orderBy'] }
+        : { orderBy?: LoggerGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -13853,20 +13964,20 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, RequestLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRequestLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, LoggerGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLoggerGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the RequestLog model
+   * Fields of the Logger model
    */
-  readonly fields: RequestLogFieldRefs;
+  readonly fields: LoggerFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for RequestLog.
+   * The delegate class that acts as a "Promise-like" for Logger.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__RequestLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__LoggerClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -13894,384 +14005,1483 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the RequestLog model
+   * Fields of the Logger model
    */
-  interface RequestLogFieldRefs {
-    readonly id: FieldRef<"RequestLog", 'String'>
-    readonly organizationId: FieldRef<"RequestLog", 'String'>
-    readonly env: FieldRef<"RequestLog", 'String'>
-    readonly requestId: FieldRef<"RequestLog", 'String'>
-    readonly tracingId: FieldRef<"RequestLog", 'String'>
-    readonly method: FieldRef<"RequestLog", 'String'>
-    readonly route: FieldRef<"RequestLog", 'String'>
-    readonly statusCode: FieldRef<"RequestLog", 'Int'>
-    readonly durationMs: FieldRef<"RequestLog", 'Int'>
-    readonly responseSize: FieldRef<"RequestLog", 'Int'>
-    readonly timestamp: FieldRef<"RequestLog", 'DateTime'>
-    readonly createdAt: FieldRef<"RequestLog", 'DateTime'>
+  interface LoggerFieldRefs {
+    readonly id: FieldRef<"Logger", 'String'>
+    readonly organizationId: FieldRef<"Logger", 'String'>
+    readonly env: FieldRef<"Logger", 'String'>
+    readonly type: FieldRef<"Logger", 'String'>
+    readonly tracingId: FieldRef<"Logger", 'String'>
+    readonly requestId: FieldRef<"Logger", 'String'>
+    readonly timestamp: FieldRef<"Logger", 'DateTime'>
+    readonly createdAt: FieldRef<"Logger", 'DateTime'>
+    readonly method: FieldRef<"Logger", 'String'>
+    readonly route: FieldRef<"Logger", 'String'>
+    readonly statusCode: FieldRef<"Logger", 'Int'>
+    readonly durationMs: FieldRef<"Logger", 'Int'>
+    readonly responseSize: FieldRef<"Logger", 'Int'>
+    readonly appLogs: FieldRef<"Logger", 'Json'>
   }
     
 
   // Custom InputTypes
   /**
-   * RequestLog findUnique
+   * Logger findUnique
    */
-  export type RequestLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoggerFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RequestLog
+     * Select specific fields to fetch from the Logger
      */
-    select?: RequestLogSelect<ExtArgs> | null
+    select?: LoggerSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the RequestLog
+     * Omit specific fields from the Logger
      */
-    omit?: RequestLogOmit<ExtArgs> | null
+    omit?: LoggerOmit<ExtArgs> | null
     /**
-     * Filter, which RequestLog to fetch.
+     * Filter, which Logger to fetch.
      */
-    where: RequestLogWhereUniqueInput
+    where: LoggerWhereUniqueInput
   }
 
   /**
-   * RequestLog findUniqueOrThrow
+   * Logger findUniqueOrThrow
    */
-  export type RequestLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoggerFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RequestLog
+     * Select specific fields to fetch from the Logger
      */
-    select?: RequestLogSelect<ExtArgs> | null
+    select?: LoggerSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the RequestLog
+     * Omit specific fields from the Logger
      */
-    omit?: RequestLogOmit<ExtArgs> | null
+    omit?: LoggerOmit<ExtArgs> | null
     /**
-     * Filter, which RequestLog to fetch.
+     * Filter, which Logger to fetch.
      */
-    where: RequestLogWhereUniqueInput
+    where: LoggerWhereUniqueInput
   }
 
   /**
-   * RequestLog findFirst
+   * Logger findFirst
    */
-  export type RequestLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoggerFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RequestLog
+     * Select specific fields to fetch from the Logger
      */
-    select?: RequestLogSelect<ExtArgs> | null
+    select?: LoggerSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the RequestLog
+     * Omit specific fields from the Logger
      */
-    omit?: RequestLogOmit<ExtArgs> | null
+    omit?: LoggerOmit<ExtArgs> | null
     /**
-     * Filter, which RequestLog to fetch.
+     * Filter, which Logger to fetch.
      */
-    where?: RequestLogWhereInput
+    where?: LoggerWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of RequestLogs to fetch.
+     * Determine the order of Loggers to fetch.
      */
-    orderBy?: RequestLogOrderByWithRelationInput | RequestLogOrderByWithRelationInput[]
+    orderBy?: LoggerOrderByWithRelationInput | LoggerOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for RequestLogs.
+     * Sets the position for searching for Loggers.
      */
-    cursor?: RequestLogWhereUniqueInput
+    cursor?: LoggerWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` RequestLogs from the position of the cursor.
+     * Take `±n` Loggers from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` RequestLogs.
+     * Skip the first `n` Loggers.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of RequestLogs.
+     * Filter by unique combinations of Loggers.
      */
-    distinct?: RequestLogScalarFieldEnum | RequestLogScalarFieldEnum[]
+    distinct?: LoggerScalarFieldEnum | LoggerScalarFieldEnum[]
   }
 
   /**
-   * RequestLog findFirstOrThrow
+   * Logger findFirstOrThrow
    */
-  export type RequestLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoggerFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RequestLog
+     * Select specific fields to fetch from the Logger
      */
-    select?: RequestLogSelect<ExtArgs> | null
+    select?: LoggerSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the RequestLog
+     * Omit specific fields from the Logger
      */
-    omit?: RequestLogOmit<ExtArgs> | null
+    omit?: LoggerOmit<ExtArgs> | null
     /**
-     * Filter, which RequestLog to fetch.
+     * Filter, which Logger to fetch.
      */
-    where?: RequestLogWhereInput
+    where?: LoggerWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of RequestLogs to fetch.
+     * Determine the order of Loggers to fetch.
      */
-    orderBy?: RequestLogOrderByWithRelationInput | RequestLogOrderByWithRelationInput[]
+    orderBy?: LoggerOrderByWithRelationInput | LoggerOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for RequestLogs.
+     * Sets the position for searching for Loggers.
      */
-    cursor?: RequestLogWhereUniqueInput
+    cursor?: LoggerWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` RequestLogs from the position of the cursor.
+     * Take `±n` Loggers from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` RequestLogs.
+     * Skip the first `n` Loggers.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of RequestLogs.
+     * Filter by unique combinations of Loggers.
      */
-    distinct?: RequestLogScalarFieldEnum | RequestLogScalarFieldEnum[]
+    distinct?: LoggerScalarFieldEnum | LoggerScalarFieldEnum[]
   }
 
   /**
-   * RequestLog findMany
+   * Logger findMany
    */
-  export type RequestLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoggerFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RequestLog
+     * Select specific fields to fetch from the Logger
      */
-    select?: RequestLogSelect<ExtArgs> | null
+    select?: LoggerSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the RequestLog
+     * Omit specific fields from the Logger
      */
-    omit?: RequestLogOmit<ExtArgs> | null
+    omit?: LoggerOmit<ExtArgs> | null
     /**
-     * Filter, which RequestLogs to fetch.
+     * Filter, which Loggers to fetch.
      */
-    where?: RequestLogWhereInput
+    where?: LoggerWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of RequestLogs to fetch.
+     * Determine the order of Loggers to fetch.
      */
-    orderBy?: RequestLogOrderByWithRelationInput | RequestLogOrderByWithRelationInput[]
+    orderBy?: LoggerOrderByWithRelationInput | LoggerOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing RequestLogs.
+     * Sets the position for listing Loggers.
      */
-    cursor?: RequestLogWhereUniqueInput
+    cursor?: LoggerWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` RequestLogs from the position of the cursor.
+     * Take `±n` Loggers from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` RequestLogs.
+     * Skip the first `n` Loggers.
      */
     skip?: number
-    distinct?: RequestLogScalarFieldEnum | RequestLogScalarFieldEnum[]
+    distinct?: LoggerScalarFieldEnum | LoggerScalarFieldEnum[]
   }
 
   /**
-   * RequestLog create
+   * Logger create
    */
-  export type RequestLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoggerCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RequestLog
+     * Select specific fields to fetch from the Logger
      */
-    select?: RequestLogSelect<ExtArgs> | null
+    select?: LoggerSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the RequestLog
+     * Omit specific fields from the Logger
      */
-    omit?: RequestLogOmit<ExtArgs> | null
+    omit?: LoggerOmit<ExtArgs> | null
     /**
-     * The data needed to create a RequestLog.
+     * The data needed to create a Logger.
      */
-    data: XOR<RequestLogCreateInput, RequestLogUncheckedCreateInput>
+    data: XOR<LoggerCreateInput, LoggerUncheckedCreateInput>
   }
 
   /**
-   * RequestLog createMany
+   * Logger createMany
    */
-  export type RequestLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoggerCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many RequestLogs.
+     * The data used to create many Loggers.
      */
-    data: RequestLogCreateManyInput | RequestLogCreateManyInput[]
+    data: LoggerCreateManyInput | LoggerCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * RequestLog createManyAndReturn
+   * Logger createManyAndReturn
    */
-  export type RequestLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoggerCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RequestLog
+     * Select specific fields to fetch from the Logger
      */
-    select?: RequestLogSelectCreateManyAndReturn<ExtArgs> | null
+    select?: LoggerSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the RequestLog
+     * Omit specific fields from the Logger
      */
-    omit?: RequestLogOmit<ExtArgs> | null
+    omit?: LoggerOmit<ExtArgs> | null
     /**
-     * The data used to create many RequestLogs.
+     * The data used to create many Loggers.
      */
-    data: RequestLogCreateManyInput | RequestLogCreateManyInput[]
+    data: LoggerCreateManyInput | LoggerCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * RequestLog update
+   * Logger update
    */
-  export type RequestLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoggerUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RequestLog
+     * Select specific fields to fetch from the Logger
      */
-    select?: RequestLogSelect<ExtArgs> | null
+    select?: LoggerSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the RequestLog
+     * Omit specific fields from the Logger
      */
-    omit?: RequestLogOmit<ExtArgs> | null
+    omit?: LoggerOmit<ExtArgs> | null
     /**
-     * The data needed to update a RequestLog.
+     * The data needed to update a Logger.
      */
-    data: XOR<RequestLogUpdateInput, RequestLogUncheckedUpdateInput>
+    data: XOR<LoggerUpdateInput, LoggerUncheckedUpdateInput>
     /**
-     * Choose, which RequestLog to update.
+     * Choose, which Logger to update.
      */
-    where: RequestLogWhereUniqueInput
+    where: LoggerWhereUniqueInput
   }
 
   /**
-   * RequestLog updateMany
+   * Logger updateMany
    */
-  export type RequestLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoggerUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update RequestLogs.
+     * The data used to update Loggers.
      */
-    data: XOR<RequestLogUpdateManyMutationInput, RequestLogUncheckedUpdateManyInput>
+    data: XOR<LoggerUpdateManyMutationInput, LoggerUncheckedUpdateManyInput>
     /**
-     * Filter which RequestLogs to update
+     * Filter which Loggers to update
      */
-    where?: RequestLogWhereInput
+    where?: LoggerWhereInput
     /**
-     * Limit how many RequestLogs to update.
+     * Limit how many Loggers to update.
      */
     limit?: number
   }
 
   /**
-   * RequestLog updateManyAndReturn
+   * Logger updateManyAndReturn
    */
-  export type RequestLogUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoggerUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RequestLog
+     * Select specific fields to fetch from the Logger
      */
-    select?: RequestLogSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: LoggerSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the RequestLog
+     * Omit specific fields from the Logger
      */
-    omit?: RequestLogOmit<ExtArgs> | null
+    omit?: LoggerOmit<ExtArgs> | null
     /**
-     * The data used to update RequestLogs.
+     * The data used to update Loggers.
      */
-    data: XOR<RequestLogUpdateManyMutationInput, RequestLogUncheckedUpdateManyInput>
+    data: XOR<LoggerUpdateManyMutationInput, LoggerUncheckedUpdateManyInput>
     /**
-     * Filter which RequestLogs to update
+     * Filter which Loggers to update
      */
-    where?: RequestLogWhereInput
+    where?: LoggerWhereInput
     /**
-     * Limit how many RequestLogs to update.
+     * Limit how many Loggers to update.
      */
     limit?: number
   }
 
   /**
-   * RequestLog upsert
+   * Logger upsert
    */
-  export type RequestLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoggerUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RequestLog
+     * Select specific fields to fetch from the Logger
      */
-    select?: RequestLogSelect<ExtArgs> | null
+    select?: LoggerSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the RequestLog
+     * Omit specific fields from the Logger
      */
-    omit?: RequestLogOmit<ExtArgs> | null
+    omit?: LoggerOmit<ExtArgs> | null
     /**
-     * The filter to search for the RequestLog to update in case it exists.
+     * The filter to search for the Logger to update in case it exists.
      */
-    where: RequestLogWhereUniqueInput
+    where: LoggerWhereUniqueInput
     /**
-     * In case the RequestLog found by the `where` argument doesn't exist, create a new RequestLog with this data.
+     * In case the Logger found by the `where` argument doesn't exist, create a new Logger with this data.
      */
-    create: XOR<RequestLogCreateInput, RequestLogUncheckedCreateInput>
+    create: XOR<LoggerCreateInput, LoggerUncheckedCreateInput>
     /**
-     * In case the RequestLog was found with the provided `where` argument, update it with this data.
+     * In case the Logger was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<RequestLogUpdateInput, RequestLogUncheckedUpdateInput>
+    update: XOR<LoggerUpdateInput, LoggerUncheckedUpdateInput>
   }
 
   /**
-   * RequestLog delete
+   * Logger delete
    */
-  export type RequestLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoggerDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RequestLog
+     * Select specific fields to fetch from the Logger
      */
-    select?: RequestLogSelect<ExtArgs> | null
+    select?: LoggerSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the RequestLog
+     * Omit specific fields from the Logger
      */
-    omit?: RequestLogOmit<ExtArgs> | null
+    omit?: LoggerOmit<ExtArgs> | null
     /**
-     * Filter which RequestLog to delete.
+     * Filter which Logger to delete.
      */
-    where: RequestLogWhereUniqueInput
+    where: LoggerWhereUniqueInput
   }
 
   /**
-   * RequestLog deleteMany
+   * Logger deleteMany
    */
-  export type RequestLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoggerDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which RequestLogs to delete
+     * Filter which Loggers to delete
      */
-    where?: RequestLogWhereInput
+    where?: LoggerWhereInput
     /**
-     * Limit how many RequestLogs to delete.
+     * Limit how many Loggers to delete.
      */
     limit?: number
   }
 
   /**
-   * RequestLog without action
+   * Logger without action
    */
-  export type RequestLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoggerDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RequestLog
+     * Select specific fields to fetch from the Logger
      */
-    select?: RequestLogSelect<ExtArgs> | null
+    select?: LoggerSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the RequestLog
+     * Omit specific fields from the Logger
      */
-    omit?: RequestLogOmit<ExtArgs> | null
+    omit?: LoggerOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DashboardSnapshot
+   */
+
+  export type AggregateDashboardSnapshot = {
+    _count: DashboardSnapshotCountAggregateOutputType | null
+    _avg: DashboardSnapshotAvgAggregateOutputType | null
+    _sum: DashboardSnapshotSumAggregateOutputType | null
+    _min: DashboardSnapshotMinAggregateOutputType | null
+    _max: DashboardSnapshotMaxAggregateOutputType | null
+  }
+
+  export type DashboardSnapshotAvgAggregateOutputType = {
+    totalHttpLogs: number | null
+    successCount: number | null
+    clientErrorCount: number | null
+    serverErrorCount: number | null
+    totalRoutes: number | null
+  }
+
+  export type DashboardSnapshotSumAggregateOutputType = {
+    totalHttpLogs: number | null
+    successCount: number | null
+    clientErrorCount: number | null
+    serverErrorCount: number | null
+    totalRoutes: number | null
+  }
+
+  export type DashboardSnapshotMinAggregateOutputType = {
+    id: string | null
+    organizationId: string | null
+    env: string | null
+    totalHttpLogs: number | null
+    successCount: number | null
+    clientErrorCount: number | null
+    serverErrorCount: number | null
+    totalRoutes: number | null
+    updatedAt: Date | null
+  }
+
+  export type DashboardSnapshotMaxAggregateOutputType = {
+    id: string | null
+    organizationId: string | null
+    env: string | null
+    totalHttpLogs: number | null
+    successCount: number | null
+    clientErrorCount: number | null
+    serverErrorCount: number | null
+    totalRoutes: number | null
+    updatedAt: Date | null
+  }
+
+  export type DashboardSnapshotCountAggregateOutputType = {
+    id: number
+    organizationId: number
+    env: number
+    totalHttpLogs: number
+    successCount: number
+    clientErrorCount: number
+    serverErrorCount: number
+    totalRoutes: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type DashboardSnapshotAvgAggregateInputType = {
+    totalHttpLogs?: true
+    successCount?: true
+    clientErrorCount?: true
+    serverErrorCount?: true
+    totalRoutes?: true
+  }
+
+  export type DashboardSnapshotSumAggregateInputType = {
+    totalHttpLogs?: true
+    successCount?: true
+    clientErrorCount?: true
+    serverErrorCount?: true
+    totalRoutes?: true
+  }
+
+  export type DashboardSnapshotMinAggregateInputType = {
+    id?: true
+    organizationId?: true
+    env?: true
+    totalHttpLogs?: true
+    successCount?: true
+    clientErrorCount?: true
+    serverErrorCount?: true
+    totalRoutes?: true
+    updatedAt?: true
+  }
+
+  export type DashboardSnapshotMaxAggregateInputType = {
+    id?: true
+    organizationId?: true
+    env?: true
+    totalHttpLogs?: true
+    successCount?: true
+    clientErrorCount?: true
+    serverErrorCount?: true
+    totalRoutes?: true
+    updatedAt?: true
+  }
+
+  export type DashboardSnapshotCountAggregateInputType = {
+    id?: true
+    organizationId?: true
+    env?: true
+    totalHttpLogs?: true
+    successCount?: true
+    clientErrorCount?: true
+    serverErrorCount?: true
+    totalRoutes?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type DashboardSnapshotAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DashboardSnapshot to aggregate.
+     */
+    where?: DashboardSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DashboardSnapshots to fetch.
+     */
+    orderBy?: DashboardSnapshotOrderByWithRelationInput | DashboardSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DashboardSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DashboardSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DashboardSnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DashboardSnapshots
+    **/
+    _count?: true | DashboardSnapshotCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DashboardSnapshotAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DashboardSnapshotSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DashboardSnapshotMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DashboardSnapshotMaxAggregateInputType
+  }
+
+  export type GetDashboardSnapshotAggregateType<T extends DashboardSnapshotAggregateArgs> = {
+        [P in keyof T & keyof AggregateDashboardSnapshot]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDashboardSnapshot[P]>
+      : GetScalarType<T[P], AggregateDashboardSnapshot[P]>
+  }
+
+
+
+
+  export type DashboardSnapshotGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DashboardSnapshotWhereInput
+    orderBy?: DashboardSnapshotOrderByWithAggregationInput | DashboardSnapshotOrderByWithAggregationInput[]
+    by: DashboardSnapshotScalarFieldEnum[] | DashboardSnapshotScalarFieldEnum
+    having?: DashboardSnapshotScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DashboardSnapshotCountAggregateInputType | true
+    _avg?: DashboardSnapshotAvgAggregateInputType
+    _sum?: DashboardSnapshotSumAggregateInputType
+    _min?: DashboardSnapshotMinAggregateInputType
+    _max?: DashboardSnapshotMaxAggregateInputType
+  }
+
+  export type DashboardSnapshotGroupByOutputType = {
+    id: string
+    organizationId: string
+    env: string
+    totalHttpLogs: number
+    successCount: number
+    clientErrorCount: number
+    serverErrorCount: number
+    totalRoutes: number
+    updatedAt: Date
+    _count: DashboardSnapshotCountAggregateOutputType | null
+    _avg: DashboardSnapshotAvgAggregateOutputType | null
+    _sum: DashboardSnapshotSumAggregateOutputType | null
+    _min: DashboardSnapshotMinAggregateOutputType | null
+    _max: DashboardSnapshotMaxAggregateOutputType | null
+  }
+
+  type GetDashboardSnapshotGroupByPayload<T extends DashboardSnapshotGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DashboardSnapshotGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DashboardSnapshotGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DashboardSnapshotGroupByOutputType[P]>
+            : GetScalarType<T[P], DashboardSnapshotGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DashboardSnapshotSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    organizationId?: boolean
+    env?: boolean
+    totalHttpLogs?: boolean
+    successCount?: boolean
+    clientErrorCount?: boolean
+    serverErrorCount?: boolean
+    totalRoutes?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["dashboardSnapshot"]>
+
+  export type DashboardSnapshotSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    organizationId?: boolean
+    env?: boolean
+    totalHttpLogs?: boolean
+    successCount?: boolean
+    clientErrorCount?: boolean
+    serverErrorCount?: boolean
+    totalRoutes?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["dashboardSnapshot"]>
+
+  export type DashboardSnapshotSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    organizationId?: boolean
+    env?: boolean
+    totalHttpLogs?: boolean
+    successCount?: boolean
+    clientErrorCount?: boolean
+    serverErrorCount?: boolean
+    totalRoutes?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["dashboardSnapshot"]>
+
+  export type DashboardSnapshotSelectScalar = {
+    id?: boolean
+    organizationId?: boolean
+    env?: boolean
+    totalHttpLogs?: boolean
+    successCount?: boolean
+    clientErrorCount?: boolean
+    serverErrorCount?: boolean
+    totalRoutes?: boolean
+    updatedAt?: boolean
+  }
+
+  export type DashboardSnapshotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "organizationId" | "env" | "totalHttpLogs" | "successCount" | "clientErrorCount" | "serverErrorCount" | "totalRoutes" | "updatedAt", ExtArgs["result"]["dashboardSnapshot"]>
+
+  export type $DashboardSnapshotPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DashboardSnapshot"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      organizationId: string
+      env: string
+      totalHttpLogs: number
+      successCount: number
+      clientErrorCount: number
+      serverErrorCount: number
+      totalRoutes: number
+      updatedAt: Date
+    }, ExtArgs["result"]["dashboardSnapshot"]>
+    composites: {}
+  }
+
+  type DashboardSnapshotGetPayload<S extends boolean | null | undefined | DashboardSnapshotDefaultArgs> = $Result.GetResult<Prisma.$DashboardSnapshotPayload, S>
+
+  type DashboardSnapshotCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DashboardSnapshotFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DashboardSnapshotCountAggregateInputType | true
+    }
+
+  export interface DashboardSnapshotDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DashboardSnapshot'], meta: { name: 'DashboardSnapshot' } }
+    /**
+     * Find zero or one DashboardSnapshot that matches the filter.
+     * @param {DashboardSnapshotFindUniqueArgs} args - Arguments to find a DashboardSnapshot
+     * @example
+     * // Get one DashboardSnapshot
+     * const dashboardSnapshot = await prisma.dashboardSnapshot.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DashboardSnapshotFindUniqueArgs>(args: SelectSubset<T, DashboardSnapshotFindUniqueArgs<ExtArgs>>): Prisma__DashboardSnapshotClient<$Result.GetResult<Prisma.$DashboardSnapshotPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DashboardSnapshot that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DashboardSnapshotFindUniqueOrThrowArgs} args - Arguments to find a DashboardSnapshot
+     * @example
+     * // Get one DashboardSnapshot
+     * const dashboardSnapshot = await prisma.dashboardSnapshot.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DashboardSnapshotFindUniqueOrThrowArgs>(args: SelectSubset<T, DashboardSnapshotFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DashboardSnapshotClient<$Result.GetResult<Prisma.$DashboardSnapshotPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DashboardSnapshot that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DashboardSnapshotFindFirstArgs} args - Arguments to find a DashboardSnapshot
+     * @example
+     * // Get one DashboardSnapshot
+     * const dashboardSnapshot = await prisma.dashboardSnapshot.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DashboardSnapshotFindFirstArgs>(args?: SelectSubset<T, DashboardSnapshotFindFirstArgs<ExtArgs>>): Prisma__DashboardSnapshotClient<$Result.GetResult<Prisma.$DashboardSnapshotPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DashboardSnapshot that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DashboardSnapshotFindFirstOrThrowArgs} args - Arguments to find a DashboardSnapshot
+     * @example
+     * // Get one DashboardSnapshot
+     * const dashboardSnapshot = await prisma.dashboardSnapshot.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DashboardSnapshotFindFirstOrThrowArgs>(args?: SelectSubset<T, DashboardSnapshotFindFirstOrThrowArgs<ExtArgs>>): Prisma__DashboardSnapshotClient<$Result.GetResult<Prisma.$DashboardSnapshotPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DashboardSnapshots that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DashboardSnapshotFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DashboardSnapshots
+     * const dashboardSnapshots = await prisma.dashboardSnapshot.findMany()
+     * 
+     * // Get first 10 DashboardSnapshots
+     * const dashboardSnapshots = await prisma.dashboardSnapshot.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const dashboardSnapshotWithIdOnly = await prisma.dashboardSnapshot.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DashboardSnapshotFindManyArgs>(args?: SelectSubset<T, DashboardSnapshotFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DashboardSnapshotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DashboardSnapshot.
+     * @param {DashboardSnapshotCreateArgs} args - Arguments to create a DashboardSnapshot.
+     * @example
+     * // Create one DashboardSnapshot
+     * const DashboardSnapshot = await prisma.dashboardSnapshot.create({
+     *   data: {
+     *     // ... data to create a DashboardSnapshot
+     *   }
+     * })
+     * 
+     */
+    create<T extends DashboardSnapshotCreateArgs>(args: SelectSubset<T, DashboardSnapshotCreateArgs<ExtArgs>>): Prisma__DashboardSnapshotClient<$Result.GetResult<Prisma.$DashboardSnapshotPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DashboardSnapshots.
+     * @param {DashboardSnapshotCreateManyArgs} args - Arguments to create many DashboardSnapshots.
+     * @example
+     * // Create many DashboardSnapshots
+     * const dashboardSnapshot = await prisma.dashboardSnapshot.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DashboardSnapshotCreateManyArgs>(args?: SelectSubset<T, DashboardSnapshotCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DashboardSnapshots and returns the data saved in the database.
+     * @param {DashboardSnapshotCreateManyAndReturnArgs} args - Arguments to create many DashboardSnapshots.
+     * @example
+     * // Create many DashboardSnapshots
+     * const dashboardSnapshot = await prisma.dashboardSnapshot.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DashboardSnapshots and only return the `id`
+     * const dashboardSnapshotWithIdOnly = await prisma.dashboardSnapshot.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DashboardSnapshotCreateManyAndReturnArgs>(args?: SelectSubset<T, DashboardSnapshotCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DashboardSnapshotPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DashboardSnapshot.
+     * @param {DashboardSnapshotDeleteArgs} args - Arguments to delete one DashboardSnapshot.
+     * @example
+     * // Delete one DashboardSnapshot
+     * const DashboardSnapshot = await prisma.dashboardSnapshot.delete({
+     *   where: {
+     *     // ... filter to delete one DashboardSnapshot
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DashboardSnapshotDeleteArgs>(args: SelectSubset<T, DashboardSnapshotDeleteArgs<ExtArgs>>): Prisma__DashboardSnapshotClient<$Result.GetResult<Prisma.$DashboardSnapshotPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DashboardSnapshot.
+     * @param {DashboardSnapshotUpdateArgs} args - Arguments to update one DashboardSnapshot.
+     * @example
+     * // Update one DashboardSnapshot
+     * const dashboardSnapshot = await prisma.dashboardSnapshot.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DashboardSnapshotUpdateArgs>(args: SelectSubset<T, DashboardSnapshotUpdateArgs<ExtArgs>>): Prisma__DashboardSnapshotClient<$Result.GetResult<Prisma.$DashboardSnapshotPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DashboardSnapshots.
+     * @param {DashboardSnapshotDeleteManyArgs} args - Arguments to filter DashboardSnapshots to delete.
+     * @example
+     * // Delete a few DashboardSnapshots
+     * const { count } = await prisma.dashboardSnapshot.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DashboardSnapshotDeleteManyArgs>(args?: SelectSubset<T, DashboardSnapshotDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DashboardSnapshots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DashboardSnapshotUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DashboardSnapshots
+     * const dashboardSnapshot = await prisma.dashboardSnapshot.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DashboardSnapshotUpdateManyArgs>(args: SelectSubset<T, DashboardSnapshotUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DashboardSnapshots and returns the data updated in the database.
+     * @param {DashboardSnapshotUpdateManyAndReturnArgs} args - Arguments to update many DashboardSnapshots.
+     * @example
+     * // Update many DashboardSnapshots
+     * const dashboardSnapshot = await prisma.dashboardSnapshot.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DashboardSnapshots and only return the `id`
+     * const dashboardSnapshotWithIdOnly = await prisma.dashboardSnapshot.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DashboardSnapshotUpdateManyAndReturnArgs>(args: SelectSubset<T, DashboardSnapshotUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DashboardSnapshotPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DashboardSnapshot.
+     * @param {DashboardSnapshotUpsertArgs} args - Arguments to update or create a DashboardSnapshot.
+     * @example
+     * // Update or create a DashboardSnapshot
+     * const dashboardSnapshot = await prisma.dashboardSnapshot.upsert({
+     *   create: {
+     *     // ... data to create a DashboardSnapshot
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DashboardSnapshot we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DashboardSnapshotUpsertArgs>(args: SelectSubset<T, DashboardSnapshotUpsertArgs<ExtArgs>>): Prisma__DashboardSnapshotClient<$Result.GetResult<Prisma.$DashboardSnapshotPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DashboardSnapshots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DashboardSnapshotCountArgs} args - Arguments to filter DashboardSnapshots to count.
+     * @example
+     * // Count the number of DashboardSnapshots
+     * const count = await prisma.dashboardSnapshot.count({
+     *   where: {
+     *     // ... the filter for the DashboardSnapshots we want to count
+     *   }
+     * })
+    **/
+    count<T extends DashboardSnapshotCountArgs>(
+      args?: Subset<T, DashboardSnapshotCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DashboardSnapshotCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DashboardSnapshot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DashboardSnapshotAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DashboardSnapshotAggregateArgs>(args: Subset<T, DashboardSnapshotAggregateArgs>): Prisma.PrismaPromise<GetDashboardSnapshotAggregateType<T>>
+
+    /**
+     * Group by DashboardSnapshot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DashboardSnapshotGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DashboardSnapshotGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DashboardSnapshotGroupByArgs['orderBy'] }
+        : { orderBy?: DashboardSnapshotGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DashboardSnapshotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDashboardSnapshotGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DashboardSnapshot model
+   */
+  readonly fields: DashboardSnapshotFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DashboardSnapshot.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DashboardSnapshotClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DashboardSnapshot model
+   */
+  interface DashboardSnapshotFieldRefs {
+    readonly id: FieldRef<"DashboardSnapshot", 'String'>
+    readonly organizationId: FieldRef<"DashboardSnapshot", 'String'>
+    readonly env: FieldRef<"DashboardSnapshot", 'String'>
+    readonly totalHttpLogs: FieldRef<"DashboardSnapshot", 'Int'>
+    readonly successCount: FieldRef<"DashboardSnapshot", 'Int'>
+    readonly clientErrorCount: FieldRef<"DashboardSnapshot", 'Int'>
+    readonly serverErrorCount: FieldRef<"DashboardSnapshot", 'Int'>
+    readonly totalRoutes: FieldRef<"DashboardSnapshot", 'Int'>
+    readonly updatedAt: FieldRef<"DashboardSnapshot", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DashboardSnapshot findUnique
+   */
+  export type DashboardSnapshotFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DashboardSnapshot
+     */
+    select?: DashboardSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DashboardSnapshot
+     */
+    omit?: DashboardSnapshotOmit<ExtArgs> | null
+    /**
+     * Filter, which DashboardSnapshot to fetch.
+     */
+    where: DashboardSnapshotWhereUniqueInput
+  }
+
+  /**
+   * DashboardSnapshot findUniqueOrThrow
+   */
+  export type DashboardSnapshotFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DashboardSnapshot
+     */
+    select?: DashboardSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DashboardSnapshot
+     */
+    omit?: DashboardSnapshotOmit<ExtArgs> | null
+    /**
+     * Filter, which DashboardSnapshot to fetch.
+     */
+    where: DashboardSnapshotWhereUniqueInput
+  }
+
+  /**
+   * DashboardSnapshot findFirst
+   */
+  export type DashboardSnapshotFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DashboardSnapshot
+     */
+    select?: DashboardSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DashboardSnapshot
+     */
+    omit?: DashboardSnapshotOmit<ExtArgs> | null
+    /**
+     * Filter, which DashboardSnapshot to fetch.
+     */
+    where?: DashboardSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DashboardSnapshots to fetch.
+     */
+    orderBy?: DashboardSnapshotOrderByWithRelationInput | DashboardSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DashboardSnapshots.
+     */
+    cursor?: DashboardSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DashboardSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DashboardSnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DashboardSnapshots.
+     */
+    distinct?: DashboardSnapshotScalarFieldEnum | DashboardSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * DashboardSnapshot findFirstOrThrow
+   */
+  export type DashboardSnapshotFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DashboardSnapshot
+     */
+    select?: DashboardSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DashboardSnapshot
+     */
+    omit?: DashboardSnapshotOmit<ExtArgs> | null
+    /**
+     * Filter, which DashboardSnapshot to fetch.
+     */
+    where?: DashboardSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DashboardSnapshots to fetch.
+     */
+    orderBy?: DashboardSnapshotOrderByWithRelationInput | DashboardSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DashboardSnapshots.
+     */
+    cursor?: DashboardSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DashboardSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DashboardSnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DashboardSnapshots.
+     */
+    distinct?: DashboardSnapshotScalarFieldEnum | DashboardSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * DashboardSnapshot findMany
+   */
+  export type DashboardSnapshotFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DashboardSnapshot
+     */
+    select?: DashboardSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DashboardSnapshot
+     */
+    omit?: DashboardSnapshotOmit<ExtArgs> | null
+    /**
+     * Filter, which DashboardSnapshots to fetch.
+     */
+    where?: DashboardSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DashboardSnapshots to fetch.
+     */
+    orderBy?: DashboardSnapshotOrderByWithRelationInput | DashboardSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DashboardSnapshots.
+     */
+    cursor?: DashboardSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DashboardSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DashboardSnapshots.
+     */
+    skip?: number
+    distinct?: DashboardSnapshotScalarFieldEnum | DashboardSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * DashboardSnapshot create
+   */
+  export type DashboardSnapshotCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DashboardSnapshot
+     */
+    select?: DashboardSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DashboardSnapshot
+     */
+    omit?: DashboardSnapshotOmit<ExtArgs> | null
+    /**
+     * The data needed to create a DashboardSnapshot.
+     */
+    data: XOR<DashboardSnapshotCreateInput, DashboardSnapshotUncheckedCreateInput>
+  }
+
+  /**
+   * DashboardSnapshot createMany
+   */
+  export type DashboardSnapshotCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DashboardSnapshots.
+     */
+    data: DashboardSnapshotCreateManyInput | DashboardSnapshotCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DashboardSnapshot createManyAndReturn
+   */
+  export type DashboardSnapshotCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DashboardSnapshot
+     */
+    select?: DashboardSnapshotSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DashboardSnapshot
+     */
+    omit?: DashboardSnapshotOmit<ExtArgs> | null
+    /**
+     * The data used to create many DashboardSnapshots.
+     */
+    data: DashboardSnapshotCreateManyInput | DashboardSnapshotCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DashboardSnapshot update
+   */
+  export type DashboardSnapshotUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DashboardSnapshot
+     */
+    select?: DashboardSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DashboardSnapshot
+     */
+    omit?: DashboardSnapshotOmit<ExtArgs> | null
+    /**
+     * The data needed to update a DashboardSnapshot.
+     */
+    data: XOR<DashboardSnapshotUpdateInput, DashboardSnapshotUncheckedUpdateInput>
+    /**
+     * Choose, which DashboardSnapshot to update.
+     */
+    where: DashboardSnapshotWhereUniqueInput
+  }
+
+  /**
+   * DashboardSnapshot updateMany
+   */
+  export type DashboardSnapshotUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DashboardSnapshots.
+     */
+    data: XOR<DashboardSnapshotUpdateManyMutationInput, DashboardSnapshotUncheckedUpdateManyInput>
+    /**
+     * Filter which DashboardSnapshots to update
+     */
+    where?: DashboardSnapshotWhereInput
+    /**
+     * Limit how many DashboardSnapshots to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DashboardSnapshot updateManyAndReturn
+   */
+  export type DashboardSnapshotUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DashboardSnapshot
+     */
+    select?: DashboardSnapshotSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DashboardSnapshot
+     */
+    omit?: DashboardSnapshotOmit<ExtArgs> | null
+    /**
+     * The data used to update DashboardSnapshots.
+     */
+    data: XOR<DashboardSnapshotUpdateManyMutationInput, DashboardSnapshotUncheckedUpdateManyInput>
+    /**
+     * Filter which DashboardSnapshots to update
+     */
+    where?: DashboardSnapshotWhereInput
+    /**
+     * Limit how many DashboardSnapshots to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DashboardSnapshot upsert
+   */
+  export type DashboardSnapshotUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DashboardSnapshot
+     */
+    select?: DashboardSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DashboardSnapshot
+     */
+    omit?: DashboardSnapshotOmit<ExtArgs> | null
+    /**
+     * The filter to search for the DashboardSnapshot to update in case it exists.
+     */
+    where: DashboardSnapshotWhereUniqueInput
+    /**
+     * In case the DashboardSnapshot found by the `where` argument doesn't exist, create a new DashboardSnapshot with this data.
+     */
+    create: XOR<DashboardSnapshotCreateInput, DashboardSnapshotUncheckedCreateInput>
+    /**
+     * In case the DashboardSnapshot was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DashboardSnapshotUpdateInput, DashboardSnapshotUncheckedUpdateInput>
+  }
+
+  /**
+   * DashboardSnapshot delete
+   */
+  export type DashboardSnapshotDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DashboardSnapshot
+     */
+    select?: DashboardSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DashboardSnapshot
+     */
+    omit?: DashboardSnapshotOmit<ExtArgs> | null
+    /**
+     * Filter which DashboardSnapshot to delete.
+     */
+    where: DashboardSnapshotWhereUniqueInput
+  }
+
+  /**
+   * DashboardSnapshot deleteMany
+   */
+  export type DashboardSnapshotDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DashboardSnapshots to delete
+     */
+    where?: DashboardSnapshotWhereInput
+    /**
+     * Limit how many DashboardSnapshots to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DashboardSnapshot without action
+   */
+  export type DashboardSnapshotDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DashboardSnapshot
+     */
+    select?: DashboardSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DashboardSnapshot
+     */
+    omit?: DashboardSnapshotOmit<ExtArgs> | null
   }
 
 
@@ -15436,22 +16646,39 @@ export namespace Prisma {
   export type OrganizationEnvScalarFieldEnum = (typeof OrganizationEnvScalarFieldEnum)[keyof typeof OrganizationEnvScalarFieldEnum]
 
 
-  export const RequestLogScalarFieldEnum: {
+  export const LoggerScalarFieldEnum: {
     id: 'id',
     organizationId: 'organizationId',
     env: 'env',
-    requestId: 'requestId',
+    type: 'type',
     tracingId: 'tracingId',
+    requestId: 'requestId',
+    timestamp: 'timestamp',
+    createdAt: 'createdAt',
     method: 'method',
     route: 'route',
     statusCode: 'statusCode',
     durationMs: 'durationMs',
     responseSize: 'responseSize',
-    timestamp: 'timestamp',
-    createdAt: 'createdAt'
+    appLogs: 'appLogs'
   };
 
-  export type RequestLogScalarFieldEnum = (typeof RequestLogScalarFieldEnum)[keyof typeof RequestLogScalarFieldEnum]
+  export type LoggerScalarFieldEnum = (typeof LoggerScalarFieldEnum)[keyof typeof LoggerScalarFieldEnum]
+
+
+  export const DashboardSnapshotScalarFieldEnum: {
+    id: 'id',
+    organizationId: 'organizationId',
+    env: 'env',
+    totalHttpLogs: 'totalHttpLogs',
+    successCount: 'successCount',
+    clientErrorCount: 'clientErrorCount',
+    serverErrorCount: 'serverErrorCount',
+    totalRoutes: 'totalRoutes',
+    updatedAt: 'updatedAt'
+  };
+
+  export type DashboardSnapshotScalarFieldEnum = (typeof DashboardSnapshotScalarFieldEnum)[keyof typeof DashboardSnapshotScalarFieldEnum]
 
 
   export const ApiExplorerSnapshotScalarFieldEnum: {
@@ -15471,6 +16698,14 @@ export namespace Prisma {
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
   export const JsonNullValueInput: {
@@ -16380,93 +17615,178 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"OrganizationEnv"> | Date | string
   }
 
-  export type RequestLogWhereInput = {
-    AND?: RequestLogWhereInput | RequestLogWhereInput[]
-    OR?: RequestLogWhereInput[]
-    NOT?: RequestLogWhereInput | RequestLogWhereInput[]
-    id?: StringFilter<"RequestLog"> | string
-    organizationId?: StringFilter<"RequestLog"> | string
-    env?: StringFilter<"RequestLog"> | string
-    requestId?: StringFilter<"RequestLog"> | string
-    tracingId?: StringFilter<"RequestLog"> | string
-    method?: StringFilter<"RequestLog"> | string
-    route?: StringFilter<"RequestLog"> | string
-    statusCode?: IntFilter<"RequestLog"> | number
-    durationMs?: IntFilter<"RequestLog"> | number
-    responseSize?: IntFilter<"RequestLog"> | number
-    timestamp?: DateTimeFilter<"RequestLog"> | Date | string
-    createdAt?: DateTimeFilter<"RequestLog"> | Date | string
+  export type LoggerWhereInput = {
+    AND?: LoggerWhereInput | LoggerWhereInput[]
+    OR?: LoggerWhereInput[]
+    NOT?: LoggerWhereInput | LoggerWhereInput[]
+    id?: StringFilter<"Logger"> | string
+    organizationId?: StringFilter<"Logger"> | string
+    env?: StringFilter<"Logger"> | string
+    type?: StringFilter<"Logger"> | string
+    tracingId?: StringFilter<"Logger"> | string
+    requestId?: StringNullableFilter<"Logger"> | string | null
+    timestamp?: DateTimeFilter<"Logger"> | Date | string
+    createdAt?: DateTimeFilter<"Logger"> | Date | string
+    method?: StringNullableFilter<"Logger"> | string | null
+    route?: StringNullableFilter<"Logger"> | string | null
+    statusCode?: IntNullableFilter<"Logger"> | number | null
+    durationMs?: IntNullableFilter<"Logger"> | number | null
+    responseSize?: IntNullableFilter<"Logger"> | number | null
+    appLogs?: JsonNullableFilter<"Logger">
   }
 
-  export type RequestLogOrderByWithRelationInput = {
+  export type LoggerOrderByWithRelationInput = {
     id?: SortOrder
     organizationId?: SortOrder
     env?: SortOrder
-    requestId?: SortOrder
+    type?: SortOrder
     tracingId?: SortOrder
-    method?: SortOrder
-    route?: SortOrder
-    statusCode?: SortOrder
-    durationMs?: SortOrder
-    responseSize?: SortOrder
+    requestId?: SortOrderInput | SortOrder
     timestamp?: SortOrder
     createdAt?: SortOrder
+    method?: SortOrderInput | SortOrder
+    route?: SortOrderInput | SortOrder
+    statusCode?: SortOrderInput | SortOrder
+    durationMs?: SortOrderInput | SortOrder
+    responseSize?: SortOrderInput | SortOrder
+    appLogs?: SortOrderInput | SortOrder
   }
 
-  export type RequestLogWhereUniqueInput = Prisma.AtLeast<{
+  export type LoggerWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    AND?: RequestLogWhereInput | RequestLogWhereInput[]
-    OR?: RequestLogWhereInput[]
-    NOT?: RequestLogWhereInput | RequestLogWhereInput[]
-    organizationId?: StringFilter<"RequestLog"> | string
-    env?: StringFilter<"RequestLog"> | string
-    requestId?: StringFilter<"RequestLog"> | string
-    tracingId?: StringFilter<"RequestLog"> | string
-    method?: StringFilter<"RequestLog"> | string
-    route?: StringFilter<"RequestLog"> | string
-    statusCode?: IntFilter<"RequestLog"> | number
-    durationMs?: IntFilter<"RequestLog"> | number
-    responseSize?: IntFilter<"RequestLog"> | number
-    timestamp?: DateTimeFilter<"RequestLog"> | Date | string
-    createdAt?: DateTimeFilter<"RequestLog"> | Date | string
+    AND?: LoggerWhereInput | LoggerWhereInput[]
+    OR?: LoggerWhereInput[]
+    NOT?: LoggerWhereInput | LoggerWhereInput[]
+    organizationId?: StringFilter<"Logger"> | string
+    env?: StringFilter<"Logger"> | string
+    type?: StringFilter<"Logger"> | string
+    tracingId?: StringFilter<"Logger"> | string
+    requestId?: StringNullableFilter<"Logger"> | string | null
+    timestamp?: DateTimeFilter<"Logger"> | Date | string
+    createdAt?: DateTimeFilter<"Logger"> | Date | string
+    method?: StringNullableFilter<"Logger"> | string | null
+    route?: StringNullableFilter<"Logger"> | string | null
+    statusCode?: IntNullableFilter<"Logger"> | number | null
+    durationMs?: IntNullableFilter<"Logger"> | number | null
+    responseSize?: IntNullableFilter<"Logger"> | number | null
+    appLogs?: JsonNullableFilter<"Logger">
   }, "id">
 
-  export type RequestLogOrderByWithAggregationInput = {
+  export type LoggerOrderByWithAggregationInput = {
     id?: SortOrder
     organizationId?: SortOrder
     env?: SortOrder
-    requestId?: SortOrder
+    type?: SortOrder
     tracingId?: SortOrder
-    method?: SortOrder
-    route?: SortOrder
-    statusCode?: SortOrder
-    durationMs?: SortOrder
-    responseSize?: SortOrder
+    requestId?: SortOrderInput | SortOrder
     timestamp?: SortOrder
     createdAt?: SortOrder
-    _count?: RequestLogCountOrderByAggregateInput
-    _avg?: RequestLogAvgOrderByAggregateInput
-    _max?: RequestLogMaxOrderByAggregateInput
-    _min?: RequestLogMinOrderByAggregateInput
-    _sum?: RequestLogSumOrderByAggregateInput
+    method?: SortOrderInput | SortOrder
+    route?: SortOrderInput | SortOrder
+    statusCode?: SortOrderInput | SortOrder
+    durationMs?: SortOrderInput | SortOrder
+    responseSize?: SortOrderInput | SortOrder
+    appLogs?: SortOrderInput | SortOrder
+    _count?: LoggerCountOrderByAggregateInput
+    _avg?: LoggerAvgOrderByAggregateInput
+    _max?: LoggerMaxOrderByAggregateInput
+    _min?: LoggerMinOrderByAggregateInput
+    _sum?: LoggerSumOrderByAggregateInput
   }
 
-  export type RequestLogScalarWhereWithAggregatesInput = {
-    AND?: RequestLogScalarWhereWithAggregatesInput | RequestLogScalarWhereWithAggregatesInput[]
-    OR?: RequestLogScalarWhereWithAggregatesInput[]
-    NOT?: RequestLogScalarWhereWithAggregatesInput | RequestLogScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"RequestLog"> | string
-    organizationId?: StringWithAggregatesFilter<"RequestLog"> | string
-    env?: StringWithAggregatesFilter<"RequestLog"> | string
-    requestId?: StringWithAggregatesFilter<"RequestLog"> | string
-    tracingId?: StringWithAggregatesFilter<"RequestLog"> | string
-    method?: StringWithAggregatesFilter<"RequestLog"> | string
-    route?: StringWithAggregatesFilter<"RequestLog"> | string
-    statusCode?: IntWithAggregatesFilter<"RequestLog"> | number
-    durationMs?: IntWithAggregatesFilter<"RequestLog"> | number
-    responseSize?: IntWithAggregatesFilter<"RequestLog"> | number
-    timestamp?: DateTimeWithAggregatesFilter<"RequestLog"> | Date | string
-    createdAt?: DateTimeWithAggregatesFilter<"RequestLog"> | Date | string
+  export type LoggerScalarWhereWithAggregatesInput = {
+    AND?: LoggerScalarWhereWithAggregatesInput | LoggerScalarWhereWithAggregatesInput[]
+    OR?: LoggerScalarWhereWithAggregatesInput[]
+    NOT?: LoggerScalarWhereWithAggregatesInput | LoggerScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Logger"> | string
+    organizationId?: StringWithAggregatesFilter<"Logger"> | string
+    env?: StringWithAggregatesFilter<"Logger"> | string
+    type?: StringWithAggregatesFilter<"Logger"> | string
+    tracingId?: StringWithAggregatesFilter<"Logger"> | string
+    requestId?: StringNullableWithAggregatesFilter<"Logger"> | string | null
+    timestamp?: DateTimeWithAggregatesFilter<"Logger"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"Logger"> | Date | string
+    method?: StringNullableWithAggregatesFilter<"Logger"> | string | null
+    route?: StringNullableWithAggregatesFilter<"Logger"> | string | null
+    statusCode?: IntNullableWithAggregatesFilter<"Logger"> | number | null
+    durationMs?: IntNullableWithAggregatesFilter<"Logger"> | number | null
+    responseSize?: IntNullableWithAggregatesFilter<"Logger"> | number | null
+    appLogs?: JsonNullableWithAggregatesFilter<"Logger">
+  }
+
+  export type DashboardSnapshotWhereInput = {
+    AND?: DashboardSnapshotWhereInput | DashboardSnapshotWhereInput[]
+    OR?: DashboardSnapshotWhereInput[]
+    NOT?: DashboardSnapshotWhereInput | DashboardSnapshotWhereInput[]
+    id?: StringFilter<"DashboardSnapshot"> | string
+    organizationId?: StringFilter<"DashboardSnapshot"> | string
+    env?: StringFilter<"DashboardSnapshot"> | string
+    totalHttpLogs?: IntFilter<"DashboardSnapshot"> | number
+    successCount?: IntFilter<"DashboardSnapshot"> | number
+    clientErrorCount?: IntFilter<"DashboardSnapshot"> | number
+    serverErrorCount?: IntFilter<"DashboardSnapshot"> | number
+    totalRoutes?: IntFilter<"DashboardSnapshot"> | number
+    updatedAt?: DateTimeFilter<"DashboardSnapshot"> | Date | string
+  }
+
+  export type DashboardSnapshotOrderByWithRelationInput = {
+    id?: SortOrder
+    organizationId?: SortOrder
+    env?: SortOrder
+    totalHttpLogs?: SortOrder
+    successCount?: SortOrder
+    clientErrorCount?: SortOrder
+    serverErrorCount?: SortOrder
+    totalRoutes?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DashboardSnapshotWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    organizationId_env?: DashboardSnapshotOrganizationIdEnvCompoundUniqueInput
+    AND?: DashboardSnapshotWhereInput | DashboardSnapshotWhereInput[]
+    OR?: DashboardSnapshotWhereInput[]
+    NOT?: DashboardSnapshotWhereInput | DashboardSnapshotWhereInput[]
+    organizationId?: StringFilter<"DashboardSnapshot"> | string
+    env?: StringFilter<"DashboardSnapshot"> | string
+    totalHttpLogs?: IntFilter<"DashboardSnapshot"> | number
+    successCount?: IntFilter<"DashboardSnapshot"> | number
+    clientErrorCount?: IntFilter<"DashboardSnapshot"> | number
+    serverErrorCount?: IntFilter<"DashboardSnapshot"> | number
+    totalRoutes?: IntFilter<"DashboardSnapshot"> | number
+    updatedAt?: DateTimeFilter<"DashboardSnapshot"> | Date | string
+  }, "id" | "organizationId_env">
+
+  export type DashboardSnapshotOrderByWithAggregationInput = {
+    id?: SortOrder
+    organizationId?: SortOrder
+    env?: SortOrder
+    totalHttpLogs?: SortOrder
+    successCount?: SortOrder
+    clientErrorCount?: SortOrder
+    serverErrorCount?: SortOrder
+    totalRoutes?: SortOrder
+    updatedAt?: SortOrder
+    _count?: DashboardSnapshotCountOrderByAggregateInput
+    _avg?: DashboardSnapshotAvgOrderByAggregateInput
+    _max?: DashboardSnapshotMaxOrderByAggregateInput
+    _min?: DashboardSnapshotMinOrderByAggregateInput
+    _sum?: DashboardSnapshotSumOrderByAggregateInput
+  }
+
+  export type DashboardSnapshotScalarWhereWithAggregatesInput = {
+    AND?: DashboardSnapshotScalarWhereWithAggregatesInput | DashboardSnapshotScalarWhereWithAggregatesInput[]
+    OR?: DashboardSnapshotScalarWhereWithAggregatesInput[]
+    NOT?: DashboardSnapshotScalarWhereWithAggregatesInput | DashboardSnapshotScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DashboardSnapshot"> | string
+    organizationId?: StringWithAggregatesFilter<"DashboardSnapshot"> | string
+    env?: StringWithAggregatesFilter<"DashboardSnapshot"> | string
+    totalHttpLogs?: IntWithAggregatesFilter<"DashboardSnapshot"> | number
+    successCount?: IntWithAggregatesFilter<"DashboardSnapshot"> | number
+    clientErrorCount?: IntWithAggregatesFilter<"DashboardSnapshot"> | number
+    serverErrorCount?: IntWithAggregatesFilter<"DashboardSnapshot"> | number
+    totalRoutes?: IntWithAggregatesFilter<"DashboardSnapshot"> | number
+    updatedAt?: DateTimeWithAggregatesFilter<"DashboardSnapshot"> | Date | string
   }
 
   export type ApiExplorerSnapshotWhereInput = {
@@ -17422,109 +18742,207 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type RequestLogCreateInput = {
+  export type LoggerCreateInput = {
     id?: string
     organizationId: string
     env: string
-    requestId: string
+    type: string
     tracingId: string
-    method: string
-    route: string
-    statusCode: number
-    durationMs: number
-    responseSize?: number
+    requestId?: string | null
     timestamp: Date | string
     createdAt?: Date | string
+    method?: string | null
+    route?: string | null
+    statusCode?: number | null
+    durationMs?: number | null
+    responseSize?: number | null
+    appLogs?: NullableJsonNullValueInput | InputJsonValue
   }
 
-  export type RequestLogUncheckedCreateInput = {
+  export type LoggerUncheckedCreateInput = {
     id?: string
     organizationId: string
     env: string
-    requestId: string
+    type: string
     tracingId: string
-    method: string
-    route: string
-    statusCode: number
-    durationMs: number
-    responseSize?: number
+    requestId?: string | null
     timestamp: Date | string
     createdAt?: Date | string
+    method?: string | null
+    route?: string | null
+    statusCode?: number | null
+    durationMs?: number | null
+    responseSize?: number | null
+    appLogs?: NullableJsonNullValueInput | InputJsonValue
   }
 
-  export type RequestLogUpdateInput = {
+  export type LoggerUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     env?: StringFieldUpdateOperationsInput | string
-    requestId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     tracingId?: StringFieldUpdateOperationsInput | string
-    method?: StringFieldUpdateOperationsInput | string
-    route?: StringFieldUpdateOperationsInput | string
-    statusCode?: IntFieldUpdateOperationsInput | number
-    durationMs?: IntFieldUpdateOperationsInput | number
-    responseSize?: IntFieldUpdateOperationsInput | number
+    requestId?: NullableStringFieldUpdateOperationsInput | string | null
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    method?: NullableStringFieldUpdateOperationsInput | string | null
+    route?: NullableStringFieldUpdateOperationsInput | string | null
+    statusCode?: NullableIntFieldUpdateOperationsInput | number | null
+    durationMs?: NullableIntFieldUpdateOperationsInput | number | null
+    responseSize?: NullableIntFieldUpdateOperationsInput | number | null
+    appLogs?: NullableJsonNullValueInput | InputJsonValue
   }
 
-  export type RequestLogUncheckedUpdateInput = {
+  export type LoggerUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     env?: StringFieldUpdateOperationsInput | string
-    requestId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     tracingId?: StringFieldUpdateOperationsInput | string
-    method?: StringFieldUpdateOperationsInput | string
-    route?: StringFieldUpdateOperationsInput | string
-    statusCode?: IntFieldUpdateOperationsInput | number
-    durationMs?: IntFieldUpdateOperationsInput | number
-    responseSize?: IntFieldUpdateOperationsInput | number
+    requestId?: NullableStringFieldUpdateOperationsInput | string | null
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    method?: NullableStringFieldUpdateOperationsInput | string | null
+    route?: NullableStringFieldUpdateOperationsInput | string | null
+    statusCode?: NullableIntFieldUpdateOperationsInput | number | null
+    durationMs?: NullableIntFieldUpdateOperationsInput | number | null
+    responseSize?: NullableIntFieldUpdateOperationsInput | number | null
+    appLogs?: NullableJsonNullValueInput | InputJsonValue
   }
 
-  export type RequestLogCreateManyInput = {
+  export type LoggerCreateManyInput = {
     id?: string
     organizationId: string
     env: string
-    requestId: string
+    type: string
     tracingId: string
-    method: string
-    route: string
-    statusCode: number
-    durationMs: number
-    responseSize?: number
+    requestId?: string | null
     timestamp: Date | string
     createdAt?: Date | string
+    method?: string | null
+    route?: string | null
+    statusCode?: number | null
+    durationMs?: number | null
+    responseSize?: number | null
+    appLogs?: NullableJsonNullValueInput | InputJsonValue
   }
 
-  export type RequestLogUpdateManyMutationInput = {
+  export type LoggerUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     env?: StringFieldUpdateOperationsInput | string
-    requestId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     tracingId?: StringFieldUpdateOperationsInput | string
-    method?: StringFieldUpdateOperationsInput | string
-    route?: StringFieldUpdateOperationsInput | string
-    statusCode?: IntFieldUpdateOperationsInput | number
-    durationMs?: IntFieldUpdateOperationsInput | number
-    responseSize?: IntFieldUpdateOperationsInput | number
+    requestId?: NullableStringFieldUpdateOperationsInput | string | null
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    method?: NullableStringFieldUpdateOperationsInput | string | null
+    route?: NullableStringFieldUpdateOperationsInput | string | null
+    statusCode?: NullableIntFieldUpdateOperationsInput | number | null
+    durationMs?: NullableIntFieldUpdateOperationsInput | number | null
+    responseSize?: NullableIntFieldUpdateOperationsInput | number | null
+    appLogs?: NullableJsonNullValueInput | InputJsonValue
   }
 
-  export type RequestLogUncheckedUpdateManyInput = {
+  export type LoggerUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     env?: StringFieldUpdateOperationsInput | string
-    requestId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     tracingId?: StringFieldUpdateOperationsInput | string
-    method?: StringFieldUpdateOperationsInput | string
-    route?: StringFieldUpdateOperationsInput | string
-    statusCode?: IntFieldUpdateOperationsInput | number
-    durationMs?: IntFieldUpdateOperationsInput | number
-    responseSize?: IntFieldUpdateOperationsInput | number
+    requestId?: NullableStringFieldUpdateOperationsInput | string | null
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    method?: NullableStringFieldUpdateOperationsInput | string | null
+    route?: NullableStringFieldUpdateOperationsInput | string | null
+    statusCode?: NullableIntFieldUpdateOperationsInput | number | null
+    durationMs?: NullableIntFieldUpdateOperationsInput | number | null
+    responseSize?: NullableIntFieldUpdateOperationsInput | number | null
+    appLogs?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type DashboardSnapshotCreateInput = {
+    id?: string
+    organizationId: string
+    env: string
+    totalHttpLogs?: number
+    successCount?: number
+    clientErrorCount?: number
+    serverErrorCount?: number
+    totalRoutes?: number
+    updatedAt?: Date | string
+  }
+
+  export type DashboardSnapshotUncheckedCreateInput = {
+    id?: string
+    organizationId: string
+    env: string
+    totalHttpLogs?: number
+    successCount?: number
+    clientErrorCount?: number
+    serverErrorCount?: number
+    totalRoutes?: number
+    updatedAt?: Date | string
+  }
+
+  export type DashboardSnapshotUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    env?: StringFieldUpdateOperationsInput | string
+    totalHttpLogs?: IntFieldUpdateOperationsInput | number
+    successCount?: IntFieldUpdateOperationsInput | number
+    clientErrorCount?: IntFieldUpdateOperationsInput | number
+    serverErrorCount?: IntFieldUpdateOperationsInput | number
+    totalRoutes?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DashboardSnapshotUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    env?: StringFieldUpdateOperationsInput | string
+    totalHttpLogs?: IntFieldUpdateOperationsInput | number
+    successCount?: IntFieldUpdateOperationsInput | number
+    clientErrorCount?: IntFieldUpdateOperationsInput | number
+    serverErrorCount?: IntFieldUpdateOperationsInput | number
+    totalRoutes?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DashboardSnapshotCreateManyInput = {
+    id?: string
+    organizationId: string
+    env: string
+    totalHttpLogs?: number
+    successCount?: number
+    clientErrorCount?: number
+    serverErrorCount?: number
+    totalRoutes?: number
+    updatedAt?: Date | string
+  }
+
+  export type DashboardSnapshotUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    env?: StringFieldUpdateOperationsInput | string
+    totalHttpLogs?: IntFieldUpdateOperationsInput | number
+    successCount?: IntFieldUpdateOperationsInput | number
+    clientErrorCount?: IntFieldUpdateOperationsInput | number
+    serverErrorCount?: IntFieldUpdateOperationsInput | number
+    totalRoutes?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DashboardSnapshotUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    env?: StringFieldUpdateOperationsInput | string
+    totalHttpLogs?: IntFieldUpdateOperationsInput | number
+    successCount?: IntFieldUpdateOperationsInput | number
+    clientErrorCount?: IntFieldUpdateOperationsInput | number
+    serverErrorCount?: IntFieldUpdateOperationsInput | number
+    totalRoutes?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ApiExplorerSnapshotCreateInput = {
@@ -18249,62 +19667,172 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
 
-  export type RequestLogCountOrderByAggregateInput = {
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type LoggerCountOrderByAggregateInput = {
     id?: SortOrder
     organizationId?: SortOrder
     env?: SortOrder
-    requestId?: SortOrder
+    type?: SortOrder
     tracingId?: SortOrder
+    requestId?: SortOrder
+    timestamp?: SortOrder
+    createdAt?: SortOrder
     method?: SortOrder
     route?: SortOrder
     statusCode?: SortOrder
     durationMs?: SortOrder
     responseSize?: SortOrder
-    timestamp?: SortOrder
-    createdAt?: SortOrder
+    appLogs?: SortOrder
   }
 
-  export type RequestLogAvgOrderByAggregateInput = {
+  export type LoggerAvgOrderByAggregateInput = {
     statusCode?: SortOrder
     durationMs?: SortOrder
     responseSize?: SortOrder
   }
 
-  export type RequestLogMaxOrderByAggregateInput = {
+  export type LoggerMaxOrderByAggregateInput = {
     id?: SortOrder
     organizationId?: SortOrder
     env?: SortOrder
-    requestId?: SortOrder
+    type?: SortOrder
     tracingId?: SortOrder
+    requestId?: SortOrder
+    timestamp?: SortOrder
+    createdAt?: SortOrder
     method?: SortOrder
     route?: SortOrder
     statusCode?: SortOrder
     durationMs?: SortOrder
     responseSize?: SortOrder
-    timestamp?: SortOrder
-    createdAt?: SortOrder
   }
 
-  export type RequestLogMinOrderByAggregateInput = {
+  export type LoggerMinOrderByAggregateInput = {
     id?: SortOrder
     organizationId?: SortOrder
     env?: SortOrder
-    requestId?: SortOrder
+    type?: SortOrder
     tracingId?: SortOrder
+    requestId?: SortOrder
+    timestamp?: SortOrder
+    createdAt?: SortOrder
     method?: SortOrder
     route?: SortOrder
     statusCode?: SortOrder
     durationMs?: SortOrder
     responseSize?: SortOrder
-    timestamp?: SortOrder
-    createdAt?: SortOrder
   }
 
-  export type RequestLogSumOrderByAggregateInput = {
+  export type LoggerSumOrderByAggregateInput = {
     statusCode?: SortOrder
     durationMs?: SortOrder
     responseSize?: SortOrder
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
+  export type DashboardSnapshotOrganizationIdEnvCompoundUniqueInput = {
+    organizationId: string
+    env: string
+  }
+
+  export type DashboardSnapshotCountOrderByAggregateInput = {
+    id?: SortOrder
+    organizationId?: SortOrder
+    env?: SortOrder
+    totalHttpLogs?: SortOrder
+    successCount?: SortOrder
+    clientErrorCount?: SortOrder
+    serverErrorCount?: SortOrder
+    totalRoutes?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DashboardSnapshotAvgOrderByAggregateInput = {
+    totalHttpLogs?: SortOrder
+    successCount?: SortOrder
+    clientErrorCount?: SortOrder
+    serverErrorCount?: SortOrder
+    totalRoutes?: SortOrder
+  }
+
+  export type DashboardSnapshotMaxOrderByAggregateInput = {
+    id?: SortOrder
+    organizationId?: SortOrder
+    env?: SortOrder
+    totalHttpLogs?: SortOrder
+    successCount?: SortOrder
+    clientErrorCount?: SortOrder
+    serverErrorCount?: SortOrder
+    totalRoutes?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DashboardSnapshotMinOrderByAggregateInput = {
+    id?: SortOrder
+    organizationId?: SortOrder
+    env?: SortOrder
+    totalHttpLogs?: SortOrder
+    successCount?: SortOrder
+    clientErrorCount?: SortOrder
+    serverErrorCount?: SortOrder
+    totalRoutes?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DashboardSnapshotSumOrderByAggregateInput = {
+    totalHttpLogs?: SortOrder
+    successCount?: SortOrder
+    clientErrorCount?: SortOrder
+    serverErrorCount?: SortOrder
+    totalRoutes?: SortOrder
   }
   export type JsonFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -18971,6 +20499,29 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedBoolNullableFilter<$PrismaModel>
     _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
   export type NestedJsonFilter<$PrismaModel = never> =
     | PatchUndefined<

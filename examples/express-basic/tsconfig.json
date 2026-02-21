@@ -1,7 +1,12 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "moduleResolution": "Node"
-  },
-  "include": ["."]
-}
+    "compilerOptions": {
+      "target": "ES5",
+      "module": "CommonJS",
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "baseUrl": ".",
+      "resolveJsonModule": true,
+    }
+  }
+  

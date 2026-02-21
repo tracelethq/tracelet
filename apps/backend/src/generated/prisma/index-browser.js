@@ -246,19 +246,33 @@ exports.Prisma.OrganizationEnvScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.RequestLogScalarFieldEnum = {
+exports.Prisma.LoggerScalarFieldEnum = {
   id: 'id',
   organizationId: 'organizationId',
   env: 'env',
-  requestId: 'requestId',
+  type: 'type',
   tracingId: 'tracingId',
+  requestId: 'requestId',
+  timestamp: 'timestamp',
+  createdAt: 'createdAt',
   method: 'method',
   route: 'route',
   statusCode: 'statusCode',
   durationMs: 'durationMs',
   responseSize: 'responseSize',
-  timestamp: 'timestamp',
-  createdAt: 'createdAt'
+  appLogs: 'appLogs'
+};
+
+exports.Prisma.DashboardSnapshotScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  env: 'env',
+  totalHttpLogs: 'totalHttpLogs',
+  successCount: 'successCount',
+  clientErrorCount: 'clientErrorCount',
+  serverErrorCount: 'serverErrorCount',
+  totalRoutes: 'totalRoutes',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.ApiExplorerSnapshotScalarFieldEnum = {
@@ -272,6 +286,11 @@ exports.Prisma.ApiExplorerSnapshotScalarFieldEnum = {
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.JsonNullValueInput = {
@@ -306,7 +325,8 @@ exports.Prisma.ModelName = {
   User: 'User',
   Verification: 'Verification',
   OrganizationEnv: 'OrganizationEnv',
-  RequestLog: 'RequestLog',
+  Logger: 'Logger',
+  DashboardSnapshot: 'DashboardSnapshot',
   ApiExplorerSnapshot: 'ApiExplorerSnapshot'
 };
 

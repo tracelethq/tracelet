@@ -10,9 +10,11 @@ import { UsersController } from "./controllers/UsersController.js";
 import { OrganizationsController } from "./controllers/OrganizationsController.js";
 import { OrganizationEnvsController } from "./controllers/OrganizationEnvsController.js";
 import { IngestController } from "./controllers/IngestController.js";
+import { LogsController } from "./controllers/LogsController.js";
+import { DashboardController } from "./controllers/DashboardController.js";
 
 const app = express();
-const port = Number(process.env.PORT) || 3005;
+const port = Number(process.env.PORT) || 3003;
 
 const allowedOrigins = [
   ...(process.env.BETTER_AUTH_URL ? [process.env.BETTER_AUTH_URL] : []),
@@ -48,7 +50,7 @@ app.get("/health", (_req, res) => {
 // API controllers (routing-controllers)
 useExpressServer(app, {
   routePrefix: "/api",
-  controllers: [ExampleController, UsersController, OrganizationsController, OrganizationEnvsController, IngestController],
+  controllers: [ExampleController, UsersController, OrganizationsController, OrganizationEnvsController, IngestController, LogsController, DashboardController],
 });
 
 app.listen(port, () => {

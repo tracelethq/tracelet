@@ -187,24 +187,47 @@ model OrganizationEnv {
   @@schema("public")
 }
 
-// Ingest: HTTP request logs from SDK (per project/env).
-model RequestLog {
+// Ingest: One row per API hit (HTTP request). App logs for that request are stored in appLogs array.
+model Logger {
   id             String   @id @default(cuid())
   organizationId String
   env            String // "development" | "staging" | "production"
-  requestId      String
+  type           String // "http"
   tracingId      String
-  method         String
-  route          String
-  statusCode     Int
-  durationMs     Int
-  responseSize   Int      @default(0)
+  requestId      String?
   timestamp      DateTime
   createdAt      DateTime @default(now())
+  // HTTP log fields
+  method         String?
+  route          String?
+  statusCode     Int?
+  durationMs     Int?
+  responseSize   Int?
+  // App logs for this request. Array of { level, message?, payload?, timestamp? }.
+  appLogs        Json? // [{ level, message?, payload?, timestamp? }, ...]
 
   @@index([organizationId, env])
+  @@index([organizationId, env, type])
+  @@index([organizationId, env, tracingId])
   @@index([organizationId, env, timestamp])
-  @@map("request_log")
+  @@map("logger")
+  @@schema("public")
+}
+
+// Aggregated stats for dashboard (updated async on ingest; not blocking).
+model DashboardSnapshot {
+  id               String   @id @default(cuid())
+  organizationId   String
+  env              String
+  totalHttpLogs    Int      @default(0)
+  successCount     Int      @default(0)
+  clientErrorCount Int      @default(0)
+  serverErrorCount Int      @default(0)
+  totalRoutes      Int      @default(0)
+  updatedAt        DateTime @updatedAt
+
+  @@unique([organizationId, env])
+  @@map("dashboard_snapshot")
   @@schema("public")
 }
 

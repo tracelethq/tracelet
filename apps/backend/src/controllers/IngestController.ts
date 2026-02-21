@@ -11,7 +11,8 @@ import { IngestService } from "../services/IngestService.js";
 
 const API_KEY_HEADER = "x-api-key";
 
-const logEntrySchema = z.object({
+const httpLogEntrySchema = z.object({
+  type: z.literal("http"),
   requestId: z.string(),
   tracingId: z.string(),
   method: z.string(),
@@ -21,6 +22,21 @@ const logEntrySchema = z.object({
   responseSize: z.number().optional(),
   timestamp: z.union([z.string(), z.number()]).optional(),
 });
+
+const appLogEntrySchema = z.object({
+  type: z.literal("app"),
+  tracingId: z.string(),
+  requestId: z.string().optional(),
+  level: z.enum(["debug", "info", "warn", "error"]),
+  message: z.string().optional(),
+  payload: z.record(z.unknown()).optional(),
+  timestamp: z.union([z.string(), z.number()]).optional(),
+});
+
+const logEntrySchema = z.discriminatedUnion("type", [
+  httpLogEntrySchema,
+  appLogEntrySchema,
+]);
 
 const ingestBodySchema = z.object({
   logs: z.array(logEntrySchema).optional().default([]),
