@@ -1,5 +1,5 @@
 // import { IngestClient, toIngestLogEntry } from "../ingest";
-import type { IngestAppLogEntry } from "../ingest/types";
+// import type { IngestAppLogEntry } from "../ingest/types";
 import { env, LOG_START_PREFIX } from "../lib/constants";
 import { writeLogEntry } from "./file-writer";
 
@@ -164,7 +164,7 @@ export class Logger {
     responseSize: 0,
   };
   /** Buffered app logs for the current request; sent with the HTTP log on logHttp(). */
-  private appLogBuffer: IngestAppLogEntry[] = [];
+  private appLogBuffer: any[] = [];
 
   constructor(options: LoggerOptions) {
     this.baseContext = {
