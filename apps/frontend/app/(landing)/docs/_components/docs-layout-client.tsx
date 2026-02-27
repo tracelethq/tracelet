@@ -18,7 +18,7 @@ export function DocsLayoutClient({
         <Decorations />
         <DocsNav mdxDocs={mdxDocs} />
       </aside>
-      <main className="min-w-0 flex-1 flex gap-12 relative px-2 md:pl-12">
+      <main className="min-w-0 flex-1 flex relative px-2 md:pl-12">
         <Decorations />
         {children}
       </main>

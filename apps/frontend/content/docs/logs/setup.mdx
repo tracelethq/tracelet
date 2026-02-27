@@ -1,0 +1,70 @@
+---
+title: Setup
+description: "How to set up Tracelet logging: logFilePath, file location, and log format."
+icon: setup
+order: 5
+---
+
+Logging is configured when you initialize Tracelet. With **Express**, pass options to `tracelet()`; with **Core** only, pass options to `TraceletCore`. Setting **logFilePath** turns on file logging and enables the Logs UI to read from that file.
+
+## Enabling file logging
+
+### Express
+
+```typescript
+import { tracelet } from "@tracelet/express";
+
+tracelet({
+  app,
+  logFilePath: "./logs/tracelet.log", // optional; default is "tracelet.log"
+});
+```
+
+If you omit `logFilePath`, the default is `"tracelet.log"` (relative to the process working directory). To disable file logging entirely, you would need to use the class-based API and not pass a path, or pass a path only when you want the Logs UI.
+
+### Core only
+
+```typescript
+import { TraceletCore } from "@tracelet/core";
+
+const core = new TraceletCore({
+  logFilePath: "./logs/app.log", // optional
+});
+const { logger, routeMeta } = core.start();
+```
+
+Same idea: when `logFilePath` is set, the Logger appends each log entry to that file. The path can be relative (resolved from `process.cwd()`) or absolute.
+
+## Where the file is written
+
+- **Relative paths** (e.g. `"./logs/tracelet.log"`, `"tracelet.log"`) are resolved from the **current working directory** of the Node process (usually the project root when you run `node server.js` or `npm start`).
+- **Absolute paths** (e.g. `"/var/log/myapp/tracelet.log"`) are used as-is.
+
+Create the directory (e.g. `./logs`) yourself if it doesn’t exist; Tracelet appends to the file and does not create parent directories.
+
+## Log format
+
+Each **log entry** is written as **one line**: a JSON object. The line may start with a timestamp or other prefix; the Logger ensures there is a trailing JSON object that the Log Reader can parse. That JSON includes:
+
+| Field | Description |
+|--------|-------------|
+| `type` | `"http"` for HTTP request/response logs. |
+| `method` | HTTP method (e.g. `GET`, `POST`). |
+| `route` | Route path (e.g. `/users/:id`). |
+| `statusCode` | Response status (e.g. 200, 404). |
+| `durationMs` | Request duration in milliseconds. |
+| `responseSize` | Response body size (number or string). |
+| `level` | `"info"`, `"warn"`, or `"error"` (derived from status for HTTP logs). |
+| `timestamp` | ISO timestamp. |
+| `requestId` / `tracingId` | Request/trace identifier for grouping in the Logs UI. |
+
+App-level logs (from `logger.debug()`, `logger.info()`, etc.) use the same one-line JSON format and can include a `traceletLog` or other fields. The Logs UI can filter by **type** (e.g. HTTP vs app) and **level**.
+
+## Summary
+
+| Option | Default | Effect |
+|--------|---------|--------|
+| `logFilePath` | `"tracelet.log"` (Core/Express default when file logging is used) | File to which log entries are appended. When set, the Logs UI can read from it via the logs API. |
+| Path type | Relative to `process.cwd()` | Use an absolute path if you want a fixed location. |
+
+For the **Logs UI** to show data, you must set `logFilePath` (or the equivalent in your SDK) so that the same file is used for writing and for the GET logs endpoint.

@@ -3,6 +3,10 @@ title: Get started
 description: Install and use the Tracelet core SDK for logging and metadata.
 ---
 
+## Overview
+
+This package provides the core used by Tracelet SDKs (e.g. `@tracelet/express`): **TraceletCore** wires together a **Logger** and **RouteMeta** from a single options object. It also exports lower-level utilities (sanitization, auth, LogReader) for custom integrations. It contains **no framework-specific code**.
+
 ## Install
 
 Install only `@tracelet/core` from a `.tgz` tarball (or from npm when published).
@@ -14,38 +18,98 @@ Install only `@tracelet/core` from a `.tgz` tarball (or from npm when published)
   language="bash"
 />
 
-## Use in code
+## Usage
 
-Use `@tracelet/core` for logging and metadata in your app. You integrate it with your own framework or server (no Express required).
+### TraceletCore (main entry for SDKs)
 
-```typescript
+`TraceletCore` is the primary entry point. You pass options, call `start()`, and get back the logger and route meta to attach to your framework (e.g. Express middleware and docs routes).
+
+```ts
 import { TraceletCore } from "@tracelet/core";
 
-// Use the core SDK for events, logging, and metadata.
-// See @tracelet/core docs for API details.
 const tracelet = new TraceletCore({
-      serviceName: serviceName,
-      environment: environment,
-      apiKey: apiKey
-    });
+  environment: "local", // optional
+  logFilePath: "./logs/app.log", // optional
+  traceletDocOptions: {
+    defaultDocFile: "./tracelet-doc.json", // optional
+    meta: [], // optional
+  },
+  debug: false, // optional
+});
+
+const { logger, routeMeta } = tracelet.start();
+
+// Use logger in request middleware (init per request, logHttp on response).
+// Use routeMeta to serve route list for the API Explorer (e.g. routeMeta.getRoutes()).
 ```
 
-For Express apps with the built-in docs UI, use the **Express** setup instead.
+#### TraceletCoreOptions
 
-## Running locally
 
-Run your app as usual. The core SDK does not serve a UI; it only provides logging and metadata. For the docs UI, use the **Express** setup.
+| Option                              | Default               | Description                                                                              |
+| ----------------------------------- | --------------------- | ---------------------------------------------------------------------------------------- |
+| `environment`                       | `undefined`           | `"local"` or `null`. Not passing value means your code is deployed.                      |
+| `logFilePath`                       | `"tracelet.log"`      | When set, logs are appended to this file (Node only). One human-readable line per entry. |
+| `traceletDocOptions.defaultDocFile` | `"tracelet.doc.json"` | Path to a JSON file with route meta for the docs UI.                                     |
+| `traceletDocOptions.meta`           | `null`                | `TraceletMeta[]` for route meta (used with or without a doc file).                       |
+| `debug`                             | `false`               | When `true`, enables debug logging.                                                      |
 
-## Troubleshooting
 
-### "Tracelet UI not found. Build the UI or set uiPath."
+#### start()
 
-Does not apply to Core. This message is for the Express setup only.
+Returns `{ logger, routeMeta }`:
 
-### "Could not fetch routes" / connection error
+- **logger** – `Logger` instance. Call `logger.init({ method, route })` at request start and `logger.logHttp(...)` on response. Use `logger.debug` / `info` / `warn` / `error` for app logs (they carry request context when used after `init`).
+- **routeMeta** – `RouteMeta` instance. Loads meta from `defaultDocFile` and/or `meta`; use it to serve the route list (e.g. for the API Explorer).
 
-Only relevant when using the docs UI (Express). For Core-only, ensure your app runs and the SDK is configured correctly.
+---
 
-### UI 404 or blank at /tracelet-docs
+### Using the Logger directly
 
-Only applies to Express. Core does not serve a UI.
+If you integrate without `TraceletCore`, you can create a `Logger` yourself:
+
+```ts
+import { Logger } from "@tracelet/core";
+
+const logger = new Logger({
+  logFilePath: "./logs/app.log", // optional
+  environment: "local", // optional
+});
+
+const requestId = logger.init({ method: "GET", route: "/ping" });
+logger.info("Processing request");
+logger.logHttp({
+  method: "GET",
+  route: "/ping",
+  statusCode: 200,
+  durationMs: 10,
+  responseSize: 128,
+});
+```
+
+---
+
+### LogReader
+
+For reading log files (e.g. in a logs API), use `LogReader`:
+
+```ts
+import { LogReader } from "@tracelet/core";
+
+const reader = new LogReader();
+const lines = reader.readLastLinesSync("/path/to/app.log", 100); // path required, maxLines optional
+```
+
+---
+
+## Exports
+
+- **Core:** `TraceletCore` – Main entry; options and `start()` return `{ logger, routeMeta }`.
+- **Logger:** `Logger`, `LogReader`; types: `HttpLogInput`, `LoggerOptions`, `LogPayload`.
+- **Meta:** `RouteMeta`, `DEFAULT_DOC_FILE`, `resolveDefaultUiPath`, and meta types (`TraceletMeta`, etc.).
+- **Schema / utils:** `sanitize`, `inferShape`, `getEnv`.
+- **Auth:** `Auth`, `createAuth`, `AuthOptions`, `JwtPayload`.
+
+## License
+
+MIT

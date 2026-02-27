@@ -1,0 +1,50 @@
+---
+title: Debug option
+description: "What the debug option does: when to enable it and how it affects console and file output."
+icon: bug
+order: 6
+---
+
+The **debug** option controls whether the Logger prints **debug and app-level** messages to the console and how verbose the output is. It does not change what is written to the log file; file logging is controlled by **logFilePath**.
+
+## What `debug` does
+
+| When `debug` is `false` (default) | When `debug` is `true` |
+|-----------------------------------|------------------------|
+| Only **HTTP** request/response logs are printed to the console (when in local environment). | **All** log levels are printed: `logger.debug()`, `logger.info()`, `logger.warn()`, `logger.error()`, and HTTP logs. |
+| App-level calls like `logger.info("Processing…")` are still written to the **log file** (if `logFilePath` is set) but not to the console. | Same app-level and HTTP logs are written to the log file; in addition, they are printed to the console with level prefixes (`[DEBUG]`, `[INFO]`, etc.) and pretty-printed JSON in local environment. |
+
+So **debug** only affects **console** visibility of non-HTTP logs. Use it in development when you want to see `logger.debug()` and `logger.info()` output in the terminal without opening the Logs UI or tailing the file.
+
+## How to set it
+
+### Express
+
+```typescript
+tracelet({
+  app,
+  debug: true, // optional; default false
+});
+```
+
+### Core
+
+```typescript
+const core = new TraceletCore({
+  debug: true, // optional; default false
+});
+const { logger } = core.start();
+```
+
+## When to use it
+
+- **Local development** – Set `debug: true` to see app and debug messages in the console alongside HTTP logs. Helps with troubleshooting without switching to the Logs UI.
+- **Production or staging** – Leave `debug: false` (default) to avoid noisy console output. Rely on the log file and Logs UI (or your log aggregator) for inspection.
+
+In the terminal you’ll see a **trace ID** (e.g. `[trace:abc-123]`) for each request. Use that same ID in the Logs UI (search or scan the trace column) to find the corresponding log entry and inspect the full request/response details.
+
+## Summary
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `debug` | `false` | When `true`, app-level and debug logs are printed to the console (in addition to being written to the log file when `logFilePath` is set). HTTP logs are always printed in local environment regardless of `debug`. |
