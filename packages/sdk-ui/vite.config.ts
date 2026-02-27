@@ -25,4 +25,19 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("/api-explorer/") || id.includes("/api-details/")) {
+            return "api-explorer";
+          }
+          if (id.includes("/logs/")) {
+            return "logs";
+          }
+        },
+      },
+    },
+    chunkSizeWarningLimit: 500,
+  },
 });

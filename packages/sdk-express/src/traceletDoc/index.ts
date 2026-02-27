@@ -11,6 +11,8 @@ import {
 import fs from "fs";
 import path from "path";
 import authRouter, { auth } from "./handler/auth";
+import docHandler from "./handler/doc";
+import { createLogsRouter } from "./handler/logs";
 
 const DEFAULT_DOCS_PATH = "/tracelet-docs";
 
@@ -27,16 +29,11 @@ export type TraceletUiTemplateOverrides = Partial<{
   title?: string;
 }>;
 
-function replaceTemplateConstants(
-  html: string,
-  vars: Record<string, string>,
-): string {
-  let out = html;
-  for (const [key, value] of Object.entries(vars)) {
-    out = out.replace(new RegExp(`\\{\\{${key}\\}\\}`, "g"), value);
-  }
-  return out;
-}
+export type TraceletDocOptions = Partial<{
+  uiTemplateOverrides?: TraceletUiTemplateOverrides;
+  /** Path to the log file (from Logger). When set, GET /logs returns lines from this file. */
+  logFilePath?: string;
+}>;
 
 /**
  * Mounts the Tracelet docs UI on the given Express app.
@@ -46,62 +43,16 @@ function replaceTemplateConstants(
 export function traceletDoc(
   routeMeta: RouteMeta,
   app: Application,
-  options?: { uiTemplateOverrides?: TraceletUiTemplateOverrides },
+  options?: TraceletDocOptions,
 ) {
   const mountPath = options?.uiTemplateOverrides?.basePath ?? DEFAULT_DOCS_PATH;
-  const uiPath = path.resolve(resolveDefaultUiPath());
-  const indexHtmlPath = path.join(uiPath, "index.html");
-  const staticHandler = express.static(uiPath, { index: false });
-  const overrides = options?.uiTemplateOverrides ?? {};
-
-  const resolvedMeta = routeMeta.loadAndMerge();
+  const logsRouter = createLogsRouter(options?.logFilePath);
 
   const handler = (req: Request, res: Response, next: NextFunction) => {
-    if (req.query.json === "true") {
-      if (!auth.isAuthRequired()) {
-        return res.json(resolvedMeta);
-      }
-      if (
-        auth.isAuthRequired() &&
-        auth.verifyRequest(req.headers.authorization)
-      ) {
-        return res.json(resolvedMeta);
-      }
-      return res.status(401).json({ error: "Unauthorized" });
-    }
-
-    if (req.method !== "GET" && req.method !== "HEAD") {
-      return next();
-    }
-
-    staticHandler(req, res, (err?: unknown) => {
-      if (err) return next(err);
-      if (res.headersSent) return;
-      if (!fs.existsSync(indexHtmlPath)) {
-        return res
-          .status(500)
-          .set("Content-Type", "text/plain")
-          .send(
-            "Tracelet UI not found. Build the UI or set uiPath. " + indexHtmlPath,
-          );
-      }
-      const base = mountPath.endsWith("/") ? mountPath.slice(0, -1) : mountPath;
-      const constantsJson = JSON.stringify({
-        basePath: overrides.basePath ?? (base || "."),
-        title: overrides.title ?? "Tracelet Docs",
-      });
-      const templateVars: Record<string, string> = {
-        [TRACELET_UI_TEMPLATE_CONSTANTS.TRACELET_UI_CONSTANTS]: constantsJson,
-        ...overrides,
-      };
-      const html = replaceTemplateConstants(
-        fs.readFileSync(indexHtmlPath, "utf-8"),
-        templateVars,
-      );
-      res.set("Content-Type", "text/html; charset=utf-8").send(html);
-    });
+    docHandler(req, res, next, mountPath, routeMeta, options);
   };
 
   app.use(mountPath, authRouter);
+  app.use(mountPath, logsRouter);
   app.use(mountPath, handler);
 }

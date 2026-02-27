@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { ResponseTabValue } from "@/hooks/use-tracelet-persistence";
 import { JsonHighlight } from "./json-highlight";
 import { type AuthState, type ParamRow } from "./types";
-import Decorations from "../ui/decorations";
+import Decorations from "@/components/ui/decorations";
 
 export interface ResponseState {
   status: number | null;

@@ -17,6 +17,7 @@ const Decorations = ({
   topLeft = true,
   variant = "default",
   className,
+  isAbsolute = false,
 }: {
   topRight?: boolean;
   bottomRight?: boolean;
@@ -24,9 +25,10 @@ const Decorations = ({
   topLeft?: boolean;
   variant?: "default" | "primary";
   className?: string;
+  isAbsolute?: boolean;
 }) => {
   return (
-    <span className={cn(className)}>
+    <span className={cn(className,{"absolute inset-0 -z-1": isAbsolute})}>
       {topLeft && (
         <span className={cn("absolute -left-px -top-px z-10")}>
         <span className="relative">
