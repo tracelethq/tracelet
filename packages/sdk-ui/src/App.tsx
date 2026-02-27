@@ -1,4 +1,4 @@
-import { RoutesPage } from "@/components/routes-page";
+import { DocsLayout } from "@/pages";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { TooltipProvider } from "./components/ui/tooltip";
 
@@ -6,7 +6,7 @@ export function App() {
   return (
     <SidebarProvider>
       <TooltipProvider>
-        <RoutesPage />
+        <DocsLayout />
       </TooltipProvider>
     </SidebarProvider>
   );

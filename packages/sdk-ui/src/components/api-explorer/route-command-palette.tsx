@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/command"
 import { Button } from "@/components/ui/button"
 import { Kbd, KbdGroup } from "@/components/ui/kbd"
-import { getMethodColors } from "@/components/routes-sidebar"
+import { getMethodColors } from "./routes-sidebar"
 import { CornerDownLeftIcon, SearchIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import type { RouteMeta } from "@/types/route"

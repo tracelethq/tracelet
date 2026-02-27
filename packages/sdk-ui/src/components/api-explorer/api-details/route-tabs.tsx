@@ -30,7 +30,7 @@ import {
   type ParamRow,
   type TabConfigItem,
 } from "./types";
-import Decorations from "../ui/decorations";
+import Decorations from "@/components/ui/decorations";
 
 export interface RouteTabsProps {
   activeTab: ApiTabValue;
@@ -263,8 +263,8 @@ export function RouteTabs({
           onValueChange={(v) => onTabChange(v as ApiTabValue)}
           className="flex min-h-0 flex-1 flex-col overflow-hidden gap-0"
         >
-          <TabsList className="h-9 w-full justify-start rounded-none border-b border-border bg-transparent p-px pr-[2px] relative">
-            <div className="relative flex items-center justify-start w-full h-full">
+          <TabsList className="h-9 w-full justify-start rounded-none border-b border-border bg-transparent p-px pr-[2px] pb-[2px] md:pb-px relative scrollbar-hide overflow-x-auto overflow-y-hidden">
+            <div className="relative flex items-center justify-start min-w-full h-full">
               <Decorations />
               {visibleTabs.map((tab) => (
                 <TabsTrigger key={tab.id} value={tab.id} className="tab-item">

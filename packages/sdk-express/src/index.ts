@@ -1,4 +1,7 @@
 export * from "./types";
 export {
-  traceletExpress,
+  traceletExpress as tracelet,
+  TraceletExpress,
+  type TraceletExpressOptions,
+  type TraceletDocOptions,
 } from "./main";

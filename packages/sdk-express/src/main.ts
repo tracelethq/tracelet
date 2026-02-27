@@ -4,51 +4,41 @@ import { traceletMiddleware } from "./middleware";
 import { traceletDoc } from "./traceletDoc";
 import { DEFAULT_TRACELET_DOCS_BASE_PATH } from "./lib/constants";
 
-interface TraceletDocOptions {
+export interface TraceletDocOptions {
   docFilePath?: string;
   meta?: TraceletMeta[];
   uiBasePath?: string;
 }
 
-interface TraceletExpressOptions {
-  serviceName: string;
+export interface TraceletExpressOptions {
   app: Application;
   meta?: TraceletMeta[];
   traceletDocOptions?: TraceletDocOptions;
   environment?: "local" | null;
   logFilePath?: string;
-  apiKey?: string;
+  debug?: boolean;
 }
 
 export class TraceletExpress {
-  private readonly serviceName: string;
   private readonly app: Application;
-  private readonly meta?: TraceletMeta[];
   private readonly traceletDocOptions?: TraceletDocOptions;
-  private readonly environment?: "local" | null;
-  private readonly logFilePath?: string;
   private readonly tracelet: TraceletCore;
-  private readonly apiKey?: string;
   private readonly uiBasePath: string;
+  private readonly logFilePath?: string;
 
   constructor(options: TraceletExpressOptions) {
-    this.serviceName = options.serviceName;
     this.app = options.app;
-    this.meta = options.meta;
     this.traceletDocOptions = options.traceletDocOptions;
-    this.environment = options.environment;
-    this.logFilePath = options.logFilePath;
-    this.apiKey = options.apiKey;
     this.uiBasePath = options.traceletDocOptions?.uiBasePath ?? DEFAULT_TRACELET_DOCS_BASE_PATH;
+    this.logFilePath = options.logFilePath;
     const traceletDocOptions = this.traceletDocOptions?.docFilePath
-      ? { defaultDocFile: this.traceletDocOptions.docFilePath, meta: this.meta }
-      : { meta: this.meta };
+      ? { defaultDocFile: this.traceletDocOptions.docFilePath, meta: options.meta }
+      : { meta: options.meta };
     this.tracelet = new TraceletCore({
-      serviceName: this.serviceName,
-      environment: this.environment,
-      apiKey: this.apiKey,
+      environment: options.environment,
       traceletDocOptions,
-      logFilePath: this.logFilePath,
+      logFilePath: options.logFilePath,
+      debug: options.debug,
     });
   }
 
@@ -59,7 +49,10 @@ export class TraceletExpress {
   public start(): void {
     const { logger, routeMeta } = this.tracelet.start();
     this.app.use(traceletMiddleware(logger, this.uiBasePath));
-    traceletDoc(routeMeta, this.app, this.uiBasePath ? { uiTemplateOverrides: { basePath: this.uiBasePath } } : undefined);
+    traceletDoc(routeMeta, this.app, {
+      uiTemplateOverrides: this.uiBasePath ? { basePath: this.uiBasePath } : undefined,
+      logFilePath: this.logFilePath,
+    });
   }
 }
 /** Creates Tracelet and registers middleware on the app. Await this before defining routes. */
