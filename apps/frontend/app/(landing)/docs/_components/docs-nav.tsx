@@ -14,11 +14,15 @@ const navLinkClass =
 
 function isDocsGroup(meta: DocMeta): boolean {
   const first = meta.slug[0]
-  return first !== "sdk" && first !== "api-explorer"
+  return first !== "sdk" && first !== "api-explorer" && first !== "logs"
 }
 
 function isApiTesterGroup(meta: DocMeta): boolean {
   return meta.slug[0] === "api-explorer"
+}
+
+function isLogsGroup(meta: DocMeta): boolean {
+  return meta.slug[0] === "logs"
 }
 
 function isSdkGroup(meta: DocMeta): boolean {
@@ -52,6 +56,7 @@ export function DocsNav({ mdxDocs = [] }: { mdxDocs?: DocMeta[] }) {
   const pathname = usePathname()
   const docsLinks = mdxDocs.filter(isDocsGroup)
   const apiTesterLinks = mdxDocs.filter(isApiTesterGroup)
+  const logsLinks = mdxDocs.filter(isLogsGroup)
   const sdkLinks = mdxDocs.filter(isSdkGroup)
   const sdkByGroup = groupSdkDocs(sdkLinks)
 
@@ -174,6 +179,19 @@ export function DocsNav({ mdxDocs = [] }: { mdxDocs?: DocMeta[] }) {
             </p>
             <ul className="space-y-0.5">
               {apiTesterLinks.map((meta) => {
+                const isActive = pathname === meta.href
+                return renderLink(meta.href, meta.title, getIconForMeta(meta.icon), isActive)
+              })}
+            </ul>
+          </div>
+        )}
+        {logsLinks.length > 0 && (
+          <div>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              Logs
+            </p>
+            <ul className="space-y-0.5">
+              {logsLinks.map((meta) => {
                 const isActive = pathname === meta.href
                 return renderLink(meta.href, meta.title, getIconForMeta(meta.icon), isActive)
               })}

@@ -5,7 +5,7 @@ description: "Install, integrate, and run Tracelet in your Express app."
 
 ## Install
 
-Install `@tracelet/express` from a `.tgz` tarball (or from npm when published). It depends on `@tracelet/core` (installed automatically).
+Install `@tracelet/express`. It depends on `@tracelet/core` (installed automatically). The docs UI is bundled inside the package.
 
 <CodeBlockTabs
   npm="npm install @tracelet/express"
@@ -14,63 +14,88 @@ Install `@tracelet/express` from a `.tgz` tarball (or from npm when published). 
   language="bash"
 />
 
-The docs UI is bundled inside `@tracelet/express`. You do not need to install `@tracelet/ui` or set `uiPath` unless you want to override the default.
+**Peer dependency:** Express `^4` or `^5`.
 
 ## Use in code
 
-Plug Tracelet into your Express app and mount the docs UI so your team can see routes, logs, and test endpoints.
+Call `tracelet()` with your Express `app` and options. Call it **before** your routes so the middleware runs for every request.
 
 ```typescript
 import express from "express";
-import { useTracelet, traceletDoc } from "@tracelet/express";
+import { tracelet } from "@tracelet/express";
 
 const app = express();
+app.use(express.json());
 
-useTracelet(app, { serviceName: "my-app", environment: "dev" });
+tracelet({
+  app, // required
+  environment: "local", // optional
+  logFilePath: "./logs/tracelet.log", // optional
+  debug: false, // optional
+  traceletDocOptions: {
+    uiBasePath: "/docs", // optional, default "/tracelet-docs"
+    docFilePath: "./tracelet.doc.json", // optional
+  },
+  meta: [], // optional: TraceletMeta[] for route meta
+});
 
-// Your routes and route meta (TraceletMeta[])...
-const meta = [/* ... */];
-
-traceletDoc(app, meta);
-
+// Your routes
+app.use("/users", userRoutes);
 app.listen(3000);
 ```
 
-`useTracelet` enables request/response logging and metadata. `traceletDoc` serves the docs UI and `GET /tracelet-docs?json=true` for route meta. Open `/tracelet-docs` in the browser to use the UI.
+This enables request/response logging, optional file logging, and mounts the docs UI (API Explorer + Logs). Open `/docs` (or `/tracelet-docs` if you didn’t set `uiBasePath`) in the browser.
+
+### Options
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `app` | — | Express `Application` instance. Required. |
+| `environment` | `undefined` | `"local"` or `null`. Not passing value means your code is deployed. |
+| `logFilePath` | `"tracelet.log"` | Path to the log file. Logger writes here; docs UI GET `/logs` reads from it. |
+| `debug` | `false` | Enable debug logging. |
+| `traceletDocOptions.uiBasePath` | `"/tracelet-docs"` | Base path for the docs UI. |
+| `traceletDocOptions.docFilePath` | `"tracelet.doc.json"` | Path to a JSON file with route meta for the API Explorer. |
+| `meta` | `null` | `TraceletMeta[]` for route meta (in code); merged with doc file. |
 
 ### Custom UI path
 
-To serve a different build of the docs UI, pass `uiPath`:
+To serve the docs UI at a different path, set `traceletDocOptions.uiBasePath`:
 
 ```typescript
-traceletDoc(app, meta, {
-  path: "/tracelet-docs",
-  uiPath: "/absolute/path/to/your/ui/dist",
+tracelet({
+  app,
+  traceletDocOptions: { uiBasePath: "/api-docs" },
 });
 ```
 
+The UI is then available at `http://localhost:3000/api-docs`.
+
 ## Running locally
 
-Run your app as usual. The docs UI is served by Express at `/tracelet-docs` (or your chosen path). No separate dev server unless you are customizing the UI.
+Run your app as usual. The docs UI is served by Express at the path you set (default `/tracelet-docs`). No separate dev server.
 
 ### Single server (recommended)
 
-Start your app. Open `http://localhost:3000/tracelet-docs`. The UI fetches route meta from the same origin; no env vars needed.
+Start your app and open the UI (e.g. `http://localhost:3000/tracelet-docs` or `http://localhost:3000/docs`). The UI fetches route meta from the same origin; no env vars needed.
 
 ### UI on a different origin
 
-If the docs UI is served from another port (e.g. a separate Vite app), set `TRACELET_DOC_API_ROUTE` to your API base URL (e.g. `http://localhost:3000`) so the UI can call `/tracelet-docs?json=true`.
+If the docs UI is served from another port or origin, set `TRACELET_DOC_API_ROUTE` to your API base URL (e.g. `http://localhost:3000`) so the UI can call the route-meta and logs endpoints.
 
-## Troubleshooting
+## Class-based usage
 
-### "Tracelet UI not found. Build the UI or set uiPath."
+You can use the class and call `start()` yourself:
 
-Only applies to Express. If you installed from a .tgz, the pack may have been created before the UI was built. Re-pack after a full build, or set `uiPath` to a directory that contains `index.html`.
+```typescript
+import { TraceletExpress } from "@tracelet/express";
 
-### "Could not fetch routes" / connection error
-
-Ensure your API is running and `GET /tracelet-docs?json=true` returns JSON (array of route meta). If the UI is on another origin, set `TRACELET_DOC_API_ROUTE`.
-
-### UI 404 or blank at /tracelet-docs
-
-Check that `traceletDoc` is mounted and that the bundled UI or `uiPath` contains `index.html`.
+const t = new TraceletExpress({
+  app, // required
+  logFilePath: "./logs/app.log", // optional
+  traceletDocOptions: { uiBasePath: "/docs" }, // optional
+  environment: "local", // optional
+  debug: false, // optional
+});
+t.start();
+```

@@ -1,0 +1,63 @@
+---
+title: Logs UI
+description: "The Logs screen in the Tracelet docs UI: filters, search, log entry layout, TRACELET block, and trace IDs."
+icon: ui
+order: 7
+---
+
+When you mount the Tracelet docs UI and set **logFilePath**, the UI includes a **Logs** view.
+
+![Logs UI – filters, search, log entries with status, TRACELET block, and trace IDs](/screenshots/logs-ui.png) It shows recent log entries with filters, search, and refresh. Each entry summarizes the request and shows a **TRACELET** block and a **trace ID** for correlation.
+
+## Opening the Logs UI
+
+1. Start your app with Tracelet and `logFilePath` set.
+2. Open the docs UI in the browser (e.g. `http://localhost:3000/tracelet-docs` or your `uiBasePath`).
+3. Switch to the **Logs** view using the left sidebar (page/list icon). The main area shows the log list.
+
+## Top bar: filters and search
+
+| Control | Description |
+|--------|-------------|
+| **Type filter** | Dropdown (e.g. **All**, **HTTP**, **App**) to show only HTTP request logs or only app-level logs. |
+| **Level filter** | Dropdown (e.g. **All levels**, **INFO**, **WARN**, **ERROR**, **DEBUG**) to filter by log level. |
+| **Search** | A “Search logs…” field. Searches across method, route, message, raw line, level, and timestamp. Case-insensitive. |
+| **Search routes** | Shortcut (e.g. ⌘K) to search documented routes; separate from log search. |
+| **Refresh** | Button to reload log data from the server (GET logs API). |
+
+Use filters and search together to narrow down to failed requests, a specific route, or a log level.
+
+## Log entry layout
+
+Each row in the list represents one **log entry** (or a group of entries sharing the same request/trace). From left to right you typically see:
+
+1. **Timestamp** – When the event occurred (e.g. `[2026-02-27T07:59:52.642Z]`).
+2. **Request summary** – **Method** and **path** (e.g. `GET /delay`, `GET /users/1`).
+3. **Status** – HTTP status code and short text, color-coded:
+   - **Green** – 2xx success (e.g. `200 OK`).
+   - **Orange/red** – 4xx client error (e.g. `404 CLIENT_ERR`) or 3xx redirect (e.g. `304 REDIRECT`).
+   - **Red** – 5xx server error.
+4. **Duration and size** – e.g. `1ms 187 B`, `1005ms 21 B` (duration and response size).
+5. **Error message** (optional) – For errors, a short message may appear in red (e.g. `[ERROR] "Pinging the server"`).
+6. **TRACELET block** – A JSON block labeled `[TRACELET]` with structured fields:
+   - `statusCode` – HTTP status code.
+   - `durationMs` – Duration in milliseconds.
+   - `responseSize` – Response size (number or string).
+   - Other fields may appear depending on the entry type.
+7. **Trace ID** – On the right, a tag like `[trace:...]` that uniquely identifies the request/trace. Use it to correlate multiple log lines for the same request or in external tools.
+
+## How data is loaded
+
+The Logs UI calls **GET** `{uiBasePath}/logs` with query parameters such as `limit`, `page`, `type`, `level`, and `search`. The backend reads from the same **log file** configured with `logFilePath`, parses the last lines, filters and paginates, and returns JSON. So the list reflects what has been written to that file up to the time of the request; use **Refresh** to fetch the latest.
+
+## Summary
+
+| Feature | Description |
+|--------|-------------|
+| **Filters** | Type (All / HTTP / App) and level (All levels / DEBUG / INFO / WARN / ERROR). |
+| **Search** | Full-text search over method, route, message, raw line, level, timestamp. |
+| **Entry** | Timestamp, method + path, status (color-coded), duration + size, optional error, TRACELET JSON, trace ID. |
+| **Refresh** | Reloads log data from the server. |
+| **Trace ID** | Per-request identifier for correlation. |
+
+The Logs UI is intended for development and operations to inspect recent traffic and debug issues without tailing the log file or parsing JSON by hand.

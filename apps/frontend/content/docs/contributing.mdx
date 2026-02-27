@@ -1,6 +1,6 @@
 ---
 title: For contributors
-description: How to set up the Tracelet monorepo, build packages, pack SDKs, and test changes outside the repo.
+description: How to set up the Tracelet monorepo, build packages, pack SDKs, run the docs site, and test changes outside the repo.
 icon: developer
 ---
 
@@ -29,7 +29,7 @@ Install dependencies from the repository root:
   language="bash"
 />
 
-This installs dependencies for all workspaces (packages/*, examples/*).
+This installs dependencies for all workspaces (`packages/*`, `apps/*`, `examples/*`).
 
 ## Build
 
@@ -46,17 +46,19 @@ Build the Tracelet packages. Order matters: core → ui → express.
 
 This runs in order:
 
-1. **@tracelet/core** – core SDK
-2. **@tracelet/ui** – docs UI (Vite → packages/sdk-ui/dist/)
-3. **@tracelet/express** – middleware + traceletDoc; copies sdk-ui/dist into dist/ui/
+1. **@tracelet/core** – core SDK (Logger, RouteMeta, LogReader, etc.)
+2. **@tracelet/ui** – docs UI (Vite → `packages/sdk-ui/dist/`)
+3. **@tracelet/express** – Express SDK (`tracelet()` + middleware + bundled docs UI); copies `sdk-ui/dist` into `dist/ui/`
 
 ### Build a single package
 
-```bash
-npm run build
-```
+From root, the same command builds all. To build one workspace:
 
-From root, the same command builds all. To build one workspace: `yarn workspace @tracelet/core run build`, etc.
+```bash
+yarn workspace @tracelet/core run build
+yarn workspace @tracelet/ui run build
+yarn workspace @tracelet/express run build
+```
 
 Building only `@tracelet/express` requires `packages/sdk-ui/dist/` to exist first (copy step).
 
@@ -67,16 +69,41 @@ tracelet/
 ├── package.json              # Root workspace config and scripts
 ├── packages/
 │   ├── sdk-core/             # @tracelet/core – core SDK
-│   ├── sdk-express/          # @tracelet/express (middleware + traceletDoc)
+│   ├── sdk-express/          # @tracelet/express (tracelet() + middleware + docs UI)
 │   │   ├── dist/
 │   │   │   └── ui/           # Bundled docs UI (after build, for packed .tgz)
 │   │   └── scripts/copy-ui.js
 │   └── sdk-ui/               # @tracelet/ui – Vite + React docs UI
 │       └── dist/
+├── apps/
+│   └── frontend/             # Docs site (Next.js)
+│       └── content/docs/     # MDX docs (Introduction, SDK, API Explorer, Logs)
 ├── examples/
 │   └── express-basic/
-└── docs/
 ```
+
+## Documentation
+
+The docs site lives in **apps/frontend** (Next.js). Doc content is in **apps/frontend/content/docs** as MDX files.
+
+### Run the docs site locally
+
+From repo root:
+
+```bash
+yarn workspace frontend run dev
+```
+
+Or from `apps/frontend`: `yarn dev` (runs on port 3001).
+
+### Edit docs
+
+- Add or edit `.mdx` files under **apps/frontend/content/docs**. New pages appear in the sidebar automatically (see [Docs README](/docs) for structure).
+- **SDK docs** – `content/docs/sdk/express/`, `content/docs/sdk/core/`
+- **Logs docs** – `content/docs/logs/` (Setup, Debug option, Logs UI)
+- **API Explorer** – `content/docs/api-explorer/`
+
+Use frontmatter (`title`, `description`, `icon`, `order`) for nav and metadata. Global search (⌘K) indexes doc content and the menu.
 
 ## Pack & release
 
@@ -106,7 +133,7 @@ From monorepo: build packages, then in `packages/sdk-core` and `packages/sdk-exp
 
 ### Option 2: Install from .tgz
 
-Run pack:sdks, then in your external app:
+Run `pack:sdks`, then in your external app:
 
 <CodeBlockTabs
   npm="npm install ./path/to/tracelet-core-0.0.1.tgz ./path/to/tracelet-express-0.0.1.tgz"
@@ -115,4 +142,4 @@ Run pack:sdks, then in your external app:
   language="bash"
 />
 
-Verify imports, types, and that the docs UI loads. Use yarn link for daily dev; use .tgz before publishing.
+Verify imports, types, and that the docs UI loads at your `uiBasePath`. Use yarn link for daily dev; use .tgz before publishing.

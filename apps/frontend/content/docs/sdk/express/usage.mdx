@@ -11,7 +11,7 @@ description: "What is meta (TraceletMeta), how to configure tracelet.doc.json, a
 - Show descriptions, parameters, and request/response shapes for each route
 - Power the “Try it” panel so you can send requests and see responses
 
-You can provide meta in two ways: **in code** (pass an array to `traceletDoc(app, meta)`) or **in a JSON file** (by default `tracelet.doc.json` in your project root). You can use both; entries for the same method + path are merged, with **code meta overriding** file meta.
+You can provide meta in two ways: **in code** (pass the `meta` option to `tracelet({ app, meta })`) or **in a JSON file** (by default `tracelet.doc.json`, configurable via `traceletDocOptions.docFilePath`). You can use both; entries for the same method + path are merged, with **code meta overriding** file meta.
 
 ---
 
@@ -19,8 +19,8 @@ You can provide meta in two ways: **in code** (pass an array to `traceletDoc(app
 
 | Source | When to use |
 |--------|-------------|
-| **In code** | You define routes in Express and want a single source of truth. Build the meta array next to your routes (or derive it from your router) and pass it to `traceletDoc(app, meta)`. |
-| **tracelet.doc.json** | You want to document APIs without touching application code, or you generate the file from OpenAPI/Swagger, another tool, or a build step. The file is loaded from disk when the server starts. |
+| **In code** | You define routes in Express and want a single source of truth. Build the meta array next to your routes (or derive it from your router) and pass it as the `meta` option to `tracelet({ app, meta })`. |
+| **tracelet.doc.json** | You want to document APIs without touching application code, or you generate the file from OpenAPI/Swagger, another tool, or a build step. Set `traceletDocOptions.docFilePath` (default `tracelet.doc.json`). The file is loaded from disk when the server starts. |
 
 Both can be used together. For example, keep base route info in `tracelet.doc.json` and override or add detail for specific routes in code.
 
@@ -32,20 +32,22 @@ Both can be used together. For example, keep base route info in `tracelet.doc.js
 
 By default, Tracelet looks for **`tracelet.doc.json`** in the **current working directory** (`process.cwd()`) when the app starts. This is usually your project root.
 
-To use a different path:
+To use a different path, set `traceletDocOptions.docFilePath` in your `tracelet()` call:
 
 ```typescript
-traceletDoc(app, meta, {
-  path: "/tracelet-docs",
-  docFilePath: "./docs/tracelet.doc.json",  // relative to cwd
-  // or an absolute path:
-  // docFilePath: "/etc/my-app/tracelet.doc.json",
+tracelet({
+  app,
+  traceletDocOptions: {
+    docFilePath: "./docs/tracelet.doc.json",  // relative to cwd
+    // or an absolute path:
+    // docFilePath: "/etc/my-app/tracelet.doc.json",
+  },
 });
 ```
 
 - **Relative path** — Resolved from `process.cwd()` (e.g. `./tracelet.doc.json`, `docs/api-meta.json`).
 - **Absolute path** — Used as-is.
-- If the file is missing or invalid JSON, Tracelet skips it and uses only the `meta` array passed in code (if any).
+- If the file is missing or invalid JSON, Tracelet skips it and uses only the `meta` option passed to `tracelet()` (if any).
 
 ### File format
 
@@ -160,19 +162,19 @@ You can group routes under a parent so paths are resolved and the UI can show hi
 ]
 ```
 
-Resolved paths: `/users`, `/users/:id`, `/users` (POST). In code you can build the same structure and pass it to `traceletDoc(app, meta)`.
+Resolved paths: `/users`, `/users/:id`, `/users` (POST). In code you can build the same structure and pass it as the `meta` option to `tracelet({ app, meta })`.
 
 ---
 
 ## How meta is merged
 
-When you use both a **file** and the **meta** parameter:
+When you use both a **file** (`traceletDocOptions.docFilePath`) and the **meta** option:
 
-1. Tracelet loads the array from `tracelet.doc.json` (if the file exists and is valid).
-2. It merges with the `meta` array passed to `traceletDoc(app, meta)`.
+1. Tracelet loads the array from the doc file (if the file exists and is valid).
+2. It merges with the `meta` array passed to `tracelet({ app, meta })`.
 3. **Duplicate detection** is by `method` + normalized `path`. For the same method+path, the entry from **code wins**; the file entry is overwritten.
 4. Nested `routes` are resolved so every route has a full path (parent path + relative path).
-5. The resulting array is what the UI and `GET /tracelet-docs?json=true` use.
+5. The resulting array is what the UI and the route-meta endpoint (e.g. `GET /tracelet-docs?json=true`) use.
 
 So you can maintain a base set of routes in `tracelet.doc.json` and override or add details in code without duplicating entries.
 
@@ -211,10 +213,10 @@ So you can maintain a base set of routes in `tracelet.doc.json` and override or 
 
 ```typescript
 import express from "express";
-import { useTracelet, traceletDoc } from "@tracelet/express";
+import { tracelet } from "@tracelet/express";
 
 const app = express();
-useTracelet(app, { serviceName: "my-api", environment: "dev" });
+app.use(express.json());
 
 // Optional: add or override meta in code (same method+path as file = code wins)
 const metaFromCode = [
@@ -232,10 +234,14 @@ const metaFromCode = [
   },
 ];
 
-// Serves UI at /tracelet-docs and uses tracelet.doc.json + metaFromCode
-traceletDoc(app, metaFromCode, {
-  path: "/tracelet-docs",
-  docFilePath: "tracelet.doc.json",  // optional; this is the default
+tracelet({
+  app,
+  environment: "local",
+  traceletDocOptions: {
+    uiBasePath: "/tracelet-docs",
+    docFilePath: "tracelet.doc.json",  // optional; this is the default
+  },
+  meta: metaFromCode,
 });
 
 app.get("/health", (req, res) => res.json({ ok: true }));
