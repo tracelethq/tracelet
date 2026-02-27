@@ -11,7 +11,6 @@ const collectedRoutes: RouteInfo[] = [];
 
 export function traceletMiddleware(logger: Logger, basePath: string) {
   return function (req: Request, res: Response, next: NextFunction) {
-    const startTime = process.hrtime.bigint();
     const path = req.originalUrl?.split("?")[0] ?? "";
     const route =
       path ||
@@ -19,6 +18,17 @@ export function traceletMiddleware(logger: Logger, basePath: string) {
       req.originalUrl ||
       req.url ||
       "";
+      if (
+        route === basePath ||
+        route.startsWith(basePath + "/") ||
+        route.startsWith("undefined")||
+        route === "/.well-known/appspecific/com.chrome.devtools.json"
+      ) {
+        next();
+        return;
+      }
+
+    const startTime = process.hrtime.bigint();
     const method = req.method;
     const tracingId = logger.init({ method, route });
 
@@ -27,10 +37,6 @@ export function traceletMiddleware(logger: Logger, basePath: string) {
     req.traceletLogger = logger;
 
     res.on("finish", () => {
-      if (path === basePath || path.startsWith(basePath + "/") || route.startsWith("undefined")) {
-        return;
-      }
-
       const endTime = process.hrtime.bigint();
       const durationMs = Number(endTime - startTime) / 1_000_000;
       const rawSize = res.getHeader("content-length");
@@ -47,7 +53,11 @@ export function traceletMiddleware(logger: Logger, basePath: string) {
         responseSize,
       });
 
-      if (!collectedRoutes.some((r) => r.method === req.method && r.path === route)) {
+      if (
+        !collectedRoutes.some(
+          (r) => r.method === req.method && r.path === route,
+        )
+      ) {
         collectedRoutes.push({ method: req.method, path: route });
       }
     });

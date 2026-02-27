@@ -11,6 +11,10 @@ export function Logo({ width = 40, height = 40, isLong = false }: { width?: numb
         width={width}
         height={height}
         className="object-contain"
+        onError={(e)=>{
+          (e.target as any).onerror = true;
+          (e.target as any).src = "/__dynamic_base__/logo.svg";
+        }}
       />
       {isLong && <span className="text-2xl font-bold">Tracelet</span>}
     </div>

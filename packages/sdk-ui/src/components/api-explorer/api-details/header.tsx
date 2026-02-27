@@ -4,7 +4,7 @@ import { CopyIcon, Loader2Icon, SendIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { RouteMeta } from "@/types/route";
-import Decorations from "../ui/decorations";
+import Decorations from "@/components/ui/decorations";
 
 interface ApiDetailsHeaderProps {
   route: RouteMeta;

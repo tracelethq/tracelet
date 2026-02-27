@@ -1,5 +1,5 @@
 import type { RouteResponseType } from "@/types/route";
-import Decorations from "../ui/decorations";
+import Decorations from "@/components/ui/decorations";
 
 interface DetailsTabProps {
   responses: RouteResponseType[];

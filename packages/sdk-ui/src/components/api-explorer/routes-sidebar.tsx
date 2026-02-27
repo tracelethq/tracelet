@@ -10,20 +10,20 @@ import {
 import {
   Sidebar,
   SidebarContent,
-  SidebarHeader,
-  SidebarMenu,
+  SidebarHeader, SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarRail,
+  useSidebar
 } from "@/components/ui/sidebar";
-import { useSidebarOpenKeys } from "@/hooks/use-tracelet-persistence";
+import { useAppViewStore, useSidebarOpenKeys } from "@/hooks/use-tracelet-persistence";
 import { flattenRoutesTree, type RouteMeta } from "@/types/route";
 import { cn } from "@/lib/utils";
-import { Logo } from "./icons/logo";
-import Decorations from "./ui/decorations";
+import Decorations from "@/components/ui/decorations";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 /** HTTP method colors (Swagger/Postman-style). Returns className for badge/pill. */
 export function getMethodColors(method: string): string {
@@ -63,6 +63,8 @@ export function getMethodColors(method: string): string {
   }
 }
 
+export type AppView = "api-explorer" | "logs";
+
 interface RoutesSidebarProps {
   /** Tree of routes (nested). Each node has path already resolved. */
   routes: RouteMeta[];
@@ -71,6 +73,8 @@ interface RoutesSidebarProps {
   onRefresh: () => void;
   /** Base URL for the API (used to show full fetch URL under each route path). */
   apiBase?: string;
+  /** When true, render only SidebarHeader + SidebarContent (for embedding inside another Sidebar). */
+  embed?: boolean;
 }
 
 function routeKey(route: RouteMeta): string {
@@ -93,11 +97,19 @@ function RouteButton({
   const path = typeof route.path === "string" ? route.path || "/" : "/";
   const methodInitial = method.charAt(0).toUpperCase();
   const methodClass = getMethodColors(method);
+  const {setOpen} = useSidebar();
+  const isMobile = useIsMobile();
+  const handleSelect=()=>{
+    onSelect();
+    if (isMobile) {
+      setOpen(false);
+    }
+  }
   return (
     <SidebarMenuItem>
       <SidebarMenuButton
         isActive={isSelected}
-        onClick={onSelect}
+        onClick={handleSelect}
         tooltip={`${method} ${path}`}
         className="flex flex-col items-stretch gap-1 group-data-[collapsible=icon]:justify-center! h-9 cursor-pointer"
       >
@@ -276,50 +288,100 @@ function RouteNode({
   return <SidebarMenuItem>{collapsibleContent}</SidebarMenuItem>;
 }
 
+const listHeaderContent = (
+  showRoutes: boolean,
+  totalCount: number,
+  onRefresh: () => void,
+  embed?: boolean,
+) => {
+  const title = showRoutes ? "API Routes" : "Logs";
+  const subtitle = showRoutes
+    ? `${totalCount} endpoint${totalCount === 1 ? "" : "s"}`
+    : "Request logs";
+  if (embed) {
+    return (
+      <div className="flex flex-col px-2 relative h-full">
+        <Decorations />
+        <div className="flex w-full min-w-0 items-center justify-between gap-3">
+          <div className="grid min-w-0 flex-1 text-left leading-tight">
+            <span className="truncate text-base font-medium text-sidebar-foreground">
+              {title}
+            </span>
+            <span className="truncate text-xs text-muted-foreground">
+              {subtitle}
+            </span>
+          </div>
+          {showRoutes && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onRefresh}
+              className="size-8 shrink-0 rounded-md"
+            >
+              <RefreshCwIcon className="size-4" />
+              <span className="sr-only">Refresh</span>
+            </Button>
+          )}
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div className="flex w-full min-w-0 items-center gap-3 px-3 py-1 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0 relative">
+      <div className="grid min-w-0 flex-1 text-left leading-tight">
+        <span className="truncate text-sm font-semibold text-sidebar-foreground">
+          {title}
+        </span>
+        <span className="truncate text-xs text-muted-foreground">
+          {subtitle}
+        </span>
+      </div>
+      {showRoutes && (
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={onRefresh}
+          className="size-8 shrink-0 rounded-md group-data-[collapsible=icon]:hidden"
+        >
+          <RefreshCwIcon className="size-4" />
+          <span className="sr-only">Refresh</span>
+        </Button>
+      )}
+    </div>
+  );
+};
+
 export function RoutesSidebar({
   routes,
   selectedRoute,
   onSelectRoute,
   onRefresh,
   apiBase = "",
+  embed = false,
 }: RoutesSidebarProps) {
   const totalCount = React.useMemo(
     () => flattenRoutesTree(routes).length,
     [routes],
   );
   const [openKeys, , toggleOpen] = useSidebarOpenKeys();
+  const appView = useAppViewStore(state => state.appView);
+  const showRoutes = appView === "api-explorer";
 
-  return (
-    <Sidebar collapsible="icon">
-      <SidebarHeader className="border-b border-sidebar-border bg-sidebar/80 p-px h-(--header-height)">
-        <div className="flex w-full min-w-0 items-center gap-3 px-3 py-1 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0 relative">
+  const header = (
+    <SidebarHeader
+      className={cn("p-px border-b border-sidebar-border bg-sidebar/80 h-(--header-height)")
+      }
+    >
+      {listHeaderContent(showRoutes, totalCount, onRefresh, embed)}
+    </SidebarHeader>
+  );
+
+  const content = (
+    <SidebarContent className="gap-0.5 p-[2px] pt-0">
+      {showRoutes ? (
+        <div className="relative flex-1 min-h-0 flex flex-col p-1">
           <Decorations />
-          <div className="flex size-8 shrink-0 items-center justify-center rounded-md text-sidebar-accent-foreground">
-            <Logo />
-          </div>
-          <div className="grid min-w-0 flex-1 text-left leading-tight group-data-[collapsible=icon]:hidden">
-            <span className="truncate text-sm font-semibold text-sidebar-foreground">
-              API Routes
-            </span>
-            <span className="truncate text-xs text-muted-foreground">
-              {totalCount} endpoint{totalCount === 1 ? "" : "s"}
-            </span>
-          </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onRefresh}
-            className="size-8 shrink-0 rounded-md group-data-[collapsible=icon]:hidden"
-          >
-            <RefreshCwIcon className="size-4" />
-            <span className="sr-only">Refresh</span>
-          </Button>
-        </div>
-      </SidebarHeader>
-      <SidebarContent className="gap-0.5 p-[2px] pt-0">
-        <div className="relative h-full">
-          <Decorations />
-          <SidebarMenu className="relative h-full overflow-auto">
+          <SidebarMenu className="relative flex-1 overflow-auto">
             {routes.map((route, i) => (
               <RouteNode
                 key={`${routeKey(route)}-${i}`}
@@ -333,7 +395,27 @@ export function RoutesSidebar({
             ))}
           </SidebarMenu>
         </div>
-      </SidebarContent>
+      ) : (
+        <div className="flex flex-1 min-h-0 flex-col items-center justify-center px-3 py-6 text-center text-sm text-muted-foreground">
+          <span>Request logs will appear here when ingest is configured.</span>
+        </div>
+      )}
+    </SidebarContent>
+  );
+
+  if (embed) {
+    return (
+      <>
+        {header}
+        {content}
+      </>
+    );
+  }
+
+  return (
+    <Sidebar collapsible="icon">
+      {header}
+      {content}
       <SidebarRail />
     </Sidebar>
   );

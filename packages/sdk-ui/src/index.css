@@ -273,9 +273,13 @@
 }
 
 .tab-item {
-  @apply max-w-24 truncate rounded-none border-0 border-b-2 border-transparent bg-transparent shadow-none data-[state=active]:border-b-2 data-[state=active]:border-b-primary! data-[state=active]:bg-primary/10 data-[state=active]:border-x-0 data-[state=active]:border-t-0 data-[state=active]:text-primary;
+  @apply min-w-28 max-w-28 truncate rounded-none border-0 border-b-2 border-transparent bg-transparent shadow-none data-[state=active]:border-b-2 data-[state=active]:border-b-primary! data-[state=active]:bg-primary/10 data-[state=active]:border-x-0 data-[state=active]:border-t-0 data-[state=active]:text-primary;
 }
 
 .tab-content {
   @apply mt-0 flex min-h-0 flex-1 flex-col overflow-hidden data-[state=inactive]:hidden h-full p-px pb-[2px] pr-[2px]
+}
+
+.scrollbar-gutter {
+  scrollbar-gutter: stable;
 }

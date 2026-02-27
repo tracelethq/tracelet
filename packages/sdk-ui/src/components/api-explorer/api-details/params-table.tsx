@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/select";
 import { JsonHighlightTextarea } from "./json-highlight";
 import { canonicalParamRowType, type ParamRow } from "./types";
-import Decorations from "../ui/decorations";
+import Decorations from "@/components/ui/decorations";
 
 const ROW_TYPES = [
   "string",
