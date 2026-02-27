@@ -13,6 +13,9 @@ import {
   FileBracesCornerIcon,
   FingerprintIcon,
   HeadingIcon,
+  BugIcon,
+  WrenchIcon,
+  MonitorCloudIcon,
 } from "lucide-react";
 import { CodeBlock } from "@/components/code-block";
 import { ExpressIcon } from "@/components/icons/express-icon";
@@ -44,6 +47,9 @@ export function getIconForMeta(
     bracesFile: FileBracesCornerIcon,
     header: HeadingIcon,
     auth: FingerprintIcon,
+    bug: BugIcon,
+    setup: WrenchIcon,
+    ui: MonitorCloudIcon,
   };
 
   return icons[icon] ?? <></>;

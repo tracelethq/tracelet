@@ -146,11 +146,21 @@ function StaticNavList({
   onSelect: (item: (typeof staticNavItems)[number]) => void;
 }) {
   const search = useCommandState((state) => state.search ?? "");
-  if (search.trim()) return null;
+  const q = search.trim().toLowerCase();
+
+  const items = q
+    ? staticNavItems.filter((item) => {
+        const sublabel = "sublabel" in item ? item.sublabel : null;
+        const haystack = `${item.label} ${item.href} ${sublabel ?? ""}`.toLowerCase();
+        return haystack.includes(q);
+      })
+    : staticNavItems;
+
+  if (items.length === 0) return null;
 
   return (
     <CommandGroup heading="Pages">
-      {staticNavItems.map((item) => {
+      {items.map((item) => {
         const Icon = item.icon;
         const sublabel = "sublabel" in item ? item.sublabel : null;
         return (
@@ -208,6 +218,24 @@ function DocSearchFetch() {
   return null;
 }
 
+/** Filter doc pages by query (title, href, slug, excerpt, snippet). */
+function filterDocPagesByQuery(pages: DocsPageItem[], q: string): DocsPageItem[] {
+  if (!q) return pages;
+  const lower = q.toLowerCase();
+  return pages.filter((page) => {
+    const haystack = [
+      page.title,
+      page.href,
+      page.slug.join(" "),
+      page.snippet ?? "",
+      page.excerpt ?? "",
+    ]
+      .join(" ")
+      .toLowerCase();
+    return haystack.includes(lower);
+  });
+}
+
 /** Picks doc list and search from command state; renders Pages + Doc list. */
 function DocListWithSearch({
   onSelectDoc,
@@ -218,7 +246,11 @@ function DocListWithSearch({
 }) {
   const search = useCommandState((state) => state.search ?? "");
   const { docPages, searchResults } = useGlobalSearch();
-  const pages = search.trim() ? searchResults : docPages;
+  const q = search.trim();
+  const filteredDocPages = filterDocPagesByQuery(docPages, q);
+  const pages = q
+    ? (searchResults.length > 0 ? searchResults : filteredDocPages)
+    : docPages;
 
   return (
     <>
@@ -296,7 +328,7 @@ export function GlobalSearchProvider({
         onOpenChange={setOpen}
         title="Search"
         description="Search documentation and pages."
-        className="border-4"
+        className="border-4 p-0"
       >
         <div className="flex flex-col">
           <Command

@@ -1,0 +1,29 @@
+---
+title: Logs
+description: "Overview of Tracelet logging: request/response logs, file logging, and the Logs UI."
+icon: file
+order: 4
+---
+
+Tracelet gives you **request/response logging** and an optional **log file** that the built-in docs UI can read and display. You can inspect HTTP requests, status codes, duration, response size, and (when enabled) debug and app-level messages.
+
+## What you get
+
+| Feature | Description |
+|--------|-------------|
+| **HTTP logging** | Every request is logged with method, route, status code, duration, and response size. The middleware runs automatically when you use `tracelet()` (Express) or the core logger. |
+| **File logging** | When you set `logFilePath`, each log entry is appended to a file (one line per entry). Useful for persistence and for the Logs UI. |
+| **Logs UI** | The docs UI includes a **Logs** view that lists recent entries, with filters (type, level), search, and refresh. Each entry shows the request summary and a **TRACELET** block with structured data; entries are grouped by trace/request ID. |
+| **Debug mode** | With `debug: true`, the logger also prints debug and app-level messages (e.g. `logger.debug()`, `logger.info()`) so you can troubleshoot in development. |
+
+## Quick links
+
+- **[Setup](/docs/logs/setup)** – How to configure `logFilePath`, where logs are written, and log format.
+- **[Debug option](/docs/logs/debug)** – What the `debug` option does and when to use it.
+- **[Logs UI](/docs/logs/ui)** – What the Logs screen shows: filters, search, entry layout, TRACELET block, and trace IDs.
+
+## Where logs appear
+
+- **Console** – In local/dev, the Logger can print a human-readable line per request (and, when debug is on, app logs). Environment and `debug` control this.
+- **Log file** – When `logFilePath` is set, every HTTP log (and optional app log lines) is appended to that file. The path is resolved from the process working directory unless you pass an absolute path.
+- **Logs UI** – When the docs UI is mounted and `logFilePath` is set, **GET** `{uiBasePath}/logs` serves paginated log data. The Logs tab in the UI calls this endpoint and displays the list with filters and search.
